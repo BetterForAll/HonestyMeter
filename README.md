@@ -36,7 +36,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## Contributing 
 
 If you would like to contribute to the development of the HonestyMeter framework, 
-please feel free to join disscussions, visit our [project page](./projects/1), 
+please feel free to join disscussions, visit our [project page]([./projects/1](https://github.com/users/BetterForAll/projects/1)), 
 or open an issue on the repository.
 We appreciate any feedback and contributions to help improve the framework and its usability.
 
