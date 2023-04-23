@@ -6,6 +6,7 @@ const TEMPERATURE = 0;
 const TOP_P = 1;
 const FREQUENCY_PENALTY = 0.0;
 const PRESENCE_PENALTY = 0.0;
+const MODEL = 'gpt-3.5-turbo';
 
 export const OPEN_AI_REQUEST = {
   method: 'POST',
@@ -15,7 +16,7 @@ export const OPEN_AI_REQUEST = {
     Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
   },
   body: {
-    model: 'gpt-3.5-turbo',
+    model: MODEL,
     messages: [
       { role: 'system', content: '' },
       { role: 'user', content: '' }
