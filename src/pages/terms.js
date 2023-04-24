@@ -166,7 +166,7 @@ export default function Terms() {
     </p>
 
     <p>
-      Address: 10685-B Hazelhurst Dr. # 35149 Houston, TX 77043 USA
+    HonestyMeter. Address:  10685-B Hazelhurst Dr. # 35149 Houston, TX 77043 USA
     </p>
 
   </main>
