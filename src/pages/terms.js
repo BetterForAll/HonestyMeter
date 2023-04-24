@@ -165,5 +165,9 @@ export default function Terms() {
       be deemed an original, but all of which together shall constitute one and the same instrument.
     </p>
 
+    <p>
+      Address: 10685-B Hazelhurst Dr. # 35149 Houston, TX 77043 USA
+    </p>
+
   </main>
 }
