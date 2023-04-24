@@ -61,7 +61,7 @@ and use it to improve the objectivity of the content.`,
     supportVideoandAudio: `Support links to video and audio content (evaluate text, tonality,
        images and video content objectivity).`,
     connectFactChecking: 'Connect to fact checking sources.',
-    compareMultipleSources: 'Compare multiplr sources'
+    compareMultipleSources: 'Compare multiple sources'
   },
   importantConsidirations: {
     title: 'Important Considerations When Using the HonestyMeter Framework:',

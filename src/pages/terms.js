@@ -5,11 +5,11 @@ import React from "react";
 export default function Terms() {
   return <main style={{ maxWidth: '1000px', margin: 'auto', padding: '2rem', fontSize: '1rem' }}>
 
-    <h2 style={{fontSize: 'inherit'}}>
+    <h2 style={{ fontSize: 'inherit' }}>
       TERMS OF USE
     </h2>
 
-    <p style={{fontSize: 'inherit'}}>
+    <p style={{ fontSize: 'inherit' }}>
       Welcome to HonestyMeter.com (the &quot;Website&quot;),
       a website that provides tools to help evaluate the
       objectivity of online content.
@@ -18,26 +18,26 @@ export default function Terms() {
 
     </p>
 
-    <h2 style={{fontSize: 'inherit'}}>
+    <h2 style={{ fontSize: 'inherit' }}>
       ACCEPTANCE OF TERMS
     </h2>
 
-    <p style={{fontSize: 'inherit'}}>
+    <p style={{ fontSize: 'inherit' }}>
       By accessing or using the Website, you agree to be bound by this Agreement,
       as well as any additional terms and conditions that may be posted on the Website
       from time to time. If you do not agree to all of the terms and conditions of this Agreement,
       then you may not access or use the Website.
     </p>
 
-    <h2 style={{fontSize: 'inherit'}}>
+    <h2 style={{ fontSize: 'inherit' }}>
       USE OF THE WEBSITE
     </h2>
 
-    <p style={{fontSize: 'inherit'}}>
+    <p style={{ fontSize: 'inherit' }}>
       You may use the Website only for lawful purposes and in accordance with this Agreement. You agree not to use the Website:
     </p>
 
-    <p style={{fontSize: 'inherit'}}>
+    <p style={{ fontSize: 'inherit' }}>
       In any way that violates any applicable international, federal, provincial,
       or local laws or regulations;    For the purpose of exploiting, harming,
       or attempting to exploit or harm minors in any way by exposing them to
@@ -52,11 +52,11 @@ export default function Terms() {
       or users of the Website or expose them to liability.
     </p>
 
-    <h2 style={{fontSize: 'inherit'}}>
+    <h2 style={{ fontSize: 'inherit' }}>
       INTELLECTUAL PROPERTY RIGHTS
     </h2>
 
-    <p style={{fontSize: 'inherit'}}>
+    <p style={{ fontSize: 'inherit' }}>
       The Website and its entire contents, features, and functionality
       (including but not limited to all information, software,
       text, displays, images, video, and audio, and the design,
@@ -66,11 +66,11 @@ export default function Terms() {
       , trademark, patent, trade secret, and other intellectual property or proprietary rights laws.
     </p>
 
-    <h2 style={{fontSize: 'inherit'}}>
+    <h2 style={{ fontSize: 'inherit' }}>
       DISCLAIMER OF WARRANTIES
     </h2>
 
-    <p style={{fontSize: 'inherit'}}>
+    <p style={{ fontSize: 'inherit' }}>
       The Website and its contents are provided &quot;as is,&quot;
       without warranty of any kind, either express or implied,
       including but not limited to the implied warranties of merchantability,
@@ -79,11 +79,11 @@ export default function Terms() {
       your requirements or be available on an uninterrupted, secure, or error-free basis.
     </p>
 
-    <h2 style={{fontSize: 'inherit'}}>
+    <h2 style={{ fontSize: 'inherit' }}>
       LIMITATION OF LIABILITY
     </h2>
 
-    <p style={{fontSize: 'inherit'}}>
+    <p style={{ fontSize: 'inherit' }}>
       In no event shall HonestyMeter.com, its affiliates,
       or their licensors, service providers, employees, agents, officers,
       or directors be liable for damages of any kind,
@@ -92,12 +92,12 @@ export default function Terms() {
       arising from or in connection with the use of the Website.
     </p>
 
-    <h2 style={{fontSize: 'inherit'}}>
+    <h2 style={{ fontSize: 'inherit' }}>
 
       INDEMNIFICATION
     </h2>
 
-    <p style={{fontSize: 'inherit'}}>
+    <p style={{ fontSize: 'inherit' }}>
       You agree to indemnify and hold HonestyMeter.com,
       its affiliates, licensors, and service providers,
       and its and their respective officers, directors, employees,
@@ -108,7 +108,7 @@ export default function Terms() {
       arising out of or relating to your violation of this Agreement or your use of the Website.
     </p>
 
-    <h2 style={{fontSize: 'inherit'}}>
+    <h2 style={{ fontSize: 'inherit' }}>
       MODIFICATIONS TO TERMS OF USE
     </h2>
 
@@ -123,7 +123,7 @@ export default function Terms() {
 
     </h2>
 
-    <p style={{fontSize: 'inherit'}}>
+    <p style={{ fontSize: 'inherit' }}>
       HonestyMeter.com may terminate your access to the Website, without cause or notice,
       which may result in the forfeiture and destruction of all information associated with your account.
 
@@ -166,7 +166,7 @@ export default function Terms() {
     </p>
 
     <p>
-    HonestyMeter. Address:  10685-B Hazelhurst Dr. # 35149 Houston, TX 77043 USA
+      HonestyMeter. Address:  10685-B Hazelhurst Dr. # 35149 Houston, TX 77043 USA
     </p>
 
   </main>
