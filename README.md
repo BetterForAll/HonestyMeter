@@ -42,7 +42,7 @@ We appreciate any feedback and contributions to help improve the framework and i
 
 ## License
 
-HonestyMeter is released under the [MIT License](https://opensource.org/licenses/MIT).
+HonestyMeter is released under the [Apache 2.0](./LICENSE) License. 
 
 For more information on the HonestyMeter framework and how it can help increase transparency and objectivity in media content, please see our [WHITE PAPER](./WHITE_PAPER.md)
 
