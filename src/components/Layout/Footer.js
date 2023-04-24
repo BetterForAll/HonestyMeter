@@ -72,10 +72,10 @@ const STYLES = {
     maxWidth: '1000px',
     height: '128px',
     margin: theme.spacing(0, 1),
-    padding: theme.spacing(7, 1),
+    padding: theme.spacing(7, 2),
     display: 'flex',
     gap: theme.spacing(4),
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     alignItems: 'center',
     margin: '0 auto'
   },

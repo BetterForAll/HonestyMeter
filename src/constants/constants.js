@@ -4,7 +4,7 @@ export const PAGE_LABELS_MAP = {
     about: 'About',
     terms: 'Terms and conditions',
 }
-export const PAGE_LABELS = ['Home', 'About', 'Terms and conditions']
+export const PAGE_LABELS = ['Home', 'About', 'Terms']
 export const PAGE_ROUTES = ['/', 'about', 'terms']
 export const PAGE_URL_TO_INDEX_MAP = {
     '/': 0,
