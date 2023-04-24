@@ -22,7 +22,7 @@ const TEXTS = {
     solution: `To address this issue, we have developed the HonestyMeter framework
     - an innovative solution that enables users to evaluate the objectivity
     and bias of media content. The framework uses neural networks and large
-    language models such as GTP-3.5-TURBO to analyze various media elements,
+    language models to analyze various media elements,
     including text, images, audio, and video, and identify manipulative
     techniques that may be present.`,
   },
