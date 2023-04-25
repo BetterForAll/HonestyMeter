@@ -5,12 +5,7 @@
 "By embracing HonestyMeter, you can join the vanguard of a movement that champions media objectivity and transparency. The more people who adopt this tool, the more we can create a well-informed society where the truth prevails over bias and misinformation"
 [Read full article in MTS](https://martechseries.com/predictive-ai/ai-platforms-machine-learning/honestymeter-ai-powered-pioneer-for-unbiased-media-integrity-and-transparency/)
 
-[Short Video Demo ](https://player.vimeo.com/video/820300228?h=8618c5b066) (7 seconds)
-
-
-# App Website
-
-[HonestyMeter.com](https://honestymeter.com)
+To see it HonestyMeter in action, you can visit our website: [HonestyMeter.com](https://honestymeter.com) or watch [short video demo ](https://player.vimeo.com/video/820300228?h=8618c5b066) (7 seconds)
 
 # Introduction
 
