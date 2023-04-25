@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { fetchReport, mockFetchReport } from '../services/reportService' //mockFetchReport is for testing
 import { EMPTY_STRING } from "@/constants/constants";
 
-const IS_TESTING_MODE = true;
+const IS_TESTING_MODE = false;
 const ARTICLE_DEFAULT_VALUE = ''
 const TEXTS = {
     honestyMeter: 'Honesty Meter',
