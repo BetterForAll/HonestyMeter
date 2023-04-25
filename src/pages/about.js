@@ -124,8 +124,6 @@ export default function About() {
           src={VIDEO_URL}
           width="640"
           height="360"
-          frameborder="0"
-          allowfullscreen
           style={STYLES.videoIframe}
         >
         </iframe>
