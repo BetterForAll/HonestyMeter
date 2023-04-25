@@ -8,8 +8,18 @@ import { Box } from '@mui/material';
 
 //TODO: replace html tags with Material UI components, optionally - divide to components
 
+const ARTICLE_URL = 'https://martechseries.com/predictive-ai/ai-platforms-machine-learning/honestymeter-ai-powered-pioneer-for-unbiased-media-integrity-and-transparency';
+const VIDEO_URL = 'https://player.vimeo.com/video/820300228';
+
 const TEXTS = {
-  title: 'HonestyMeter - A breakthrough open source framework for evaluating the objectivity and credibility of news articles.',
+  title: 'HonestyMeter - A breakthrough open source framework for evaluating the objectivity and credibility of media content',
+  article: {
+    quote: `"By embracing HonestyMeter, you can join the vanguard of a movement that
+    champions media objectivity and transparency. The more people who adopt this tool,
+    the more we can create a well-informed society where the truth prevails over bias and misinformation"`,
+    readFullArticle: 'Read the full article in MTS',
+    video: 'Demo video (7 seconds)',
+  },
   introduction: {
     title: 'Introduction:',
     problem: `In today's world, the media plays a significant role in shaping public opinion
@@ -101,6 +111,17 @@ export default function About() {
       <h1 id="title">
         {TEXTS.title}
       </h1>
+      <p style={STYLES.quote}>
+        {TEXTS.article.quote}
+        &nbsp;
+        <a href={ARTICLE_URL} style={STYLES.articleLink} target="_blank">
+          {TEXTS.article.readFullArticle}
+        </a>
+      </p>
+      <p>
+        {TEXTS.article.video}
+      </p>
+      <iframe title="vimeo-player" src={VIDEO_URL} width="640" height="360" frameborder="0" allowfullscreen></iframe>
       <h2 id="introduction">{TEXTS.introduction.title}</h2>
       <p>
         {TEXTS.introduction.problem}
@@ -220,4 +241,13 @@ const STYLES = {
     height: 'auto',
 
   },
+  quote: {
+    fontStyle: 'italic',
+    fontSize: theme.typography.fontSize * 1.125,
+    color: theme.palette.text.secondary,
+  },
+  articleLink: {
+    textDecoration: 'none',
+    color: theme.palette.primary.main,
+  }
 }
