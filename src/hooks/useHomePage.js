@@ -22,7 +22,7 @@ export default function useHomePage() {
     }
 
     const handleArticleChange = (e) => {
-        setArtilce(e.target.value)
+        setArtilce(e.target.value);
     }
 
     const getMockReport = async () => {
