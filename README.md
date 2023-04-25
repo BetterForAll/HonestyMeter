@@ -2,14 +2,18 @@
 
 #
 
-"By embracing HonestyMeter, you can join the vanguard of a movement that champions media objectivity and transparency. The more people who adopt this tool, the more we can create a well-informed society where the truth prevails over bias and misinformation" 
+"By embracing HonestyMeter, you can join the vanguard of a movement that champions media objectivity and transparency. The more people who adopt this tool, the more we can create a well-informed society where the truth prevails over bias and misinformation"
 [Read full article in MTS](https://martechseries.com/predictive-ai/ai-platforms-machine-learning/honestymeter-ai-powered-pioneer-for-unbiased-media-integrity-and-transparency/)
 
 # Video Screenshot
-<iframe title="HonestyMeter" src="https://player.vimeo.com/video/820300228?h=8618c5b066" width="640" height="360" frameborder="0"  allowfullscreen></iframe>
 
-# App Website 
-[HonestyMeter.com]([HonestyMeter.com](https://honestymeter.com))
+<div>
+<iframe title="HonestyMeter" src="https://player.vimeo.com/video/820300228?h=8618c5b066" width="640" height="360" frameborder="0"  allowfullscreen></iframe>
+</div>
+
+# App Website
+
+[HonestyMeter.com](https://honestymeter.com)
 
 # Introduction
 
@@ -17,10 +21,8 @@ HonestyMeter is a framework for evaluating objectivity and bias in media content
 
 **Note:** This is the very basic first experimental DEMO version, which currently only supports the analysis of text. Additional features and improvements will be added in near feature.
 
-
-
-
 ## Installation and Configuration
+
 #####
 
 1. Install required dependencies: npm install
