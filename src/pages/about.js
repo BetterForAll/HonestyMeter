@@ -121,7 +121,18 @@ export default function About() {
       <p>
         {TEXTS.article.video}
       </p>
-      <iframe title="vimeo-player" src={VIDEO_URL} width="640" height="360" frameborder="0" allowfullscreen></iframe>
+      <Box style={STYLES.videoIframeContainer}>
+        <iframe
+          title="vimeo-player"
+          src={VIDEO_URL}
+          width="640"
+          height="360"
+          frameborder="0"
+          allowfullscreen
+          style={STYLES.videoIframe}
+        >
+        </iframe>
+      </Box>
       <h2 id="introduction">{TEXTS.introduction.title}</h2>
       <p>
         {TEXTS.introduction.problem}
@@ -249,5 +260,16 @@ const STYLES = {
   articleLink: {
     textDecoration: 'none',
     color: theme.palette.primary.main,
+  },
+  videoIframeContainer: {
+    padding: '56.25% 0 0 0',
+    position: 'relative',
+  },
+  videoIframe: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%'
   }
 }
