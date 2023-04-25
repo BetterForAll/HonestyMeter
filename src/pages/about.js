@@ -108,7 +108,7 @@ and use it to improve the objectivity of the content.`,
 export default function About() {
   return (
     <main style={STYLES.container}>
-      <h1 id="title">
+      <h1 id="title" style={STYLES.title}>
         {TEXTS.title}
       </h1>
       <p style={STYLES.quote}>
@@ -117,9 +117,6 @@ export default function About() {
         <a href={ARTICLE_URL} style={STYLES.articleLink} target="_blank">
           {TEXTS.article.readFullArticle}
         </a>
-      </p>
-      <p>
-        {TEXTS.article.video}
       </p>
       <Box style={STYLES.videoIframeContainer}>
         <iframe
@@ -239,6 +236,10 @@ const STYLES = {
     padding: theme.spacing(4),
     margin: 'auto',
     color: theme.palette.text.primary,
+    border: 'none',
+  },
+  title:{
+    marginBottom: theme.spacing(3),
   },
   imageContainer: {
     display: 'flex',
@@ -256,10 +257,14 @@ const STYLES = {
     fontStyle: 'italic',
     fontSize: theme.typography.fontSize * 1.125,
     color: theme.palette.text.secondary,
+    marginBottom: theme.spacing(8),
   },
   articleLink: {
     textDecoration: 'none',
     color: theme.palette.primary.main,
+  },
+  videoTitle: {
+    color: theme.palette.text.secondary,
   },
   videoIframeContainer: {
     padding: '56.25% 0 0 0',
