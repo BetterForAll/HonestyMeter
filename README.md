@@ -1,16 +1,29 @@
 <img src="./public/logo.png" alt="HonestyMeter - Truth Wins">
 
+#
+
+"By embracing HonestyMeter, you can join the vanguard of a movement that champions media objectivity and transparency. The more people who adopt this tool, the more we can create a well-informed society where the truth prevails over bias and misinformation" 
+[Read full article in MTS](https://martechseries.com/predictive-ai/ai-platforms-machine-learning/honestymeter-ai-powered-pioneer-for-unbiased-media-integrity-and-transparency/)
+
+# Video Screenshot
+<iframe title="HonestyMeter" src="https://player.vimeo.com/video/820300228?h=8618c5b066" width="640" height="360" frameborder="0"  allowfullscreen></iframe>
+
+# App Website 
+[HonestyMeter.com]([HonestyMeter.com](https://honestymeter.com))
 
 # Introduction
 
-HonestyMeter is a framework for evaluating objectivity and bias in media content, including text, images, audio, and video. It uses large language models  to analyze the media content and identify manipulative techniques that may be present. The framework is capable of detecting over 100 different manipulation techniques, such as sensationalism, framing, and selective reporting, among others.The framework provides users with an overall objectivity score, feedback on manipulative techniques, and suggestions for improvement.
+HonestyMeter is a framework for evaluating objectivity and bias in media content, including text, images, audio, and video. It uses large language models to analyze the media content and identify manipulative techniques that may be present. The framework is capable of detecting over 100 different manipulation techniques, such as sensationalism, framing, and selective reporting, among others.The framework provides users with an overall objectivity score, feedback on manipulative techniques, and suggestions for improvement.
 
 **Note:** This is the very basic first experimental DEMO version, which currently only supports the analysis of text. Additional features and improvements will be added in near feature.
 
-## Installation and Configuration
 
-1. Install required dependencies: npm install 
-   
+
+
+## Installation and Configuration
+#####
+
+1. Install required dependencies: npm install
 2. Rename the `.env_example` file to `.env`: mv .env_example .env
 
 3. Replace `OPEN_AI_KEY` with your OpenAI API key in the `.env` file.
@@ -33,16 +46,16 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 2. Wait for the server to respond (may take around 30 seconds) and see your report.
 
-## Contributing 
+## Contributing
 
-If you would like to contribute to the development of the HonestyMeter framework, 
-please feel free to join disscussions, visit our [project page](https://github.com/users/BetterForAll/projects/1), 
+If you would like to contribute to the development of the HonestyMeter framework,
+please feel free to join disscussions, visit our [project page](https://github.com/users/BetterForAll/projects/1),
 or open an issue on the repository.
 We appreciate any feedback and contributions to help improve the framework and its usability.
 
 ## License
 
-HonestyMeter is released under the [APACHE 2.0](./LICENSE) License. 
+HonestyMeter is released under the [APACHE 2.0](./LICENSE) License.
 
 For more information on the HonestyMeter framework and how it can help increase transparency and objectivity in media content, please see our [WHITE PAPER](./WHITE_PAPER.md)
 
@@ -53,5 +66,3 @@ HonestyMeter is dedicated to promoting accuracy and objectivity in the vast worl
 Your generous contribution enables us to continue developing our innovative tool, refining our algorithms, and ensuring that truth prevails in the digital age. Join our community of truth-seekers and make a lasting impact on the future of information sharing.
 
 [💡 Click here to support HonestyMeter and help us build a more honest and informed world together](https://www.paypal.com/donate/?hosted_button_id=2K88Y2UF99YRU)
-
-
