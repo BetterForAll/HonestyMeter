@@ -14,7 +14,7 @@ const TEXTS = {
   error: 'Something went wrong. Please try again later.',
   desciptiion: 'Honesty Meter is a tool that helps you discover the truth behind the news.',
 }
-const LOGO_URL = './public/logo.png'
+const LOGO_URL = './public/favicon.ico'
 
 export default function Home({
   homePageProps
@@ -74,7 +74,7 @@ const HtmlHead = (
     <title>{TEXTS.honestyMeter}</title>
     <meta name="description" content={TEXTS.desciptiion} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href={LOGO_URL} />
+    <link rel="shortcut icon" href={LOGO_URL} />
   </Head>
 )
 
