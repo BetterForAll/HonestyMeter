@@ -223,7 +223,7 @@ export default function About() {
       </p>
       <h3 id="disclosure">{TEXTS.disclosure.title}</h3>
       <p>{TEXTS.disclosure.biasedWhitePaper}</p>
-      <Support />
+      {/* <Support /> */}
     </main>
   )
 }

@@ -24,7 +24,7 @@ export default function ReportWrapper({ report, showArticleInput = EMPTY_FUNCTIO
             <ReportWrapperHeader onCloseReportClick={showArticleInput} />
             <Report report={report} />
             <ReportDivider />
-            <Support />
+            {/* <Support /> */}
             <Button
                 variant="outlined"
                 size="large"
