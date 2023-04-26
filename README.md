@@ -55,7 +55,7 @@ We appreciate any feedback and contributions to help improve the framework and i
 
 HonestyMeter is released under the [APACHE 2.0](./LICENSE) License.
 
-For more information on the HonestyMeter framework and how it can help increase transparency and objectivity in media content, please see our [WHITE PAPER](./WHITE_PAPER.md)
+For more information on the HonestyMeter framework and how it can help increase transparency and objectivity in media content, please see "about" page in our website [HonestyMeter.com/about](http://honestymeter.com/about)
 
 ## Empower Truth with Your Support 🌟
 
