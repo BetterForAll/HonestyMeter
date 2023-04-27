@@ -5,7 +5,7 @@ import theme from '@/theme'
 
 const TEXTS = {
     messageLine1: 'Hold Tight, The Truth Is Loading...And It\'s Worth It!',
-    messageLine2: 'It may take around 30-40 secons to generate the report.',
+    messageLine2: 'It may take 30-180 seconds to generate the report.',
 }
 
 export default function ReportLoading() {
