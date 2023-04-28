@@ -12,7 +12,7 @@ const ARTICLE_URL = 'https://martechseries.com/predictive-ai/ai-platforms-machin
 const VIDEO_URL = 'https://player.vimeo.com/video/820300228';
 
 const TEXTS = {
-  title: 'HonestyMeter - A breakthrough open source framework for evaluating the objectivity and credibility of media content',
+  title: 'HonestyMeter - A Free Open Source Framework for Evaluating the Objectivity and Credibility of Media Content',
   article: {
     quote: `"By embracing HonestyMeter, you can join the vanguard of a movement that
     champions media objectivity and transparency. The more people who adopt this tool,
@@ -181,7 +181,7 @@ export default function About() {
       <Box sx={STYLES.imageContainer}>
         <h2 id="example">{TEXTS.exampleReport}</h2>
         <p>
-          (An article was picked absolutely randomly)
+          ({TEXTS.randomlyPickedArticle})
         </p>
         <Image
           src={exampleReport}
@@ -236,7 +236,7 @@ const STYLES = {
     color: theme.palette.text.primary,
     border: 'none',
   },
-  title:{
+  title: {
     marginBottom: theme.spacing(3),
   },
   imageContainer: {
