@@ -15,6 +15,7 @@ import Footer from '@/components/Layout/Footer';
 import { PAGE_ROUTES, PAGE_URL_TO_INDEX_MAP } from '@/constants/constants';
 import useHomePage from '@/hooks/useHomePage';
 import MobileMenu from '@/components/Layout/MobileMenu';
+import { Analytics } from '@vercel/analytics/react';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -52,6 +53,7 @@ export default function MyApp(props) {
           <Divider />
           <Footer setCurrentPage={setCurrentPage} closeReport={closeReport} />
         </Box>
+        <Analytics />
       </ThemeProvider>
     </CacheProvider >
   );
