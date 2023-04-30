@@ -54,7 +54,7 @@ export default function useHomePage() {
         }
 
         const parsedReport = JSON.parse(reportResTrimmed);
-        va.track(EVENT.reportParsed);
+        va.track(EVENT.reportParsed, { report: reportResTrimmed });
 
         const isInputError = Boolean(parsedReport?.errors?.length);
 
