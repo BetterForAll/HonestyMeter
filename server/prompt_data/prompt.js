@@ -59,7 +59,7 @@ EXAMPLE OUTPUT:
 "sidesScore" :[ { "sideName" : "President", "score" : 90 }, { "sideName" : "Police", "score" : 40 } ],
 "sidesBalance" : {"President": 78, "Police" : 22} 
 "favoredSide": President,
-"manipulations" : [ // note: show all found manipulations. Not only the first one
+"manipulations" : [ // note: show all found manipulations. Not only the first one. if including all found manipulations makes the response exceed maximum length (4096 tokens) - show only manipulations that fit the limit and don't include the rest.
 {
  "name": …, "description": … ,
  "context": …,

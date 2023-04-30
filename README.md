@@ -42,7 +42,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 1. Paste the article text that you would like to analyze and press the submit button.
 
-2. Wait for the server to respond (may take around 30 seconds) and see your report.
+2. Wait for the server to respond (may take 30-180 seconds) and see your report.
 
 ## Contributing
 
