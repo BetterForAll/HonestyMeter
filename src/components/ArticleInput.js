@@ -7,7 +7,7 @@ import { string, func } from 'prop-types';
 
 const TEXTS = {
     inputTitle: 'PASTE AN ARTICLE',
-    placeholder: 'Paste an article for bias analysis',
+    placeholder: 'Paste a text for bias analysis',
     alert: 'Please enter an article',
     cta: 'Discover the truth',
 }

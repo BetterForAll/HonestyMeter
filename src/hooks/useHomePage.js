@@ -39,12 +39,32 @@ export default function useHomePage() {
         setReport(reportRes);
     }
 
-    const getRealReport = async () => {
+    const getRealReport = async () => { //TODO: refactor and clean up this function
         const reportRes = await fetchReport(article);
-        va.track(EVENT.reportReceived, { reportRes });
+        const reportResTrimmed = reportRes.trim();
+        va.track(EVENT.reportReceived, { report: reportResTrimmed });
 
-        const parsedReport = JSON.parse(reportRes);
+        const isResponseInJsonFormat = reportResTrimmed.startsWith('{') //TODO: improve this check (take into account possibility of multiple '\n' at the end)
+
+        if (!isResponseInJsonFormat) {
+            va.track(EVENT.reportError, { error: reportResTrimmed });
+            alert(reportResTrimmed); //TODO: replace with error component
+
+            return;
+        }
+
+        const parsedReport = JSON.parse(reportResTrimmed);
         va.track(EVENT.reportParsed);
+
+        const isInputError = Boolean(parsedReport?.errors?.length);
+
+        if (isInputError) {
+            const errorListString = parsedReport.errors.join(',\n');
+            va.track(EVENT.reportError, { error: errorListString });
+            alert(errorListString); //TODO: replace with error component
+
+            return;
+        }
 
         setReport(parsedReport);
     }
