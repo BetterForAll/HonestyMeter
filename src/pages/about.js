@@ -91,7 +91,7 @@ and use it to improve the objectivity of the content.`,
     title: 'Conclusion:',
     gameChanger: `The HonestyMeter framework has the potential to be a game-changer 
     in addressing media bias and misinformation.
-    It's widespread adoption could increase transparency and objectivity in mass media.,
+    It's widespread adoption could increase transparency and objectivity in mass media,
     by helping journalists and content creators to produce more objective content,
     empowering users to make informed decisions with ease and becoming an
     essential tool for anyone seeking truthful and unbiased information.`
