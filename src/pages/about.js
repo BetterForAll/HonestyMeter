@@ -3,7 +3,6 @@ import Image from 'next/image';
 import flowchart from '../../public/flowchart.jpg';
 import exampleReport from '../../public/example_report.png';
 import theme from '@/theme';
-import Support from '@/components/Support';
 import { Box } from '@mui/material';
 
 //TODO: replace html tags with Material UI components, optionally - divide to components
@@ -252,8 +251,6 @@ export default function About() {
       </p>
       <h3 id="disclosure">{TEXTS.disclosure.title}</h3>
       <p>{TEXTS.disclosure.biasedWhitePaper}</p>
-      {/* <Support /> */}
-
     </main>
   )
 }

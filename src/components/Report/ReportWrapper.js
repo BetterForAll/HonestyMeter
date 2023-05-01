@@ -1,7 +1,6 @@
 import React from 'react'
 import Report from './Report'
 import Disclamer from '@/components/Disclamer'
-import Support from '@/components/Support'
 import Divider from '@mui/material/Divider';
 import { Box, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
@@ -24,7 +23,6 @@ export default function ReportWrapper({ report, showArticleInput = EMPTY_FUNCTIO
             <ReportWrapperHeader onCloseReportClick={showArticleInput} />
             <Report report={report} />
             <ReportDivider />
-            {/* <Support /> */}
             <Button
                 variant="outlined"
                 size="large"

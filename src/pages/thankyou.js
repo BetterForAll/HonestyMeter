@@ -5,7 +5,7 @@ import theme from '@/theme';
 import { Box, Typography } from '@mui/material';
 
 const TESTS = {
-  title: 'Thank you for your generous support! 🙏',
+  title: 'Thank you for your support! 🙏',
   redirectMessage: 'You\'ll be redirected to the main page',
   home: 'Home',
 }
