@@ -76,8 +76,7 @@ and use it to improve the objectivity of the content.`,
   importantConsidirations: {
     title: 'Important Considerations When Using the HonestyMeter Framework:',
 
-    p1: ` Prior to the release of HonestyMeter, content objectivity was never seriously evaluated.
-    Therefore, when using the tool for the first time, you may be shocked by the high levels
+    p1: `When using the tool for the first time, you may be shocked by the high levels
     of subjectivity even in the content of the most well-known and authoritative mass media sources.
     It is essential to acknowledge that no one can be entirely objective, and some degree of bias is inevitable.
     Furthermore, a low objectivity score does not necessarily indicate malicious intent on the part of the mass
@@ -90,8 +89,9 @@ and use it to improve the objectivity of the content.`,
   },
   conclusion: {
     title: 'Conclusion:',
-    gameChanger: `The HonestyMeter framework is a game-changer in addressing media bias and misinformation.
-    It will inevitably increase transparency and objectivity in mass media,
+    gameChanger: `The HonestyMeter framework has the potential to be a game-changer 
+    in addressing media bias and misinformation.
+    It's widespread adoption could increase transparency and objectivity in mass media.,
     by helping journalists and content creators to produce more objective content,
     empowering users to make informed decisions with ease and becoming an
     essential tool for anyone seeking truthful and unbiased information.`
@@ -101,8 +101,25 @@ and use it to improve the objectivity of the content.`,
     biasedWhitePaper: `This white paper was evaluated by the HonestyMeter framework and found to be
     highly biased towards promoting mass media transparency and the use of the HonestyMeter.
     😊`
-  }
+  },
+  thankYou: {
+    specialThanks: `Special thanks to: `,
+    oneLittleCoder: {
+      name: `1littlecoder`,
+      link: 'https://www.youtube.com/@1littlecoder'
+    },
 
+    yoheiNakajima:{
+      name: `Yohei Nakajima`,
+      link: `https://github.com/yoheinakajima/babyagi`
+    },
+    mattWolfe: {
+      name: `Matt Wolfe`,
+      link: `https://www.futuretools.io/`
+    },
+    forTheInspiration: `for the great inspiring content that made us fall in love with AI-powered apps.
+     It was this inspiration that led us to create HonestyMeter, and we're grateful for their contribution!`,
+  },
 }
 
 export default function About() {
@@ -194,7 +211,6 @@ export default function About() {
         <li>
           <p>
             {TEXTS.futurePlans.supportVideoandAudio}
-
           </p>
         </li>
         <li>
@@ -208,6 +224,19 @@ export default function About() {
           </p>
         </li>
       </ol>
+      <h3 id="thanks">{TEXTS.thankYou.specialThanks}</h3>
+      <p>
+        <a href={TEXTS.thankYou.oneLittleCoder.link} target="_blank">
+          {TEXTS.thankYou.oneLittleCoder.name},&nbsp; 
+        </a>
+        <a href={TEXTS.thankYou.yoheiNakajima.link} target="_blank">
+          {TEXTS.thankYou.yoheiNakajima.name},&nbsp;
+        </a>
+        <a href={TEXTS.thankYou.mattWolfe.link} target="_blank">
+          {TEXTS.thankYou.mattWolfe.name}&nbsp;
+        </a>
+        {TEXTS.thankYou.forTheInspiration}
+      </p>
       <h3 id="considerations">
         {TEXTS.importantConsidirations.title}
       </h3>
@@ -224,6 +253,7 @@ export default function About() {
       <h3 id="disclosure">{TEXTS.disclosure.title}</h3>
       <p>{TEXTS.disclosure.biasedWhitePaper}</p>
       {/* <Support /> */}
+
     </main>
   )
 }
