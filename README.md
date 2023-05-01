@@ -8,6 +8,9 @@
  Read full article in MTS
 </a>
 </i>
+###
+
+⭐ Support fair media with a click – STAR HonestyMeter now! ⭐
 
 ####
 
@@ -57,10 +60,6 @@ HonestyMeter is released under the [APACHE 2.0](./LICENSE) License.
 
 For more information on the HonestyMeter framework and how it can help increase transparency and objectivity in media content, please see "about" page in our website [HonestyMeter.com/about](http://honestymeter.com/about)
 
-<!-- ## Empower Truth with Your Support 🌟
+#####
 
-HonestyMeter is dedicated to promoting accuracy and objectivity in the vast world of online content. By supporting our mission, you become an essential part of the movement to foster transparency and credibility across the internet.
-
-Your generous contribution enables us to continue developing our innovative tool, refining our algorithms, and ensuring that truth prevails in the digital age. Join our community of truth-seekers and make a lasting impact on the future of information sharing.
-
-[💡 Click here to support HonestyMeter and help us build a more honest and informed world together](https://www.paypal.com/donate/?hosted_button_id=2K88Y2UF99YRU) -->
+⭐ Support fair media with a click – STAR HonestyMeter now! ⭐
