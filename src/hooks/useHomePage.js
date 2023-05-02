@@ -4,7 +4,7 @@ import { fetchReport, mockFetchReport } from '../services/reportService' //mockF
 import { EMPTY_STRING } from "@/constants/constants";
 import { scrollToTop } from '@/utils/utils';
 
-const IS_TESTING_MODE = true;
+const IS_TESTING_MODE = false;
 const ARTICLE_DEFAULT_VALUE = ''
 const TEXTS = {
     honestyMeter: 'Honesty Meter',
