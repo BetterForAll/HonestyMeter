@@ -10,10 +10,14 @@ import {
 } from 'react-share'
 import theme from '@/theme';
 
+//TODO - fix facebook photo size, likedIn content
+
 const HONESTY_METER_URL = 'https://honestymeter.com';
 const TEXTS = {
-    title: 'HonestyMeter - A Free tool for Evaluating the Objectivity and Bias of Media Content. Discover the truth now!',
-    cta: '💡  Be a part of the change – SHARE HonestyMeter with your network!  💡'
+    title: 'HonestyMeter - A  New Free AI powered tool for Evaluating the Objectivity and Bias of Media Content.',
+    summary: '',
+    cta: '💡 Be a part of the change – SHARE HonestyMeter with your network! 💡',
+    hashTags: '#UnbiasedMedia #HonestyMeter',
 }
 
 export default function Share() {
@@ -23,12 +27,12 @@ export default function Share() {
                 {TEXTS.cta}
             </h3>
             <Box sx={STYLES.socialIconsContainer}>
-                <LinkedinShareButton url={HONESTY_METER_URL}>
+                <LinkedinShareButton url={HONESTY_METER_URL}  title={TEXTS.title} summary={TEXTS.title} source={HONESTY_METER_URL}>
                     <LinkedinIcon size={32} round />
                 </LinkedinShareButton>
                 <TwitterShareButton
                     url={HONESTY_METER_URL}
-                    title={TEXTS.title}
+                    title={`${TEXTS.title} ${TEXTS.hashTags}`}
                 >
                     <TwitterIcon size={32} round />
                 </TwitterShareButton>
@@ -36,6 +40,7 @@ export default function Share() {
                 <FacebookShareButton
                     url={HONESTY_METER_URL}
                     quote={TEXTS.title}
+                    hashtag={TEXTS.hashTags}
                 >
                     <FacebookIcon size={32} round />
                 </FacebookShareButton>
