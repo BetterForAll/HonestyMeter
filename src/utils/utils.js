@@ -1,10 +1,10 @@
 export const getRandom = (min, max) => {
-    if (max === null || max === undefined) {
-        max = min;
-        min = 0;
-    }
+  if (max === null || max === undefined) {
+    max = min;
+    min = 0;
+  }
 
-    return Math.random() * (max - min) + min;
+  return Math.random() * (max - min) + min;
 }
 
 export const openEmail = (mailTo) => {
@@ -27,4 +27,11 @@ export const generateMatchingColor = (bgColorRgba) => {//TODO: use for showing c
 
 export const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export const EMPTY_FUNCTION = () => {};
+export function scrollToTop() {
+    const isBrowser = typeof window !== 'undefined';
+
+    if (!isBrowser) return;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+export const EMPTY_FUNCTION = () => { };

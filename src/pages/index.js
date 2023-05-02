@@ -8,6 +8,7 @@ import theme from '@/theme'
 import Disclamer from "@/components/Disclamer";
 import { bool, string, func, shape } from 'prop-types';
 import reportPropType from "@/components/Report/reportPropTypes";
+import Share from "@/components/Share";
 
 const TEXTS = {
   honestyMeter: 'Honesty Meter',
@@ -42,6 +43,7 @@ export default function Home({
             onArticleChange={handleArticleChange}
             onGetReport={handleGetReport} />
           <Disclamer />
+          <Share />
         </>
       }
       {

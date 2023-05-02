@@ -4,6 +4,7 @@ import flowchart from '../../public/flowchart.jpg';
 import exampleReport from '../../public/example_report.png';
 import theme from '@/theme';
 import { Box } from '@mui/material';
+import Share from '@/components/Share';
 
 //TODO: replace html tags with Material UI components, optionally - divide to components
 
@@ -108,7 +109,7 @@ and use it to improve the objectivity of the content.`,
       link: 'https://www.youtube.com/@1littlecoder'
     },
 
-    yoheiNakajima:{
+    yoheiNakajima: {
       name: `Yohei Nakajima`,
       link: `https://github.com/yoheinakajima/babyagi`
     },
@@ -226,7 +227,7 @@ export default function About() {
       <h3 id="thanks">{TEXTS.thankYou.specialThanks}</h3>
       <p>
         <a href={TEXTS.thankYou.oneLittleCoder.link} target="_blank">
-          {TEXTS.thankYou.oneLittleCoder.name},&nbsp; 
+          {TEXTS.thankYou.oneLittleCoder.name},&nbsp;
         </a>
         <a href={TEXTS.thankYou.yoheiNakajima.link} target="_blank">
           {TEXTS.thankYou.yoheiNakajima.name},&nbsp;
@@ -251,6 +252,7 @@ export default function About() {
       </p>
       <h3 id="disclosure">{TEXTS.disclosure.title}</h3>
       <p>{TEXTS.disclosure.biasedWhitePaper}</p>
+      <Share />
     </main>
   )
 }
@@ -301,5 +303,5 @@ const STYLES = {
     left: 0,
     width: '100%',
     height: '100%'
-  }
+  },
 }

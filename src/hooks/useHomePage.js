@@ -2,8 +2,9 @@ import va from '@vercel/analytics';
 import { useState } from 'react';
 import { fetchReport, mockFetchReport } from '../services/reportService' //mockFetchReport is for testing
 import { EMPTY_STRING } from "@/constants/constants";
+import { scrollToTop } from '@/utils/utils';
 
-const IS_TESTING_MODE = false;
+const IS_TESTING_MODE = true;
 const ARTICLE_DEFAULT_VALUE = ''
 const TEXTS = {
     honestyMeter: 'Honesty Meter',
@@ -17,7 +18,6 @@ const EVENT = {
     reportError: 'Report error',
 }
 
-
 export default function useHomePage() {
     const [isLoading, setLoading] = useState(false);
     const [article, setArtilce] = useState(ARTICLE_DEFAULT_VALUE);
@@ -28,6 +28,7 @@ export default function useHomePage() {
     const closeReport = () => {
         setReport(null);
         setArtilce(EMPTY_STRING);
+        scrollToTop()
     }
 
     const handleArticleChange = (e) => {
@@ -54,19 +55,19 @@ export default function useHomePage() {
         }
 
         const parsedReport = JSON.parse(reportResTrimmed);
-        
+
         const isInputError = Boolean(parsedReport?.errors?.length);
-        
+
         if (isInputError) {
             const errorListString = parsedReport.errors.join(',\n');
             va.track(EVENT.reportError, { error: errorListString });
             alert(errorListString); //TODO: replace with error component
-            
+
             return;
         }
-        
+
         va.track(EVENT.reportParsed, { report: reportResTrimmed });
-        
+
         setReport(parsedReport);
     }
 

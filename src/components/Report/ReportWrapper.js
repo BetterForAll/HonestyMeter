@@ -10,6 +10,7 @@ import theme from '@/theme';
 import { EMPTY_FUNCTION } from '@/utils/utils';
 import { string, func } from 'prop-types';
 import reportPropType from './reportPropTypes';
+import Share from '../Share';
 
 const TEXTS = {
     reportIsReady: 'Your Report is ready!',
@@ -23,6 +24,7 @@ export default function ReportWrapper({ report, showArticleInput = EMPTY_FUNCTIO
             <ReportWrapperHeader onCloseReportClick={showArticleInput} />
             <Report report={report} />
             <ReportDivider />
+            <Share />
             <Button
                 variant="outlined"
                 size="large"
@@ -96,7 +98,8 @@ const STYLES = {
     closeButton: {
         width: '200px',
         marginLeft: 'calc(100% - 200px)',
-        marginBottom: theme.spacing(2)
+        marginBottom: theme.spacing(2),
+        marginTop: theme.spacing(2),
     },
     title: {
         marginBottom: theme.spacing(4),
@@ -106,7 +109,7 @@ const STYLES = {
     closeIcon: {
         cursor: 'pointer',
         fontSize: theme.spacing(3),
-        color: theme.palette.text.secondary
+        color: theme.palette.text.secondary,
     },
     divider: {
         marginBottom: theme.spacing(2.5)
