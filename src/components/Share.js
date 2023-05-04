@@ -16,7 +16,7 @@ const HONESTY_METER_URL = 'https://honestymeter.com';
 const TEXTS = {
     title: 'HonestyMeter - A  New Free AI powered tool for Evaluating the Objectivity and Bias of Media Content.',
     summary: '',
-    cta: '💡 Be a part of the change – SHARE HonestyMeter with your network! 💡',
+    cta: '💡 Spread the Truth – SHARE HonestyMeter! 💡',
     hashTags: '#UnbiasedMedia #HonestyMeter',
 }
 

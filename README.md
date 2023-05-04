@@ -11,7 +11,7 @@
 
 ###
 
-⭐ Support fair media with a click – STAR HonestyMeter now! ⭐
+⭐ Support the Truth. Star HonestyMeter ⭐
 
 ####
 
@@ -63,4 +63,4 @@ For more information on the HonestyMeter framework and how it can help increase 
 
 #####
 
-⭐ Support fair media with a click – STAR HonestyMeter now! ⭐
+⭐ Support the Truth. Star HonestyMeter ⭐
