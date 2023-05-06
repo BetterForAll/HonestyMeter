@@ -65,7 +65,7 @@ and use it to improve the objectivity of the content.`,
     expampleReportAlt: 'Example HonestyMeter Report Screenshot',
   },
   exampleReport: 'Example HonestyMeter Report Screenshot:',
-  randomlyPickedArticle: 'An article was picked absolutely randomly',
+  aiGeneratedArticle: 'GPT-4 Generated Article Explores Imaginary Debates Between Fictional Candidates in a Hypothetical Country',
   futurePlans: {
     title: 'Future Plans:',
     supportVideoandAudio: `Support links to video and audio content (evaluate text, tonality,
@@ -198,7 +198,7 @@ export default function About() {
       <Box sx={STYLES.imageContainer}>
         <h2 id="example">{TEXTS.exampleReport}</h2>
         <p>
-          ({TEXTS.randomlyPickedArticle})
+          ({TEXTS.aiGeneratedArticle})
         </p>
         <Image
           src={exampleReport}
