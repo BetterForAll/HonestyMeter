@@ -1,46 +1,32 @@
-//report data for the example article (./article.js). For testing.
 const report = {
-    score: 70,
-    explanation:
-      "The article provides information about the Premier League clubs' decision to withdraw gambling sponsorship from the front of their matchday shirts by the end of the 2025-26 season. The article presents both sides of the issue, but there are some manipulations used, such as cherry-picking data, omission of key information, and appeal to authority. The article also contains some irrelevant information that does not contribute to the main topic.",
-    sidesScore: [
-      { sideName: "Gambling industry", score: 60 },
-      { sideName: "Football clubs", score: 80 },
+    "score": 80,
+    "explanation": "The article provides a relatively objective overview of the ongoing election campaign in Imaginaria, highlighting the key differences between the two main candidates and their policy positions. However, there are some instances of biased language and logical fallacies that detract from the overall objectivity of the article.",
+    "sidesScore": [
+        { "sideName": "Alaric Durand", "score": 75 },
+        { "sideName": "Lysandra Vargas", "score": 85 }
     ],
-    sidesBalance: { "Gambling industry": 45, "Football clubs": 55 },
-    favoredSide: "Football clubs",
-    manipulations: [
-      {
-        name: "Cherry-picking data",
-        description:
-          "Presenting only the data that supports the argument while ignoring other relevant data",
-        context:
-          "The article states that the rate of problem gambling remains low by international standards at 0.3% of the UK's adult population - down from 0.4% the year previous. However, a YouGov survey for GambleAware in 2021 put the figure at 2.8%.",
-        suggestedChanges: [
-          "Present both data and explain the reasons for the difference in results.",
-        ],
-      },
-      {
-        name: "Omission of key information",
-        description:
-          "Leaving out important information that would change the audience's perception of the issue",
-        context:
-          "The article mentions that clubs will still be able to continue featuring gambling brands in areas such as shirt sleeves and LED advertising. However, it does not mention that these areas are less visible than the front of the shirt.",
-        suggestedChanges: [
-          "Include information about the visibility of different areas of the shirt.",
-        ],
-      },
-      {
-        name: "Appeal to authority",
-        description:
-          "Using an authority figure to support the argument without providing evidence",
-        context:
-          "The article quotes Lucy Frazer, who was appointed Secretary of State for Culture, Media and Sport in February, saying she 'welcomed the decision by the Premier League'.",
-        suggestedChanges: [
-          "Provide evidence to support the authority figure's statement.",
-        ],
-      },
-    ],
-  };
+    "sidesBalance": { "Alaric Durand": 47, "Lysandra Vargas": 53 },
+    "favoredSide": "Lysandra Vargas",
+    "manipulations": [
+        {
+            "name": "Biased language",
+            "description": "Using language that is emotionally charged or favors one side over the other",
+            "context": "The article describes Alaric Durand as a 'seasoned politician' and 'pragmatic', while Lysandra Vargas is portrayed as a 'rising star' with 'progressive ideologies' and an 'empathetic leadership style'. These descriptions could be seen as favoring Vargas over Durand.",
+            "suggestedChanges": ["Use neutral language to describe both candidates, avoiding emotionally charged terms that could be seen as favoring one side over the other."]
+        },
+        {
+            "name": "Logical fallacies",
+            "description": "Errors in reasoning that undermine the validity of an argument",
+            "context": "The article presents a false dichotomy between Durand's emphasis on economic growth and Vargas' focus on social justice and environmental preservation. This oversimplifies the candidates' positions and ignores the possibility of a more nuanced approach that balances both concerns.",
+            "suggestedChanges": ["Avoid presenting a false dichotomy and instead acknowledge the complexity of the candidates' positions. Provide more context and analysis to help readers understand the nuances of the debate."]
+        },
+        {
+            "name": "Oversimplification",
+            "description": "Presenting complex issues in a simplistic or superficial manner",
+            "context": "The article oversimplifies the candidates' positions on healthcare and the environment, presenting them as opposing viewpoints without providing sufficient context or analysis.",
+            "suggestedChanges": ["Provide more context and analysis to help readers understand the nuances of the candidates' positions on healthcare and the environment. Avoid presenting complex issues in a simplistic or superficial manner."]
+        }
+    ]
+}
 
-  export default report;
+export default report;
