@@ -5,7 +5,7 @@ import { string, number } from 'prop-types';
 
 const TEXTS = {
   biasReport: 'Bias Report',
-  score: 'Score: ',
+  score: 'Score',
   outOf100: '/ 100'
 }
 
@@ -17,7 +17,7 @@ export default function ReportHeader({ score, explanation }) {
       </Typography>
       <Paper elevation={2} style={STYLES.paper}>
         <Typography variant="h6">
-          {TEXTS.score}: {score} <Typography component='span' variant='h6' color="text.secondary">{TEXTS.outOf100}</Typography>
+          {TEXTS.score}:&nbsp;&nbsp;{score} <Typography component='span' variant='h6' color="text.secondary">{TEXTS.outOf100}</Typography>
         </Typography>
         <Typography variant="subtitle1" sx={STYLES.explanation}>
           {explanation}
