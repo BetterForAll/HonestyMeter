@@ -9,6 +9,7 @@ import Disclamer from "@/components/Disclamer";
 import { bool, string, func, shape } from 'prop-types';
 import reportPropType from "@/components/Report/reportPropTypes";
 import Share from "@/components/Share";
+import { BASE_URL } from "@/constants/constants";
 
 const TEXTS = {
   honestyMeter: 'Honesty Meter',
@@ -77,6 +78,7 @@ const HtmlHead = (
     <meta name="description" content={TEXTS.desciptiion} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" href={LOGO_URL} />
+    <link rel="canonical" href={BASE_URL} />
   </Head>
 )
 

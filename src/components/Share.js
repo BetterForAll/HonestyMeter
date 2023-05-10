@@ -9,14 +9,14 @@ import {
     TwitterShareButton
 } from 'react-share'
 import theme from '@/theme';
+import { BASE_URL, PAGE_ABSOLUTE_URL } from '@/constants/constants';
 
-//TODO - fix facebook photo size, likedIn content
+//TODO - fix facebook photo size
 
-const HONESTY_METER_BASE_URL = 'https://honestymeter.com';
 const SHARE_URL= {
-    linkedIn: `${HONESTY_METER_BASE_URL}/about`,
-    twitter: HONESTY_METER_BASE_URL,
-    facebook: HONESTY_METER_BASE_URL,
+    linkedIn: PAGE_ABSOLUTE_URL.ABOUT,
+    twitter: BASE_URL,
+    facebook: BASE_URL,
 }
 const TEXTS = {
     title: 'HonestyMeter - A New Free AI powered tool for Evaluating the Objectivity and Bias of Media Content.',
@@ -32,7 +32,7 @@ export default function Share() {
                 {TEXTS.cta}
             </h3>
             <Box sx={STYLES.socialIconsContainer}>
-                <LinkedinShareButton url={SHARE_URL.linkedIn}  title={TEXTS.title} summary={TEXTS.title} source={HONESTY_METER_BASE_URL}>
+                <LinkedinShareButton url={SHARE_URL.linkedIn}  title={TEXTS.title} summary={TEXTS.title} source={BASE_URL}>
                     <LinkedinIcon size={32} round />
                 </LinkedinShareButton>
                 <TwitterShareButton

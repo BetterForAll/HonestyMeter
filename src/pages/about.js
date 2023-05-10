@@ -5,13 +5,16 @@ import exampleReport from '../../public/example_report.png';
 import theme from '@/theme';
 import { Box } from '@mui/material';
 import Share from '@/components/Share';
+import Head from 'next/head';
+import { PAGE_ABSOLUTE_URL } from '@/constants/constants';
 
 //TODO: replace html tags with Material UI components, optionally - divide to components
-
+const LOGO_URL = './public/favicon.ico';
 const ARTICLE_URL = 'https://martechseries.com/predictive-ai/ai-platforms-machine-learning/honestymeter-ai-powered-pioneer-for-unbiased-media-integrity-and-transparency';
 const VIDEO_URL = 'https://player.vimeo.com/video/820300228';
 
 const TEXTS = {
+  pageTitle: 'HonestyMeter (Honesty Meter)',
   title: 'HonestyMeter - A Free Open Source Framework for Evaluating the Objectivity and Credibility of Media Content',
   article: {
     quote: `"By embracing HonestyMeter, you can join the vanguard of a movement that
@@ -124,138 +127,151 @@ and use it to improve the objectivity of the content.`,
 
 export default function About() {
   return (
-    <main style={STYLES.container}>
-      <h1 id="title" style={STYLES.title}>
-        {TEXTS.title}
-      </h1>
-      <p style={STYLES.quote}>
-        {TEXTS.article.quote}
-        &nbsp;
-        <a href={ARTICLE_URL} style={STYLES.articleLink} target="_blank">
-          {TEXTS.article.readFullArticle}
-        </a>
-      </p>
-      <Box style={STYLES.videoIframeContainer}>
-        <iframe
-          title="vimeo-player"
-          src={VIDEO_URL}
-          width="640"
-          height="360"
-          style={STYLES.videoIframe}
-        >
-        </iframe>
-      </Box>
-      <h2 id="introduction">{TEXTS.introduction.title}</h2>
-      <p>
-        {TEXTS.introduction.problem}
-      </p>
-      <p>
-        {TEXTS.introduction.solution}
-      </p>
-      <h2 id="process">{TEXTS.process.title}</h2>
-      <p>
-        {TEXTS.process.description}
-      </p>
-      <ol>
-        <li>
-          <p>
-            {TEXTS.process.input}
-          </p>
-        </li>
-        <li>
-          <p>
-            {TEXTS.process.analysis}
-          </p>
-        </li>
-        <li>
-          <p>
-            {TEXTS.process.scoring}
-          </p>
-        </li>
-        <li>
-          <p>
-            {TEXTS.process.reporting}
-          </p>
-        </li>
-        <li>
-          <p>
-            {TEXTS.process.feedback}
-          </p>
-        </li>
-        <li>
-          <p>
-            {TEXTS.process.improvment}
-          </p>
-        </li>
-      </ol>
-      <Box sx={STYLES.imageContainer}>
-        <Image
-          src={flowchart}
-          alt={TEXTS.process.flowChartAlt}
-          style={STYLES.image}
-        />
-      </Box>
-      <Box sx={STYLES.imageContainer}>
-        <h2 id="example">{TEXTS.exampleReport}</h2>
-        <p>
-          ({TEXTS.aiGeneratedArticle})
+    <>
+      {HtmlHead}
+      <main style={STYLES.container}>
+        <h1 id="title" style={STYLES.title}>
+          {TEXTS.title}
+        </h1>
+        <p style={STYLES.quote}>
+          {TEXTS.article.quote}
+          &nbsp;
+          <a href={ARTICLE_URL} style={STYLES.articleLink} target="_blank">
+            {TEXTS.article.readFullArticle}
+          </a>
         </p>
-        <Image
-          src={exampleReport}
-          alt={TEXTS.process.expampleReportAlt}
-          style={STYLES.image}
-        />
-      </Box>
-      <h2 id="future-plans">{TEXTS.futurePlans.title}</h2>
-      <ol>
-        <li>
+        <Box style={STYLES.videoIframeContainer}>
+          <iframe
+            title="vimeo-player"
+            src={VIDEO_URL}
+            width="640"
+            height="360"
+            style={STYLES.videoIframe}
+          >
+          </iframe>
+        </Box>
+        <h2 id="introduction">{TEXTS.introduction.title}</h2>
+        <p>
+          {TEXTS.introduction.problem}
+        </p>
+        <p>
+          {TEXTS.introduction.solution}
+        </p>
+        <h2 id="process">{TEXTS.process.title}</h2>
+        <p>
+          {TEXTS.process.description}
+        </p>
+        <ol>
+          <li>
+            <p>
+              {TEXTS.process.input}
+            </p>
+          </li>
+          <li>
+            <p>
+              {TEXTS.process.analysis}
+            </p>
+          </li>
+          <li>
+            <p>
+              {TEXTS.process.scoring}
+            </p>
+          </li>
+          <li>
+            <p>
+              {TEXTS.process.reporting}
+            </p>
+          </li>
+          <li>
+            <p>
+              {TEXTS.process.feedback}
+            </p>
+          </li>
+          <li>
+            <p>
+              {TEXTS.process.improvment}
+            </p>
+          </li>
+        </ol>
+        <Box sx={STYLES.imageContainer}>
+          <Image
+            src={flowchart}
+            alt={TEXTS.process.flowChartAlt}
+            style={STYLES.image}
+          />
+        </Box>
+        <Box sx={STYLES.imageContainer}>
+          <h2 id="example">{TEXTS.exampleReport}</h2>
           <p>
-            {TEXTS.futurePlans.supportVideoandAudio}
+            ({TEXTS.aiGeneratedArticle})
           </p>
-        </li>
-        <li>
-          <p>
-            {TEXTS.futurePlans.connectFactChecking}
-          </p>
-        </li>
-        <li>
-          <p>
-            {TEXTS.futurePlans.compareMultipleSources}
-          </p>
-        </li>
-      </ol>
-      <h3 id="thanks">{TEXTS.thankYou.specialThanks}</h3>
-      <p>
-        <a href={TEXTS.thankYou.oneLittleCoder.link} target="_blank">
-          {TEXTS.thankYou.oneLittleCoder.name},&nbsp;
-        </a>
-        <a href={TEXTS.thankYou.yoheiNakajima.link} target="_blank">
-          {TEXTS.thankYou.yoheiNakajima.name},&nbsp;
-        </a>
-        <a href={TEXTS.thankYou.mattWolfe.link} target="_blank">
-          {TEXTS.thankYou.mattWolfe.name}&nbsp;
-        </a>
-        {TEXTS.thankYou.forTheInspiration}
-      </p>
-      <h3 id="considerations">
-        {TEXTS.importantConsidirations.title}
-      </h3>
-      <p>
-        {TEXTS.importantConsidirations.p1}
-      </p>
-      <p>
-        {TEXTS.importantConsidirations.p2}
-      </p>
-      <h2 id="conclusion">{TEXTS.conclusion.title}</h2>
-      <p>
-        {TEXTS.conclusion.gameChanger}
-      </p>
-      <h3 id="disclosure">{TEXTS.disclosure.title}</h3>
-      <p>{TEXTS.disclosure.biasedWhitePaper}</p>
-      <Share />
-    </main>
+          <Image
+            src={exampleReport}
+            alt={TEXTS.process.expampleReportAlt}
+            style={STYLES.image}
+          />
+        </Box>
+        <h2 id="future-plans">{TEXTS.futurePlans.title}</h2>
+        <ol>
+          <li>
+            <p>
+              {TEXTS.futurePlans.supportVideoandAudio}
+            </p>
+          </li>
+          <li>
+            <p>
+              {TEXTS.futurePlans.connectFactChecking}
+            </p>
+          </li>
+          <li>
+            <p>
+              {TEXTS.futurePlans.compareMultipleSources}
+            </p>
+          </li>
+        </ol>
+        <h3 id="thanks">{TEXTS.thankYou.specialThanks}</h3>
+        <p>
+          <a href={TEXTS.thankYou.oneLittleCoder.link} target="_blank">
+            {TEXTS.thankYou.oneLittleCoder.name},&nbsp;
+          </a>
+          <a href={TEXTS.thankYou.yoheiNakajima.link} target="_blank">
+            {TEXTS.thankYou.yoheiNakajima.name},&nbsp;
+          </a>
+          <a href={TEXTS.thankYou.mattWolfe.link} target="_blank">
+            {TEXTS.thankYou.mattWolfe.name}&nbsp;
+          </a>
+          {TEXTS.thankYou.forTheInspiration}
+        </p>
+        <h3 id="considerations">
+          {TEXTS.importantConsidirations.title}
+        </h3>
+        <p>
+          {TEXTS.importantConsidirations.p1}
+        </p>
+        <p>
+          {TEXTS.importantConsidirations.p2}
+        </p>
+        <h2 id="conclusion">{TEXTS.conclusion.title}</h2>
+        <p>
+          {TEXTS.conclusion.gameChanger}
+        </p>
+        <h3 id="disclosure">{TEXTS.disclosure.title}</h3>
+        <p>{TEXTS.disclosure.biasedWhitePaper}</p>
+        <Share />
+      </main>
+    </>
   )
 }
+
+const HtmlHead = (
+  <Head>
+    <title>{TEXTS.pageTitle}</title>
+    <meta name="description" content={TEXTS.title} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href={LOGO_URL} />
+    <link rel="canonical" href={PAGE_ABSOLUTE_URL.ABOUT} />
+  </Head>
+)
 
 const STYLES = {
   container: {
@@ -305,3 +321,5 @@ const STYLES = {
     height: '100%'
   },
 }
+
+

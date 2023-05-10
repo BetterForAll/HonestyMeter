@@ -1,3 +1,8 @@
+export const BASE_URL = 'https://honestymeter.com'
+export const PAGE_ABSOLUTE_URL ={
+    ABOUT: `${BASE_URL}/about`,
+    TERMS: `${BASE_URL}/terms`,
+}
 export const EMAIL_ADDRESS = 'info@honestymeter.com'
 export const PAGE_LABELS_MAP = {
     home: 'Home',
@@ -12,6 +17,5 @@ export const PAGE_URL_TO_INDEX_MAP = {
     '/terms': 2
 }
 export const EMPTY_STRING = ''
-
 export const PAYPAL_DONATE_URL = 'https://www.paypal.com/donate/?hosted_button_id=2K88Y2UF99YRU'
 export const GITHUB_URL = 'https://github.com/BetterForAll/HonestyMeter'
