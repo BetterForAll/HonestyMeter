@@ -12,12 +12,17 @@ import theme from '@/theme';
 
 //TODO - fix facebook photo size, likedIn content
 
-const HONESTY_METER_URL = 'https://honestymeter.com';
+const HONESTY_METER_BASE_URL = 'https://honestymeter.com';
+const SHARE_URL= {
+    linkedIn: `${HONESTY_METER_BASE_URL}/about`,
+    twitter: HONESTY_METER_BASE_URL,
+    facebook: HONESTY_METER_BASE_URL,
+}
 const TEXTS = {
-    title: 'HonestyMeter - A  New Free AI powered tool for Evaluating the Objectivity and Bias of Media Content.',
-    summary: '',
+    title: 'HonestyMeter - A New Free AI powered tool for Evaluating the Objectivity and Bias of Media Content.',
+    summary: 'HonestyMeter - Check media content for objectivity and bias.',
     cta: '💡 Spread the Truth – SHARE HonestyMeter! 💡',
-    hashTags: '#UnbiasedMedia #HonestyMeter',
+    hashTags: '#HonestyMeter #MediaBias #FakeNews',
 }
 
 export default function Share() {
@@ -27,18 +32,18 @@ export default function Share() {
                 {TEXTS.cta}
             </h3>
             <Box sx={STYLES.socialIconsContainer}>
-                <LinkedinShareButton url={HONESTY_METER_URL}  title={TEXTS.title} summary={TEXTS.title} source={HONESTY_METER_URL}>
+                <LinkedinShareButton url={SHARE_URL.linkedIn}  title={TEXTS.title} summary={TEXTS.title} source={HONESTY_METER_BASE_URL}>
                     <LinkedinIcon size={32} round />
                 </LinkedinShareButton>
                 <TwitterShareButton
-                    url={HONESTY_METER_URL}
+                    url={SHARE_URL.twitter}
                     title={`${TEXTS.title} ${TEXTS.hashTags}`}
                 >
                     <TwitterIcon size={32} round />
                 </TwitterShareButton>
 
                 <FacebookShareButton
-                    url={HONESTY_METER_URL}
+                    url={SHARE_URL.facebook}
                     quote={TEXTS.title}
                     hashtag={TEXTS.hashTags}
                 >
