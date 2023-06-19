@@ -1,6 +1,5 @@
 import React from 'react'
 import Report from './Report'
-import Disclamer from '@/components/Disclamer'
 import Divider from '@mui/material/Divider';
 import { Box, Typography } from '@mui/material';
 import Button from '@mui/material/Button';

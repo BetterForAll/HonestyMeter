@@ -6,7 +6,7 @@ const TEMPERATURE = 0;
 const TOP_P = 1;
 const FREQUENCY_PENALTY = 0.0;
 const PRESENCE_PENALTY = 0.0;
-const MODEL = 'gpt-3.5-turbo';
+const MODEL = 'gpt-3.5-turbo-16k';
 
 export const OPEN_AI_REQUEST = {
   method: 'POST',
