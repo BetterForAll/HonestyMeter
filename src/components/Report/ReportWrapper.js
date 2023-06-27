@@ -10,6 +10,8 @@ import { EMPTY_FUNCTION } from '@/utils/utils';
 import { string, func } from 'prop-types';
 import reportPropType from './reportPropTypes';
 import Share from '../Share';
+import { BASE_URL } from '@/constants/constants';
+import CopyToClipboard from './CopyToClipboard';
 
 const TEXTS = {
     reportIsReady: 'Your Report is ready!',
@@ -18,10 +20,16 @@ const TEXTS = {
 
 export default function ReportWrapper({ report, showArticleInput = EMPTY_FUNCTION }) {
 
+    const reportJson = JSON.stringify(report);
+    const shareUrl = `${BASE_URL}/report?report=${reportJson}`;
+
     return (
         <Box sx={STYLES.container}>
             <ReportWrapperHeader onCloseReportClick={showArticleInput} />
             <Report report={report} />
+            <Box sx={STYLES.copyToClipboardContainer}>
+                <CopyToClipboard copyText={shareUrl} />
+            </Box>
             <ReportDivider />
             <Share />
             <Button
@@ -116,5 +124,11 @@ const STYLES = {
     header: {
         display: 'flex',
         justifyContent: 'space-between'
+    },
+    copyToClipboardContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: theme.spacing(0, 0, 3, 0)
     }
 }

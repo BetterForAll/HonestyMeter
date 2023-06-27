@@ -1,7 +1,5 @@
 import Head from "next/head";
 import React from 'react';
-import ReportWrapper from '@/components/Report/ReportWrapper';
-import ReportLoading from "@/components/Report/ReportLoading";
 import AtricleInput from "@/components/ArticleInput";
 import { Box } from "@mui/material";
 import theme from '@/theme'
@@ -23,12 +21,7 @@ export default function Home({
 }) {
 
   const {
-    isArticleInputShown,
-    isLoading,
-    isReportShown,
     article,
-    report,
-    closeReport,
     handleArticleChange,
     handleGetReport,
   } = homePageProps;
@@ -36,25 +29,14 @@ export default function Home({
   return (
     <Box component="main" sx={STYLES.container} >
       {HtmlHead}
-      {
-        isArticleInputShown &&
-        <>
-          <AtricleInput
-            article={article}
-            onArticleChange={handleArticleChange}
-            onGetReport={handleGetReport} />
-          <Disclamer />
-          <Share />
-        </>
-      }
-      {
-        isLoading &&
-        <ReportLoading />
-      }
-      {
-        isReportShown &&
-        <ReportWrapper report={report} showArticleInput={closeReport} />
-      }
+      <>
+        <AtricleInput
+          article={article}
+          onArticleChange={handleArticleChange}
+          onGetReport={handleGetReport} />
+        <Disclamer />
+        <Share />
+      </>
     </Box>
   );
 }
