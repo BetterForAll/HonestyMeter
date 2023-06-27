@@ -35,3 +35,16 @@ export function scrollToTop() {
 }
 
 export const EMPTY_FUNCTION = () => { };
+
+export function isServer() {
+  return typeof window === 'undefined';
+}
+
+export function getBaseUrl() {
+  const baseURL = isServer()
+    ? process.env.NEXT_PUBLIC_SITE_URL
+    : window.location.origin;
+  const url = new URL(baseURL).toString();
+
+  return url;
+}

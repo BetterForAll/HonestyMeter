@@ -6,11 +6,10 @@ import Button from '@mui/material/Button';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Tooltip from '@mui/material/Tooltip';
 import theme from '@/theme';
-import { EMPTY_FUNCTION } from '@/utils/utils';
+import { EMPTY_FUNCTION, getBaseUrl } from '@/utils/utils';
 import { string, func } from 'prop-types';
 import reportPropType from './reportPropTypes';
 import Share from '../Share';
-import { BASE_URL } from '@/constants/constants';
 import CopyToClipboard from './CopyToClipboard';
 
 const TEXTS = {
@@ -21,7 +20,8 @@ const TEXTS = {
 export default function ReportWrapper({ report, showArticleInput = EMPTY_FUNCTION }) {
 
     const reportJson = JSON.stringify(report);
-    const shareUrl = `${BASE_URL}/report?report=${reportJson}`;
+    const baseUrl = getBaseUrl();
+    const shareUrl = `${baseUrl}report?report=${reportJson}`;
 
     return (
         <Box sx={STYLES.container}>
