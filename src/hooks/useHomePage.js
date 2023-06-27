@@ -51,7 +51,6 @@ export default function useHomePage() {
     const getMockReport = async () => {
         router.push('/report');
         const reportRes = await mockFetchReport();
-        localStorage.setItem('honesty-meter-report-id', JSON.stringify(reportRes));
         const reportJson = JSON.stringify(reportRes)
         const reportPath = `${REPORT_STATIC_PATH}${reportJson}`
         router.push(reportPath);
