@@ -62,7 +62,7 @@ export default function useHomePage() {
         va.track(EVENT.reportReceived, { report: reportResTrimmed });
 
         const isResponseInJsonFormat = reportResTrimmed.startsWith('{') //TODO: improve this check (take into account possibility of multiple '\n' at the end)
-        //Todo: replace BE logic with openai function call API - then this check will be redundant
+        //TODO: replace BE logic with openai function call API - then this check will be redundant
 
         if (!isResponseInJsonFormat) {
             va.track(EVENT.reportError, { error: reportResTrimmed });
