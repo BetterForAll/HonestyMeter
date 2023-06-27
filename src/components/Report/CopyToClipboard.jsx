@@ -28,17 +28,15 @@ function CopyToClipboard({ copyText }) {
     }
 
     return (
-        <Box>
-            <Button variant='outlined' sx={STYLES.button} onClick={handleCopyClick}>
-                <span>{isCopied ? 'Copied!' : 'Copy report to clipboard'}</span>
-            </Button>
-        </Box>
+        <Button variant='outlined' sx={STYLES.button} onClick={handleCopyClick} >
+            <span>{isCopied ? 'Copied!' : 'Copy report to clipboard'}</span>
+        </Button >
     );
 }
 
 const STYLES = {
     button: {
-        minWidth: '240px',
+        minWidth: '100%',
     }
 }
 

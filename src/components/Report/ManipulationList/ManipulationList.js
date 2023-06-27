@@ -14,7 +14,7 @@ export default function ManipulationList({ manipulations }) {
       <Typography variant="h6" sx={STYLES.title}>
         {TEXTS.title}
       </Typography>
-      <List>
+      <List sx={STYLES.list}>
         {manipulations.map((manipulation, index) => {
           const isFirstItem = index === 0;
 
@@ -38,6 +38,9 @@ ManipulationList.propTypes = {
 const STYLES = {
   title: {
     padding: theme.spacing(0, 2),
+  },
+  list: {
+    paddingBottom: 0
   }
 }
 

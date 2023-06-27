@@ -130,6 +130,6 @@ const STYLES = {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        margin: theme.spacing(0, 0, 3, 0)
+        margin: theme.spacing(0, 0, 4, 0)
     }
 }
