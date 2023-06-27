@@ -1,5 +1,5 @@
 import va from '@vercel/analytics';
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import {
     fetchReport,
     mockFetchReport // for testing
@@ -33,6 +33,7 @@ export default function useHomePage() {
     const [isLoading, setLoading] = useState(false);
     const [article, setArtilce] = useState(ARTICLE_DEFAULT_VALUE);
     const [report, setReport] = useState(null);
+    const [reportJson, setReportJson] = useState(EMPTY_STRING);
     const isArticleInputShown = !isLoading && !report && !reportFromQuery;
     const isReportShown = Boolean(!isLoading && (report || parsedReportFromQuery));
 
@@ -51,8 +52,9 @@ export default function useHomePage() {
     const getMockReport = async () => {
         router.push('/report');
         const reportRes = await mockFetchReport();
-        const reportJson = JSON.stringify(reportRes)
-        const reportPath = `${REPORT_STATIC_PATH}${reportJson}`
+        const reportJsonRes = JSON.stringify(reportRes);
+        setReportJson(reportJsonRes);
+        const reportPath = `${REPORT_STATIC_PATH}${reportJsonRes}`;
         router.push(reportPath);
     }
 
@@ -71,8 +73,9 @@ export default function useHomePage() {
             return;
         }
 
-        const parsedReport = JSON.parse(reportResTrimmed);
+        setReportJson(reportResTrimmed);
 
+        const parsedReport = JSON.parse(reportResTrimmed);
         const isInputError = Boolean(parsedReport?.errors?.length);
 
         if (isInputError) {
@@ -131,6 +134,7 @@ export default function useHomePage() {
         isReportShown,
         article,
         report,
+        reportJson,
         closeReport,
         handleArticleChange,
         handleGetReport

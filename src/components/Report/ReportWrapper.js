@@ -17,9 +17,8 @@ const TEXTS = {
     closeReport: 'close report'
 }
 
-export default function ReportWrapper({ report, showArticleInput = EMPTY_FUNCTION }) {
+export default function ReportWrapper({ report, reportJson, showArticleInput = EMPTY_FUNCTION }) {
 
-    const reportJson = JSON.stringify(report);
     const baseUrl = getBaseUrl();
     const shareUrl = `${baseUrl}report?report=${reportJson}`;
 
@@ -46,6 +45,7 @@ export default function ReportWrapper({ report, showArticleInput = EMPTY_FUNCTIO
 
 ReportWrapper.propTypes = {
     report: reportPropType,
+    reportJson: string,
     showArticleInput: func.isRequired
 }
 
