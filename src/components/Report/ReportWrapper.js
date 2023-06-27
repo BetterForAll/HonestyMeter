@@ -16,11 +16,12 @@ const TEXTS = {
     reportIsReady: 'Your Report is ready!',
     closeReport: 'close report'
 }
+const STATIC_REPORT_PATH = 'report?report='
 
 export default function ReportWrapper({ report, reportJson, showArticleInput = EMPTY_FUNCTION }) {
 
     const baseUrl = getBaseUrl();
-    const shareUrl = `${baseUrl}report?report=${reportJson}`;
+    const shareUrl = `${baseUrl}${STATIC_REPORT_PATH}${reportJson}`;
 
     return (
         <Box sx={STYLES.container}>
