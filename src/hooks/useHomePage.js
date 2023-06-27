@@ -23,6 +23,8 @@ const EVENT = {
     reportError: 'Report error',
 }
 
+const REPORT_STATIC_PATH = '/report/?report='
+
 export default function useHomePage() {
     const router = useRouter();
     const query = router?.query || {};
@@ -51,7 +53,7 @@ export default function useHomePage() {
         const reportRes = await mockFetchReport();
         localStorage.setItem('honesty-meter-report-id', JSON.stringify(reportRes));
         const reportJson = JSON.stringify(reportRes)
-        const reportPath = `/report/?report=${reportJson}`
+        const reportPath = `${REPORT_STATIC_PATH}${reportJson}`
         router.push(reportPath);
     }
 
