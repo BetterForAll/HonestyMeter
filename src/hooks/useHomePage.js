@@ -59,6 +59,7 @@ export default function useHomePage() {
     }
 
     const getRealReport = async () => { //TODO: refactor and clean up this function
+        router.push('/report');
         const reportRes = await fetchReport(article);
         const reportResTrimmed = reportRes.trim();
         va.track(EVENT.reportReceived, { report: reportResTrimmed });
