@@ -1,5 +1,7 @@
 import React from 'react'
+import va from '@vercel/analytics';
 import { Box } from '@mui/material'
+import theme from '@/theme';
 import {
     FacebookIcon,
     FacebookShareButton,
@@ -8,12 +10,17 @@ import {
     TwitterIcon,
     TwitterShareButton
 } from 'react-share'
-import theme from '@/theme';
 import { BASE_URL, PAGE_ABSOLUTE_URL } from '@/constants/constants';
+import { EVENT } from '@/constants/constants';
 
 //TODO - fix facebook photo size
 
-const SHARE_URL= {
+const SHARE_PLATFORM_NAMES = {
+    linkedIn: 'LinkedIn',
+    twitter: 'Twitter',
+    facebook: 'Facebook',
+}
+const SHARE_URL = {
     linkedIn: PAGE_ABSOLUTE_URL.ABOUT,
     twitter: BASE_URL,
     facebook: BASE_URL,
@@ -32,13 +39,18 @@ export default function Share() {
                 {TEXTS.cta}
             </h3>
             <Box sx={STYLES.socialIconsContainer}>
-                <LinkedinShareButton url={SHARE_URL.linkedIn}  title={TEXTS.title} summary={TEXTS.title} source={BASE_URL}>
+                <LinkedinShareButton
+                    url={SHARE_URL.linkedIn}
+                    title={TEXTS.title}
+                    summary={TEXTS.title}
+                    source={BASE_URL}
+                    beforeOnClick={fireAnalyticsEvent(SHARE_PLATFORM_NAMES.linkedIn)}>
                     <LinkedinIcon size={32} round />
                 </LinkedinShareButton>
                 <TwitterShareButton
                     url={SHARE_URL.twitter}
                     title={`${TEXTS.title} ${TEXTS.hashTags}`}
-                >
+                    beforeOnClick={fireAnalyticsEvent(SHARE_PLATFORM_NAMES.twitter)}>
                     <TwitterIcon size={32} round />
                 </TwitterShareButton>
 
@@ -46,12 +58,17 @@ export default function Share() {
                     url={SHARE_URL.facebook}
                     quote={TEXTS.title}
                     hashtag={TEXTS.hashTags}
-                >
+                    beforeOnClick={fireAnalyticsEvent(SHARE_PLATFORM_NAMES.facebook)}>
                     <FacebookIcon size={32} round />
                 </FacebookShareButton>
             </Box>
         </Box>
     )
+}
+
+const fireAnalyticsEvent = (platform) => () => {
+    const eventName = EVENT.shareApp(platform)
+    va.track(eventName)
 }
 
 const STYLES = {

@@ -27,4 +27,5 @@ export const EVENT = {
     reportError: 'Report error',
     reportCopied: 'Report copied',
     reportCopyError: 'Report copy error',
+    shareApp: (platform) => `Share app on ${platform}`,
 }
