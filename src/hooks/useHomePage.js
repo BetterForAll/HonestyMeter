@@ -127,7 +127,8 @@ export default function useHomePage() {
         }
 
         setReport(parsedReportFromQuery);
-    }, [parsedReportFromQuery]);
+        setReportJson(reportFromQuery)
+    }, [parsedReportFromQuery, reportFromQuery]);
 
     return {
         isArticleInputShown,
