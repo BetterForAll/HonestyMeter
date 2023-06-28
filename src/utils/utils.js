@@ -31,6 +31,7 @@ export function scrollToTop() {
   const isServer = isServer();
 
   if (isServer) return;
+
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
