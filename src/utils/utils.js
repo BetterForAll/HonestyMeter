@@ -28,9 +28,9 @@ export const generateMatchingColor = (bgColorRgba) => {//TODO: use for showing c
 export const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export function scrollToTop() {
-  const isBrowser = typeof window !== 'undefined';
+  const isServer = isServer();
 
-  if (!isBrowser) return;
+  if (isServer) return;
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
