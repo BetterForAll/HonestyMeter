@@ -6,22 +6,30 @@ import Button from '@mui/material/Button';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Tooltip from '@mui/material/Tooltip';
 import theme from '@/theme';
-import { EMPTY_FUNCTION } from '@/utils/utils';
+import { EMPTY_FUNCTION, getBaseUrl } from '@/utils/utils';
 import { string, func } from 'prop-types';
 import reportPropType from './reportPropTypes';
 import Share from '../Share';
+import CopyToClipboard from './CopyToClipboard';
 
 const TEXTS = {
     reportIsReady: 'Your Report is ready!',
     closeReport: 'close report'
 }
+const STATIC_REPORT_PATH = 'report?report='
 
-export default function ReportWrapper({ report, showArticleInput = EMPTY_FUNCTION }) {
+export default function ReportWrapper({ report, reportJson, showArticleInput = EMPTY_FUNCTION }) {
+
+    const baseUrl = getBaseUrl();
+    const shareUrl = `${baseUrl}${STATIC_REPORT_PATH}${reportJson}`;
 
     return (
         <Box sx={STYLES.container}>
             <ReportWrapperHeader onCloseReportClick={showArticleInput} />
             <Report report={report} />
+            <Box sx={STYLES.copyToClipboardContainer}>
+                <CopyToClipboard copyText={shareUrl} />
+            </Box>
             <ReportDivider />
             <Share />
             <Button
@@ -38,6 +46,7 @@ export default function ReportWrapper({ report, showArticleInput = EMPTY_FUNCTIO
 
 ReportWrapper.propTypes = {
     report: reportPropType,
+    reportJson: string,
     showArticleInput: func.isRequired
 }
 
@@ -116,5 +125,11 @@ const STYLES = {
     header: {
         display: 'flex',
         justifyContent: 'space-between'
+    },
+    copyToClipboardContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: theme.spacing(0, 0, 4, 0)
     }
 }

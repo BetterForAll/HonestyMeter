@@ -1,5 +1,5 @@
 export const BASE_URL = 'https://honestymeter.com'
-export const PAGE_ABSOLUTE_URL ={
+export const PAGE_ABSOLUTE_URL = {
     ABOUT: `${BASE_URL}/about`,
     TERMS: `${BASE_URL}/terms`,
 }

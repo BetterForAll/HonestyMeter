@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Box } from '@mui/material';
 import ReportHeader from './ReportHeader';
 import Charts from './Charts/Charts';
@@ -6,7 +6,7 @@ import ManipulationList from './ManipulationList/ManipulationList';
 import { getFormattedReportData } from './reportUtils';
 import reportPropType from './reportPropTypes';
 
-export default function Report({  report }) {
+function Report({ report }) {
   const { sidesScoreData, sidesBalanceChartData } = getFormattedReportData(report);
 
   return (
@@ -31,6 +31,8 @@ const STYLES = {
     maxWidth: '1000px'
   }
 }
+
+export default memo(Report);
 
 
 

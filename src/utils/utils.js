@@ -28,10 +28,24 @@ export const generateMatchingColor = (bgColorRgba) => {//TODO: use for showing c
 export const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export function scrollToTop() {
-    const isBrowser = typeof window !== 'undefined';
+  const isServer = isServer();
 
-    if (!isBrowser) return;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (isServer) return;
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 export const EMPTY_FUNCTION = () => { };
+
+export function isServer() {
+  return typeof window === 'undefined';
+}
+
+export function getBaseUrl() {
+  const baseURL = isServer()
+    ? process.env.NEXT_PUBLIC_SITE_URL
+    : window.location.origin;
+  const url = new URL(baseURL).toString();
+
+  return url;
+}
