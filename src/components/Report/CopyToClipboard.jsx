@@ -1,6 +1,8 @@
 import React, { useState, memo } from 'react';
 import Button from '@mui/material/Button';
-import { Box } from '@mui/material';
+import va from '@vercel/analytics';
+import { EVENT } from '@/constants/constants';
+
 
 
 function CopyToClipboard({ copyText }) {
@@ -18,12 +20,15 @@ function CopyToClipboard({ copyText }) {
         copyTextToClipboard(copyText)
             .then(() => {
                 setIsCopied(true);
+                va.track(EVENT.reportCopied, { report: copyText });
+
                 setTimeout(() => {
                     setIsCopied(false);
                 }, 1500);
             })
-            .catch((err) => {
-                console.log(err);
+            .catch((error) => {
+                console.log(error);
+                va.track(EVENT.reportCopyError, { error })
             });
     }
 

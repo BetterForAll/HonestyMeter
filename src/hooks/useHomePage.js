@@ -4,7 +4,7 @@ import {
     fetchReport,
     mockFetchReport // for testing
 } from '../services/reportService'
-import { EMPTY_STRING } from "@/constants/constants";
+import { EMPTY_STRING, EVENT } from "@/constants/constants";
 import { scrollToTop } from '@/utils/utils';
 import { useRouter } from 'next/router';
 
@@ -15,12 +15,6 @@ const TEXTS = {
     error: 'Something went wrong. Please try again later.',
     enterArticle: 'Enter article',
     desciptiion: 'Honesty Meter is a tool that helps you discover the truth behind the news.',
-}
-const EVENT = {
-    reportRequested: 'Report requested',
-    reportReceived: 'Report received',
-    reportParsed: 'Report parsed',
-    reportError: 'Report error',
 }
 
 const REPORT_STATIC_PATH = '/report/?report='

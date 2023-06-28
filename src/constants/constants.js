@@ -19,3 +19,12 @@ export const PAGE_URL_TO_INDEX_MAP = {
 export const EMPTY_STRING = ''
 export const PAYPAL_DONATE_URL = 'https://www.paypal.com/donate/?hosted_button_id=2K88Y2UF99YRU'
 export const GITHUB_URL = 'https://github.com/BetterForAll/HonestyMeter'
+
+export const EVENT = {
+    reportRequested: 'Report requested',
+    reportReceived: 'Report received',
+    reportParsed: 'Report parsed',
+    reportError: 'Report error',
+    reportCopied: 'Report copied',
+    reportCopyError: 'Report copy error',
+}
