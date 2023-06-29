@@ -1,3 +1,7 @@
+export function isServer() {
+  return typeof window === 'undefined';
+}
+
 export const getRandom = (min, max) => {
   if (max === null || max === undefined) {
     max = min;
@@ -28,18 +32,14 @@ export const generateMatchingColor = (bgColorRgba) => {//TODO: use for showing c
 export const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export function scrollToTop() {
-  const isServer = isServer();
-
-  if (isServer) return;
+  if (typeof window === 'undefined') return;
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 export const EMPTY_FUNCTION = () => { };
 
-export function isServer() {
-  return typeof window === 'undefined';
-}
+
 
 export function getBaseUrl() {
   const baseURL = isServer()
