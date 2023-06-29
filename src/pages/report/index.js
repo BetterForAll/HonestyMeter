@@ -6,7 +6,7 @@ import ReportWrapper from '@/components/Report/ReportWrapper'
 
 
 function ReportPage({ homePageProps = {} }) {
-    const { report, reportJson, closeReport } = homePageProps
+    const { report, reportJson, shareLevel, closeReport } = homePageProps
 
     return (
         <Box sx={STYLES.container}>
@@ -14,7 +14,11 @@ function ReportPage({ homePageProps = {} }) {
             {
                 report ?
 
-                    <ReportWrapper report={report} reportJson={reportJson} showArticleInput={closeReport} />
+                    <ReportWrapper
+                        report={report}
+                        reportJson={reportJson}
+                        showArticleInput={closeReport}
+                        shareLevel={shareLevel} />
                     :
                     <ReportLoading />
             }

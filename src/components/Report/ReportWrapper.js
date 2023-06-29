@@ -17,11 +17,15 @@ const TEXTS = {
     closeReport: 'close report'
 }
 const STATIC_REPORT_PATH = 'report?report='
+const IS_SHARED_PARAM = '&isShared=true';
+const SHARED_LEVEL_PARAM = '&shareLevel=';
 
-export default function ReportWrapper({ report, reportJson, showArticleInput = EMPTY_FUNCTION }) {
+export default function ReportWrapper({ report, reportJson, shareLevel, showArticleInput = EMPTY_FUNCTION }) {
 
     const baseUrl = getBaseUrl();
-    const shareUrl = `${baseUrl}${STATIC_REPORT_PATH}${reportJson}`;
+    const updatedShareLevel = parseInt(shareLevel) + 1;
+    const shareUrl =
+        `${baseUrl}${STATIC_REPORT_PATH}${reportJson}${IS_SHARED_PARAM}${SHARED_LEVEL_PARAM}${updatedShareLevel}`;
 
     return (
         <Box sx={STYLES.container}>
