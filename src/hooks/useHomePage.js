@@ -32,11 +32,14 @@ export default function useHomePage() {
     const isReportShown = Boolean(!isLoading && (report || parsedReportFromQuery));
 
 
-    const closeReport = () => {
+    const goToHomePage = () => {
         router.push('/');
+    }
+    const closeReport = () => {
+        goToHomePage();
 
         setArtilce(EMPTY_STRING);
-        scrollToTop()
+        scrollToTop();
     }
 
     const handleArticleChange = (e) => {
@@ -63,7 +66,8 @@ export default function useHomePage() {
 
         if (!isResponseInJsonFormat) {
             va.track(EVENT.reportError, { error: reportResTrimmed });
-            alert(reportResTrimmed); //TODO: replace with error component
+            goToHomePage()
+            alert(TEXTS.error); //TODO: replace with error component
 
             return;
         }
@@ -76,6 +80,7 @@ export default function useHomePage() {
         if (isInputError) {
             const errorListString = parsedReport.errors.join(',\n');
             va.track(EVENT.reportError, { error: errorListString });
+            goToHomePage()
             alert(errorListString); //TODO: replace with error component
 
             return;
@@ -108,6 +113,7 @@ export default function useHomePage() {
             va.track(EVENT.reportError, { error });
 
             console.error(error);
+            goToHomePage()
             alert(TEXTS.error) //TODO: replace with error component
         }
 
