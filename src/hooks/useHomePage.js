@@ -35,6 +35,7 @@ export default function useHomePage() {
     const goToHomePage = () => {
         router.push('/');
     }
+
     const closeReport = () => {
         goToHomePage();
 
