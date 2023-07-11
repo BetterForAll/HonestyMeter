@@ -31,10 +31,10 @@ export default function useHomePage() {
     const isArticleInputShown = !isLoading && !report && !reportFromQuery;
     const isReportShown = Boolean(!isLoading && (report || parsedReportFromQuery));
 
-
     const goToHomePage = () => {
         router.push('/');
     }
+
     const closeReport = () => {
         goToHomePage();
 
