@@ -1,5 +1,7 @@
 import React, { memo } from 'react'
 
+//Draft page, just to test the API
+
 const PATH = 'api/saved_report';
 
 function SavedReport({ report }) {

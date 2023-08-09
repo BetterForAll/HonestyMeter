@@ -3,6 +3,8 @@ import clientPromise from "../../../server/mongodb/mongodb";
 import { STATUS_CODE } from "../../../server/constants/status_code";
 import METHODS from "../../../server/constants/rest_methods";
 
+//draft code, just to test the API
+
 const dbName = 'honesty_meter';
 const collectionName = 'report';
 
@@ -21,7 +23,6 @@ export default async function handler(req, res) {
             } catch (error) {
                 console.log(error)
             }
-
             break;
     }
 }
