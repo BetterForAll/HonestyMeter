@@ -3,11 +3,11 @@ import React from 'react'
 import { getBaseUrl } from '../utils/utils'
 import { POST } from '../../server/constants/rest_methods'
 
+// Draft page, just to test the API
+
 const baseUrl = getBaseUrl();
 const PATH = 'api/saved_reports'
 const URL = `${baseUrl}${PATH}`;
-
-// Draft page, just to test the API
 
 export default function Reports({ allReports }) {
 
