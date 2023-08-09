@@ -66,7 +66,7 @@ export default function Share({ Cta = DefaultCta }) {
     )
 }
 
-Share.PropTypes = {
+Share.propTypes = {
     cta: node,
 }
 

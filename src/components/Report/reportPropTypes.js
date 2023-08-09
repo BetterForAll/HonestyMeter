@@ -2,14 +2,14 @@ import { string, objectOf, number, shape, arrayOf } from 'prop-types';
 
 export const suggestedChangesPropType = arrayOf(string);
 
-export const manipulationPropType = {
+export const manipulationPropType = shape({
     name: string,
     description: string,
     context: string,
     suggestedChanges: suggestedChangesPropType
-}
+});
 
-export const manipulationsPropType = arrayOf(shape(manipulationPropType));
+export const manipulationsPropType = arrayOf(manipulationPropType);
 
 export const sideScorePropType = {
     sideName: string,
