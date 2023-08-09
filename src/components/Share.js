@@ -1,6 +1,6 @@
 import React from 'react'
 import va from '@vercel/analytics';
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import theme from '@/theme';
 import {
     FacebookIcon,
@@ -9,11 +9,12 @@ import {
     LinkedinShareButton,
     TwitterIcon,
     TwitterShareButton
-} from 'react-share'
+} from 'react-share';
+import { node } from 'prop-types';
 import { BASE_URL, PAGE_ABSOLUTE_URL } from '@/constants/constants';
 import { EVENT } from '@/constants/constants';
 
-//TODO - fix facebook photo size
+//TODO - fix facebook photo size (use og:image meta tag)
 
 const SHARE_PLATFORM_NAMES = {
     linkedIn: 'LinkedIn',
@@ -28,16 +29,15 @@ const SHARE_URL = {
 const TEXTS = {
     title: 'HonestyMeter - A New Free AI powered tool for Evaluating the Objectivity and Bias of Media Content.',
     summary: 'HonestyMeter - Check media content for objectivity and bias.',
-    cta: '💡 Spread the Truth – SHARE HonestyMeter! 💡',
+    ctaLine1: 'Spread the Truth.',
+    ctaLine2: '💡 SHARE HonestyMeter! 💡',
     hashTags: '#HonestyMeter #MediaBias #FakeNews',
 }
 
-export default function Share() {
+export default function Share({ Cta = DefaultCta }) {
     return (
         <Box sx={STYLES.shareCtaContainer}>
-            <h3 style={STYLES.cta}>
-                {TEXTS.cta}
-            </h3>
+            <Cta />
             <Box sx={STYLES.socialIconsContainer}>
                 <LinkedinShareButton
                     url={SHARE_URL.linkedIn}
@@ -66,6 +66,10 @@ export default function Share() {
     )
 }
 
+Share.PropTypes = {
+    cta: node,
+}
+
 const fireAnalyticsEvent = (platform) => () => {
     const eventName = EVENT.shareApp(platform)
     va.track(eventName)
@@ -84,9 +88,26 @@ const STYLES = {
         display: 'flex',
         gap: theme.spacing(2)
     },
+}
+
+function DefaultCta() {
+    return (
+        <Box style={DEFAULT_CTA_STYLES.cta}>
+            <Typography component='h3'>
+                {TEXTS.ctaLine1}
+            </Typography>
+            <Typography component='h3'>
+                {TEXTS.ctaLine2}
+            </Typography>
+        </Box>
+    )
+}
+
+const DEFAULT_CTA_STYLES = {
     cta: {
         fontWeight: theme.typography.fontWeightRegular,
         fontSize: theme.typography.fontSize * 1.25,
-        color: theme.palette.text.secondary
+        color: theme.palette.text.secondary,
+        marginBottom: theme.spacing(2)
     }
 }

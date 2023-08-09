@@ -6,26 +6,23 @@ import Button from '@mui/material/Button';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Tooltip from '@mui/material/Tooltip';
 import theme from '@/theme';
-import { EMPTY_FUNCTION, getBaseUrl } from '@/utils/utils';
+import { EMPTY_FUNCTION, isServer } from '@/utils/utils';
 import { string, func } from 'prop-types';
 import reportPropType from './reportPropTypes';
 import Share from '../Share';
 import CopyToClipboard from './CopyToClipboard';
 
 const TEXTS = {
-    reportIsReady: 'Your Report is ready!',
+    title: 'Objectivity report',
+    subtitle: 'HonestyMeter - AI powered bias detection',
     closeReport: 'close report'
 }
-const STATIC_REPORT_PATH = 'report?report='
 const IS_SHARED_PARAM = '&isShared=true';
 const SHARED_LEVEL_PARAM = '&shareLevel=';
 
-export default function ReportWrapper({ report, reportJson, shareLevel, showArticleInput = EMPTY_FUNCTION }) {
-
-    const baseUrl = getBaseUrl();
+export default function ReportWrapper({ report, shareLevel, showArticleInput = EMPTY_FUNCTION }) {
     const updatedShareLevel = parseInt(shareLevel) + 1;
-    const shareUrl =
-        `${baseUrl}${STATIC_REPORT_PATH}${reportJson}${IS_SHARED_PARAM}${SHARED_LEVEL_PARAM}${updatedShareLevel}`;
+    const shareUrl = isServer() ? '' : `${window.location.href}${IS_SHARED_PARAM}${SHARED_LEVEL_PARAM}${updatedShareLevel}`;
 
     return (
         <Box sx={STYLES.container}>
@@ -60,11 +57,17 @@ function ReportWrapperHeader({ onCloseReportClick = EMPTY_FUNCTION }) {
     return (
         <Box sx={STYLES.header}>
             <EmptyElement />
-            <Typography
-                variant="h4"
-                sx={STYLES.title}>
-                {TEXTS.reportIsReady}
-            </Typography>
+            <Box>
+                <Typography
+                    variant="h4"
+                    sx={STYLES.title}>
+                    {TEXTS.title}
+                </Typography>
+                <Typography
+                    sx={STYLES.subtitle}>
+                    {TEXTS.subtitle}
+                </Typography>
+            </Box>
             <CloseIconWithTooltip
                 title={closeIconTooltipTitle}
                 onClick={onCloseReportClick}
@@ -114,9 +117,15 @@ const STYLES = {
         marginTop: theme.spacing(2),
     },
     title: {
+        marginBottom: theme.spacing(1),
+        textAlign: 'center',
+        fontSize: theme.typography.fontSize * 1.125,
+    },
+    subtitle: {
         marginBottom: theme.spacing(4),
         textAlign: 'center',
-        fontSize: theme.typography.fontSize * 1.125
+        fontSize: theme.typography.fontSize,
+        color: theme.palette.text.secondary
     },
     closeIcon: {
         cursor: 'pointer',

@@ -49,3 +49,9 @@ export function getBaseUrl() {
 
   return url;
 }
+
+export function getBaseUrlFromUrlString(urlString = '') {
+  const url = new URL(urlString);
+
+  return url.origin.replace(/(https?:\/\/)?(www.)?/, '').split('/')[0];
+}

@@ -11,7 +11,7 @@ function Report({ report }) {
 
   return (
     <Box sx={STYLES.container}>
-      <ReportHeader score={report.score} explanation={report.explanation} />
+      <ReportHeader score={report.score} explanation={report.explanation} articleTitle={report.articleTitle} articleLink={report.articleLink} />
       <Charts
         sidesScoreData={sidesScoreData}
         sidesBalanceChartData={sidesBalanceChartData}

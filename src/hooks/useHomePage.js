@@ -8,7 +8,7 @@ import { EMPTY_STRING, EVENT } from "@/constants/constants";
 import { scrollToTop } from '@/utils/utils';
 import { useRouter } from 'next/router';
 
-const IS_TESTING_MODE = false;
+const IS_TESTING_MODE = true;
 const ARTICLE_DEFAULT_VALUE = ''
 const TEXTS = {
     honestyMeter: 'Honesty Meter',
