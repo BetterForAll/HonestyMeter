@@ -13,7 +13,6 @@ function ReportPage({ homePageProps = {} }) {
 
             {
                 report ?
-
                     <ReportWrapper
                         report={report}
                         showArticleInput={closeReport}

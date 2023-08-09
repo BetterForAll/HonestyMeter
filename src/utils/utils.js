@@ -42,9 +42,12 @@ export const EMPTY_FUNCTION = () => { };
 
 
 export function getBaseUrl() {
-  const baseURL = isServer()
-    ? process.env.NEXT_PUBLIC_SITE_URL
+  const isServer = typeof window === 'undefined';
+
+  const baseURL = isServer
+    ? 'https://honestymeter.com'
     : window.location.origin;
+
   const url = new URL(baseURL).toString();
 
   return url;
