@@ -47,7 +47,6 @@ export async function getServerSideProps(context) {
 }
 
 const createReport = async () => {
-
     let res = await fetch(URL, {
         method: POST,
         body: JSON.stringify({
