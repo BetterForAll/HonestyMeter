@@ -53,7 +53,6 @@ export default function Share({ Cta = DefaultCta }) {
                     beforeOnClick={fireAnalyticsEvent(SHARE_PLATFORM_NAMES.twitter)}>
                     <TwitterIcon size={32} round />
                 </TwitterShareButton>
-
                 <FacebookShareButton
                     url={SHARE_URL.facebook}
                     quote={TEXTS.title}
