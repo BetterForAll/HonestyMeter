@@ -17,7 +17,7 @@ function SavedReport({ homePageProps, report }) {
     const { shareLevel, closeReport } = homePageProps
     const isLoading = usePageLoading();
 
-    const LOGO_URL = './public/favicon.ico';
+    const LOGO_URL = './favicon.ico';
 
     const HtmlHead = (
         <Head>
@@ -29,6 +29,7 @@ function SavedReport({ homePageProps, report }) {
             <meta property="og:url" content="http://honestymeter.com" />
             <meta property="og:image" content="./opengraph-logo.png" />
             <meta property="og:type" content="article" />
+            <meta property="twitter:image" content="./opengraph-logo.png" />
             <link rel="shortcut icon" href={LOGO_URL} />
             <link rel="canonical" href={BASE_URL} />
         </Head>

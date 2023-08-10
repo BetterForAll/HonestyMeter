@@ -34,7 +34,7 @@ const TEXTS = {
     hashTags: ['HonestyMeter', 'MediaBias', 'FakeNews'],
 }
 
-const TEMP_BASE_URL = 'https://honesty-meter-5js7uxl3r-game-changer.vercel.app/'
+const TEMP_BASE_URL = 'https://honesty-meter-cgx0lqa91-game-changer.vercel.app/'
 const TEMP_REPORT_URL = TEMP_BASE_URL + 'report/64d3c748d8e8a6961c8f306a'
 
 export default function ShareReport({ Cta = DefaultCta }) {
