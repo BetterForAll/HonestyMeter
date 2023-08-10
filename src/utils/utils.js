@@ -81,7 +81,7 @@ export const createShareUrl = (shareLevel) => {
 
 export function getReportShareTitle(articleTitle) {
   const BIAS_REPORT = 'Bias Report';
-  const longTitle = `${articleTitle} -${BIAS_REPORT}`;
+  const longTitle = `${articleTitle} - ${BIAS_REPORT}`;
   const shortTitle = BIAS_REPORT;
   const title = articleTitle ? longTitle : shortTitle;
 
