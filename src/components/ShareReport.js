@@ -40,13 +40,13 @@ export default function ShareReport({ Cta = DefaultCta }) {
             <Cta />
             <Box sx={STYLES.socialIconsContainer}>
                 <TwitterShareButton
-                    url={"https://honesty-meter-git-hm-33-report-header-new-game-changer.vercel.app/report/64d3c748d8e8a6961c8f306a"}
+                    url={"https://honesty-meter-domq4dzil-game-changer.vercel.app/report/64d3c748d8e8a6961c8f306a"}
                     title={`North Korea is worried about energy crysis ${TEXTS.hashTags}`}
                     beforeOnClick={fireAnalyticsEvent(SHARE_PLATFORM_NAMES.twitter)}>
                     <TwitterIcon size={32} round />
                 </TwitterShareButton>
                 <LinkedinShareButton
-                    url={"https://honesty-meter-git-hm-33-report-header-new-game-changer.vercel.app/report/64d3c748d8e8a6961c8f306a"}
+                    url={"https://honesty-meter-domq4dzil-game-changer.vercel.app/report/64d3c748d8e8a6961c8f306a"}
                     title={TEXTS.title}
                     summary={TEXTS.summary}
                     source={"Honesty Meter"}
@@ -54,7 +54,7 @@ export default function ShareReport({ Cta = DefaultCta }) {
                     <LinkedinIcon size={32} round />
                 </LinkedinShareButton>
                 <FacebookShareButton
-                    url={"https://honesty-meter-git-hm-33-report-header-new-game-changer.vercel.app/report/64d3c748d8e8a6961c8f306a"}
+                    url={"https://honesty-meter-domq4dzil-game-changer.vercel.app/report/64d3c748d8e8a6961c8f306a"}
                     quote={"North Korea is worried about energy crysis"}
                     hashtag={TEXTS.hashTags}
                     beforeOnClick={fireAnalyticsEvent(SHARE_PLATFORM_NAMES.facebook)}>

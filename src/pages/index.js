@@ -63,6 +63,7 @@ const HtmlHead = (
     <meta property="og:description" content="AI powered tool for bias detection" />
     <meta property="og:url" content="http://honestymeter.com" />
     <meta property="og:image" content="./public/favicon.png" />
+    <meta property="og:type" content="website" />
     <link rel="shortcut icon" href={LOGO_URL} />
     <link rel="canonical" href={BASE_URL} />
   </Head>
