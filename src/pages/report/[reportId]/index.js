@@ -5,7 +5,7 @@ import ReportWrapper from '@/components/Report/ReportWrapper';
 import ReportLoading from '@/components/Report/ReportLoading';
 import usePageLoading from '@/hooks/usePageLoading';
 import Head from 'next/head';
-import { BASE_URL, PAGE_ABSOLUTE_URL } from '@/constants/constants';
+import { BASE_URL } from '@/constants/constants';
 
 //Draft page, just to test the API
 
