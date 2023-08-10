@@ -34,6 +34,9 @@ const TEXTS = {
     hashTags: '#HonestyMeter #MediaBias #FakeNews',
 }
 
+const TEMP_BASE_URL = 'https://honesty-meter-czhajf4xm-game-changer.vercel.app/'
+const TEMP_REPORT_URL = TEMP_BASE_URL + 'report/64d3c748d8e8a6961c8f306a'
+
 export default function ShareReport({ Cta = DefaultCta }) {
     return (
         <Box sx={STYLES.shareCtaContainer}>
@@ -54,7 +57,7 @@ export default function ShareReport({ Cta = DefaultCta }) {
                     <LinkedinIcon size={32} round />
                 </LinkedinShareButton>
                 <FacebookShareButton
-                    url={"https://honesty-meter-domq4dzil-game-changer.vercel.app/report/64d3c748d8e8a6961c8f306a"}
+                    url={TEMP_REPORT_URL}
                     quote={"North Korea is worried about energy crysis"}
                     hashtag={TEXTS.hashTags}
                     beforeOnClick={fireAnalyticsEvent(SHARE_PLATFORM_NAMES.facebook)}>

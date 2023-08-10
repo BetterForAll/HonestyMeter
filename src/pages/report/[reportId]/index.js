@@ -27,7 +27,7 @@ function SavedReport({ homePageProps, report }) {
             <meta property="og:title" content="Honesty Meter" />
             <meta property="og:description" content="AI powered tool for bias detection" />
             <meta property="og:url" content="http://honestymeter.com" />
-            <meta property="og:image" content="./public/favicon.png" />
+            <meta property="og:image" content="./public/opengraph-logo.png" />
             <meta property="og:type" content="article" />
             <link rel="shortcut icon" href={LOGO_URL} />
             <link rel="canonical" href={BASE_URL} />
