@@ -31,10 +31,10 @@ const TEXTS = {
     summary: 'HonestyMeter - Check media content for objectivity and bias.',
     ctaLine1: 'Spread the Truth.',
     ctaLine2: '💡 Share Report! 💡',
-    hashTags: '#HonestyMeter #MediaBias #FakeNews',
+    hashTags: ['HonestyMeter', 'MediaBias', 'FakeNews'],
 }
 
-const TEMP_BASE_URL = 'https://honesty-meter-czhajf4xm-game-changer.vercel.app/'
+const TEMP_BASE_URL = 'https://honesty-meter-5js7uxl3r-game-changer.vercel.app/'
 const TEMP_REPORT_URL = TEMP_BASE_URL + 'report/64d3c748d8e8a6961c8f306a'
 
 export default function ShareReport({ Cta = DefaultCta }) {
@@ -44,7 +44,8 @@ export default function ShareReport({ Cta = DefaultCta }) {
             <Box sx={STYLES.socialIconsContainer}>
                 <TwitterShareButton
                     url={"https://honesty-meter-domq4dzil-game-changer.vercel.app/report/64d3c748d8e8a6961c8f306a"}
-                    title={`North Korea is worried about energy crysis ${TEXTS.hashTags}`}
+                    title={`North Korea is worried about energy crysis`}
+                    hashtags={TEXTS.hashTags} // optionally - include sides from report
                     beforeOnClick={fireAnalyticsEvent(SHARE_PLATFORM_NAMES.twitter)}>
                     <TwitterIcon size={32} round />
                 </TwitterShareButton>

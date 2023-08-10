@@ -1,6 +1,5 @@
 <img src="./public/logo.png" alt="HonestyMeter - Truth Wins">
 
-
 # HonestyMeter - A breakthrough framework for evaluating the objectivity and credibility of news articles.
 
 ## Introduction:
@@ -14,17 +13,12 @@ To address this issue, we have developed the HonestyMeter framework - an innovat
 The HonestyMeter framework uses a multistep process to evaluate the objectivity and bias of media content:
 
 1. Input: The user provides a link to the media content, which can include text, images, audio, or video.
-   
 2. Analysis: The framework uses natural language processing and machine learning techniques to analyze the media content and identify any manipulative techniques that may be present. The analysis includes evaluating the tone, sentiment, and language used in the content.
-   
 3. Scoring: Based on the analysis, the framework provides an overall objectivity score for the media content on a scale of 0-100. Additionally, the framework scores the objectivity level for each side represented in the content.
-   
 4. Reporting: The framework generates a report summarizing the analysis, scores, and feedback provided for the media content.
-   
 5. Feedback: The framework provides feedback to the user on the manipulative techniques identified and the areas of the content that may be biased or lacking in objectivity and suggests possible improvements.
-   
 6. Improvement: The user can take the feedback provided by the framework and use it to improve the objectivity of the content.
-   
+
    <img src="./public/flowchart.jpg" alt="HonestyMeter - flowchart">
 
 ## Future Plans
@@ -34,7 +28,6 @@ The HonestyMeter framework uses a multistep process to evaluate the objectivity 
 2. Connect to fact checking sources.
 
 3. Compare multiple sources.
-
 
 ## Examples:
 
@@ -68,4 +61,4 @@ The HonestyMeter framework is a game-changer in addressing media bias and misinf
 
 This white paper was evaluated by the HonestyMeter framework and found to be highly biased towards promoting mass media transparency and the use of the HonestyMeter. 😊
 
-[BACK TO MAIN PAGE](https://github.com/BeFreeNow/HonestyMeter)
+[BACK TO MAIN PAGE](https://github.com/BetterForAll/HonestyMeter)
