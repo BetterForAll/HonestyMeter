@@ -10,7 +10,7 @@ import {
     TwitterIcon,
     TwitterShareButton
 } from 'react-share';
-import { node } from 'prop-types';
+import { string, node } from 'prop-types';
 import { BASE_URL, PAGE_ABSOLUTE_URL } from '@/constants/constants';
 import { EVENT } from '@/constants/constants';
 
@@ -34,10 +34,10 @@ const TEXTS = {
     hashTags: ['HonestyMeter', 'MediaBias', 'FakeNews'],
 }
 
-const TEMP_BASE_URL = 'https://honesty-meter-cgx0lqa91-game-changer.vercel.app/'
+const TEMP_BASE_URL = 'https://honesty-meter-luxd1724h-game-changer.vercel.app/'
 const TEMP_REPORT_URL = TEMP_BASE_URL + 'report/64d3c748d8e8a6961c8f306a'
 
-export default function ShareReport({ Cta = DefaultCta }) {
+export default function ShareReport({ Cta = DefaultCta, articleTitle, reportUrl, sides }) {
     return (
         <Box sx={STYLES.shareCtaContainer}>
             <Cta />
@@ -70,7 +70,9 @@ export default function ShareReport({ Cta = DefaultCta }) {
 }
 
 ShareReport.propTypes = {
-    cta: node,
+    Cta: node,
+    articleTitle: string,
+    articleUrl: string,
 }
 
 const fireAnalyticsEvent = (platform) => () => {
@@ -96,7 +98,7 @@ const STYLES = {
 function DefaultCta() {
     return (
         <Box style={DEFAULT_CTA_STYLES.cta}>
-            <Typography component='h3'>
+            <Typography component='h3' sx={DEFAULT_CTA_STYLES.line1}>
                 {TEXTS.ctaLine1}
             </Typography>
             <Typography component='h3'>
@@ -112,5 +114,8 @@ const DEFAULT_CTA_STYLES = {
         fontSize: theme.typography.fontSize * 1.25,
         color: theme.palette.text.secondary,
         marginBottom: theme.spacing(2)
+    },
+    line1: {
+        marginBottom: theme.spacing(1)
     }
 }

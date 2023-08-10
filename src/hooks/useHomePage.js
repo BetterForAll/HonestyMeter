@@ -22,7 +22,7 @@ const REPORT_STATIC_PATH = '/report/?report='
 export default function useHomePage() {
     const router = useRouter();
     const query = router?.query || {};
-    const { report: reportFromQuery, isShared, shareLevel = 0 } = query || {};
+    const { report: reportFromQuery, shareLevel = 0 } = query || {};
     const parsedReportFromQuery = useMemo(() => reportFromQuery ? JSON.parse(reportFromQuery) : null, [reportFromQuery])
     const [isLoading, setLoading] = useState(false);
     const [article, setArtilce] = useState(ARTICLE_DEFAULT_VALUE);
@@ -127,13 +127,15 @@ export default function useHomePage() {
         }
 
         setReport(parsedReportFromQuery);
-        setReportJson(reportFromQuery)
+        setReportJson(reportFromQuery);
+
+        const isShared = shareLevel > 0;
 
         if (isShared) {
             va.track(EVENT.sharedReportViewed, { shareLevel: parseInt(shareLevel) });
         }
 
-    }, [isShared, parsedReportFromQuery, reportFromQuery, shareLevel]);
+    }, [parsedReportFromQuery, reportFromQuery, shareLevel]);
 
     return {
         isArticleInputShown,

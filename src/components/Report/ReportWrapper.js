@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Tooltip from '@mui/material/Tooltip';
 import theme from '@/theme';
-import { EMPTY_FUNCTION, isServer } from '@/utils/utils';
+import { EMPTY_FUNCTION, createShareUrl, isServer } from '@/utils/utils';
 import { string, func } from 'prop-types';
 import reportPropType from './reportPropTypes';
 import Share from '../Share';
@@ -18,12 +18,9 @@ const TEXTS = {
     subtitle: 'HonestyMeter - AI powered bias detection',
     closeReport: 'close report'
 }
-const IS_SHARED_PARAM = '&isShared=true';
-const SHARED_LEVEL_PARAM = '&shareLevel=';
 
 export default function ReportWrapper({ report, shareLevel, showArticleInput = EMPTY_FUNCTION }) {
-    const updatedShareLevel = parseInt(shareLevel) + 1;
-    const shareUrl = isServer() ? '' : `${window.location.href}${IS_SHARED_PARAM}${SHARED_LEVEL_PARAM}${updatedShareLevel}`;
+    const shareUrl = createShareUrl(shareLevel);
 
     return (
         <Box sx={STYLES.container}>
@@ -103,7 +100,6 @@ CloseIconWithTooltip.propTypes = {
 const ReportDivider = () => <Divider sx={STYLES.divider} />
 
 const EmptyElement = () => <Box />
-
 
 const STYLES = {
     container: {

@@ -58,3 +58,23 @@ export function getBaseUrlFromUrlString(urlString = '') {
 
   return url.origin.replace(/(https?:\/\/)?(www.)?/, '').split('/')[0];
 }
+
+export async function copyTextToClipboard(text) {
+  if ('clipboard' in navigator) {
+    return await navigator.clipboard.writeText(text);
+  } else {
+    return document.execCommand('copy', true, text); //for IE
+  }
+}
+
+export const createShareUrl = (shareLevel) => {
+  const isServerSide = isServer();
+  if (isServerSide) return '';
+
+  const SHARE_LEVEL_PARAM_KEY = 'shareLevel';
+  const updatedShareLevel = parseInt(shareLevel) + 1;
+  const baseUrl = new URL(window.location.href);
+  baseUrl.searchParams.set(SHARE_LEVEL_PARAM_KEY, updatedShareLevel);
+
+  return baseUrl.href;
+}

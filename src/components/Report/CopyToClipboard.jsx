@@ -2,19 +2,10 @@ import React, { useState, memo } from 'react';
 import Button from '@mui/material/Button';
 import va from '@vercel/analytics';
 import { EVENT } from '@/constants/constants';
-
-
+import { copyTextToClipboard } from '@/utils/utils';
 
 function CopyToClipboard({ copyText }) {
     const [isCopied, setIsCopied] = useState(false);
-
-    async function copyTextToClipboard(text) {
-        if ('clipboard' in navigator) {
-            return await navigator.clipboard.writeText(text);
-        } else {
-            return document.execCommand('copy', true, text); //for IE
-        }
-    }
 
     const handleCopyClick = () => {
         copyTextToClipboard(copyText)
