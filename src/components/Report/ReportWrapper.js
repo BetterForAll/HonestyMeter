@@ -11,6 +11,7 @@ import { string, func } from 'prop-types';
 import reportPropType from './reportPropTypes';
 import Share from '../Share';
 import CopyToClipboard from './CopyToClipboard';
+import ShareReport from '../ShareReport';
 
 const TEXTS = {
     title: 'Objectivity report',
@@ -32,7 +33,7 @@ export default function ReportWrapper({ report, shareLevel, showArticleInput = E
                 <CopyToClipboard copyText={shareUrl} />
             </Box>
             <ReportDivider />
-            <Share />
+            <ShareReport />
             <Button
                 variant="outlined"
                 size="large"
