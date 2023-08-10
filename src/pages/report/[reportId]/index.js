@@ -17,7 +17,7 @@ function SavedReport({ homePageProps, report }) {
     const { shareLevel, closeReport } = homePageProps
     const isLoading = usePageLoading();
 
-    const LOGO_URL = './favicon.ico';
+    const LOGO_URL = './public/favicon.ico';
 
     const HtmlHead = (
         <Head>

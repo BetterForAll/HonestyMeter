@@ -14,7 +14,7 @@ const TEXTS = {
   error: 'Something went wrong. Please try again later.',
   desciptiion: 'Honesty Meter is a tool that helps you discover the truth behind the news.',
 }
-const LOGO_URL = './favicon.ico'
+const LOGO_URL = './public/favicon.ico'
 
 export default function Home({
   homePageProps
@@ -64,7 +64,7 @@ const HtmlHead = (
     <meta property="og:description" content="AI powered tool for bias detection" />
     <meta property="og:url" content="http://honestymeter.com" />
     <meta property="og:image" content="./opengraph-logo.png" />
-    <meta property="twitter:image" content="./opengraph-logo.png" />
+    <meta property="twitter:image" content="./favicon.png" />
     <link rel="shortcut icon" href={LOGO_URL} />
     <link rel="canonical" href={BASE_URL} />
   </Head>
