@@ -13,6 +13,7 @@ import {
 import { string, node } from 'prop-types';
 import { BASE_URL, PAGE_ABSOLUTE_URL } from '@/constants/constants';
 import { EVENT } from '@/constants/constants';
+import { getReportShareTitle } from '@/pages/report/[reportId]';
 
 //TODO - fix facebook photo size (use og:image meta tag)
 
@@ -32,35 +33,58 @@ const TEXTS = {
     ctaLine1: 'Spread the Truth.',
     ctaLine2: '💡 Share Report! 💡',
     hashTags: ['HonestyMeter', 'MediaBias', 'FakeNews'],
+    biasReport: 'Bias Report',
 }
 
 const TEMP_BASE_URL = 'https://honesty-meter-luxd1724h-game-changer.vercel.app/'
 const TEMP_REPORT_URL = TEMP_BASE_URL + 'report/64d3c748d8e8a6961c8f306a'
 
-export default function ShareReport({ Cta = DefaultCta, articleTitle, reportUrl, sides }) {
+
+function convertStringToPascalCase(str) {
+    return str
+        .split(' ')
+        .map((word) => word.trim())
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join('');
+}
+
+function convertStringToHashTag(str) {
+    const pascalCaseStr = convertStringToPascalCase(str);
+    const hashTag = `#${pascalCaseStr}`;
+    return hashTag;
+}
+
+
+export default function ShareReport({ CTA = DefaultCta, articleTitle, shareUrl, sideNames, explanation }) {
+    const sideNamesHashTags = sideNames.map(sideName => convertStringToPascalCase(sideName));
+    const title = getReportShareTitle(articleTitle);
+    const hashTags = [...sideNamesHashTags, ...TEXTS.hashTags];
+    const isLocalhost = window.location.hostname === 'localhost';
+    const url = isLocalhost ? TEMP_REPORT_URL : shareUrl;
+
     return (
         <Box sx={STYLES.shareCtaContainer}>
-            <Cta />
+            <CTA />
             <Box sx={STYLES.socialIconsContainer}>
                 <TwitterShareButton
-                    url={"https://honesty-meter-domq4dzil-game-changer.vercel.app/report/64d3c748d8e8a6961c8f306a"}
-                    title={`North Korea is worried about energy crysis`}
-                    hashtags={TEXTS.hashTags} // optionally - include sides from report
+                    url={url}
+                    title={title}
+                    hashtags={hashTags}
                     beforeOnClick={fireAnalyticsEvent(SHARE_PLATFORM_NAMES.twitter)}>
                     <TwitterIcon size={32} round />
                 </TwitterShareButton>
                 <LinkedinShareButton
-                    url={"https://honesty-meter-domq4dzil-game-changer.vercel.app/report/64d3c748d8e8a6961c8f306a"}
-                    title={TEXTS.title}
-                    summary={TEXTS.summary}
-                    source={"Honesty Meter"}
+                    url={url}
+                    title={title}
+                    summary={explanation}
+                    source={TEXTS.title}
                     beforeOnClick={fireAnalyticsEvent(SHARE_PLATFORM_NAMES.linkedIn)}>
                     <LinkedinIcon size={32} round />
                 </LinkedinShareButton>
                 <FacebookShareButton
-                    url={TEMP_REPORT_URL}
-                    quote={"North Korea is worried about energy crysis"}
-                    hashtag={TEXTS.hashTags}
+                    url={url}
+                    quote={title}
+                    hashtag={TEXTS.hashTags[0]}
                     beforeOnClick={fireAnalyticsEvent(SHARE_PLATFORM_NAMES.facebook)}>
                     <FacebookIcon size={32} round />
                 </FacebookShareButton>
@@ -70,7 +94,7 @@ export default function ShareReport({ Cta = DefaultCta, articleTitle, reportUrl,
 }
 
 ShareReport.propTypes = {
-    Cta: node,
+    CTA: node,
     articleTitle: string,
     articleUrl: string,
 }

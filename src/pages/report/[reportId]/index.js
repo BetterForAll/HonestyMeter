@@ -15,21 +15,36 @@ const LOGO_URL = './public/favicon.ico';
 const OPEN_GRAPH_IMAGE_URL = './opengraph-logo.png';
 const TEXTS = {
     objectivityReport: 'Objectivity Report',
+    biasReport: 'Bias Report',
 }
+
+export function getReportShareTitle(articleTitle) {
+    const longTitle = `${articleTitle} - ${TEXTS.biasReport}`;
+    const shortTitle = TEXTS.biasReport;
+    const title = articleTitle ? longTitle : shortTitle;
+
+    return title;
+}
+
+const TEMP_BASE_URL = 'https://honesty-meter-luxd1724h-game-changer.vercel.app/'
+const TEMP_REPORT_URL = TEMP_BASE_URL + 'report/64d3c748d8e8a6961c8f306a'
 
 function SavedReport({ homePageProps, report = {} }) {
     const { shareLevel, closeReport } = homePageProps
     const isLoading = usePageLoading();
-    const { explanation } = report
+    const { explanation = '' } = report;
+    const { articleTitle = '' } = report;
+    const title = getReportShareTitle(articleTitle);
+
     const HtmlHead = (
         <Head>
             <title>{TEXTS.objectivityReport}</title>
             <meta name="description" content={explanation} />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <meta property="og:title" content="Honesty Meter" />
-            <meta property="og:description" content="AI powered tool for bias detection" />
-            <meta property="og:url" content="http://honestymeter.com" />
-            <meta property="og:image" content="./opengraph-logo.png" />
+            <meta property="og:title" content={title} />
+            <meta property="og:description" content={explanation} />
+            <meta property="og:url" content={TEMP_REPORT_URL} />
+            <meta property="og:image" content={OPEN_GRAPH_IMAGE_URL} />
             <meta property="og:type" content="article" />
             <meta property="twitter:image" content={OPEN_GRAPH_IMAGE_URL} />
             <link rel="shortcut icon" href={LOGO_URL} />

@@ -19,8 +19,10 @@ const TEXTS = {
     closeReport: 'close report'
 }
 
-export default function ReportWrapper({ report, shareLevel, showArticleInput = EMPTY_FUNCTION }) {
+export default function ReportWrapper({ report = {}, shareLevel, showArticleInput = EMPTY_FUNCTION }) {
     const shareUrl = createShareUrl(shareLevel);
+    const { articleTitle, sidesScore = {}, explanation = '' } = report;
+    const sideNames = Object.keys(sidesScore).map(key => sidesScore[key].sideName);
 
     return (
         <Box sx={STYLES.container}>
@@ -30,7 +32,7 @@ export default function ReportWrapper({ report, shareLevel, showArticleInput = E
                 <CopyToClipboard copyText={shareUrl} />
             </Box>
             <ReportDivider />
-            <ShareReport />
+            <ShareReport articleTitle={articleTitle} sideNames={sideNames} shareUrl={shareUrl} explanation={explanation} />
             <Button
                 variant="outlined"
                 size="large"
