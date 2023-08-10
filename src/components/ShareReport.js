@@ -11,10 +11,9 @@ import {
     TwitterShareButton
 } from 'react-share';
 import { string, node } from 'prop-types';
-import { BASE_URL, PAGE_ABSOLUTE_URL } from '@/constants/constants';
+import { BASE_URL, EMPTY_STRING, PAGE_ABSOLUTE_URL, SPACE } from '@/constants/constants';
 import { EVENT } from '@/constants/constants';
-import { TEMP_REPORT_URL, getReportShareTitle } from '@/pages/report/[reportId]';
-import { TitleSharp } from '@mui/icons-material';
+import { getReportShareTitle } from '@/utils/utils';
 
 //TODO - fix facebook photo size (use og:image meta tag)
 
@@ -23,48 +22,49 @@ const SHARE_PLATFORM_NAMES = {
     twitter: 'Twitter',
     facebook: 'Facebook',
 }
+
 const SHARE_URL = {
     linkedIn: PAGE_ABSOLUTE_URL.ABOUT,
     twitter: BASE_URL,
     facebook: BASE_URL,
 }
+
 const TEXTS = {
     title: 'HonestyMeter - A New Free AI powered tool for Evaluating the Objectivity and Bias of Media Content.',
     summary: 'HonestyMeter - Check media content for objectivity and bias.',
     ctaLine1: 'Spread the Truth.',
     ctaLine2: '💡 Share Report! 💡',
-    hashTags: ['HonestyMeter', 'MediaBias', 'FakeNews'],
     biasReport: 'Bias Report',
 }
 
+const DEFAULT_HASH_TAGS = ['HonestyMeter', 'MediaBias', 'FakeNews'];
+
 function convertStringToPascalCase(str) {
     return str
-        .split(' ')
+        .split(SPACE)
         .map((word) => word.trim())
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join('');
+        .join(EMPTY_STRING);
 }
 
 export default function ShareReport({ CTA = DefaultCta, articleTitle, shareUrl, sideNames, explanation }) {
     const sideNamesHashTags = sideNames.map(sideName => convertStringToPascalCase(sideName));
     const title = getReportShareTitle(articleTitle);
-    const hashTags = [...sideNamesHashTags, ...TEXTS.hashTags];
-    const isLocalhost = window.location.hostname === 'localhost';
-    const url = isLocalhost ? TEMP_REPORT_URL : shareUrl;
+    const hashTags = [...sideNamesHashTags, ...DEFAULT_HASH_TAGS];
 
     return (
         <Box sx={STYLES.shareCtaContainer}>
             <CTA />
             <Box sx={STYLES.socialIconsContainer}>
                 <TwitterShareButton
-                    url={url}
+                    url={shareUrl}
                     title={title}
                     hashtags={hashTags}
                     beforeOnClick={fireAnalyticsEvent(SHARE_PLATFORM_NAMES.twitter)}>
                     <TwitterIcon size={32} round />
                 </TwitterShareButton>
                 <LinkedinShareButton
-                    url={url}
+                    url={shareUrl}
                     title={title}
                     summary={explanation}
                     source={TEXTS.title}
@@ -72,9 +72,9 @@ export default function ShareReport({ CTA = DefaultCta, articleTitle, shareUrl, 
                     <LinkedinIcon size={32} round />
                 </LinkedinShareButton>
                 <FacebookShareButton
-                    url={url}
+                    url={shareUrl}
                     quote={title}
-                    hashtag={TEXTS.hashTags[0]}
+                    hashtag={DEFAULT_HASH_TAGS[0]}
                     beforeOnClick={fireAnalyticsEvent(SHARE_PLATFORM_NAMES.facebook)}>
                     <FacebookIcon size={32} round />
                 </FacebookShareButton>

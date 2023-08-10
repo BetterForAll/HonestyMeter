@@ -78,3 +78,26 @@ export const createShareUrl = (shareLevel) => {
 
   return baseUrl.href;
 }
+
+export function getReportShareTitle(articleTitle) {
+  const BIAS_REPORT = 'Bias Report';
+  const longTitle = `${articleTitle} -${BIAS_REPORT}`;
+  const shortTitle = BIAS_REPORT;
+  const title = articleTitle ? longTitle : shortTitle;
+
+  return title;
+}
+
+export function getHttpProtocol(host) {
+  const LOCALHOST = 'localhost';
+  const HTTP = 'http';
+  const HTTPS = 'https';
+
+  return host.includes(LOCALHOST) ? HTTP : HTTPS
+}
+
+export const getSavedReportUrl = (host, reportId) => {
+  const httpProtocol = getHttpProtocol(host)
+
+  return `${httpProtocol}://${host}/report/${reportId}`
+} 

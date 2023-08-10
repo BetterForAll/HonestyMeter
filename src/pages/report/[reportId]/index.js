@@ -5,8 +5,8 @@ import ReportWrapper from '@/components/Report/ReportWrapper';
 import ReportLoading from '@/components/Report/ReportLoading';
 import usePageLoading from '@/hooks/usePageLoading';
 import Head from 'next/head';
-import { BASE_URL } from '@/constants/constants';
 import reportPropType from '@/components/Report/reportPropTypes';
+import { getReportShareTitle, getSavedReportUrl } from '@/utils/utils';
 
 //Draft page, just to test the API
 
@@ -18,22 +18,12 @@ const TEXTS = {
     biasReport: 'Bias Report',
 }
 
-export function getReportShareTitle(articleTitle) {
-    const longTitle = `${articleTitle} - ${TEXTS.biasReport}`;
-    const shortTitle = TEXTS.biasReport;
-    const title = articleTitle ? longTitle : shortTitle;
-
-    return title;
-}
-
-const TEMP_BASE_URL = 'https://honesty-meter-6t0j21n6r-game-changer.vercel.app/'
-export const TEMP_REPORT_URL = TEMP_BASE_URL + 'report/64d3c748d8e8a6961c8f306a'
-
-function SavedReport({ homePageProps, report = {} }) {
+function SavedReport({ homePageProps, report = {}, host }) {
     const { shareLevel, closeReport } = homePageProps
     const isLoading = usePageLoading();
-    const { explanation = '', articleTitle = '' } = report;
+    const { explanation = '', articleTitle = '', _id: reportId } = report;
     const title = getReportShareTitle(articleTitle);
+    const url = getSavedReportUrl(host, reportId);
 
     const HtmlHead = (
         <Head>
@@ -42,11 +32,12 @@ function SavedReport({ homePageProps, report = {} }) {
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <meta property="og:title" content={title} />
             <meta property="og:description" content={explanation} />
-            <meta property="og:url" content={TEMP_REPORT_URL} />
+            <meta property="og:url" content={url} />
             <meta property="og:image" content={OPEN_GRAPH_IMAGE_URL} />
             <meta property="og:type" content="article" />
             <meta property="twitter:image" content={OPEN_GRAPH_IMAGE_URL} />
             <link rel="shortcut icon" href={LOGO_URL} />
+            <link rel="canonical" href={url} />
         </Head>
     )
 
@@ -90,7 +81,7 @@ export async function getServerSideProps(context) {
         const { data: reportJson } = await res.json();
         const report = JSON.parse(reportJson);
 
-        return { props: { report } }
+        return { props: { report, host } }
     } catch (error) {
         console.log({ error })
     }

@@ -17,6 +17,7 @@ export const PAGE_URL_TO_INDEX_MAP = {
     '/terms': 2
 }
 export const EMPTY_STRING = ''
+export const SPACE = ' '
 export const PAYPAL_DONATE_URL = 'https://www.paypal.com/donate/?hosted_button_id=2K88Y2UF99YRU'
 export const GITHUB_URL = 'https://github.com/BetterForAll/HonestyMeter'
 
