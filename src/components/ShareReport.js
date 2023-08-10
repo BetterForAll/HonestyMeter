@@ -13,7 +13,8 @@ import {
 import { string, node } from 'prop-types';
 import { BASE_URL, PAGE_ABSOLUTE_URL } from '@/constants/constants';
 import { EVENT } from '@/constants/constants';
-import { getReportShareTitle } from '@/pages/report/[reportId]';
+import { TEMP_REPORT_URL, getReportShareTitle } from '@/pages/report/[reportId]';
+import { TitleSharp } from '@mui/icons-material';
 
 //TODO - fix facebook photo size (use og:image meta tag)
 
@@ -36,10 +37,6 @@ const TEXTS = {
     biasReport: 'Bias Report',
 }
 
-const TEMP_BASE_URL = 'https://honesty-meter-luxd1724h-game-changer.vercel.app/'
-const TEMP_REPORT_URL = TEMP_BASE_URL + 'report/64d3c748d8e8a6961c8f306a'
-
-
 function convertStringToPascalCase(str) {
     return str
         .split(' ')
@@ -47,13 +44,6 @@ function convertStringToPascalCase(str) {
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join('');
 }
-
-function convertStringToHashTag(str) {
-    const pascalCaseStr = convertStringToPascalCase(str);
-    const hashTag = `#${pascalCaseStr}`;
-    return hashTag;
-}
-
 
 export default function ShareReport({ CTA = DefaultCta, articleTitle, shareUrl, sideNames, explanation }) {
     const sideNamesHashTags = sideNames.map(sideName => convertStringToPascalCase(sideName));

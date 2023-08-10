@@ -26,14 +26,13 @@ export function getReportShareTitle(articleTitle) {
     return title;
 }
 
-const TEMP_BASE_URL = 'https://honesty-meter-luxd1724h-game-changer.vercel.app/'
-const TEMP_REPORT_URL = TEMP_BASE_URL + 'report/64d3c748d8e8a6961c8f306a'
+const TEMP_BASE_URL = 'https://honesty-meter-6t0j21n6r-game-changer.vercel.app/'
+export const TEMP_REPORT_URL = TEMP_BASE_URL + 'report/64d3c748d8e8a6961c8f306a'
 
 function SavedReport({ homePageProps, report = {} }) {
     const { shareLevel, closeReport } = homePageProps
     const isLoading = usePageLoading();
-    const { explanation = '' } = report;
-    const { articleTitle = '' } = report;
+    const { explanation = '', articleTitle = '' } = report;
     const title = getReportShareTitle(articleTitle);
 
     const HtmlHead = (
@@ -48,7 +47,6 @@ function SavedReport({ homePageProps, report = {} }) {
             <meta property="og:type" content="article" />
             <meta property="twitter:image" content={OPEN_GRAPH_IMAGE_URL} />
             <link rel="shortcut icon" href={LOGO_URL} />
-            <link rel="canonical" href={BASE_URL} />
         </Head>
     )
 
