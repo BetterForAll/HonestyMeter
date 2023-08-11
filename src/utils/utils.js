@@ -1,6 +1,5 @@
 import { EMPTY_STRING, SPACE } from '@/constants/constants';
 
-
 export function isServer() {
   return typeof window === 'undefined';
 }
