@@ -14,11 +14,14 @@ const TEXTS = {
   error: 'Something went wrong. Please try again later.',
   desciptiion: 'Honesty Meter is a tool that helps you discover the truth behind the news.',
   ogDescription: 'AI powered tool for bias detection',
+  shareTitle: 'HonestyMeter - A New Free AI powered tool for Evaluating the Objectivity and Bias of Media Content.',
+  shareDescription: 'HonestyMeter - Check media content for objectivity and bias.',
+  shareHashTags: ['HonestyMeter', 'MediaBias', 'FakeNews'],
 }
 const LOGO_URL = './public/'
 const OPEN_GRAPH_IMAGE_URL = './opengraph-logo.png'
 const TWITTER_IMAGE_URL = './favicon.png'
-
+const SHARING_CONTEXT = 'app'
 
 export default function Home({
   homePageProps
@@ -39,7 +42,13 @@ export default function Home({
           onArticleChange={handleArticleChange}
           onGetReport={handleGetReport} />
         <Disclamer />
-        <Share />
+        <Share
+          title={TEXTS.shareTitle}
+          url={BASE_URL}
+          description={TEXTS.shareDescription}
+          hashTags={TEXTS.shareHashTags}
+          context={SHARING_CONTEXT}
+        />
       </>
     </Box>
   );

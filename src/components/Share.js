@@ -10,53 +10,58 @@ import {
     TwitterIcon,
     TwitterShareButton
 } from 'react-share';
-import { node } from 'prop-types';
-import { BASE_URL, PAGE_ABSOLUTE_URL } from '@/constants/constants';
+import { string, number, node, arrayOf, oneOf } from 'prop-types';
 import { EVENT } from '@/constants/constants';
-
-//TODO - fix facebook photo size (use og:image meta tag)
 
 const SHARE_PLATFORM_NAMES = {
     linkedIn: 'LinkedIn',
     twitter: 'Twitter',
     facebook: 'Facebook',
 }
-const SHARE_URL = {
-    linkedIn: PAGE_ABSOLUTE_URL.ABOUT,
-    twitter: BASE_URL,
-    facebook: BASE_URL,
-}
-const TEXTS = {
-    title: 'HonestyMeter - A New Free AI powered tool for Evaluating the Objectivity and Bias of Media Content.',
-    summary: 'HonestyMeter - Check media content for objectivity and bias.',
-    ctaLine1: 'Spread the Truth.',
-    ctaLine2: '💡 SHARE HonestyMeter! 💡',
-    hashTags: '#HonestyMeter #MediaBias #FakeNews',
+
+const CONTEXT_OPTIONS = {
+    app: { name: 'app', title: 'HonestyMeter' },
+    report: { name: 'report', title: 'Report' },
 }
 
-export default function Share({ Cta = DefaultCta }) {
+const TEXTS = {
+    title: 'HonestyMeter - A New Free AI powered tool for Evaluating the Objectivity and Bias of Media Content.',
+    ctaLineOne: 'Spread the Truth.',
+    getCtaLineTwo: (context) => `💡 Share ${CONTEXT_OPTIONS[context].title}! 💡`,
+}
+
+const DEFAULT_HASH_TAGS = ['HonestyMeter', 'MediaBias', 'FakeNews'];
+
+export default function Share({
+    title,
+    url,
+    description,
+    hashTags,
+    context = CONTEXT_OPTIONS.app.name,
+}) {
     return (
         <Box sx={STYLES.shareCtaContainer}>
-            <Cta />
+            <CTA context={context} />
             <Box sx={STYLES.socialIconsContainer}>
                 <TwitterShareButton
-                    url={SHARE_URL.twitter}
-                    title={`${TEXTS.title} ${TEXTS.hashTags}`}
+                    url={url}
+                    title={title}
+                    hashtags={hashTags}
                     beforeOnClick={fireAnalyticsEvent(SHARE_PLATFORM_NAMES.twitter)}>
                     <TwitterIcon size={32} round />
                 </TwitterShareButton>
                 <LinkedinShareButton
-                    url={SHARE_URL.linkedIn}
-                    title={TEXTS.title}
-                    summary={TEXTS.title}
-                    source={BASE_URL}
+                    url={url}
+                    title={title}
+                    summary={description}
+                    source={TEXTS.title}
                     beforeOnClick={fireAnalyticsEvent(SHARE_PLATFORM_NAMES.linkedIn)}>
                     <LinkedinIcon size={32} round />
                 </LinkedinShareButton>
                 <FacebookShareButton
-                    url={SHARE_URL.facebook}
-                    quote={TEXTS.title}
-                    hashtag={TEXTS.hashTags}
+                    url={url}
+                    quote={title}
+                    hashtag={DEFAULT_HASH_TAGS[0]}
                     beforeOnClick={fireAnalyticsEvent(SHARE_PLATFORM_NAMES.facebook)}>
                     <FacebookIcon size={32} round />
                 </FacebookShareButton>
@@ -66,11 +71,19 @@ export default function Share({ Cta = DefaultCta }) {
 }
 
 Share.propTypes = {
-    cta: node,
+    CTA: node,
+    articleTitle: string,
+    shareUrl: string,
+    score: number,
+    sideNames: arrayOf(string),
+    explanation: string,
+    hashTags: arrayOf(string),
+    context: oneOf(CONTEXT_OPTIONS.app.name, CONTEXT_OPTIONS.report.name)
+
 }
 
 const fireAnalyticsEvent = (platform) => () => {
-    const eventName = EVENT.shareApp(platform)
+    const eventName = EVENT.shareReport(platform)
     va.track(eventName)
 }
 
@@ -89,14 +102,14 @@ const STYLES = {
     },
 }
 
-function DefaultCta() {
+function CTA({ context }) {
     return (
         <Box style={DEFAULT_CTA_STYLES.cta}>
-            <Typography component='h3'>
-                {TEXTS.ctaLine1}
+            <Typography component='h3' sx={DEFAULT_CTA_STYLES.lineOne}>
+                {TEXTS.ctaLineOne}
             </Typography>
             <Typography component='h3'>
-                {TEXTS.ctaLine2}
+                {TEXTS.getCtaLineTwo(context)}
             </Typography>
         </Box>
     )
@@ -108,5 +121,8 @@ const DEFAULT_CTA_STYLES = {
         fontSize: theme.typography.fontSize * 1.25,
         color: theme.palette.text.secondary,
         marginBottom: theme.spacing(2)
+    },
+    lineOne: {
+        marginBottom: theme.spacing(1)
     }
 }

@@ -6,23 +6,29 @@ import Button from '@mui/material/Button';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Tooltip from '@mui/material/Tooltip';
 import theme from '@/theme';
-import { EMPTY_FUNCTION, createShareUrl, isServer } from '@/utils/utils';
+import { EMPTY_FUNCTION, convertStringToPascalCase, createShareUrl, getReportShareTitle } from '@/utils/utils';
 import { string, func } from 'prop-types';
 import reportPropType from './reportPropTypes';
-import Share from '../Share';
 import CopyToClipboard from './CopyToClipboard';
-import ShareReport from '../ShareReport';
+import Share from '../Share';
 
 const TEXTS = {
     title: 'Objectivity report',
     subtitle: 'HonestyMeter - AI powered bias detection',
-    closeReport: 'close report'
+    closeReport: 'close report',
 }
+
+const SHARING_CONTEXT = 'report'
+
+const DEFAULT_HASH_TAGS = ['HonestyMeter', 'MediaBias', 'FakeNews'];
 
 export default function ReportWrapper({ report = {}, shareLevel, showArticleInput = EMPTY_FUNCTION }) {
     const shareUrl = createShareUrl(shareLevel);
     const { articleTitle, sidesScore = {}, score, explanation = '' } = report;
     const sideNames = Object.keys(sidesScore).map(key => sidesScore[key].sideName);
+    const sideNamesHashTags = sideNames.map(sideName => convertStringToPascalCase(sideName));
+    const shareTitle = getReportShareTitle(articleTitle, score);
+    const shareHashTags = [...sideNamesHashTags, ...DEFAULT_HASH_TAGS];
 
     return (
         <Box sx={STYLES.container}>
@@ -32,12 +38,12 @@ export default function ReportWrapper({ report = {}, shareLevel, showArticleInpu
                 <CopyToClipboard copyText={shareUrl} />
             </Box>
             <ReportDivider />
-            <ShareReport
-                articleTitle={articleTitle}
-                score={score}
-                sideNames={sideNames}
-                shareUrl={shareUrl}
-                explanation={explanation}
+            <Share
+                title={shareTitle}
+                url={shareUrl}
+                description={explanation}
+                hashTags={shareHashTags}
+                context={SHARING_CONTEXT}
             />
             <Button
                 variant="outlined"
