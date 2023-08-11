@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Report from './Report'
 import Divider from '@mui/material/Divider';
 import { Box, Typography } from '@mui/material';
@@ -17,18 +17,14 @@ const TEXTS = {
     subtitle: 'HonestyMeter - AI powered bias detection',
     closeReport: 'close report',
 }
-
 const SHARING_CONTEXT = 'report'
-
 const DEFAULT_HASH_TAGS = ['HonestyMeter', 'MediaBias', 'FakeNews'];
 
 export default function ReportWrapper({ report = {}, shareLevel, showArticleInput = EMPTY_FUNCTION }) {
-    const shareUrl = createShareUrl(shareLevel);
     const { articleTitle, sidesScore = {}, score, explanation = '' } = report;
-    const sideNames = Object.keys(sidesScore).map(key => sidesScore[key].sideName);
-    const sideNamesHashTags = sideNames.map(sideName => convertStringToPascalCase(sideName));
+    const shareUrl = createShareUrl(shareLevel);
+    const shareHashTags = getShareHashTags(sidesScore);
     const shareTitle = getReportShareTitle(articleTitle, score);
-    const shareHashTags = [...sideNamesHashTags, ...DEFAULT_HASH_TAGS];
 
     return (
         <Box sx={STYLES.container}>
@@ -61,6 +57,14 @@ ReportWrapper.propTypes = {
     report: reportPropType,
     reportJson: string,
     showArticleInput: func.isRequired
+}
+
+function getShareHashTags(sidesScore) {
+    const sideNames = Object.keys(sidesScore).map(key => sidesScore[key].sideName);
+    const sideNamesHashTags = sideNames.map(sideName => convertStringToPascalCase(sideName));
+    const shareHashTags = [...sideNamesHashTags, ...DEFAULT_HASH_TAGS];
+
+    return shareHashTags;
 }
 
 function ReportWrapperHeader({ onCloseReportClick = EMPTY_FUNCTION }) {

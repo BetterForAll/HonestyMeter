@@ -4,8 +4,11 @@ import va from '@vercel/analytics';
 import { EVENT } from '@/constants/constants';
 import { copyTextToClipboard } from '@/utils/utils';
 
+const TIMEOUT = 1500;
+
 function CopyToClipboard({ copyText }) {
     const [isCopied, setIsCopied] = useState(false);
+    const buttonText = isCopied ? 'Copied!' : 'Copy report to clipboard';
 
     const handleCopyClick = () => {
         copyTextToClipboard(copyText)
@@ -15,7 +18,7 @@ function CopyToClipboard({ copyText }) {
 
                 setTimeout(() => {
                     setIsCopied(false);
-                }, 1500);
+                }, TIMEOUT);
             })
             .catch((error) => {
                 console.log(error);
@@ -23,9 +26,10 @@ function CopyToClipboard({ copyText }) {
             });
     }
 
+
     return (
         <Button variant='outlined' sx={STYLES.button} onClick={handleCopyClick} >
-            <span>{isCopied ? 'Copied!' : 'Copy report to clipboard'}</span>
+            <span>{buttonText}</span>
         </Button >
     );
 }
