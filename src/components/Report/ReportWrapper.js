@@ -21,7 +21,7 @@ const TEXTS = {
 
 export default function ReportWrapper({ report = {}, shareLevel, showArticleInput = EMPTY_FUNCTION }) {
     const shareUrl = createShareUrl(shareLevel);
-    const { articleTitle, sidesScore = {}, explanation = '', _id: reportId } = report;
+    const { articleTitle, sidesScore = {}, score, explanation = '', _id: reportId = '' } = report;
     const sideNames = Object.keys(sidesScore).map(key => sidesScore[key].sideName);
 
     return (
@@ -34,6 +34,7 @@ export default function ReportWrapper({ report = {}, shareLevel, showArticleInpu
             <ReportDivider />
             <ShareReport
                 articleTitle={articleTitle}
+                score={score}
                 sideNames={sideNames}
                 shareUrl={shareUrl}
                 explanation={explanation}

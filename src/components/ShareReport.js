@@ -14,6 +14,7 @@ import { string, node } from 'prop-types';
 import { BASE_URL, EMPTY_STRING, PAGE_ABSOLUTE_URL, SPACE } from '@/constants/constants';
 import { EVENT } from '@/constants/constants';
 import { getReportShareTitle } from '@/utils/utils';
+import { ScoreOutlined } from '@mui/icons-material';
 
 //TODO - fix facebook photo size (use og:image meta tag)
 
@@ -50,11 +51,12 @@ function convertStringToPascalCase(str) {
 export default function ShareReport({
     CTA = DefaultCta,
     articleTitle,
+    score,
     shareUrl,
     sideNames,
     explanation }) {
     const sideNamesHashTags = sideNames.map(sideName => convertStringToPascalCase(sideName));
-    const title = getReportShareTitle(articleTitle);
+    const title = getReportShareTitle(articleTitle, score);
     const hashTags = [...sideNamesHashTags, ...DEFAULT_HASH_TAGS];
 
     return (
