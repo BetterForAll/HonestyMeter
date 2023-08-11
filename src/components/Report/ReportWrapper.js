@@ -21,7 +21,7 @@ const TEXTS = {
 
 export default function ReportWrapper({ report = {}, shareLevel, showArticleInput = EMPTY_FUNCTION }) {
     const shareUrl = createShareUrl(shareLevel);
-    const { articleTitle, sidesScore = {}, score, explanation = '', _id: reportId = '' } = report;
+    const { articleTitle, sidesScore = {}, score, explanation = '' } = report;
     const sideNames = Object.keys(sidesScore).map(key => sidesScore[key].sideName);
 
     return (
@@ -38,7 +38,6 @@ export default function ReportWrapper({ report = {}, shareLevel, showArticleInpu
                 sideNames={sideNames}
                 shareUrl={shareUrl}
                 explanation={explanation}
-                reportId={reportId}
             />
             <Button
                 variant="outlined"

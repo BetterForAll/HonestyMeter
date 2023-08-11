@@ -10,7 +10,7 @@ import {
     TwitterIcon,
     TwitterShareButton
 } from 'react-share';
-import { string, node } from 'prop-types';
+import { string, number, node, arrayOf } from 'prop-types';
 import { EVENT } from '@/constants/constants';
 import { convertStringToPascalCase, getReportShareTitle } from '@/utils/utils';
 
@@ -38,10 +38,13 @@ export default function ShareReport({
     score,
     shareUrl,
     sideNames,
-    explanation }) {
+    explanation
+}) {
     const sideNamesHashTags = sideNames.map(sideName => convertStringToPascalCase(sideName));
     const title = getReportShareTitle(articleTitle, score);
     const hashTags = [...sideNamesHashTags, ...DEFAULT_HASH_TAGS];
+
+    //props: title (report / app), shareUrl, hashTags, description (report / app) [currently: explanation], CTA (report / app)
 
     return (
         <Box sx={STYLES.shareCtaContainer}>
@@ -77,7 +80,11 @@ export default function ShareReport({
 ShareReport.propTypes = {
     CTA: node,
     articleTitle: string,
-    articleUrl: string,
+    shareUrl: string,
+    score: number,
+    sideNames: arrayOf(string),
+    explanation: string
+
 }
 
 const fireAnalyticsEvent = (platform) => () => {

@@ -93,7 +93,7 @@ export function getReportShareTitle(articleTitle, objectivityScore) {
   return title;
 }
 
-export function getHttpProtocol(host) {
+function _getHttpProtocol(host) {
   const LOCALHOST = 'localhost';
   const HTTP = 'http';
   const HTTPS = 'https';
@@ -102,7 +102,7 @@ export function getHttpProtocol(host) {
 }
 
 export const getSavedReportUrl = (host, reportId) => {
-  const httpProtocol = getHttpProtocol(host)
+  const httpProtocol = _getHttpProtocol(host)
 
   return `${httpProtocol}://${host}/report/${reportId}`
 }
