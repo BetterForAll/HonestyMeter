@@ -8,7 +8,7 @@ const TEXTS = {
   title: 'Detected Manipulations & Suggested Changes'
 }
 
-export default function ManipulationList({ manipulations }) {
+export default function ManipulationList({ manipulations = [] }) {
   return (
     <>
       <Typography variant="h6" sx={STYLES.title}>

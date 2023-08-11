@@ -47,7 +47,12 @@ function convertStringToPascalCase(str) {
         .join(EMPTY_STRING);
 }
 
-export default function ShareReport({ CTA = DefaultCta, articleTitle, shareUrl, sideNames, explanation }) {
+export default function ShareReport({
+    CTA = DefaultCta,
+    articleTitle,
+    shareUrl,
+    sideNames,
+    explanation }) {
     const sideNamesHashTags = sideNames.map(sideName => convertStringToPascalCase(sideName));
     const title = getReportShareTitle(articleTitle);
     const hashTags = [...sideNamesHashTags, ...DEFAULT_HASH_TAGS];

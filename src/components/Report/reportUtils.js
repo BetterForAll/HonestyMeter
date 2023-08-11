@@ -1,7 +1,7 @@
 import { generateRandomRgbaColor } from "@/utils/utils";
 import { SIDES_BALANCE_CHART_TEMLATE, SIDES_SCORE_CHART_LABELS } from "./reportConstants";
 
-function getSideBalanceData(sidesBalance) {
+function getSideBalanceData(sidesBalance = {}) {
   return Object.keys(sidesBalance).reduce((acc, sideName) => {
     const sideBalance = sidesBalance[sideName];
     acc.labels.push(`${sideName} (${sideBalance}%)`);
@@ -11,7 +11,7 @@ function getSideBalanceData(sidesBalance) {
   }, { labels: [], values: [] });
 }
 
-function generateSidesScoreChartData(sidesScore) {
+function generateSidesScoreChartData(sidesScore = []) {
   const sidesScoreDataSets = sidesScore.map((side) => ({
     label: `${side.sideName} (${side.score})`,
     data: [side.score],
