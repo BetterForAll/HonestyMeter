@@ -1,3 +1,6 @@
+import { EMPTY_STRING, SPACE } from '@/constants/constants';
+
+
 export function isServer() {
   return typeof window === 'undefined';
 }
@@ -53,10 +56,11 @@ export function getBaseUrl() {
   return url;
 }
 
-export function getBaseUrlFromUrlString(urlString = '') {
+export function getBaseUrlFromUrlString(urlString = EMPTY_STRING) {
   const url = new URL(urlString);
+  const removeUrlPrefixAndQueryParamsRegex = /(https?:\/\/)?(www.)?/;
 
-  return url.origin.replace(/(https?:\/\/)?(www.)?/, '').split('/')[0];
+  return url.origin.replace(removeUrlPrefixAndQueryParamsRegex, EMPTY_STRING).split('/')[0];
 }
 
 export async function copyTextToClipboard(text) {
@@ -69,7 +73,8 @@ export async function copyTextToClipboard(text) {
 
 export const createShareUrl = (shareLevel) => {
   const isServerSide = isServer();
-  if (isServerSide) return '';
+
+  if (isServerSide) return EMPTY_STRING;
 
   const SHARE_LEVEL_PARAM_KEY = 'shareLevel';
   const updatedShareLevel = parseInt(shareLevel) + 1;
@@ -101,4 +106,12 @@ export const getSavedReportUrl = (host, reportId) => {
   const httpProtocol = getHttpProtocol(host)
 
   return `${httpProtocol}://${host}/report/${reportId}`
-} 
+}
+
+export function convertStringToPascalCase(str) {
+  return str
+    .split(SPACE)
+    .map((word) => word.trim())
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(EMPTY_STRING);
+}

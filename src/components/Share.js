@@ -39,6 +39,12 @@ export default function Share({ Cta = DefaultCta }) {
         <Box sx={STYLES.shareCtaContainer}>
             <Cta />
             <Box sx={STYLES.socialIconsContainer}>
+                <TwitterShareButton
+                    url={SHARE_URL.twitter}
+                    title={`${TEXTS.title} ${TEXTS.hashTags}`}
+                    beforeOnClick={fireAnalyticsEvent(SHARE_PLATFORM_NAMES.twitter)}>
+                    <TwitterIcon size={32} round />
+                </TwitterShareButton>
                 <LinkedinShareButton
                     url={SHARE_URL.linkedIn}
                     title={TEXTS.title}
@@ -47,12 +53,6 @@ export default function Share({ Cta = DefaultCta }) {
                     beforeOnClick={fireAnalyticsEvent(SHARE_PLATFORM_NAMES.linkedIn)}>
                     <LinkedinIcon size={32} round />
                 </LinkedinShareButton>
-                <TwitterShareButton
-                    url={SHARE_URL.twitter}
-                    title={`${TEXTS.title} ${TEXTS.hashTags}`}
-                    beforeOnClick={fireAnalyticsEvent(SHARE_PLATFORM_NAMES.twitter)}>
-                    <TwitterIcon size={32} round />
-                </TwitterShareButton>
                 <FacebookShareButton
                     url={SHARE_URL.facebook}
                     quote={TEXTS.title}

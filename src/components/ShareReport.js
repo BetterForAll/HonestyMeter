@@ -11,10 +11,8 @@ import {
     TwitterShareButton
 } from 'react-share';
 import { string, node } from 'prop-types';
-import { BASE_URL, EMPTY_STRING, PAGE_ABSOLUTE_URL, SPACE } from '@/constants/constants';
 import { EVENT } from '@/constants/constants';
-import { getReportShareTitle } from '@/utils/utils';
-import { ScoreOutlined } from '@mui/icons-material';
+import { convertStringToPascalCase, getReportShareTitle } from '@/utils/utils';
 
 //TODO - fix facebook photo size (use og:image meta tag)
 
@@ -22,12 +20,6 @@ const SHARE_PLATFORM_NAMES = {
     linkedIn: 'LinkedIn',
     twitter: 'Twitter',
     facebook: 'Facebook',
-}
-
-const SHARE_URL = {
-    linkedIn: PAGE_ABSOLUTE_URL.ABOUT,
-    twitter: BASE_URL,
-    facebook: BASE_URL,
 }
 
 const TEXTS = {
@@ -39,14 +31,6 @@ const TEXTS = {
 }
 
 const DEFAULT_HASH_TAGS = ['HonestyMeter', 'MediaBias', 'FakeNews'];
-
-function convertStringToPascalCase(str) {
-    return str
-        .split(SPACE)
-        .map((word) => word.trim())
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(EMPTY_STRING);
-}
 
 export default function ShareReport({
     CTA = DefaultCta,
@@ -97,7 +81,7 @@ ShareReport.propTypes = {
 }
 
 const fireAnalyticsEvent = (platform) => () => {
-    const eventName = EVENT.shareApp(platform)
+    const eventName = EVENT.shareReport(platform)
     va.track(eventName)
 }
 
