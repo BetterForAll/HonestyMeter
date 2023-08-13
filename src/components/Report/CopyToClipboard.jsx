@@ -26,7 +26,6 @@ function CopyToClipboard({ copyText }) {
             });
     }
 
-
     return (
         <Button variant='outlined' sx={STYLES.button} onClick={handleCopyClick} >
             <span>{buttonText}</span>

@@ -27,3 +27,16 @@ export const mockFetchReport = async (delay = 1000) => { //for testing
 
   return mockReport;
 };
+
+export async function saveReport(report) {
+  const URL = "./api/saved_reports";
+
+  const options = {
+    body: JSON.stringify(report),
+    method: 'POST',
+  };
+  const reportRes = await fetch(URL, options);
+  const responseJson = await reportRes.json();
+
+  return responseJson?.insertedId;
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Report from './Report'
 import Divider from '@mui/material/Divider';
 import { Box, Typography } from '@mui/material';
@@ -6,25 +6,22 @@ import Button from '@mui/material/Button';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Tooltip from '@mui/material/Tooltip';
 import theme from '@/theme';
-import { EMPTY_FUNCTION, convertStringToPascalCase, createShareUrl, getReportShareTitle } from '@/utils/utils';
+import { EMPTY_FUNCTION, createShareUrl } from '@/utils/utils';
 import { string, func } from 'prop-types';
 import reportPropType from './reportPropTypes';
 import CopyToClipboard from './CopyToClipboard';
 import Share from '../Share';
+import { getShareProps } from './reportUtils';
 
 const TEXTS = {
     title: 'Objectivity report',
     subtitle: 'HonestyMeter - AI powered bias detection',
     closeReport: 'close report',
 }
-const SHARING_CONTEXT = 'report'
-const DEFAULT_HASH_TAGS = ['HonestyMeter', 'MediaBias', 'FakeNews'];
 
 export default function ReportWrapper({ report = {}, shareLevel, showArticleInput = EMPTY_FUNCTION }) {
-    const { articleTitle, sidesScore = {}, score, explanation = '' } = report;
     const shareUrl = createShareUrl(shareLevel);
-    const shareHashTags = getShareHashTags(sidesScore);
-    const shareTitle = getReportShareTitle(articleTitle, score);
+    const shareProps = getShareProps({ report, shareUrl });
 
     return (
         <Box sx={STYLES.container}>
@@ -34,13 +31,7 @@ export default function ReportWrapper({ report = {}, shareLevel, showArticleInpu
                 <CopyToClipboard copyText={shareUrl} />
             </Box>
             <ReportDivider />
-            <Share
-                title={shareTitle}
-                url={shareUrl}
-                description={explanation}
-                hashTags={shareHashTags}
-                context={SHARING_CONTEXT}
-            />
+            <Share {...shareProps} />
             <Button
                 variant="outlined"
                 size="large"
@@ -59,13 +50,6 @@ ReportWrapper.propTypes = {
     showArticleInput: func.isRequired
 }
 
-function getShareHashTags(sidesScore) {
-    const sideNames = Object.keys(sidesScore).map(key => sidesScore[key].sideName);
-    const sideNamesHashTags = sideNames.map(sideName => convertStringToPascalCase(sideName));
-    const shareHashTags = [...sideNamesHashTags, ...DEFAULT_HASH_TAGS];
-
-    return shareHashTags;
-}
 
 function ReportWrapperHeader({ onCloseReportClick = EMPTY_FUNCTION }) {
     const closeIconTooltipTitle = TEXTS.closeReport.toLowerCase();

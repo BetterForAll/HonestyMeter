@@ -1,5 +1,18 @@
-import { generateRandomRgbaColor } from "@/utils/utils";
+import { convertStringToPascalCase, generateRandomRgbaColor, getReportShareTitle } from "@/utils/utils";
 import { SIDES_BALANCE_CHART_TEMLATE, SIDES_SCORE_CHART_LABELS } from "./reportConstants";
+import { BASE_URL } from "@/constants/constants";
+
+const TEXTS = {
+  shareTitle: 'HonestyMeter - A New Free AI powered tool for Evaluating the Objectivity and Bias of Media Content.',
+  shareDescription: 'HonestyMeter - Check media content for objectivity and bias.',
+  shareHashTags: ['HonestyMeter', 'MediaBias', 'FakeNews'],
+}
+
+const SHARING_CONTEXT = {
+  app: 'app',
+  report: 'report',
+}
+const DEFAULT_HASH_TAGS = ['HonestyMeter', 'MediaBias', 'FakeNews'];
 
 function getSideBalanceData(sidesBalance = {}) {
   return Object.keys(sidesBalance).reduce((acc, sideName) => {
@@ -43,4 +56,45 @@ export function getFormattedReportData(data) {
   };
   const sidesScoreData = generateSidesScoreChartData(data.sidesScore);
   return { sidesScoreData, sidesBalanceChartData };
+}
+
+export function getShareHashTags(sidesScore) {
+  const sideNames = Object.keys(sidesScore).map(key => sidesScore[key].sideName);
+  const sideNamesHashTags = sideNames.map(sideName => convertStringToPascalCase(sideName));
+  const shareHashTags = [...sideNamesHashTags, ...DEFAULT_HASH_TAGS];
+
+  return shareHashTags;
+}
+
+export function getShareProps({ report, shareUrl }) {
+  const { articleTitle, sidesScore = {}, score, explanation = '', _id: reportId } = report;
+
+  const isReportSaved = Boolean(reportId);
+  const shareProps = isReportSaved ?
+    getSavedReportShareProps({ sidesScore, articleTitle, score, explanation, shareUrl })
+    :
+    getCustomReportShareProps();
+
+  return shareProps;
+}
+
+export function getCustomReportShareProps() {
+  //Temporary - share app instead of report. TODO: save and share report using same url structure as saved report
+  return {
+    url: BASE_URL,
+    title: TEXTS.shareTitle,
+    hashTags: DEFAULT_HASH_TAGS,
+    description: TEXTS.shareDescription,
+    context: SHARING_CONTEXT.app,
+  }
+}
+
+export function getSavedReportShareProps({ sidesScore, articleTitle, score, explanation, shareUrl }) {
+  return {
+    url: shareUrl,
+    title: getReportShareTitle(articleTitle, score),
+    hasTags: getShareHashTags(sidesScore),
+    description: explanation,
+    context: SHARING_CONTEXT.report,
+  }
 }
