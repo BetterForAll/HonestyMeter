@@ -16,9 +16,11 @@ export default function ReportHeader({
   score,
   explanation,
   articleTitle,
-  articleLink
+  articleLink,
+  articleDate
 }) {
   const articleBaseUrl = articleLink ? getBaseUrlFromUrlString(articleLink) : '';
+  const mockDate = new Date().toLocaleDateString(); //TODO: remove
 
   return (
     <Box sx={STYLES.container}>
@@ -33,7 +35,7 @@ export default function ReportHeader({
               {TEXTS.articleTitle}:
             </b>
             &nbsp;
-            {articleTitle}
+            {`${articleTitle} ( ${articleDate || mockDate} )`}
             &nbsp;
             {articleBaseUrl &&
               <a href={articleLink} target="_blank">
@@ -60,7 +62,10 @@ export default function ReportHeader({
 
 ReportHeader.propTypes = {
   score: number,
-  explanation: string
+  explanation: string,
+  articleTitle: string,
+  articleLink: string,
+  articleDate: string,
 }
 
 const STYLES = {

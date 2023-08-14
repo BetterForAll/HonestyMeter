@@ -24,16 +24,15 @@ const TEXTS = {
     imageAlt: 'Random illustration image',
 }
 
-export default function Reports({ allReports }) {
+export default function Reports({ allReports, date }) {
     const router = useRouter();
-
     const onCardClick = (reportUrl) => () => {
         router.push(reportUrl);
     }
 
-
     return (
         <Box sx={STYLES.container}>
+            <Typography variant="body1" sx={STYLES.date}>{date}</Typography>
             <Typography variant="h2" sx={STYLES.title}>{TEXTS.title}</Typography>
             <Typography variant="body1" sx={STYLES.subtitle}>{TEXTS.subtitle}</Typography>
             <CreateReportButton />
@@ -45,6 +44,7 @@ export default function Reports({ allReports }) {
                             const source = getBaseUrlFromUrlString(report.articleLink);
                             const reportUrl = `${baseUrl}report/${report._id}`
                             const randomImageUrl = `https://picsum.photos/266/150?random=${report._id}`
+                            const articleDate = report.articleDate || '12/04/2023'; //TODO: remove
 
                             return (
                                 report.articleLink && //TODO: remove
@@ -62,9 +62,10 @@ export default function Reports({ allReports }) {
                                             {report.articleTitle}
                                         </b>
                                     </Typography>
-                                    <Typography sx={STYLES.textLine}>
+                                    <Typography sx={STYLES.textLine} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         {/* <b>{TEXTS.source}:&nbsp; </b> */}
-                                        {source}
+                                        <span>{source}</span>
+                                        <span style={{ fontSize: '12px' }}>{articleDate}</span>
                                     </Typography>
                                     <Box
                                         sx={{
@@ -114,12 +115,18 @@ const STYLES = {
         justifyContent: 'center',
         alignItems: 'center',
     },
+    date: {
+        color: theme.palette.text.secondary,
+        margin: theme.spacing(2, 0, 1, 0),
+        fontSize: theme.typography.fontSize * 0.875,
+    },
     title: {
         fontSize: theme.typography.fontSize * 2,
-        marginTop: theme.spacing(2),
+        // marginTop: theme.spacing(2),
         marginBottom: theme.spacing(1),
     },
     subtitle: {
+        fontSize: theme.typography.fontSize * 0.875,
         color: theme.palette.text.secondary,
         margin: theme.spacing(0, 2, 2, 2),
         textAlign: 'center',
@@ -172,10 +179,11 @@ export async function getServerSideProps(context) {
 
     try {
         const res = await fetch(url);
-
         const { data: allReports } = await res.json();
 
-        return { props: { allReports } }
+        const date = new Date().toLocaleString();
+
+        return { props: { allReports, date } }
     } catch (error) {
         console.log({ error })
     }
