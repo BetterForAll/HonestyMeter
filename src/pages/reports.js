@@ -29,9 +29,9 @@ const STEPS = {
 export default function Reports({ allReports, isLastPage, date }) {
     const router = useRouter();
     const pageFromQuery = parseInt(router.query.page) || 1;
-    const isFirstPage = parseInt(pageFromQuery) === 1;
+    const isFirstPage = pageFromQuery === 1;
+    const isPaginationEnabled = !(isFirstPage && isLastPage)
     const isLoading = usePageLoading();
-
 
     const onCardClick = (reportUrl) => () => {
         router.push(reportUrl);
@@ -44,9 +44,13 @@ export default function Reports({ allReports, isLastPage, date }) {
     }
 
     const onChangePage = (step) => () => {
-        const nextPage = parseInt(router.query.page) + step;
+        const nextPage = parseInt(pageFromQuery) + step;
         router.query.page = nextPage;
         router.push(router);
+    }
+
+    const onStartClick = () => {
+        router.push('/reports');
     }
 
     return (
@@ -88,10 +92,14 @@ export default function Reports({ allReports, isLastPage, date }) {
                         })
                     }
                 </List>
-                <Box sx={STYLES.pagination}>
-                    <Button disabled={isFirstPage} onClick={onChangePage(STEPS.back)}>Previous Page</Button>
-                    <Button disabled={isLastPage} onClick={onChangePage(STEPS.forward)}>Next Page</Button>
-                </Box>
+                {
+                    isPaginationEnabled &&
+                    <Box sx={STYLES.pagination}>
+                        <Button disabled={isFirstPage} onClick={onStartClick}>Start</Button>
+                        <Button disabled={isFirstPage} onClick={onChangePage(STEPS.back)}>Previous</Button>
+                        <Button disabled={isLastPage} onClick={onChangePage(STEPS.forward)}>Next</Button>
+                    </Box>
+                }
                 <CreateReportButton />
             </Box>
     )
@@ -158,12 +166,12 @@ const STYLES = {
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         padding: theme.spacing(2),
+        cursor: 'pointer',
         transition: 'all 0.2s ease-in-out',
         '&:hover': {
             backgroundColor: theme.palette.action.hover,
             boxShadow: '0px 5px 5px -1px rgba(0,0,0,0.2), 0px 5px 5px 0px rgba(0,0,0,0.14), 0px 5px 5px 0px rgba(0,0,0,0.12)',
             transform: 'translate(0, -2px)',
-
         }
     },
     image: (randomImageUrl) => ({
@@ -188,6 +196,7 @@ const STYLES = {
     textLine: {
         marginBottom: theme.spacing(1),
         color: theme.palette.text.secondary,
+        cursor: 'text'
     },
     objectivityScore: {
         color: theme.palette.text.secondary,
@@ -209,7 +218,7 @@ const STYLES = {
 export async function getServerSideProps(context) {
     const { req } = context;
     const host = req?.headers?.host
-    const { page } = context.query;
+    const { page = 1 } = context.query;
     const url = `http://${host}/${PATH}?page=${page}`;
 
     try {
