@@ -1,13 +1,10 @@
-/* eslint-disable @next/next/no-img-element */
-
 import React from 'react'
 import { getBaseUrl, getBaseUrlFromUrlString } from '../utils/utils'
 import { Box, Button, Card, List, ListItem, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import theme from '@/theme';
-import Image from 'next/image';
-
-// Draft page, just to test the API
+import usePageLoading from '@/hooks/usePageLoading';
+import ReportLoading from '@/components/Report/ReportLoading';
 
 const baseUrl = getBaseUrl();
 const PATH = 'api/saved_reports'
@@ -24,65 +21,65 @@ const TEXTS = {
     imageAlt: 'Random illustration image',
 }
 
-export default function Reports({ allReports, date }) {
+const STEPS = {
+    forward: 1,
+    back: -1,
+}
+
+export default function Reports({ allReports, isLastPage, date }) {
     const router = useRouter();
+    const pageFromQuery = parseInt(router.query.page) || 1;
+    const isFirstPage = parseInt(pageFromQuery) === 1;
+    const isLoading = usePageLoading();
+
+
     const onCardClick = (reportUrl) => () => {
         router.push(reportUrl);
     }
+
+
 
     if (allReports.length === 0) {
         return <Typography variant="body1" sx={STYLES.noReportsText}>No reports yet</Typography>
     }
 
+    const onChangePage = (step) => () => {
+        const nextPage = parseInt(router.query.page) + step;
+        router.query.page = nextPage;
+        router.push(router);
+    }
+
     return (
-        <Box sx={STYLES.container}>
-            <Typography variant="body1" sx={STYLES.date}>{date}</Typography>
-            <Typography variant="h2" sx={STYLES.title}>{TEXTS.title}</Typography>
-            <Typography variant="body1" sx={STYLES.subtitle}>{TEXTS.subtitle}</Typography>
-            <CreateReportButton />
-            {
+        isLoading ? <ReportLoading />
+            :
+            <Box sx={STYLES.container}>
+                <Typography variant="body1" sx={STYLES.date}>{date}</Typography>
+                <Typography variant="h2" sx={STYLES.title}>{TEXTS.title}</Typography>
+                <Typography variant="body1" sx={STYLES.subtitle}>{TEXTS.subtitle}</Typography>
+                <CreateReportButton />
                 <List sx={STYLES.list}>
                     {
                         allReports.map((report) => {
                             const source = getBaseUrlFromUrlString(report.articleLink);
                             const reportUrl = `${baseUrl}report/${report._id}`
                             const randomImageUrl = `https://picsum.photos/266/150?random=${report._id}`
-                            const articleDate = report.articleDate || '12/04/2023'; //TODO: remove
+                            const articleDate = report.articleDate || '12/04/2023'; //TODO: remov
 
                             return (
                                 <ListItem key={report._id} sx={STYLES.listItem} onClick={onCardClick(reportUrl)}>
-                                    {/* <img
-                                        src={randomImageUrl}
-                                        alt={TEXTS.imageAlt}
-                                        width={150}
-                                        height={150}
-                                        style={{ maxWidth: '100%', maxHeight: '100%' }}
-                                    /> */}
                                     <Card sx={STYLES.card}>
-
-
                                         <Typography sx={STYLES.textLine}>
-                                            {/* <b>{TEXTS.articleTitle}:</b> */}
                                             <b>
                                                 {report.articleTitle}
                                             </b>
                                         </Typography>
                                         <Typography sx={STYLES.textLine} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                            {/* <b>{TEXTS.source}:&nbsp; </b> */}
                                             <span>{source}</span>
                                             <span style={{ fontSize: '12px' }}>{articleDate}</span>
                                         </Typography>
                                         <Box
-                                            sx={{
-                                                width: '100%',
-                                                height: '150px',
-
-                                                backgroundImage: `url(${randomImageUrl})`,
-                                                backgroundSize: 'cover',
-                                                backgroundPosition: 'center',
-                                                borderRadius: '4px',
-                                                marginBottom: theme.spacing(1),
-                                            }} />
+                                            sx={STYLES.image(randomImageUrl)}
+                                        />
                                         <Typography sx={[STYLES.objectivityScore]}> {TEXTS.objectivityScore}: <b>{report.score}</b> </Typography>
                                         <Button variant='outlined' sx={STYLES.viewReportButton}>{TEXTS.viewReport}</Button>
                                     </Card>
@@ -91,10 +88,12 @@ export default function Reports({ allReports, date }) {
                         })
                     }
                 </List>
-            }
-            <CreateReportButton />
-        </Box>
-
+                <Box sx={STYLES.pagination}>
+                    <Button disabled={isFirstPage} onClick={onChangePage(STEPS.back)}>Previous Page</Button>
+                    <Button disabled={isLastPage} onClick={onChangePage(STEPS.forward)}>Next Page</Button>
+                </Box>
+                <CreateReportButton />
+            </Box>
     )
 }
 
@@ -167,6 +166,25 @@ const STYLES = {
 
         }
     },
+    image: (randomImageUrl) => ({
+        width: '100%',
+        height: '150px',
+        backgroundColor: theme.palette.grey[300],
+        backgroundImage: `url(${randomImageUrl})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        borderRadius: '4px',
+        marginBottom: theme.spacing(1),
+        animation: 'skeleton 1s ease-in-out infinite alternate',
+        '@keyframes skeleton': {
+            '0%': {
+                backgroundColor: theme.palette.grey[300],
+            },
+            '100%': {
+                backgroundColor: theme.palette.grey[100],
+            }
+        },
+    }),
     textLine: {
         marginBottom: theme.spacing(1),
         color: theme.palette.text.secondary,
@@ -178,22 +196,30 @@ const STYLES = {
     },
     viewReportButton: {
         width: '100%',
+    },
+    pagination: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        gap: theme.spacing(2),
+        marginBottom: theme.spacing(2),
     }
 }
 
 export async function getServerSideProps(context) {
     const { req } = context;
     const host = req?.headers?.host
-    const url = `http://${host}/${PATH}`;
+    const { page } = context.query;
+    const url = `http://${host}/${PATH}?page=${page}`;
 
     try {
         const res = await fetch(url);
         const { data } = await res.json();
-        const { allReports, reportsCount } = data;
+        const { allReports, isLastPage } = data;
 
         const date = new Date().toLocaleString();
 
-        return { props: { allReports, reportsCount, date } }
+        return { props: { allReports, isLastPage, date } }
     } catch (error) {
         console.log({ error })
     }
