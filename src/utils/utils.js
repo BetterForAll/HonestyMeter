@@ -56,6 +56,8 @@ export function getBaseUrl() {
 }
 
 export function getBaseUrlFromUrlString(urlString = EMPTY_STRING) {
+  if (!urlString) return EMPTY_STRING;
+
   const url = new URL(urlString);
   const removeUrlPrefixAndQueryParamsRegex = /(https?:\/\/)?(www.)?/;
 

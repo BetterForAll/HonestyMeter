@@ -12,7 +12,7 @@ export default async function handler(req, res) {
     const db = client.db(dbName);
     switch (req.method) {
         case METHODS.POST:
-            let report = JSON.parse(req.body);
+            let report = req.body;
             let { insertedId } = await db.collection(collectionName).insertOne(report);
 
             res.json({ insertedId });
