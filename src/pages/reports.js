@@ -1,11 +1,11 @@
+/* eslint-disable @next/next/no-img-element */
 
 import React from 'react'
 import { getBaseUrl, getBaseUrlFromUrlString } from '../utils/utils'
 import { Box, Button, List, ListItem, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import theme from '@/theme';
-
-
+import Image from 'next/image';
 
 // Draft page, just to test the API
 
@@ -14,38 +14,63 @@ const PATH = 'api/saved_reports'
 const URL = `${baseUrl}${PATH}`;
 
 const TEXTS = {
-    title: 'Latest news bias reports',
-    subtitle: 'Our system analyzes the latest news articles from leading news sources',
+    title: 'Latest bias reports',
+    subtitle: 'Our system analyzes the latest articles from leading news sources',
     newReportButton: 'CREATE NEW REPORT',
     articleTitle: 'Article Title',
     source: 'Source',
     objectivityScore: 'Objectivity Score',
     viewReport: 'View Report',
+    imageAlt: 'Random illustration image',
 }
 
 export default function Reports({ allReports }) {
+    const router = useRouter();
+
     const onCardClick = (reportUrl) => () => {
         router.push(reportUrl);
     }
+
 
     return (
         <Box sx={STYLES.container}>
             <Typography variant="h2" sx={STYLES.title}>{TEXTS.title}</Typography>
             <Typography variant="body1" sx={STYLES.subtitle}>{TEXTS.subtitle}</Typography>
             <CreateReportButton />
+
             {
                 <List sx={STYLES.list}>
                     {
                         allReports.map((report) => {
                             const source = getBaseUrlFromUrlString(report.articleLink);
                             const reportUrl = `${baseUrl}report/${report._id}`
+                            const randomImageUrl = `https://picsum.photos/266/150?random=${report._id}`
+
                             return (
                                 report.articleLink && //TODO: remove
-                                <ListItem key={report._id} sx={STYLES.listItem}>
-                                    <Typography><b>{TEXTS.articleTitle}:</b> {report.articleTitle}</Typography>
-                                    <Typography target="_blank"><b>{TEXTS.source}:&nbsp; </b>{source}</Typography>
-                                    <Typography><b>{TEXTS.objectivityScore}:</b> {report.score}</Typography>
-                                    <Button variant='text' onClick={onCardClick(reportUrl)}>{TEXTS.viewReport}</Button>
+                                <ListItem key={report._id} sx={STYLES.listItem} onClick={onCardClick(reportUrl)}>
+                                    {/* <img
+                                        src={randomImageUrl}
+                                        alt={TEXTS.imageAlt}
+                                        width={150}
+                                        height={150}
+                                        style={{ maxWidth: '100%', maxHeight: '100%' }}
+                                    /> */}
+                                    <Typography sx={STYLES.textLine}><b>{TEXTS.articleTitle}:</b> {report.articleTitle}</Typography>
+                                    <Typography sx={STYLES.textLine}><b>{TEXTS.objectivityScore}:</b> {report.score}</Typography>
+                                    {/* <Button variant='text'>{TEXTS.viewReport}</Button> */}
+                                    <Box
+                                        sx={{
+                                            width: '100%',
+                                            height: '150px',
+
+                                            backgroundImage: `url(${randomImageUrl})`,
+                                            backgroundSize: 'cover',
+                                            backgroundPosition: 'center',
+                                            borderRadius: '4px',
+                                            marginBottom: theme.spacing(1),
+                                        }} />
+                                    <Typography sx={STYLES.textLine}><b>{TEXTS.source}:&nbsp; </b>{source}</Typography>
                                 </ListItem>
                             )
                         })
@@ -74,7 +99,7 @@ function CreateReportButton() {
 
 const STYLES = {
     container: {
-        maxWidth: '1000px',
+        maxWidth: '100%',
         margin: 'auto',
         display: 'flex',
         flexDirection: 'column',
@@ -113,6 +138,13 @@ const STYLES = {
         padding: theme.spacing(2),
         border: `1px solid ${theme.palette.divider}`,
         borderRadius: '10px',
+        cursor: 'pointer',
+        '&:hover': {
+            backgroundColor: theme.palette.action.hover,
+        }
+    },
+    textLine: {
+        marginBottom: theme.spacing(1),
     }
 }
 

@@ -4,6 +4,9 @@ const nextConfig = {
   env: {
     customKey: 'my-value',
   },
+  images: {
+    domains: ['random.imagecdn.app', 'picsum.photos'],
+  },
 }
 
 module.exports = nextConfig
