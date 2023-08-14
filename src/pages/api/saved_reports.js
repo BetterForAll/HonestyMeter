@@ -25,7 +25,6 @@ export default async function handler(req, res) {
             const reportsCount = await db.collection(collectionName).countDocuments();
             const isPageInRange = skip < reportsCount;
             const isLastPage = isPageInRange && skip + ITEMS_PER_PAGE >= reportsCount;
-            console.log({ isLastPage })
             let allReports = [];
 
             if (isPageInRange) {

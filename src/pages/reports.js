@@ -5,6 +5,12 @@ import { useRouter } from 'next/router';
 import theme from '@/theme';
 import usePageLoading from '@/hooks/usePageLoading';
 import ReportLoading from '@/components/Report/ReportLoading';
+import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+
+
 
 const baseUrl = getBaseUrl();
 const PATH = 'api/saved_reports'
@@ -95,9 +101,11 @@ export default function Reports({ allReports, isLastPage, date }) {
                 {
                     isPaginationEnabled &&
                     <Box sx={STYLES.pagination}>
-                        <Button disabled={isFirstPage} onClick={onStartClick}>Start</Button>
-                        <Button disabled={isFirstPage} onClick={onChangePage(STEPS.back)}>Previous</Button>
-                        <Button disabled={isLastPage} onClick={onChangePage(STEPS.forward)}>Next</Button>
+                        <Button disabled={isFirstPage} onClick={onStartClick}>
+                            <SkipPreviousIcon fontSize='large' sx={{ transform: 'scale(0.75)' }} />
+                        </Button>
+                        <Button disabled={isFirstPage} onClick={onChangePage(STEPS.back)}><ArrowLeftIcon fontSize='large' /></Button>
+                        <Button disabled={isLastPage} onClick={onChangePage(STEPS.forward)}><ArrowRightIcon fontSize='large' /></Button>
                     </Box>
                 }
                 <CreateReportButton />
