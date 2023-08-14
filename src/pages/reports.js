@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { getBaseUrl, getBaseUrlFromUrlString } from '../utils/utils'
-import { Box, Button, List, ListItem, Typography } from '@mui/material';
+import { Box, Button, Card, List, ListItem, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import theme from '@/theme';
 import Image from 'next/image';
@@ -47,7 +47,6 @@ export default function Reports({ allReports, date }) {
                             const articleDate = report.articleDate || '12/04/2023'; //TODO: remove
 
                             return (
-                                report.articleLink && //TODO: remove
                                 <ListItem key={report._id} sx={STYLES.listItem} onClick={onCardClick(reportUrl)}>
                                     {/* <img
                                         src={randomImageUrl}
@@ -56,30 +55,34 @@ export default function Reports({ allReports, date }) {
                                         height={150}
                                         style={{ maxWidth: '100%', maxHeight: '100%' }}
                                     /> */}
-                                    <Typography sx={STYLES.textLine}>
-                                        {/* <b>{TEXTS.articleTitle}:</b> */}
-                                        <b>
-                                            {report.articleTitle}
-                                        </b>
-                                    </Typography>
-                                    <Typography sx={STYLES.textLine} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        {/* <b>{TEXTS.source}:&nbsp; </b> */}
-                                        <span>{source}</span>
-                                        <span style={{ fontSize: '12px' }}>{articleDate}</span>
-                                    </Typography>
-                                    <Box
-                                        sx={{
-                                            width: '100%',
-                                            height: '150px',
+                                    <Card sx={STYLES.card}>
 
-                                            backgroundImage: `url(${randomImageUrl})`,
-                                            backgroundSize: 'cover',
-                                            backgroundPosition: 'center',
-                                            borderRadius: '4px',
-                                            marginBottom: theme.spacing(1),
-                                        }} />
-                                    <Typography sx={[STYLES.objectivityScore]}> {TEXTS.objectivityScore}: <b>{report.score}</b> </Typography>
-                                    <Button variant='outlined' sx={STYLES.viewReportButton}>{TEXTS.viewReport}</Button>
+
+                                        <Typography sx={STYLES.textLine}>
+                                            {/* <b>{TEXTS.articleTitle}:</b> */}
+                                            <b>
+                                                {report.articleTitle}
+                                            </b>
+                                        </Typography>
+                                        <Typography sx={STYLES.textLine} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                            {/* <b>{TEXTS.source}:&nbsp; </b> */}
+                                            <span>{source}</span>
+                                            <span style={{ fontSize: '12px' }}>{articleDate}</span>
+                                        </Typography>
+                                        <Box
+                                            sx={{
+                                                width: '100%',
+                                                height: '150px',
+
+                                                backgroundImage: `url(${randomImageUrl})`,
+                                                backgroundSize: 'cover',
+                                                backgroundPosition: 'center',
+                                                borderRadius: '4px',
+                                                marginBottom: theme.spacing(1),
+                                            }} />
+                                        <Typography sx={[STYLES.objectivityScore]}> {TEXTS.objectivityScore}: <b>{report.score}</b> </Typography>
+                                        <Button variant='outlined' sx={STYLES.viewReportButton}>{TEXTS.viewReport}</Button>
+                                    </Card>
                                 </ListItem>
                             )
                         })
@@ -145,17 +148,20 @@ const STYLES = {
         marginBottom: theme.spacing(2),
     },
     listItem: {
+        maxWidth: '320px',
+    },
+    card: {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-        maxWidth: '300px',
         padding: theme.spacing(2),
-        border: `1px solid ${theme.palette.divider}`,
-        borderRadius: '10px',
-        // cursor: 'pointer',
+        transition: 'all 0.2s ease-in-out',
         '&:hover': {
             backgroundColor: theme.palette.action.hover,
+            boxShadow: '0px 5px 5px -1px rgba(0,0,0,0.2), 0px 5px 5px 0px rgba(0,0,0,0.14), 0px 5px 5px 0px rgba(0,0,0,0.12)',
+            transform: 'translate(-2px, -2px)',
+
         }
     },
     textLine: {
