@@ -14,7 +14,7 @@ import Share from '../Share';
 import { getShareProps } from './reportUtils';
 
 const TEXTS = {
-    title: 'Objectivity report',
+    title: 'Bias report',
     subtitle: 'HonestyMeter - AI powered bias detection',
     closeReport: 'close report',
 }

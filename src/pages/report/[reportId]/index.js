@@ -14,7 +14,7 @@ const PATH = 'api/saved_report';
 const LOGO_URL = './public/favicon.ico';
 const OPEN_GRAPH_IMAGE_URL = './opengraph-logo.png';
 const TEXTS = {
-    objectivityReport: 'HonestyMeter Objectivity Report',
+    objectivityReport: 'HonestyMeter Bias Report',
     biasReport: 'Bias Report',
     objectivityScore: 'Objectivity score',
 }

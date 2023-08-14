@@ -14,13 +14,13 @@ const PATH = 'api/saved_reports'
 const URL = `${baseUrl}${PATH}`;
 
 const TEXTS = {
-    title: 'Latest bias reports',
-    subtitle: 'Our system analyzes the latest articles from leading news sources',
-    newReportButton: 'CREATE NEW REPORT',
+    title: 'Latest Bias Reports',
+    subtitle: 'Articles from leading news sources, analysed for bias by HonestyMeter',
+    newReportButton: 'CREATE NEW BIAS REPORT',
     articleTitle: 'Article Title',
     source: 'Source',
-    objectivityScore: 'Objectivity Score',
-    viewReport: 'View Report',
+    objectivityScore: 'OBJECTIVITY SCORE',
+    viewReport: 'View Bias Report',
     imageAlt: 'Random illustration image',
 }
 
@@ -56,9 +56,16 @@ export default function Reports({ allReports }) {
                                         height={150}
                                         style={{ maxWidth: '100%', maxHeight: '100%' }}
                                     /> */}
-                                    <Typography sx={STYLES.textLine}><b>{TEXTS.articleTitle}:</b> {report.articleTitle}</Typography>
-                                    <Typography sx={STYLES.textLine}><b>{TEXTS.objectivityScore}:</b> {report.score}</Typography>
-                                    {/* <Button variant='text'>{TEXTS.viewReport}</Button> */}
+                                    <Typography sx={STYLES.textLine}>
+                                        {/* <b>{TEXTS.articleTitle}:</b> */}
+                                        <b>
+                                            {report.articleTitle}
+                                        </b>
+                                    </Typography>
+                                    <Typography sx={STYLES.textLine}>
+                                        {/* <b>{TEXTS.source}:&nbsp; </b> */}
+                                        {source}
+                                    </Typography>
                                     <Box
                                         sx={{
                                             width: '100%',
@@ -70,7 +77,8 @@ export default function Reports({ allReports }) {
                                             borderRadius: '4px',
                                             marginBottom: theme.spacing(1),
                                         }} />
-                                    <Typography sx={STYLES.textLine}><b>{TEXTS.source}:&nbsp; </b>{source}</Typography>
+                                    <Typography sx={[STYLES.objectivityScore]}> {TEXTS.objectivityScore}: <b>{report.score}</b> </Typography>
+                                    <Button variant='outlined' sx={STYLES.viewReportButton}>{TEXTS.viewReport}</Button>
                                 </ListItem>
                             )
                         })
@@ -99,7 +107,7 @@ function CreateReportButton() {
 
 const STYLES = {
     container: {
-        maxWidth: '100%',
+        maxWidth: '1400px',
         margin: 'auto',
         display: 'flex',
         flexDirection: 'column',
@@ -118,16 +126,16 @@ const STYLES = {
     },
     newReportButton: {
         margin: 'auto',
-        marginBottom: theme.spacing(1),
+        marginBottom: theme.spacing(3),
         textAlign: 'center',
+        minWidth: '44%',
     },
     list: {
         display: 'flex',
         flexWrap: 'wrap',
         justifyContent: 'center',
-        padding: theme.spacing(2),
         gap: theme.spacing(2),
-
+        marginBottom: theme.spacing(2),
     },
     listItem: {
         display: 'flex',
@@ -138,13 +146,22 @@ const STYLES = {
         padding: theme.spacing(2),
         border: `1px solid ${theme.palette.divider}`,
         borderRadius: '10px',
-        cursor: 'pointer',
+        // cursor: 'pointer',
         '&:hover': {
             backgroundColor: theme.palette.action.hover,
         }
     },
     textLine: {
         marginBottom: theme.spacing(1),
+        color: theme.palette.text.secondary,
+    },
+    objectivityScore: {
+        color: theme.palette.text.secondary,
+        margin: 'auto',
+        marginBottom: theme.spacing(1),
+    },
+    viewReportButton: {
+        width: '100%',
     }
 }
 
