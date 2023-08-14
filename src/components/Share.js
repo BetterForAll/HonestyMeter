@@ -78,7 +78,7 @@ Share.propTypes = {
     sideNames: arrayOf(string),
     explanation: string,
     hashTags: arrayOf(string),
-    context: oneOf(CONTEXT_OPTIONS.app.name, CONTEXT_OPTIONS.report.name)
+    context: oneOf([CONTEXT_OPTIONS.app.name, CONTEXT_OPTIONS.report.name])
 
 }
 
