@@ -10,6 +10,7 @@ const collectionName = 'report';
 export default async function handler(req, res) {
     const client = await clientPromise;
     const db = client.db(dbName);
+
     switch (req.method) {
         case METHODS.POST:
             let report = req.body;
@@ -18,8 +19,18 @@ export default async function handler(req, res) {
             res.json({ insertedId });
             break;
         case METHODS.GET:
-            const allReports = await db.collection(collectionName).find({}).toArray();
-            res.json({ status: STATUS_CODE.OK, data: allReports });
+            const page = req.query.page || 3;
+            const itemsPerPage = 5;
+            const skip = (page - 1) * itemsPerPage;
+            const reportsCount = await db.collection(collectionName).countDocuments();
+            const isPageInRange = skip < reportsCount;
+            let allReports = [];
+
+            if (isPageInRange) {
+                allReports = await db.collection(collectionName).find({}).skip(skip).limit(itemsPerPage).toArray();
+            }
+
+            res.json({ status: STATUS_CODE.OK, data: { allReports, reportsCount } });
             break;
     }
 }

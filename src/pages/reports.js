@@ -30,13 +30,16 @@ export default function Reports({ allReports, date }) {
         router.push(reportUrl);
     }
 
+    if (allReports.length === 0) {
+        return <Typography variant="body1" sx={STYLES.noReportsText}>No reports yet</Typography>
+    }
+
     return (
         <Box sx={STYLES.container}>
             <Typography variant="body1" sx={STYLES.date}>{date}</Typography>
             <Typography variant="h2" sx={STYLES.title}>{TEXTS.title}</Typography>
             <Typography variant="body1" sx={STYLES.subtitle}>{TEXTS.subtitle}</Typography>
             <CreateReportButton />
-
             {
                 <List sx={STYLES.list}>
                     {
@@ -160,7 +163,7 @@ const STYLES = {
         '&:hover': {
             backgroundColor: theme.palette.action.hover,
             boxShadow: '0px 5px 5px -1px rgba(0,0,0,0.2), 0px 5px 5px 0px rgba(0,0,0,0.14), 0px 5px 5px 0px rgba(0,0,0,0.12)',
-            transform: 'translate(-2px, -2px)',
+            transform: 'translate(0, -2px)',
 
         }
     },
@@ -185,11 +188,12 @@ export async function getServerSideProps(context) {
 
     try {
         const res = await fetch(url);
-        const { data: allReports } = await res.json();
+        const { data } = await res.json();
+        const { allReports, reportsCount } = data;
 
         const date = new Date().toLocaleString();
 
-        return { props: { allReports, date } }
+        return { props: { allReports, reportsCount, date } }
     } catch (error) {
         console.log({ error })
     }
