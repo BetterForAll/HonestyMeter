@@ -13,18 +13,26 @@ const baseUrl = getBaseUrl();
 const PATH = 'api/saved_reports'
 const URL = `${baseUrl}${PATH}`;
 
+const TEXTS = {
+    title: 'Latest news bias reports',
+    subtitle: 'Our system analyzes the latest news articles from leading news sources',
+    newReportButton: 'CREATE NEW REPORT',
+    articleTitle: 'Article Title',
+    source: 'Source',
+    objectivityScore: 'Objectivity Score',
+    viewReport: 'View Report',
+}
+
 export default function Reports({ allReports }) {
-    const router = useRouter();
-
-
     const onCardClick = (reportUrl) => () => {
         router.push(reportUrl);
     }
 
     return (
         <Box sx={STYLES.container}>
-            <Button variant="outlined" onClick={createReport}>CREATE NEW REPORT</Button>
-            <h2>New Reports</h2>
+            <Typography variant="h2" sx={STYLES.title}>{TEXTS.title}</Typography>
+            <Typography variant="body1" sx={STYLES.subtitle}>{TEXTS.subtitle}</Typography>
+            <CreateReportButton />
             {
                 <List sx={STYLES.list}>
                     {
@@ -32,37 +40,69 @@ export default function Reports({ allReports }) {
                             const source = getBaseUrlFromUrlString(report.articleLink);
                             const reportUrl = `${baseUrl}report/${report._id}`
                             return (
-                                report.articleLink &&
+                                report.articleLink && //TODO: remove
                                 <ListItem key={report._id} sx={STYLES.listItem}>
-                                    <Typography><b>Article Title:</b> {report.articleTitle}</Typography>
-                                    <Typography target="_blank"><b>Source:&nbsp; </b>{source}</Typography>
-                                    <Typography><b>Objectivity Score:</b> {report.score}</Typography>
-                                    <Button variant='outlined' onClick={onCardClick(reportUrl)}>View Report</Button>
+                                    <Typography><b>{TEXTS.articleTitle}:</b> {report.articleTitle}</Typography>
+                                    <Typography target="_blank"><b>{TEXTS.source}:&nbsp; </b>{source}</Typography>
+                                    <Typography><b>{TEXTS.objectivityScore}:</b> {report.score}</Typography>
+                                    <Button variant='text' onClick={onCardClick(reportUrl)}>{TEXTS.viewReport}</Button>
                                 </ListItem>
                             )
                         })
                     }
                 </List>
             }
-            <Button variant="outlined" onClick={createReport}>CREATE NEW REPORT</Button>
+            <CreateReportButton />
         </Box>
 
     )
 }
 
+function CreateReportButton() {
+    const router = useRouter();
+
+    const onNewReportClick = () => {
+        router.push('/');
+    }
+
+    return (
+        <Button variant="outlined" onClick={onNewReportClick} sx={STYLES.newReportButton}>
+            {TEXTS.newReportButton}
+        </Button>
+    )
+}
+
 const STYLES = {
     container: {
-        '& > *': {
-            marign: 0,
-            padding: 0,
-        }
+        maxWidth: '1000px',
+        margin: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    title: {
+        fontSize: theme.typography.fontSize * 2,
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(1),
+    },
+    subtitle: {
+        color: theme.palette.text.secondary,
+        margin: theme.spacing(0, 2, 2, 2),
+        textAlign: 'center',
+    },
+    newReportButton: {
+        margin: 'auto',
+        marginBottom: theme.spacing(1),
+        textAlign: 'center',
     },
     list: {
         display: 'flex',
         flexWrap: 'wrap',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         padding: theme.spacing(2),
         gap: theme.spacing(2),
+
     },
     listItem: {
         display: 'flex',
