@@ -8,6 +8,7 @@ import ReportLoading from '@/components/Report/ReportLoading';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import Share from '@/components/Share';
 
 
 
@@ -108,6 +109,7 @@ export default function Reports({ allReports, isLastPage, date }) {
                     </Box>
                 }
                 <CreateReportButton />
+                <Share />
             </Box>
     )
 }
@@ -134,6 +136,7 @@ const STYLES = {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        paddingBottom: theme.spacing(2),
     },
     date: {
         color: theme.palette.text.secondary,
