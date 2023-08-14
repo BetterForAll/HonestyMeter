@@ -8,7 +8,6 @@ import ReportLoading from '@/components/Report/ReportLoading';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
 
 
 
@@ -156,7 +155,7 @@ const STYLES = {
         margin: 'auto',
         marginBottom: theme.spacing(3),
         textAlign: 'center',
-        minWidth: '44%',
+        minWidth: '266px',
     },
     list: {
         display: 'flex',
@@ -204,7 +203,6 @@ const STYLES = {
     textLine: {
         marginBottom: theme.spacing(1),
         color: theme.palette.text.secondary,
-        cursor: 'text'
     },
     objectivityScore: {
         color: theme.palette.text.secondary,
@@ -243,8 +241,6 @@ export async function getServerSideProps(context) {
 }
 
 const createReport = async () => {
-    console.log({ URL })
-
     let res = await fetch(URL, {
         headers: {
             'Accept': 'application/json',
