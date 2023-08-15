@@ -189,7 +189,6 @@ export default function Home({ homePageProps, allReports, isLastPage, date }) {
 }
 
 function CreateReportButton({ onClick, isArticleInputShown }) {
-  const router = useRouter();
   const text = isArticleInputShown ? TEXTS.cancelNewReport : TEXTS.newReport;
 
   return (
