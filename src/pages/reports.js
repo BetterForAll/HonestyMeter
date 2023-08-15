@@ -1,5 +1,6 @@
-import React from 'react'
-import { getBaseUrl, getBaseUrlFromUrlString } from '../utils/utils'
+/* eslint-disable @next/next/no-img-element */
+import React, { useState, useEffect } from 'react'
+import { getBaseUrl, getBaseUrlFromUrlString, scrollToBottom } from '../utils/utils'
 import { Box, Button, Card, List, ListItem, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import theme from '@/theme';
@@ -9,20 +10,37 @@ import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import Share from '@/components/Share';
+import Head from 'next/head';
+import AtricleInput from '@/components/ArticleInput';
+import Disclamer from '@/components/Disclamer';
+import { BASE_URL } from '@/constants/constants';
+import { scrollToTop } from '@/utils/utils';
+
 
 const baseUrl = getBaseUrl();
-const PATH = 'api/saved_reports'
-const URL = `${baseUrl}${PATH}`;
-
+const SAVED_REPORTS_PATH = 'api/saved_reports'
+const URL = `${baseUrl}${SAVED_REPORTS_PATH}`;
+const LOGO_URL = './public/favicon.png'
+const OPEN_GRAPH_IMAGE_URL = './opengraph-logo.png'
+const TWITTER_IMAGE_URL = './favicon.png'
+const SHARING_CONTEXT = 'app'
 const TEXTS = {
     title: 'Latest Bias Reports',
     subtitle: 'Articles from leading news sources, analysed for bias by HonestyMeter',
-    newReportButton: 'CREATE NEW BIAS REPORT',
+    newReport: 'Create new bias report',
+    cancelNewReport: 'Cancel new report',
     articleTitle: 'Article Title',
     source: 'Source',
     objectivityScore: 'OBJECTIVITY SCORE',
     viewReport: 'View Bias Report',
     imageAlt: 'Random illustration image',
+    honestyMeter: 'Honesty Meter',
+    error: 'Something went wrong. Please try again later.',
+    desciptiion: 'Honesty Meter is a tool that helps you discover the truth behind the news.',
+    ogDescription: 'AI powered tool for bias detection',
+    shareTitle: 'HonestyMeter - A New Free AI powered tool for Evaluating the Objectivity and Bias of Media Content.',
+    shareDescription: 'HonestyMeter - Check media content for objectivity and bias.',
+    shareHashTags: ['HonestyMeter', 'MediaBias', 'FakeNews'],
 }
 
 const STEPS = {
@@ -30,19 +48,21 @@ const STEPS = {
     back: -1,
 }
 
-export default function Reports({ allReports, isLastPage, date }) {
+export default function Reports({ homePageProps, allReports, isLastPage, date }) {
     const router = useRouter();
     const pageFromQuery = parseInt(router.query.page) || 1;
     const isFirstPage = pageFromQuery === 1;
     const isPaginationEnabled = !(isFirstPage && isLastPage)
     const isLoading = usePageLoading();
+    const {
+        article,
+        handleArticleChange,
+        handleGetReport,
+    } = homePageProps;
+    const [isArticleInputShown, setIsArticleInputShown] = useState(false);
 
     const onCardClick = (reportUrl) => () => {
         router.push(reportUrl);
-    }
-
-    if (allReports.length === 0) {
-        return <Typography variant="body1" sx={STYLES.noReportsText}>No reports yet</Typography>
     }
 
     const onChangePage = (step) => () => {
@@ -55,76 +75,148 @@ export default function Reports({ allReports, isLastPage, date }) {
         router.push('/reports');
     }
 
-    return (
-        isLoading ? <ReportLoading />
-            :
-            <Box sx={STYLES.container}>
-                <Typography variant="body1" sx={STYLES.date}>{date}</Typography>
-                <Typography variant="h2" sx={STYLES.title}>{TEXTS.title}</Typography>
-                <Typography variant="body1" sx={STYLES.subtitle}>{TEXTS.subtitle}</Typography>
-                <CreateReportButton />
-                <List sx={STYLES.list}>
-                    {
-                        allReports.map((report) => {
-                            const source = getBaseUrlFromUrlString(report.articleLink);
-                            const reportUrl = `${baseUrl}report/${report._id}`
-                            const randomImageUrl = `https://picsum.photos/266/150?random=${report._id}`
-                            const articleDate = report.articleDate || '12/04/2023'; //TODO: remov
+    const toggleArticleInput = (isTop) => () => {
+        setIsArticleInputShown(!isArticleInputShown);
+        const scrollMethod = isTop ? scrollToTop : scrollToBottom;
+        setTimeout(() => {
+            scrollMethod();
+        }, 0)
+    }
 
-                            return (
-                                <ListItem key={report._id} sx={STYLES.listItem} onClick={onCardClick(reportUrl)}>
-                                    <Card sx={STYLES.card}>
-                                        <Typography sx={STYLES.textLine}>
-                                            <b>
-                                                {report.articleTitle}
-                                            </b>
-                                        </Typography>
-                                        <Typography sx={STYLES.textLine} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                            <span style={STYLES.source}>{source}</span>
-                                            <span style={STYLES.articleDate}>{articleDate}</span>
-                                        </Typography>
-                                        <Box
-                                            sx={STYLES.image(randomImageUrl)}
-                                        />
-                                        <Typography sx={[STYLES.objectivityScore]}> {TEXTS.objectivityScore}: <b>{report.score}</b> </Typography>
-                                        <Button variant='outlined' sx={STYLES.viewReportButton}>{TEXTS.viewReport}</Button>
-                                    </Card>
-                                </ListItem>
-                            )
-                        })
-                    }
-                </List>
-                {
-                    isPaginationEnabled &&
-                    <Box sx={STYLES.pagination}>
-                        <Button disabled={isFirstPage} onClick={onStartClick}>
-                            <SkipPreviousIcon fontSize='large' sx={{ transform: 'scale(0.75)' }} />
-                        </Button>
-                        <Button disabled={isFirstPage} onClick={onChangePage(STEPS.back)}><ArrowLeftIcon fontSize='large' /></Button>
-                        <Button disabled={isLastPage} onClick={onChangePage(STEPS.forward)}><ArrowRightIcon fontSize='large' /></Button>
-                    </Box>
-                }
-                <CreateReportButton />
-                <Share />
-            </Box >
+    if (allReports.length === 0) {
+        return <Typography variant="body1" sx={REPORTS_STYLES.noReportsText}>No reports yet</Typography>
+    }
+
+    return (
+        <>
+            {HtmlHead}
+            {
+
+                isLoading ? <ReportLoading />
+                    :
+                    <Box sx={REPORTS_STYLES.container}>
+                        <Typography variant="body1" sx={REPORTS_STYLES.date}>{date}</Typography>
+                        <Typography variant="h2" sx={REPORTS_STYLES.title}>{TEXTS.title}</Typography>
+                        <Typography variant="body1" sx={REPORTS_STYLES.subtitle}>{TEXTS.subtitle}</Typography>
+                        <CreateReportButton onClick={toggleArticleInput(true)} isArticleInputShown={isArticleInputShown} />
+                        {
+                            isArticleInputShown &&
+                            <Box sx={NEW_REPORT_STYLES.container} >
+                                <AtricleInput
+                                    article={article}
+                                    onArticleChange={handleArticleChange}
+                                    onGetReport={handleGetReport} />
+                            </Box>
+                        }
+                        <List sx={REPORTS_STYLES.list}>
+                            {
+                                allReports.map((report) => {
+                                    const source = getBaseUrlFromUrlString(report.articleLink);
+                                    const reportUrl = `${baseUrl}report/${report._id}`
+                                    const randomImageUrl = `https://picsum.photos/266/150?random=${report._id}`
+                                    const articleDate = report.articleDate || '12/04/2023'; //TODO: remove
+
+                                    return (
+                                        <ListItem key={report._id} sx={REPORTS_STYLES.listItem} onClick={onCardClick(reportUrl)}>
+                                            <Card sx={REPORTS_STYLES.card}>
+                                                <Typography sx={REPORTS_STYLES.textLine}>
+                                                    <b>
+                                                        {report.articleTitle}
+                                                    </b>
+                                                </Typography>
+                                                <Typography sx={REPORTS_STYLES.textLine} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                    <Box component="span" style={REPORTS_STYLES.source}>{source}</Box>
+                                                    <Box component="span" style={REPORTS_STYLES.articleDate}>{articleDate}</Box>
+                                                </Typography>
+                                                <Box sx={REPORTS_STYLES.image(randomImageUrl)} >
+                                                    <img
+                                                        src={randomImageUrl}
+                                                        alt={TEXTS.imageAlt}
+                                                        loading='lazy'
+                                                    />
+                                                </Box>
+                                                <Typography sx={[REPORTS_STYLES.objectivityScore]}> {TEXTS.objectivityScore}: <b>{report.score}</b> </Typography>
+                                                <Button variant='outlined' sx={REPORTS_STYLES.viewReportButton}>{TEXTS.viewReport}</Button>
+                                            </Card>
+                                        </ListItem>
+                                    )
+                                })
+                            }
+                        </List>
+                        {
+                            isPaginationEnabled &&
+                            <Box sx={REPORTS_STYLES.pagination}>
+                                <Button disabled={isFirstPage} onClick={onStartClick}>
+                                    <SkipPreviousIcon fontSize='large' sx={REPORTS_STYLES.skipIcon} />
+                                </Button>
+                                <Button disabled={isFirstPage} onClick={onChangePage(STEPS.back)}><ArrowLeftIcon fontSize='large' /></Button>
+                                <Button disabled={isLastPage} onClick={onChangePage(STEPS.forward)}><ArrowRightIcon fontSize='large' /></Button>
+                            </Box>
+                        }
+                        <CreateReportButton onClick={toggleArticleInput(false)} isArticleInputShown={isArticleInputShown} />
+                        {
+                            isArticleInputShown &&
+                            <Box sx={NEW_REPORT_STYLES.container} >
+                                <AtricleInput
+                                    article={article}
+                                    onArticleChange={handleArticleChange}
+                                    onGetReport={handleGetReport} />
+                            </Box>
+                        }
+                        <Share
+                            title={TEXTS.shareTitle}
+                            url={BASE_URL}
+                            description={TEXTS.shareDescription}
+                            hashTags={TEXTS.shareHashTags}
+                            context={SHARING_CONTEXT}
+                        />
+                    </Box >
+            }
+        </>
     )
 }
 
-function CreateReportButton() {
+function CreateReportButton({ onClick, isArticleInputShown }) {
     const router = useRouter();
 
     const onNewReportClick = () => {
         router.push('/');
     }
 
+    const text = isArticleInputShown ? TEXTS.cancelNewReport : TEXTS.newReport;
+
     return (
-        <Button variant="outlined" onClick={onNewReportClick} sx={STYLES.newReportButton}>
-            {TEXTS.newReportButton}
+        <Button variant="outlined" onClick={onClick} sx={REPORTS_STYLES.newReportButton}>
+            {text}
         </Button>
     )
 }
 
-const STYLES = {
+const HtmlHead = (
+    <Head>
+        <title>{TEXTS.honestyMeter}</title>
+        <meta name="description" content={TEXTS.desciptiion} />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={TEXTS.honestyMeter} />
+        <meta property="og:description" content={TEXTS.ogDescription} />
+        <meta property="og:url" content={BASE_URL} />
+        <meta property="og:image" content={OPEN_GRAPH_IMAGE_URL} />
+        <meta property="twitter:image" content={TWITTER_IMAGE_URL} />
+        <link rel="shortcut icon" href={LOGO_URL} />
+        <link rel="canonical" href={BASE_URL} />
+    </Head>
+)
+
+const NEW_REPORT_STYLES = {
+    container: {
+        width: '100%',
+        margin: '0 auto auto',
+        padding: theme.spacing(0, 2, 2, 2),
+    },
+}
+
+const REPORTS_STYLES = {
     container: {
         maxWidth: '1400px',
         margin: 'auto',
@@ -180,11 +272,10 @@ const STYLES = {
             transform: 'translate(0, -2px)',
         }
     },
-    image: (randomImageUrl) => ({
+    image: () => ({
         width: '100%',
         height: '150px',
         backgroundColor: theme.palette.grey[300],
-        backgroundImage: `url(${randomImageUrl})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         borderRadius: '4px',
@@ -204,7 +295,7 @@ const STYLES = {
         color: theme.palette.text.secondary,
     },
     source: {
-        fontSize: theme.typography.fontSize * 0.875
+        fontSize: theme.typography.fontSize * 1
     },
     articleDate: {
         fontSize: theme.typography.fontSize * 0.75
@@ -223,6 +314,9 @@ const STYLES = {
         alignItems: 'center',
         gap: theme.spacing(2),
         marginBottom: theme.spacing(2),
+    },
+    skipIcon: {
+        transform: 'scale(0.75)'
     }
 }
 
@@ -230,7 +324,7 @@ export async function getServerSideProps(context) {
     const { req } = context;
     const host = req?.headers?.host
     const { page = 1 } = context.query;
-    const url = `http://${host}/${PATH}?page=${page}`;
+    const url = `http://${host}/${SAVED_REPORTS_PATH}?page=${page}`;
 
     try {
         const res = await fetch(url);

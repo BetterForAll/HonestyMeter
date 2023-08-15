@@ -33,10 +33,20 @@ export const generateMatchingColor = (bgColorRgba) => {//TODO: use for showing c
 
 export const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export function scrollToTop() {
+export function scrollToTop({ isSmooth = true } = {}) {
   if (typeof window === 'undefined') return;
 
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  const behavior = isSmooth ? 'smooth' : 'auto';
+
+  window.scrollTo({ top: 0, behavior });
+}
+
+export function scrollToBottom({ isSmooth = true } = {}) {
+  if (typeof window === 'undefined') return;
+
+  const behavior = isSmooth ? 'smooth' : 'auto';
+
+  window.scrollTo({ top: document.body.scrollHeight, behavior });
 }
 
 export const EMPTY_FUNCTION = () => { };

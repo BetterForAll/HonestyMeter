@@ -5,7 +5,7 @@ const nextConfig = {
     customKey: 'my-value',
   },
   images: {
-    domains: ['random.imagecdn.app', 'picsum.photos'],
+    domains: ['random.imagecdn.app', 'picsum.photos', 'images.unsplash.com'],
   },
 }
 

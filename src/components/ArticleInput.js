@@ -15,9 +15,9 @@ const TEXTS = {
 export default function AtricleInput({ article, onArticleChange, onGetReport }) {
     return (
         <Box style={STYLES.container}>
-            <Typography variant='h2' style={STYLES.title}>
+            {/* <Typography variant='h2' style={STYLES.title}>
                 {TEXTS.inputTitle}
-            </Typography>
+            </Typography> */}
             <TextField
                 id="outlined-multiline-static"
                 label={TEXTS.placeholder}
@@ -49,7 +49,7 @@ const STYLES = {
         flexDirection: 'column',
         alignItems: 'center',
         margin: 'auto',
-        padding: theme.spacing(4, 0),
+        // padding: theme.spacing(4, 0),
     },
     title: {
         color: theme.palette.primary.main,
