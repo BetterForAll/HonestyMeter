@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
+import { checkIsTextOverflowByElementSize } from '@/utils/utils';
 
 export default function useIsTextOverFlow(elRef) {
     const [isTextOverFlow, setIsTextOverflow] = useState(false);
     const resizeObserverRef = useRef(
         new ResizeObserver((observerEntries) => {
-            const isOverflow = checkIsTextOverflow(observerEntries[0].target);
+            const isOverflow = checkIsTextOverflowByElementSize(observerEntries[0].target);
             setIsTextOverflow(isOverflow);
         })
     );
@@ -25,4 +26,3 @@ export default function useIsTextOverFlow(elRef) {
     return isTextOverFlow;
 }
 
-const checkIsTextOverflow = (el) => el.clientWidth < el.scrollWidth;
