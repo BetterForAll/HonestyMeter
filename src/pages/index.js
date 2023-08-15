@@ -1,21 +1,21 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from 'react'
-import { getBaseUrl, getBaseUrlFromUrlString, scrollToBottom } from '../utils/utils'
-import { Box, Button, Card, List, ListItem, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import theme from '@/theme';
+import { Box, Button, Card, List, ListItem, Typography } from '@mui/material';
 import usePageLoading from '@/hooks/usePageLoading';
 import ReportLoading from '@/components/Report/ReportLoading';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import Tooltip from '@mui/material/Tooltip';
+import { getBaseUrl, getBaseUrlFromUrlString, scrollToTop, scrollToBottom, cutTextIfExeedsMaxCharsCount } from '../utils/utils'
 import Share from '@/components/Share';
-import Head from 'next/head';
 import AtricleInput from '@/components/ArticleInput';
 import Disclamer from '@/components/Disclamer';
 import { BASE_URL } from '@/constants/constants';
-import { scrollToTop } from '@/utils/utils';
-
+import useIsTextOverFlow from '@/hooks/useIsTextOverflow';
 
 const baseUrl = getBaseUrl();
 const SAVED_REPORTS_PATH = 'api/saved_reports'
@@ -47,6 +47,7 @@ const STEPS = {
   forward: 1,
   back: -1,
 }
+const MAX_TITLE_LENGTH = 60;
 
 export default function Home({ homePageProps, allReports, isLastPage, date }) {
   const router = useRouter();
@@ -119,30 +120,38 @@ export default function Home({ homePageProps, allReports, isLastPage, date }) {
                   const source = getBaseUrlFromUrlString(report.articleLink);
                   const reportUrl = `${baseUrl}report/${report._id}`
                   const randomImageUrl = `https://picsum.photos/266/150?random=${report._id}`
-                  const articleDate = report.articleDate || '12/04/2023'; //TODO: remove
+                  const { articleTitle, articleDate = '12/04/2023' } = report || {};
+                  const isTitleTooLong = articleTitle.length > MAX_TITLE_LENGTH;
+                  const articleShortTitle = isTitleTooLong ? cutTextIfExeedsMaxCharsCount(articleTitle, MAX_TITLE_LENGTH) : ''
+                  const shownArticleTitle = isTitleTooLong ? articleShortTitle : articleTitle;
+                  const toolTipTitle = isTitleTooLong ? articleTitle : '';
+
+                  console.log({ articleTitle, isTitleTooLong, articleShortTitle, shownArticleTitle })
 
                   return (
-                    <ListItem key={report._id} sx={REPORTS_STYLES.listItem} onClick={onCardClick(reportUrl)}>
-                      <Card sx={REPORTS_STYLES.card}>
-                        <Typography sx={REPORTS_STYLES.textLine}>
-                          <b>
-                            {report.articleTitle}
-                          </b>
-                        </Typography>
-                        <Typography sx={REPORTS_STYLES.textLine} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                          <Box component="span" style={REPORTS_STYLES.source}>{source}</Box>
-                          <Box component="span" style={REPORTS_STYLES.articleDate}>{articleDate}</Box>
-                        </Typography>
-                        <Box sx={REPORTS_STYLES.image(randomImageUrl)} >
-                          <img
-                            src={randomImageUrl}
-                            alt={TEXTS.imageAlt}
-                            loading='lazy'
-                          />
-                        </Box>
-                        <Typography sx={[REPORTS_STYLES.objectivityScore]}> {TEXTS.objectivityScore}: <b>{report.score}</b> </Typography>
-                        <Button variant='outlined' sx={REPORTS_STYLES.viewReportButton}>{TEXTS.viewReport}</Button>
-                      </Card>
+                    <ListItem sx={REPORTS_STYLES.listItem} onClick={onCardClick(reportUrl)} key={report._id}>
+                      <Tooltip title={toolTipTitle} placement="top" >
+                        <Card sx={REPORTS_STYLES.card}>
+                          <Typography sx={{ ...REPORTS_STYLES.textLine, ...REPORTS_STYLES.articleTitle }}>
+                            <b>
+                              {shownArticleTitle}
+                            </b>
+                          </Typography>
+                          <Typography sx={REPORTS_STYLES.textLine} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <Box component="span" style={REPORTS_STYLES.source}>{source}</Box>
+                            <Box component="span" style={REPORTS_STYLES.articleDate}>{articleDate}</Box>
+                          </Typography>
+                          <Box sx={REPORTS_STYLES.image()} >
+                            <img
+                              src={randomImageUrl}
+                              alt={TEXTS.imageAlt}
+                              loading='lazy'
+                            />
+                          </Box>
+                          <Typography sx={[REPORTS_STYLES.objectivityScore]}> {TEXTS.objectivityScore}: <b>{report.score}</b> </Typography>
+                          <Button variant='outlined' sx={REPORTS_STYLES.viewReportButton}>{TEXTS.viewReport}</Button>
+                        </Card>
+                      </Tooltip>
                     </ListItem>
                   )
                 })
@@ -261,16 +270,18 @@ const REPORTS_STYLES = {
     marginBottom: theme.spacing(2),
   },
   listItem: {
-    maxWidth: '320px',
+    width: '298px',
+    padding: 0,
   },
   card: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    padding: theme.spacing(2),
     cursor: 'pointer',
     transition: 'all 0.2s ease-in-out',
+    width: '100%',
+    padding: theme.spacing(2),
     '&:hover': {
       backgroundColor: theme.palette.action.hover,
       boxShadow: '0px 5px 5px -1px rgba(0,0,0,0.2), 0px 5px 5px 0px rgba(0,0,0,0.14), 0px 5px 5px 0px rgba(0,0,0,0.12)',
@@ -278,8 +289,8 @@ const REPORTS_STYLES = {
     }
   },
   image: () => ({
-    width: '100%',
     height: '150px',
+    width: '266px',
     backgroundColor: theme.palette.grey[300],
     backgroundSize: 'cover',
     backgroundPosition: 'center',
@@ -298,6 +309,9 @@ const REPORTS_STYLES = {
   textLine: {
     marginBottom: theme.spacing(1),
     color: theme.palette.text.secondary,
+  },
+  articleTitle: {
+    height: '48px',
   },
   source: {
     fontSize: theme.typography.fontSize * 1
