@@ -48,7 +48,7 @@ const STEPS = {
   back: -1,
 }
 
-export default function Reports({ homePageProps, allReports, isLastPage, date }) {
+export default function Home({ homePageProps, allReports, isLastPage, date }) {
   const router = useRouter();
   const pageFromQuery = parseInt(router.query.page) || 1;
   const isFirstPage = pageFromQuery === 1;
@@ -57,6 +57,7 @@ export default function Reports({ homePageProps, allReports, isLastPage, date })
   const {
     article,
     handleArticleChange,
+    clearArticleInput,
     handleGetReport,
   } = homePageProps;
   const [isArticleInputShown, setIsArticleInputShown] = useState(false);
@@ -76,6 +77,10 @@ export default function Reports({ homePageProps, allReports, isLastPage, date })
   }
 
   const toggleArticleInput = (isTop) => () => {
+    if (isArticleInputShown) {
+      clearArticleInput();
+    }
+
     setIsArticleInputShown(!isArticleInputShown);
     const scrollMethod = isTop ? scrollToTop : scrollToBottom;
     setTimeout(() => {

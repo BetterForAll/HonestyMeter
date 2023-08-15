@@ -42,6 +42,10 @@ export default function useHomePage() {
         scrollToTop();
     }
 
+    const clearArticleInput = () => {
+        setArtilce(EMPTY_STRING);
+    }
+
     const handleArticleChange = (e) => {
         setArtilce(e.target.value);
     }
@@ -145,6 +149,7 @@ export default function useHomePage() {
         report,
         reportJson,
         shareLevel,
+        clearArticleInput,
         closeReport,
         handleArticleChange,
         handleGetReport
