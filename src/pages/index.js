@@ -74,7 +74,7 @@ export default function Home({ homePageProps, allReports, isLastPage, date }) {
   }
 
   const onStartClick = () => {
-    router.push('/reports');
+    router.push('/');
   }
 
   const toggleArticleInput = (isTop) => () => {
@@ -119,39 +119,37 @@ export default function Home({ homePageProps, allReports, isLastPage, date }) {
                 allReports.map((report) => {
                   const source = getBaseUrlFromUrlString(report.articleLink);
                   const reportUrl = `${baseUrl}report/${report._id}`
-                  const randomImageUrl = `https://picsum.photos/266/150?random=${report._id}`
+                  const randomImageUrl = `https://picsum.photos/288/150?random=${report._id}`
                   const { articleTitle, articleDate = '12/04/2023' } = report || {};
                   const isTitleTooLong = articleTitle.length > MAX_TITLE_LENGTH;
                   const articleShortTitle = isTitleTooLong ? cutTextIfExeedsMaxCharsCount(articleTitle, MAX_TITLE_LENGTH) : ''
                   const shownArticleTitle = isTitleTooLong ? articleShortTitle : articleTitle;
                   const toolTipTitle = isTitleTooLong ? articleTitle : '';
 
-                  console.log({ articleTitle, isTitleTooLong, articleShortTitle, shownArticleTitle })
-
                   return (
                     <ListItem sx={REPORTS_STYLES.listItem} onClick={onCardClick(reportUrl)} key={report._id}>
-                      <Tooltip title={toolTipTitle} placement="top" >
-                        <Card sx={REPORTS_STYLES.card}>
+                      <Card sx={REPORTS_STYLES.card}>
+                        <Tooltip title={toolTipTitle} placement="top" >
                           <Typography sx={{ ...REPORTS_STYLES.textLine, ...REPORTS_STYLES.articleTitle }}>
                             <b>
                               {shownArticleTitle}
                             </b>
                           </Typography>
-                          <Typography sx={REPORTS_STYLES.textLine} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <Box component="span" style={REPORTS_STYLES.source}>{source}</Box>
-                            <Box component="span" style={REPORTS_STYLES.articleDate}>{articleDate}</Box>
-                          </Typography>
-                          <Box sx={REPORTS_STYLES.image()} >
-                            <img
-                              src={randomImageUrl}
-                              alt={TEXTS.imageAlt}
-                              loading='lazy'
-                            />
-                          </Box>
-                          <Typography sx={[REPORTS_STYLES.objectivityScore]}> {TEXTS.objectivityScore}: <b>{report.score}</b> </Typography>
-                          <Button variant='outlined' sx={REPORTS_STYLES.viewReportButton}>{TEXTS.viewReport}</Button>
-                        </Card>
-                      </Tooltip>
+                        </Tooltip>
+                        <Typography sx={REPORTS_STYLES.textLine} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <Box component="span" style={REPORTS_STYLES.source}>{source}</Box>
+                          <Box component="span" style={REPORTS_STYLES.articleDate}>{articleDate}</Box>
+                        </Typography>
+                        <Box sx={REPORTS_STYLES.image()} >
+                          <img
+                            src={randomImageUrl}
+                            alt={TEXTS.imageAlt}
+                            loading='lazy'
+                          />
+                        </Box>
+                        <Typography sx={[REPORTS_STYLES.objectivityScore]}> {TEXTS.objectivityScore}: <b>{report.score}</b> </Typography>
+                        <Button variant='outlined' sx={REPORTS_STYLES.viewReportButton}>{TEXTS.viewReport}</Button>
+                      </Card>
                     </ListItem>
                   )
                 })
@@ -192,11 +190,6 @@ export default function Home({ homePageProps, allReports, isLastPage, date }) {
 
 function CreateReportButton({ onClick, isArticleInputShown }) {
   const router = useRouter();
-
-  const onNewReportClick = () => {
-    router.push('/');
-  }
-
   const text = isArticleInputShown ? TEXTS.cancelNewReport : TEXTS.newReport;
 
   return (
@@ -270,7 +263,7 @@ const REPORTS_STYLES = {
     marginBottom: theme.spacing(2),
   },
   listItem: {
-    width: '298px',
+    width: '320px',
     padding: 0,
   },
   card: {
@@ -290,7 +283,7 @@ const REPORTS_STYLES = {
   },
   image: () => ({
     height: '150px',
-    width: '266px',
+    width: '288px',
     backgroundColor: theme.palette.grey[300],
     backgroundSize: 'cover',
     backgroundPosition: 'center',
