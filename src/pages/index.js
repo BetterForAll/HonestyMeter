@@ -313,7 +313,7 @@ const REPORTS_STYLES = {
     animation: 'skeleton 1s ease-in-out infinite alternate',
     '@keyframes skeleton': {
       '0%': {
-        backgroundColor: theme.palette.grey[300],
+        backgroundColor: theme.palette.grey[200],
       },
       '100%': {
         backgroundColor: theme.palette.grey[100],
