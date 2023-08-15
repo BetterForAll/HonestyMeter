@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import theme from '@/theme';
-import { Box, Button, Card, List, ListItem, Typography } from '@mui/material';
+import { Box, Button, Card, List, ListItem, Skeleton, Typography } from '@mui/material';
 import usePageLoading from '@/hooks/usePageLoading';
 import ReportLoading from '@/components/Report/ReportLoading';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
@@ -97,92 +97,115 @@ export default function Home({ homePageProps, allReports, isLastPage, date }) {
     <>
       {HtmlHead}
       {
-
-        isLoading ? <ReportLoading />
-          :
-          <Box sx={REPORTS_STYLES.container}>
-            <Typography variant="body1" sx={REPORTS_STYLES.date}>{date}</Typography>
-            <Typography variant="h2" sx={REPORTS_STYLES.title}>{TEXTS.title}</Typography>
-            <Typography variant="body1" sx={REPORTS_STYLES.subtitle}>{TEXTS.subtitle}</Typography>
-            <CreateReportButton onClick={toggleArticleInput(true)} isArticleInputShown={isArticleInputShown} />
+        <Box sx={REPORTS_STYLES.container}>
+          <Typography variant="body1" sx={REPORTS_STYLES.date}>{date}</Typography>
+          <Typography variant="h2" sx={REPORTS_STYLES.title}>{TEXTS.title}</Typography>
+          <Typography variant="body1" sx={REPORTS_STYLES.subtitle}>{TEXTS.subtitle}</Typography>
+          <CreateReportButton onClick={toggleArticleInput(true)} isArticleInputShown={isArticleInputShown} />
+          {
+            isArticleInputShown &&
+            <Box sx={NEW_REPORT_STYLES.container} >
+              <AtricleInput
+                article={article}
+                onArticleChange={handleArticleChange}
+                onGetReport={handleGetReport} />
+            </Box>
+          }
+          <List sx={REPORTS_STYLES.list}>
             {
-              isArticleInputShown &&
-              <Box sx={NEW_REPORT_STYLES.container} >
-                <AtricleInput
-                  article={article}
-                  onArticleChange={handleArticleChange}
-                  onGetReport={handleGetReport} />
-              </Box>
-            }
-            <List sx={REPORTS_STYLES.list}>
-              {
-                allReports.map((report) => {
-                  const source = getBaseUrlFromUrlString(report.articleLink);
-                  const reportUrl = `${baseUrl}report/${report._id}`
-                  const randomImageUrl = `https://picsum.photos/288/150?random=${report._id}`
-                  const { articleTitle, articleDate = '12/04/2023' } = report || {};
-                  const isTitleTooLong = articleTitle.length > MAX_TITLE_LENGTH;
-                  const articleShortTitle = isTitleTooLong ? cutTextIfExeedsMaxCharsCount(articleTitle, MAX_TITLE_LENGTH) : ''
-                  const shownArticleTitle = isTitleTooLong ? articleShortTitle : articleTitle;
-                  const toolTipTitle = isTitleTooLong ? articleTitle : '';
+              allReports.map((report) => {
+                const source = getBaseUrlFromUrlString(report.articleLink);
+                const reportUrl = `${baseUrl}report/${report._id}`
+                const randomImageUrl = `https://picsum.photos/288/150?random=${report._id}`
+                const { articleTitle, articleDate = '12/04/2023' } = report || {};
+                const isTitleTooLong = articleTitle.length > MAX_TITLE_LENGTH;
+                const articleShortTitle = isTitleTooLong ? cutTextIfExeedsMaxCharsCount(articleTitle, MAX_TITLE_LENGTH) : ''
+                const shownArticleTitle = isTitleTooLong ? articleShortTitle : articleTitle;
+                const toolTipTitle = isTitleTooLong ? articleTitle : '';
 
-                  return (
-                    <ListItem sx={REPORTS_STYLES.listItem} onClick={onCardClick(reportUrl)} key={report._id}>
-                      <Card sx={REPORTS_STYLES.card}>
-                        <Tooltip title={toolTipTitle} placement="top" >
-                          <Typography sx={{ ...REPORTS_STYLES.textLine, ...REPORTS_STYLES.articleTitle }}>
-                            <b>
-                              {shownArticleTitle}
-                            </b>
+                return (
+                  <ListItem sx={REPORTS_STYLES.listItem} onClick={onCardClick(reportUrl)} key={report._id}>
+                    {
+                      isLoading ?
+                        <Card sx={REPORTS_STYLES.card}>
+                          <Tooltip title={toolTipTitle} placement="top" >
+                            <Skeleton sx={{ ...REPORTS_STYLES.textLine, ...REPORTS_STYLES.articleTitle }}>
+                              <b>
+                                {shownArticleTitle}
+                              </b>
+                            </Skeleton>
+                          </Tooltip>
+                          <Typography sx={REPORTS_STYLES.textLine} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <Skeleton component="span" sx={{ ...REPORTS_STYLES.source, width: 80 }}></Skeleton>
+                            <Skeleton component="span" sx={{ ...REPORTS_STYLES.articleDate, width: 56 }}></Skeleton>
                           </Typography>
-                        </Tooltip>
-                        <Typography sx={REPORTS_STYLES.textLine} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                          <Box component="span" style={REPORTS_STYLES.source}>{source}</Box>
-                          <Box component="span" style={REPORTS_STYLES.articleDate}>{articleDate}</Box>
-                        </Typography>
-                        <Box sx={REPORTS_STYLES.image()} >
-                          <img
-                            src={randomImageUrl}
-                            alt={TEXTS.imageAlt}
-                            loading='lazy'
-                          />
-                        </Box>
-                        <Typography sx={[REPORTS_STYLES.objectivityScore]}> {TEXTS.objectivityScore}: <b>{report.score}</b> </Typography>
-                        <Button variant='outlined' sx={REPORTS_STYLES.viewReportButton}>{TEXTS.viewReport}</Button>
-                      </Card>
-                    </ListItem>
-                  )
-                })
-              }
-            </List>
-            {
-              isPaginationEnabled &&
-              <Box sx={REPORTS_STYLES.pagination}>
-                <Button disabled={isFirstPage} onClick={onStartClick}>
-                  <SkipPreviousIcon fontSize='large' sx={REPORTS_STYLES.skipIcon} />
-                </Button>
-                <Button disabled={isFirstPage} onClick={onChangePage(STEPS.back)}><ArrowLeftIcon fontSize='large' /></Button>
-                <Button disabled={isLastPage} onClick={onChangePage(STEPS.forward)}><ArrowRightIcon fontSize='large' /></Button>
-              </Box>
+                          <Box sx={REPORTS_STYLES.image()} >
+                            <img
+                              src={randomImageUrl}
+                              alt={TEXTS.imageAlt}
+                              loading='lazy'
+                            />
+                          </Box>
+                          <Typography sx={{ ...REPORTS_STYLES.objectivityScore, display: 'flex' }}> {TEXTS.objectivityScore}: <Skeleton variant="text" sx={{ width: 18, marginLeft: theme.spacing(0.5) }}></Skeleton> </Typography>
+                          <Button variant='outlined' disabled sx={REPORTS_STYLES.viewReportButton}>{TEXTS.viewReport}</Button>
+                        </Card>
+                        :
+                        <Card sx={REPORTS_STYLES.card}>
+                          <Tooltip title={toolTipTitle} placement="top" >
+                            <Typography sx={{ ...REPORTS_STYLES.textLine, ...REPORTS_STYLES.articleTitle }}>
+                              <b>
+                                {shownArticleTitle}
+                              </b>
+                            </Typography>
+                          </Tooltip>
+                          <Typography sx={REPORTS_STYLES.textLine} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <Box component="span" style={REPORTS_STYLES.source}>{source}</Box>
+                            <Box component="span" style={REPORTS_STYLES.articleDate}>{articleDate}</Box>
+                          </Typography>
+                          <Box sx={REPORTS_STYLES.image()} >
+                            <img
+                              src={randomImageUrl}
+                              alt={TEXTS.imageAlt}
+                              loading='lazy'
+                            />
+                          </Box>
+                          <Typography sx={[REPORTS_STYLES.objectivityScore]}> {TEXTS.objectivityScore}: <b>{report.score}</b> </Typography>
+                          <Button variant='outlined' sx={REPORTS_STYLES.viewReportButton}>{TEXTS.viewReport}</Button>
+                        </Card>
+                    }
+                  </ListItem>
+                )
+              })
             }
-            <CreateReportButton onClick={toggleArticleInput(false)} isArticleInputShown={isArticleInputShown} />
-            {
-              isArticleInputShown &&
-              <Box sx={NEW_REPORT_STYLES.container} >
-                <AtricleInput
-                  article={article}
-                  onArticleChange={handleArticleChange}
-                  onGetReport={handleGetReport} />
-              </Box>
-            }
-            <Share
-              title={TEXTS.shareTitle}
-              url={BASE_URL}
-              description={TEXTS.shareDescription}
-              hashTags={TEXTS.shareHashTags}
-              context={SHARING_CONTEXT}
-            />
-          </Box >
+          </List>
+          {
+            isPaginationEnabled &&
+            <Box sx={REPORTS_STYLES.pagination}>
+              <Button disabled={isFirstPage} onClick={onStartClick}>
+                <SkipPreviousIcon fontSize='large' sx={REPORTS_STYLES.skipIcon} />
+              </Button>
+              <Button disabled={isFirstPage} onClick={onChangePage(STEPS.back)}><ArrowLeftIcon fontSize='large' /></Button>
+              <Button disabled={isLastPage} onClick={onChangePage(STEPS.forward)}><ArrowRightIcon fontSize='large' /></Button>
+            </Box>
+          }
+          <CreateReportButton onClick={toggleArticleInput(false)} isArticleInputShown={isArticleInputShown} />
+          {
+            isArticleInputShown &&
+            <Box sx={NEW_REPORT_STYLES.container} >
+              <AtricleInput
+                article={article}
+                onArticleChange={handleArticleChange}
+                onGetReport={handleGetReport} />
+            </Box>
+          }
+          <Share
+            title={TEXTS.shareTitle}
+            url={BASE_URL}
+            description={TEXTS.shareDescription}
+            hashTags={TEXTS.shareHashTags}
+            context={SHARING_CONTEXT}
+          />
+        </Box >
       }
     </>
   )
@@ -239,7 +262,6 @@ const REPORTS_STYLES = {
   },
   title: {
     fontSize: theme.typography.fontSize * 2,
-    // marginTop: theme.spacing(2),
     marginBottom: theme.spacing(1),
   },
   subtitle: {
