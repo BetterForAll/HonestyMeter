@@ -126,3 +126,17 @@ export function convertStringToPascalCase(str) {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(EMPTY_STRING);
 }
+
+export function checkIsTextOverflowByElementSize(el) {
+  return el.clientWidth < el.scrollWidth;
+}
+
+export function cutTextIfExeedsMaxCharsCount(text, maxCharacterCount) {
+  if (!text) return EMPTY_STRING;
+
+  const ThreeDots = '...';
+
+  if (text.length <= maxCharacterCount) return text;
+
+  return text.substring(0, maxCharacterCount) + ThreeDots;
+}
