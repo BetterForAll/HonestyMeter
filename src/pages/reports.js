@@ -10,8 +10,6 @@ import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import Share from '@/components/Share';
 
-
-
 const baseUrl = getBaseUrl();
 const PATH = 'api/saved_reports'
 const URL = `${baseUrl}${PATH}`;
@@ -42,8 +40,6 @@ export default function Reports({ allReports, isLastPage, date }) {
     const onCardClick = (reportUrl) => () => {
         router.push(reportUrl);
     }
-
-
 
     if (allReports.length === 0) {
         return <Typography variant="body1" sx={STYLES.noReportsText}>No reports yet</Typography>
@@ -84,8 +80,8 @@ export default function Reports({ allReports, isLastPage, date }) {
                                             </b>
                                         </Typography>
                                         <Typography sx={STYLES.textLine} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                            <span>{source}</span>
-                                            <span style={{ fontSize: '12px' }}>{articleDate}</span>
+                                            <span style={STYLES.source}>{source}</span>
+                                            <span style={STYLES.articleDate}>{articleDate}</span>
                                         </Typography>
                                         <Box
                                             sx={STYLES.image(randomImageUrl)}
@@ -110,7 +106,7 @@ export default function Reports({ allReports, isLastPage, date }) {
                 }
                 <CreateReportButton />
                 <Share />
-            </Box>
+            </Box >
     )
 }
 
@@ -206,6 +202,12 @@ const STYLES = {
     textLine: {
         marginBottom: theme.spacing(1),
         color: theme.palette.text.secondary,
+    },
+    source: {
+        fontSize: theme.typography.fontSize * 0.875
+    },
+    articleDate: {
+        fontSize: theme.typography.fontSize * 0.75
     },
     objectivityScore: {
         color: theme.palette.text.secondary,
