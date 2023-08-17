@@ -208,6 +208,10 @@ export default function Home({ homePageProps, allReports, isLastPage, date }) {
           />
         </Box >
       }
+      {
+        pageFromQuery === 1 &&
+        < Disclamer />
+      }
     </>
   )
 }
