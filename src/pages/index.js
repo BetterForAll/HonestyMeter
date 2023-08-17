@@ -10,7 +10,7 @@ import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import Tooltip from '@mui/material/Tooltip';
-import { getBaseUrl, getBaseUrlFromUrlString, scrollToTop, scrollToBottom, cutTextIfExeedsMaxCharsCount } from '../utils/utils'
+import { getBaseUrl, getBaseUrlFromUrlString, scrollToTop, scrollToBottom, cutTextIfExeedsMaxCharsCount, convertUTCDateToUserTimeZone } from '../utils/utils'
 import Share from '@/components/Share';
 import AtricleInput from '@/components/ArticleInput';
 import Disclamer from '@/components/Disclamer';
@@ -25,7 +25,7 @@ const OPEN_GRAPH_IMAGE_URL = './opengraph-logo.png'
 const TWITTER_IMAGE_URL = './favicon.png'
 const SHARING_CONTEXT = 'app'
 const TEXTS = {
-  title: 'Latest Bias Reports',
+  title: 'News Bias Reports',
   subtitle: 'Articles from leading news sources, analysed for bias by HonestyMeter',
   newReport: 'Create new bias report',
   cancelNewReport: 'Cancel new report',
@@ -47,7 +47,7 @@ const STEPS = {
   forward: 1,
   back: -1,
 }
-const MAX_TITLE_LENGTH = 60;
+const MAX_TITLE_LENGTH = 62;
 
 export default function Home({ homePageProps, allReports, isLastPage, date }) {
   const router = useRouter();
@@ -117,7 +117,8 @@ export default function Home({ homePageProps, allReports, isLastPage, date }) {
                 const source = getBaseUrlFromUrlString(report.articleLink);
                 const reportUrl = `${baseUrl}report/${report._id}`
                 const randomImageUrl = `https://picsum.photos/288/150?random=${report._id}`
-                const { articleTitle, articleDate = '12/04/2023' } = report || {};
+                const { articleTitle, articleDate } = report || {};
+                const articleDateInUserTimeZone = articleDate ? convertUTCDateToUserTimeZone(articleDate) : ''
                 const isTitleTooLong = articleTitle.length > MAX_TITLE_LENGTH;
                 const articleShortTitle = isTitleTooLong ? cutTextIfExeedsMaxCharsCount(articleTitle, MAX_TITLE_LENGTH) : ''
                 const shownArticleTitle = isTitleTooLong ? articleShortTitle : articleTitle;
@@ -160,7 +161,7 @@ export default function Home({ homePageProps, allReports, isLastPage, date }) {
                           </Tooltip>
                           <Typography sx={REPORTS_STYLES.textLine} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <Box component="span" style={REPORTS_STYLES.source}>{source}</Box>
-                            <Box component="span" style={REPORTS_STYLES.articleDate}>{articleDate}</Box>
+                            <Box component="span" style={REPORTS_STYLES.articleDate}>{articleDateInUserTimeZone}</Box>
                           </Typography>
                           <Box sx={REPORTS_STYLES.image()} >
                             <img
@@ -169,7 +170,7 @@ export default function Home({ homePageProps, allReports, isLastPage, date }) {
                               loading='lazy'
                             />
                           </Box>
-                          <Typography sx={[REPORTS_STYLES.objectivityScore]}> {TEXTS.objectivityScore}: <b>{report.score}</b> </Typography>
+                          <Typography sx={[REPORTS_STYLES.objectivityScore]} > {TEXTS.objectivityScore}: <span style={REPORTS_STYLES.scoreDigit(report.score)}>{report.score}</span> </Typography>
                           <Button variant='outlined' sx={REPORTS_STYLES.viewReportButton}>{TEXTS.viewReport}</Button>
                         </Card>
                     }
@@ -337,6 +338,22 @@ const REPORTS_STYLES = {
     color: theme.palette.text.secondary,
     margin: 'auto',
     marginBottom: theme.spacing(1),
+  },
+  scoreDigit: (score) => {
+    let color;
+    const scoreNumber = parseInt(score)
+
+    if (score < 70) {
+      color = theme.palette.error.main
+    } else if (score < 80) {
+      color = theme.palette.warning.main
+    } else {
+      color = theme.palette.success.main
+    }
+
+    return {
+      color
+    }
   },
   viewReportButton: {
     width: '100%',

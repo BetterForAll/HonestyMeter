@@ -2,7 +2,7 @@ import React from 'react';
 import { Typography, Paper, Box } from '@mui/material';
 import theme from '@/theme';
 import { string, number } from 'prop-types';
-import { getBaseUrlFromUrlString } from '@/utils/utils';
+import { convertUTCDateToUserTimeZone, getBaseUrlFromUrlString } from '@/utils/utils';
 
 const TEXTS = {
   score: 'Objectivity Score',
@@ -20,7 +20,7 @@ export default function ReportHeader({
   articleDate
 }) {
   const articleBaseUrl = articleLink ? getBaseUrlFromUrlString(articleLink) : '';
-  const mockDate = new Date().toLocaleDateString(); //TODO: remove
+  const userTimeZoneArticleDate = convertUTCDateToUserTimeZone(articleDate);
 
   return (
     <Box sx={STYLES.container}>
@@ -35,7 +35,7 @@ export default function ReportHeader({
               {TEXTS.articleTitle}:
             </b>
             &nbsp;
-            {`${articleTitle} ( ${articleDate || mockDate} )`}
+            {`${articleTitle} ( ${userTimeZoneArticleDate} )`}
             &nbsp;
             {articleBaseUrl &&
               <a href={articleLink} target="_blank">

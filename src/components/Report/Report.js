@@ -8,6 +8,7 @@ import reportPropType from './reportPropTypes';
 
 function Report({ report }) {
   const { sidesScoreData, sidesBalanceChartData } = getFormattedReportData(report);
+  const isManipulationsFound = report.score !== 100;
 
   return (
     <Box sx={STYLES.container}>
@@ -18,11 +19,16 @@ function Report({ report }) {
         articleLink={report.articleLink}
         articleDate={report.articleDate}
       />
-      <Charts
-        sidesScoreData={sidesScoreData}
-        sidesBalanceChartData={sidesBalanceChartData}
-        favoredSide={report.favoredSide} />
-      <ManipulationList manipulations={report.manipulations} />
+      {
+        isManipulationsFound &&
+        <>
+          <Charts
+            sidesScoreData={sidesScoreData}
+            sidesBalanceChartData={sidesBalanceChartData}
+            favoredSide={report.favoredSide} />
+          <ManipulationList manipulations={report.manipulations} />
+        </>
+      }
     </Box >
   );
 };

@@ -28,7 +28,11 @@ export default async function handler(req, res) {
             let allReports = [];
 
             if (isPageInRange) {
-                allReports = await db.collection(collectionName).find({}).skip(skip).limit(ITEMS_PER_PAGE).toArray();
+                allReports = await db.collection(collectionName)
+                    .find({})
+                    .sort({ articleDate: -1 })
+                    .skip(skip)
+                    .limit(ITEMS_PER_PAGE).toArray();
             }
 
             res.json({ status: STATUS_CODE.OK, data: { allReports, isLastPage } });

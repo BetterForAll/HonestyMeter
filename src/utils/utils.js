@@ -140,3 +140,10 @@ export function cutTextIfExeedsMaxCharsCount(text, maxCharacterCount) {
 
   return text.substring(0, maxCharacterCount) + ThreeDots;
 }
+
+export function convertUTCDateToUserTimeZone(dateString) {
+  const isoString = dateString.replace(' ', 'T') + 'Z';
+  const date = new Date(isoString);
+
+  return date.toLocaleString();
+}
