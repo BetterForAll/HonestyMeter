@@ -267,7 +267,7 @@ const REPORTS_STYLES = {
   },
   title: {
     fontSize: theme.typography.fontSize * 2,
-    marginBottom: theme.spacing(1),
+    margin: theme.spacing(2, 0, 1),
   },
   subtitle: {
     fontSize: theme.typography.fontSize * 0.875,
