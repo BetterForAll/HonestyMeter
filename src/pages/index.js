@@ -25,7 +25,7 @@ const OPEN_GRAPH_IMAGE_URL = './opengraph-logo.png'
 const TWITTER_IMAGE_URL = './favicon.png'
 const SHARING_CONTEXT = 'app'
 const TEXTS = {
-  title: 'News Bias Reports',
+  title: 'News Integrity Feed',
   subtitle: 'Articles from leading news sources, analysed for bias by HonestyMeter',
   newReport: 'Create new bias report',
   cancelNewReport: 'Cancel new report',
@@ -98,7 +98,7 @@ export default function Home({ homePageProps, allReports, isLastPage, date }) {
       {HtmlHead}
       {
         <Box sx={REPORTS_STYLES.container}>
-          <Typography variant="body1" sx={REPORTS_STYLES.date}>{date}</Typography>
+          {/* <Typography variant="body1" sx={REPORTS_STYLES.date}>{date}</Typography> */}
           <Typography variant="h2" sx={REPORTS_STYLES.title}>{TEXTS.title}</Typography>
           <Typography variant="body1" sx={REPORTS_STYLES.subtitle}>{TEXTS.subtitle}</Typography>
           <CreateReportButton onClick={toggleArticleInput(true)} isArticleInputShown={isArticleInputShown} />
