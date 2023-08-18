@@ -35,7 +35,7 @@ export default function ReportHeader({
               {TEXTS.articleTitle}:
             </b>
             &nbsp;
-            {`${articleTitle} ( ${userTimeZoneArticleDate} )`}
+            {`${articleTitle} (${userTimeZoneArticleDate})`}
             &nbsp;
             {articleBaseUrl &&
               <a href={articleLink} target="_blank">

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import theme from '@/theme';
-import { Box, Button, Card, List, ListItem, Skeleton, Typography } from '@mui/material';
+import { Box, Button, Card, CircularProgress, List, ListItem, Skeleton, Typography } from '@mui/material';
 import usePageLoading from '@/hooks/usePageLoading';
 import ReportLoading from '@/components/Report/ReportLoading';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
@@ -31,7 +31,7 @@ const TEXTS = {
   cancelNewReport: 'Cancel new report',
   articleTitle: 'Article Title',
   source: 'Source',
-  objectivityScore: 'OBJECTIVITY SCORE',
+  objectivityScore: 'Objectivity Score',
   viewReport: 'View Bias Report',
   imageAlt: 'Random illustration image',
   honestyMeter: 'Honesty Meter',
@@ -170,7 +170,18 @@ export default function Home({ homePageProps, allReports, isLastPage, date }) {
                               loading='lazy'
                             />
                           </Box>
-                          <Typography sx={[REPORTS_STYLES.objectivityScore]} > {TEXTS.objectivityScore}: <span style={REPORTS_STYLES.scoreDigit(report.score)}>{report.score}</span> </Typography>
+                          <Box sx={[REPORTS_STYLES.objectivityScore]} >
+                            <Typography>
+                              {TEXTS.objectivityScore}
+                            </Typography>
+                            <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+                              <CircularProgressWithLabel value={report.score} color={getScoreStyle(report.score).color} />
+                            </Box>
+
+                            <Typography sx={{ color: getScoreStyle(report.score).color }}>
+                              {getScoreStyle(report.score).content}
+                            </Typography>
+                          </Box>
                           <Button variant='outlined' sx={REPORTS_STYLES.viewReportButton}>{TEXTS.viewReport}</Button>
                         </Card>
                     }
@@ -241,6 +252,49 @@ const HtmlHead = (
     <link rel="canonical" href={BASE_URL} />
   </Head>
 )
+
+export async function getServerSideProps(context) {
+  const { req } = context;
+  const host = req?.headers?.host
+  const { page = 1 } = context.query;
+  const url = `http://${host}/${SAVED_REPORTS_PATH}?page=${page}`;
+
+  try {
+    const res = await fetch(url);
+    const { data } = await res.json();
+    const { allReports, isLastPage } = data;
+
+    const date = new Date().toLocaleString();
+
+    return { props: { allReports, isLastPage, date } }
+  } catch (error) {
+    console.log({ error })
+  }
+}
+
+function CircularProgressWithLabel({ value = 50, color = 'red', ...props }) {
+  return (
+    <Box sx={{ position: 'relative', display: 'inline-flex' }}>
+      <CircularProgress value={value} sx={{ color, transform: 'scale(0.8) rotate(-90deg) !important' }} variant="determinate" {...props} />
+      <Box
+        sx={{
+          top: 2,
+          left: 0,
+          bottom: 0,
+          right: 2,
+          position: 'absolute',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Typography variant="caption" component="div" sx={{ color }}>
+          {`${Math.round(value)}`}
+        </Typography>
+      </Box>
+    </Box>
+  );
+}
 
 const NEW_REPORT_STYLES = {
   container: {
@@ -342,25 +396,22 @@ const REPORTS_STYLES = {
     color: theme.palette.text.secondary,
     margin: 'auto',
     marginBottom: theme.spacing(1),
-  },
-  scoreDigit: (score) => {
-    let color;
-    const scoreNumber = parseInt(score)
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: theme.spacing(1),
+    width: '100%',
 
-    if (score < 70) {
-      color = theme.palette.error.main
-    } else if (score < 80) {
-      color = theme.palette.warning.main
-    } else {
-      color = theme.palette.success.main
-    }
-
-    return {
-      color
-    }
   },
+  scoreDigit: (score) => getScoreStyle(score),
   viewReportButton: {
     width: '100%',
+    color: theme.palette.text.secondary,
+    borderColor: theme.palette.divider,
+    '&:hover': {
+      borderColor: theme.palette.divider,
+      outline: `2px solid theme.palette.divider`,
+    }
   },
   pagination: {
     display: 'flex',
@@ -374,24 +425,7 @@ const REPORTS_STYLES = {
   }
 }
 
-export async function getServerSideProps(context) {
-  const { req } = context;
-  const host = req?.headers?.host
-  const { page = 1 } = context.query;
-  const url = `http://${host}/${SAVED_REPORTS_PATH}?page=${page}`;
 
-  try {
-    const res = await fetch(url);
-    const { data } = await res.json();
-    const { allReports, isLastPage } = data;
-
-    const date = new Date().toLocaleString();
-
-    return { props: { allReports, isLastPage, date } }
-  } catch (error) {
-    console.log({ error })
-  }
-}
 
 const createReport = async () => {
   let res = await fetch(URL, {
@@ -407,3 +441,24 @@ const createReport = async () => {
   });
   res = await res.json();
 };
+
+const getScoreStyle = (score) => {
+  let color;
+  let content;
+
+  if (score < 70) {
+    color = theme.palette.error.main;
+    content = ' Low';
+  } else if (score < 80) {
+    color = theme.palette.warning.main;
+    content = ' Medium';
+  } else {
+    color = theme.palette.success.main;
+    content = ' High';
+  }
+
+  return {
+    color,
+    content
+  };
+}
