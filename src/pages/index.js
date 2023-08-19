@@ -26,7 +26,7 @@ const TWITTER_IMAGE_URL = './favicon.png'
 const SHARING_CONTEXT = 'app'
 const TEXTS = {
   title: 'News Integrity Feed',
-  subtitle: 'Articles from leading news sources, analysed for bias by HonestyMeter',
+  subtitle: 'Top news analysed for bias by HonestyMeter (powered by newsdata.io api)',
   newReport: 'Create new bias report',
   cancelNewReport: 'Cancel new report',
   articleTitle: 'Article Title',
@@ -54,7 +54,8 @@ export default function Home({ homePageProps, allReports, isLastPage, date }) {
   const pageFromQuery = parseInt(router.query.page) || 1;
   const isFirstPage = pageFromQuery === 1;
   const isPaginationEnabled = !(isFirstPage && isLastPage)
-  const isLoading = usePageLoading();
+  const isLoading = true //TODO: remove true
+  //  usePageLoading();
   const {
     article,
     handleArticleChange,
@@ -147,7 +148,17 @@ export default function Home({ homePageProps, allReports, isLastPage, date }) {
                               loading='lazy'
                             />
                           </Box>
-                          <Typography sx={{ ...REPORTS_STYLES.objectivityScore, display: 'flex' }}> {TEXTS.objectivityScore}: <Skeleton variant="text" sx={{ width: 18, marginLeft: theme.spacing(0.5) }}></Skeleton> </Typography>
+                          <Box sx={[REPORTS_STYLES.objectivityScore]} >
+                            <Typography>
+                              {TEXTS.objectivityScore}
+                            </Typography>
+                            <Skeleton sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+                              <CircularProgressWithLabel value={report.score} color={getScoreStyle(report.score).color} />
+                            </Skeleton>
+
+                            <Skeleton width={58} height={14} sx={{ color: getScoreStyle(report.score).color }}>
+                            </Skeleton>
+                          </Box>
                           <Button variant='outlined' disabled sx={REPORTS_STYLES.viewReportButton}>{TEXTS.viewReport}</Button>
                         </Card>
                         :
