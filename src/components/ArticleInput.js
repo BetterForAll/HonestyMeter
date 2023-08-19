@@ -2,11 +2,10 @@ import React from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import theme from '@/theme';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { string, func } from 'prop-types';
 
 const TEXTS = {
-    inputTitle: 'PASTE AN ARTICLE',
     placeholder: 'Paste a text for bias analysis',
     alert: 'Please enter an article',
     cta: 'Discover the truth',
@@ -15,9 +14,6 @@ const TEXTS = {
 export default function AtricleInput({ article, onArticleChange, onGetReport }) {
     return (
         <Box style={STYLES.container}>
-            {/* <Typography variant='h2' style={STYLES.title}>
-                {TEXTS.inputTitle}
-            </Typography> */}
             <TextField
                 id="outlined-multiline-static"
                 label={TEXTS.placeholder}
@@ -49,7 +45,6 @@ const STYLES = {
         flexDirection: 'column',
         alignItems: 'center',
         margin: 'auto',
-        // padding: theme.spacing(4, 0),
     },
     title: {
         color: theme.palette.primary.main,

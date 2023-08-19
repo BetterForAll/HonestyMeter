@@ -6,9 +6,14 @@ import { copyTextToClipboard } from '@/utils/utils';
 
 const TIMEOUT = 1500;
 
+const TEXTS = {
+    copy: 'Copy report to clipboard',
+    copied: 'Copied!',
+}
+
 function CopyToClipboard({ copyText }) {
     const [isCopied, setIsCopied] = useState(false);
-    const buttonText = isCopied ? 'Copied!' : 'Copy report to clipboard';
+    const buttonText = isCopied ? TEXTS.copied : TEXTS.copy;
 
     const handleCopyClick = () => {
         copyTextToClipboard(copyText)

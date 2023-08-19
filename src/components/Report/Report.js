@@ -8,7 +8,7 @@ import reportPropType from './reportPropTypes';
 
 function Report({ report }) {
   const { sidesScoreData, sidesBalanceChartData } = getFormattedReportData(report);
-  const isManipulationsFound = report.score !== 100;
+  const isManipulationsFound = report?.score !== 100;
 
   return (
     <Box sx={STYLES.container}>

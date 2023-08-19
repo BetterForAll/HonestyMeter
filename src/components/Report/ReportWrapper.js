@@ -52,7 +52,7 @@ ReportWrapper.propTypes = {
 
 
 function ReportWrapperHeader({ onCloseReportClick = EMPTY_FUNCTION }) {
-    const closeIconTooltipTitle = TEXTS.closeReport.toLowerCase();
+    const closeIconTooltipTitle = TEXTS.closeReport;
 
     return (
         <Box sx={STYLES.header}>
