@@ -7,9 +7,9 @@ export default function Disclamer() {
   return (
     <Box sx={STYLES.container}>
       {/* <Title text={TEXTS.TITLE} /> */}
-      <Paragrpah text={TEXTS.experimentalVersion} />
+      {/* <Paragrpah text={TEXTS.experimentalVersion} /> */}
       <Paragrpah text={TEXTS.noOneIsPerfect} />
-      <Paragrpah text={TEXTS.somwContentIsHardToEvaluate} />
+      {/* <Paragrpah text={TEXTS.somwContentIsHardToEvaluate} /> */}
     </Box>
   )
 }
