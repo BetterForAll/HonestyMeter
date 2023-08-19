@@ -54,8 +54,7 @@ export default function Home({ homePageProps, allReports, isLastPage, date }) {
   const pageFromQuery = parseInt(router.query.page) || 1;
   const isFirstPage = pageFromQuery === 1;
   const isPaginationEnabled = !(isFirstPage && isLastPage)
-  const isLoading = true //TODO: remove true
-  //  usePageLoading();
+  const isLoading = usePageLoading();
   const {
     article,
     handleArticleChange,
