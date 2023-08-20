@@ -23,40 +23,55 @@ export default function ReportHeader({
   const userTimeZoneArticleDate = convertUTCDateToUserTimeZone(articleDate);
 
   return (
-    <Box sx={STYLES.container}>
-      <Paper elevation={2} sx={STYLES.paper}>
-        <Typography variant="h6" sx={STYLES.score}>
-          {TEXTS.score}:&nbsp;&nbsp;{score} <Typography component='span' variant='h6' color="text.secondary">{TEXTS.outOf100}</Typography>
+    <Paper elevation={2} sx={STYLES.paper}>
+      <Typography variant="h2" sx={STYLES.score}>
+        {TEXTS.score}:&nbsp;&nbsp;{score}&nbsp;
+        <Typography component='span' variant='h2' sx={STYLES.score}>
+          {TEXTS.outOf100}
         </Typography>
-        {
-          articleTitle &&
-          <Typography variant="subtitle1" sx={STYLES.articleTitle}>
-            <b>
+      </Typography>
+      {
+        articleTitle &&
+        <Box variant="subtitle1" sx={STYLES.articleDetails}>
+          <Box>
+            <Typography component='span' sx={STYLES.articleTitle}>
               {TEXTS.articleTitle}:
-            </b>
-            &nbsp;
-            {`${articleTitle} (${userTimeZoneArticleDate})`}
-            &nbsp;
-            {articleBaseUrl &&
+              &nbsp;
+            </Typography>
+            <Typography component='span'>
+              {articleTitle}.
+              &nbsp;
+            </Typography>
+          </Box>
+          <Typography component='span'
+            sx={STYLES.articleDate}
+          >
+            [ {userTimeZoneArticleDate} ]
+          </Typography>
+          &nbsp;
+          {articleBaseUrl &&
+            <Typography component='span'
+              sx={STYLES.articleLink}
+            >
               <a href={articleLink} target="_blank">
                 {TEXTS.readOn}
                 &nbsp;
                 {articleBaseUrl}
-              </a>}
-          </Typography>
-        }
-        <Typography variant="subtitle1" sx={STYLES.explanation}>
-          {
-            articleTitle &&
-            <b>
-              {`${TEXTS.reportOverview}:`}
-              &nbsp;
-            </b>
+              </a>
+            </Typography>
           }
+        </Box>
+      }
+      <Box sx={STYLES.explanation}>
+        <Typography component='span'>
+          {`${TEXTS.reportOverview}:`}
+          &nbsp;
+        </Typography>
+        <Typography component='span'>
           {explanation}
         </Typography>
-      </Paper>
-    </Box>
+      </Box>
+    </Paper>
   )
 }
 
@@ -69,30 +84,51 @@ ReportHeader.propTypes = {
 }
 
 const STYLES = {
-  container: {
-    marginBottom: theme.spacing(4)
-  },
   title: {
     marginBottom: theme.spacing(2),
     padding: theme.spacing(0, 2)
   },
   paper: {
     padding: theme.spacing(3),
+    position: 'relative',
+    marginBottom: theme.spacing(4)
   },
   score: {
-    marginBottom: theme.spacing(1),
+    fontSize: theme.typography.fontSize * 1.5,
+    fontWeight: theme.typography.fontWeightMedium,
+    marginBottom: theme.spacing(2),
+    '& > span': {
+      color: theme.palette.text.secondary,
+    }
   },
-  articleTitle: {
+  articleDetails: {
     textAlign: 'left',
     marginBottom: theme.spacing(1),
+    fontSize: theme.typography.fontSize * 0.875,
+    display: 'flex',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+  },
+  articleTitle: {
+    fontWeight: theme.typography.fontWeightMedium
+  },
+  articleDate: {
+    fontSize: theme.typography.fontSize,
+    color: theme.palette.text.secondary,
+  },
+  articleLink: {
+    '& > a': {
+      color: theme.palette.text.secondary,
+      textDecoration: 'underline',
+      '&:hover': {
+        textDecoration: 'none',
+      }
+    }
   },
   explanation: {
     textAlign: 'left',
+    '& span:first-of-type': {
+      fontWeight: theme.typography.fontWeightMedium,
+    }
   },
-  explanationText: {
-
-  },
-  readMore: {
-
-  }
 }
