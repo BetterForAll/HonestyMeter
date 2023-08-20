@@ -21,7 +21,8 @@ const TWITTER_IMAGE_URL = './favicon.png'
 const SHARING_CONTEXT = 'app'
 const TEXTS = {
   title: 'News Integrity Feed',
-  subtitle: 'Top news analysed for bias by HonestyMeter (powered by newsdata.io api)',
+  subtitle: 'Top news analysed for bias by HonestyMeter',
+  poweredBy: 'news api powered by newsdata.io',
   newReport: 'Create new bias report',
   cancelNewReport: 'Cancel new report',
   articleTitle: 'Article Title',
@@ -101,6 +102,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
           {/* <Typography variant="body1" sx={REPORTS_STYLES.date}>{date}</Typography> */}
           <Typography variant="h2" sx={REPORTS_STYLES.title}>{TEXTS.title}</Typography>
           <Typography variant="body1" sx={REPORTS_STYLES.subtitle}>{TEXTS.subtitle}</Typography>
+          <Typography variant="body1" sx={REPORTS_STYLES.poweredBy}>({TEXTS.poweredBy})</Typography>
           <CreateReportButton onClick={toggleArticleInput(true)} isArticleInputShown={isArticleInputShown} />
           {
             isArticleInputShown &&
@@ -216,8 +218,15 @@ const REPORTS_STYLES = {
   subtitle: {
     fontSize: theme.typography.fontSize * 0.875,
     color: theme.palette.text.secondary,
-    margin: theme.spacing(0, 2, 2, 2),
+    margin: theme.spacing(0, 2, 0.5, 2),
     textAlign: 'center',
+  },
+  poweredBy: {
+    fontSize: theme.typography.fontSize * 0.75,
+    color: theme.palette.text.secondary,
+    opacity: 0.8,
+    textAlign: 'center',
+    margin: theme.spacing(0, 2, 2, 2),
   },
   newReportButton: {
     margin: 'auto',

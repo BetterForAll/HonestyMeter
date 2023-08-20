@@ -31,7 +31,7 @@ const STYLES = {
     }),
     valueContainer: {
         top: 2,
-        left: 0,
+        left: 1,
         bottom: 0,
         right: 2,
         position: 'absolute',
