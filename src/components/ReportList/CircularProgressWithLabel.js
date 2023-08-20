@@ -30,8 +30,8 @@ const STYLES = {
         transform: 'scale(0.8) rotate(-90deg) !important'
     }),
     valueContainer: {
-        top: 2,
-        left: 1,
+        top: 1,
+        left: 0,
         bottom: 0,
         right: 2,
         position: 'absolute',
