@@ -1,4 +1,4 @@
-import { convertStringToPascalCase, generateRandomRgbaColor, getHttpProtocol } from "@/utils/utils";
+import { convertStringToPascalCase, generateRandomRgbaColor, getHttpProtocol, isServer } from "@/utils/utils";
 import { SIDES_BALANCE_CHART_TEMLATE, SIDES_SCORE_CHART_LABELS } from "./reportConstants";
 import { BASE_URL } from "@/constants/constants";
 

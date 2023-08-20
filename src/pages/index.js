@@ -14,12 +14,11 @@ import { getBaseUrl, getBaseUrlFromUrlString, scrollToTop, scrollToBottom, cutTe
 import Share from '@/components/Share';
 import AtricleInput from '@/components/ArticleInput';
 import Disclamer from '@/components/Disclamer';
-import { BASE_URL } from '@/constants/constants';
+import { API_URL, BASE_URL } from '@/constants/constants';
 import useIsTextOverFlow from '@/hooks/useIsTextOverflow';
 
 const baseUrl = getBaseUrl();
-const SAVED_REPORTS_PATH = 'api/saved_reports'
-const URL = `${baseUrl}${SAVED_REPORTS_PATH}`;
+const URL = `${baseUrl}${API_URL.SAVED_REPORT}`;
 const LOGO_URL = './public/favicon.png'
 const OPEN_GRAPH_IMAGE_URL = './opengraph-logo.png'
 const TWITTER_IMAGE_URL = './favicon.png'
@@ -49,7 +48,7 @@ const STEPS = {
 }
 const MAX_TITLE_LENGTH = 62;
 
-export default function Home({ homePageProps, allReports, isLastPage, date }) {
+export default function Home({ homePageProps, reports, isLastPage, date }) {
   const router = useRouter();
   const pageFromQuery = parseInt(router.query.page) || 1;
   const isFirstPage = pageFromQuery === 1;
@@ -89,7 +88,7 @@ export default function Home({ homePageProps, allReports, isLastPage, date }) {
     }, 0)
   }
 
-  if (allReports.length === 0) {
+  if (reports.length === 0) {
     return <Typography variant="body1" sx={REPORTS_STYLES.noReportsText}>No reports yet</Typography>
   }
 
@@ -113,7 +112,7 @@ export default function Home({ homePageProps, allReports, isLastPage, date }) {
           }
           <List sx={REPORTS_STYLES.list}>
             {
-              allReports.map((report) => {
+              reports.map((report) => {
                 const source = getBaseUrlFromUrlString(report.articleLink);
                 const reportUrl = `${baseUrl}report/${report._id}`
                 const randomImageUrl = `https://picsum.photos/288/150?random=${report._id}`
@@ -267,16 +266,16 @@ export async function getServerSideProps(context) {
   const { req } = context;
   const host = req?.headers?.host
   const { page = 1 } = context.query;
-  const url = `http://${host}/${SAVED_REPORTS_PATH}?page=${page}`;
+  const url = `http://${host}/${API_URL.SAVED_REPORT}?page=${page}`;
 
   try {
     const res = await fetch(url);
     const { data } = await res.json();
-    const { allReports, isLastPage } = data;
+    const { reports, isLastPage } = data;
 
     const date = new Date().toLocaleString();
 
-    return { props: { allReports, isLastPage, date } }
+    return { props: { reports, isLastPage, date } }
   } catch (error) {
     console.log({ error })
   }

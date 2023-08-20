@@ -1,8 +1,8 @@
 import { wait } from "@/utils/utils";
 import mockReport from "../data/report";
+import { API_URL } from "@/constants/constants";
 
 const GENERATE_REPORT_API_URL = "./api/report";
-const SAVED_REPORTS_API_URL = "./api/saved_reports";
 const OPTIONS_TEMPLATE = {
   method: "POST",
   headers: {
@@ -34,7 +34,7 @@ export async function saveReport(report) {
     body: JSON.stringify(report),
     method: 'POST',
   };
-  const reportRes = await fetch(SAVED_REPORTS_API_URL, options);
+  const reportRes = await fetch(API_URL.SAVED_REPORT, options);
   const responseJson = await reportRes.json();
 
   return responseJson?.insertedId;

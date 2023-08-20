@@ -7,10 +7,10 @@ import usePageLoading from '@/hooks/usePageLoading';
 import Head from 'next/head';
 import reportPropType from '@/components/Report/reportPropTypes';
 import { getReportShareTitle, getSavedReportUrl } from '@/components/Report/reportUtils';
+import { API_URL } from '@/constants/constants';
 
-const PATH = 'api/saved_report';
 const LOGO_URL = './public/favicon.ico';
-const OPEN_GRAPH_IMAGE_URL = './opengraph-logo.png';
+const OPEN_GRAPH_IMAGE_URL = './public/opengraph-logo.png';
 const TEXTS = {
     objectivityReport: 'HonestyMeter Bias Report',
     biasReport: 'Bias Report',
@@ -73,12 +73,12 @@ export async function getServerSideProps(context) {
     const { req } = context;
     const reportId = context.params.reportId
     const host = req?.headers?.host
-    const url = `http://${host}/${PATH}?id=${reportId}`;
+    const url = `http://${host}/${API_URL.SAVED_REPORT}?id=${reportId}`;
 
     try {
         const res = await fetch(url);
-        const { data: reportJson } = await res.json();
-        const report = JSON.parse(reportJson);
+        const { data: reportJson } = await res.json() || {};
+        const report = reportJson?.reports || {};
 
         return { props: { report, host } }
     } catch (error) {

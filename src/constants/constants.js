@@ -32,3 +32,8 @@ export const EVENT = {
     shareReport: (platform) => `Share report on ${platform}`,
     sharedReportViewed: 'Shared report viewed',
 }
+
+export const API_URL = {
+    GENERATE_REPORT: './api/report',
+    SAVED_REPORT: './api/saved_report',
+}
