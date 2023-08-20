@@ -1,4 +1,4 @@
-import { convertStringToPascalCase, generateRandomRgbaColor, getReportShareTitle } from "@/utils/utils";
+import { convertStringToPascalCase, generateRandomRgbaColor, getHttpProtocol } from "@/utils/utils";
 import { SIDES_BALANCE_CHART_TEMLATE, SIDES_SCORE_CHART_LABELS } from "./reportConstants";
 import { BASE_URL } from "@/constants/constants";
 
@@ -89,6 +89,16 @@ export function getCustomReportShareProps() {
   }
 }
 
+export function getReportShareTitle(articleTitle, objectivityScore) {
+  const BIAS_REPORT = 'Bias Report';
+  const OBJECTIVITY_SCORE = 'Objectivity score';
+  const longTitle = `${articleTitle} - ${BIAS_REPORT} - ${OBJECTIVITY_SCORE}: ${objectivityScore}`;
+  const shortTitle = BIAS_REPORT;
+  const title = articleTitle ? longTitle : shortTitle;
+
+  return title;
+}
+
 export function getSavedReportShareProps({ sidesScore, articleTitle, score, explanation, shareUrl }) {
   return {
     url: shareUrl,
@@ -97,4 +107,23 @@ export function getSavedReportShareProps({ sidesScore, articleTitle, score, expl
     description: explanation,
     context: SHARING_CONTEXT.report,
   }
+}
+
+export const createShareUrl = (shareLevel) => {
+  const isServerSide = isServer();
+
+  if (isServerSide) return EMPTY_STRING;
+
+  const SHARE_LEVEL_PARAM_KEY = 'shareLevel';
+  const updatedShareLevel = parseInt(shareLevel) + 1;
+  const baseUrl = new URL(window.location.href);
+  baseUrl.searchParams.set(SHARE_LEVEL_PARAM_KEY, updatedShareLevel);
+
+  return baseUrl.href;
+}
+
+export const getSavedReportUrl = (host, reportId) => {
+  const httpProtocol = getHttpProtocol(host)
+
+  return `${httpProtocol}://${host}/report/${reportId}`
 }

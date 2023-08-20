@@ -6,9 +6,7 @@ import ReportLoading from '@/components/Report/ReportLoading';
 import usePageLoading from '@/hooks/usePageLoading';
 import Head from 'next/head';
 import reportPropType from '@/components/Report/reportPropTypes';
-import { getReportShareTitle, getSavedReportUrl } from '@/utils/utils';
-
-//Draft page, just to test the API
+import { getReportShareTitle, getSavedReportUrl } from '@/components/Report/reportUtils';
 
 const PATH = 'api/saved_report';
 const LOGO_URL = './public/favicon.ico';

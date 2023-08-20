@@ -82,41 +82,12 @@ export async function copyTextToClipboard(text) {
   }
 }
 
-export const createShareUrl = (shareLevel) => {
-  const isServerSide = isServer();
-
-  if (isServerSide) return EMPTY_STRING;
-
-  const SHARE_LEVEL_PARAM_KEY = 'shareLevel';
-  const updatedShareLevel = parseInt(shareLevel) + 1;
-  const baseUrl = new URL(window.location.href);
-  baseUrl.searchParams.set(SHARE_LEVEL_PARAM_KEY, updatedShareLevel);
-
-  return baseUrl.href;
-}
-
-export function getReportShareTitle(articleTitle, objectivityScore) {
-  const BIAS_REPORT = 'Bias Report';
-  const OBJECTIVITY_SCORE = 'Objectivity score';
-  const longTitle = `${articleTitle} - ${BIAS_REPORT} - ${OBJECTIVITY_SCORE}: ${objectivityScore}`;
-  const shortTitle = BIAS_REPORT;
-  const title = articleTitle ? longTitle : shortTitle;
-
-  return title;
-}
-
-function _getHttpProtocol(host) {
+export function getHttpProtocol(host) {
   const LOCALHOST = 'localhost';
   const HTTP = 'http';
   const HTTPS = 'https';
 
   return host.includes(LOCALHOST) ? HTTP : HTTPS
-}
-
-export const getSavedReportUrl = (host, reportId) => {
-  const httpProtocol = _getHttpProtocol(host)
-
-  return `${httpProtocol}://${host}/report/${reportId}`
 }
 
 export function convertStringToPascalCase(str) {

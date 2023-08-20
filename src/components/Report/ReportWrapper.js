@@ -6,12 +6,12 @@ import Button from '@mui/material/Button';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Tooltip from '@mui/material/Tooltip';
 import theme from '@/theme';
-import { EMPTY_FUNCTION, createShareUrl } from '@/utils/utils';
+import { EMPTY_FUNCTION } from '@/utils/utils';
 import { string, func } from 'prop-types';
 import reportPropType from './reportPropTypes';
 import CopyToClipboard from './CopyToClipboard';
 import Share from '../Share';
-import { getShareProps } from './reportUtils';
+import { createShareUrl, getShareProps } from './reportUtils';
 
 const TEXTS = {
     title: 'Bias report',
