@@ -3,24 +3,20 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import theme from '@/theme';
-import { Box, Button, Card, CircularProgress, List, ListItem, Skeleton, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import usePageLoading from '@/hooks/usePageLoading';
-import ReportLoading from '@/components/Report/ReportLoading';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import Tooltip from '@mui/material/Tooltip';
-import { getBaseUrl, getBaseUrlFromUrlString, scrollToTop, scrollToBottom, cutTextIfExeedsMaxCharsCount, convertUTCDateToUserTimeZone } from '../utils/utils'
+import { getBaseUrl, scrollToTop, scrollToBottom } from '../utils/utils'
 import Share from '@/components/Share';
 import AtricleInput from '@/components/ArticleInput';
 import Disclamer from '@/components/Disclamer';
 import { API_URL, BASE_URL } from '@/constants/constants';
-import useIsTextOverFlow from '@/hooks/useIsTextOverflow';
+import ReportList from '@/components/ReportList/ReportList';
 
-const baseUrl = getBaseUrl();
-const URL = `${baseUrl}${API_URL.SAVED_REPORT}`;
 const LOGO_URL = './public/favicon.png'
-const OPEN_GRAPH_IMAGE_URL = './opengraph-logo.png'
+const OPEN_GRAPH_IMAGE_URL = './public/opengraph-logo.png'
 const TWITTER_IMAGE_URL = './favicon.png'
 const SHARING_CONTEXT = 'app'
 const TEXTS = {
@@ -40,13 +36,18 @@ const TEXTS = {
   shareTitle: 'HonestyMeter - A New Free AI powered tool for Evaluating the Objectivity and Bias of Media Content.',
   shareDescription: 'HonestyMeter - Check media content for objectivity and bias.',
   shareHashTags: ['HonestyMeter', 'MediaBias', 'FakeNews'],
+  noReportsYet: 'No reports yet',
+  objectivityLevel: {
+    low: 'Low',
+    medium: 'Medium',
+    high: 'High',
+  }
 }
 
 const STEPS = {
   forward: 1,
   back: -1,
 }
-const MAX_TITLE_LENGTH = 62;
 
 export default function Home({ homePageProps, reports, isLastPage, date }) {
   const router = useRouter();
@@ -89,7 +90,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
   }
 
   if (reports.length === 0) {
-    return <Typography variant="body1" sx={REPORTS_STYLES.noReportsText}>No reports yet</Typography>
+    return <Typography variant="body1" sx={REPORTS_STYLES.noReportsText}>{TEXTS.noReportsYet}</Typography>
   }
 
   return (
@@ -103,102 +104,14 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
           <CreateReportButton onClick={toggleArticleInput(true)} isArticleInputShown={isArticleInputShown} />
           {
             isArticleInputShown &&
-            <Box sx={NEW_REPORT_STYLES.container} >
+            <Box sx={REPORTS_STYLES.articleInputContainer} >
               <AtricleInput
                 article={article}
                 onArticleChange={handleArticleChange}
                 onGetReport={handleGetReport} />
             </Box>
           }
-          <List sx={REPORTS_STYLES.list}>
-            {
-              reports.map((report) => {
-                const source = getBaseUrlFromUrlString(report.articleLink);
-                const reportUrl = `${baseUrl}report/${report._id}`
-                const randomImageUrl = `https://picsum.photos/288/150?random=${report._id}`
-                const { articleTitle, articleDate } = report || {};
-                const articleDateInUserTimeZone = articleDate ? convertUTCDateToUserTimeZone(articleDate) : ''
-                const isTitleTooLong = articleTitle.length > MAX_TITLE_LENGTH;
-                const articleShortTitle = isTitleTooLong ? cutTextIfExeedsMaxCharsCount(articleTitle, MAX_TITLE_LENGTH) : ''
-                const shownArticleTitle = isTitleTooLong ? articleShortTitle : articleTitle;
-                const toolTipTitle = isTitleTooLong ? articleTitle : '';
-
-                return (
-                  <ListItem sx={REPORTS_STYLES.listItem} onClick={onCardClick(reportUrl)} key={report._id}>
-                    {
-                      isLoading ?
-                        <Card sx={REPORTS_STYLES.card}>
-                          <Tooltip title={toolTipTitle} placement="top" >
-                            <Skeleton sx={{ ...REPORTS_STYLES.textLine, ...REPORTS_STYLES.articleTitle }}>
-                              <b>
-                                {shownArticleTitle}
-                              </b>
-                            </Skeleton>
-                          </Tooltip>
-                          <Typography sx={REPORTS_STYLES.textLine} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <Skeleton component="span" sx={{ ...REPORTS_STYLES.source, width: 80 }}></Skeleton>
-                            <Skeleton component="span" sx={{ ...REPORTS_STYLES.articleDate, width: 56 }}></Skeleton>
-                          </Typography>
-                          <Box sx={REPORTS_STYLES.image()} >
-                            <img
-                              src={randomImageUrl}
-                              alt={TEXTS.imageAlt}
-                              loading='lazy'
-                            />
-                          </Box>
-                          <Box sx={[REPORTS_STYLES.objectivityScore]} >
-                            <Typography>
-                              {TEXTS.objectivityScore}
-                            </Typography>
-                            <Skeleton sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
-                              <CircularProgressWithLabel value={report.score} color={getScoreStyle(report.score).color} />
-                            </Skeleton>
-
-                            <Skeleton width={58} height={14} sx={{ color: getScoreStyle(report.score).color }}>
-                            </Skeleton>
-                          </Box>
-                          <Button variant='outlined' disabled sx={REPORTS_STYLES.viewReportButton}>{TEXTS.viewReport}</Button>
-                        </Card>
-                        :
-                        <Card sx={REPORTS_STYLES.card}>
-                          <Tooltip title={toolTipTitle} placement="top" >
-                            <Typography sx={{ ...REPORTS_STYLES.textLine, ...REPORTS_STYLES.articleTitle }}>
-                              <b>
-                                {shownArticleTitle}
-                              </b>
-                            </Typography>
-                          </Tooltip>
-                          <Typography sx={REPORTS_STYLES.textLine} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <Box component="span" style={REPORTS_STYLES.source}>{source}</Box>
-                            <Box component="span" style={REPORTS_STYLES.articleDate}>{articleDateInUserTimeZone}</Box>
-                          </Typography>
-                          <Box sx={REPORTS_STYLES.image()} >
-                            <img
-                              src={randomImageUrl}
-                              alt={TEXTS.imageAlt}
-                              loading='lazy'
-                            />
-                          </Box>
-                          <Box sx={[REPORTS_STYLES.objectivityScore]} >
-                            <Typography>
-                              {TEXTS.objectivityScore}
-                            </Typography>
-                            <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
-                              <CircularProgressWithLabel value={report.score} color={getScoreStyle(report.score).color} />
-                            </Box>
-
-                            <Typography sx={{ color: getScoreStyle(report.score).color }}>
-                              {getScoreStyle(report.score).content}
-                            </Typography>
-                          </Box>
-                          <Button variant='outlined' sx={REPORTS_STYLES.viewReportButton}>{TEXTS.viewReport}</Button>
-                        </Card>
-                    }
-                  </ListItem>
-                )
-              })
-            }
-          </List>
+          <ReportList reports={reports} onCardClick={onCardClick} isLoading={isLoading} />
           {
             isPaginationEnabled &&
             <Box sx={REPORTS_STYLES.pagination}>
@@ -212,7 +125,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
           <CreateReportButton onClick={toggleArticleInput(false)} isArticleInputShown={isArticleInputShown} />
           {
             isArticleInputShown &&
-            <Box sx={NEW_REPORT_STYLES.container} >
+            <Box sx={REPORTS_STYLES.articleInputContainer} >
               <AtricleInput
                 article={article}
                 onArticleChange={handleArticleChange}
@@ -281,38 +194,6 @@ export async function getServerSideProps(context) {
   }
 }
 
-function CircularProgressWithLabel({ value = 50, color = 'red', ...props }) {
-  return (
-    <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-      <CircularProgress value={value} sx={{ color, transform: 'scale(0.8) rotate(-90deg) !important' }} variant="determinate" {...props} />
-      <Box
-        sx={{
-          top: 2,
-          left: 0,
-          bottom: 0,
-          right: 2,
-          position: 'absolute',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Typography variant="caption" component="div" sx={{ color }}>
-          {`${Math.round(value)}`}
-        </Typography>
-      </Box>
-    </Box>
-  );
-}
-
-const NEW_REPORT_STYLES = {
-  container: {
-    width: '100%',
-    margin: '0 auto auto',
-    padding: theme.spacing(0, 2, 2, 2),
-  },
-}
-
 const REPORTS_STYLES = {
   container: {
     maxWidth: '1400px',
@@ -344,83 +225,10 @@ const REPORTS_STYLES = {
     textAlign: 'center',
     minWidth: '266px',
   },
-  list: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    gap: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-  },
-  listItem: {
-    width: '320px',
-    padding: 0,
-  },
-  card: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    cursor: 'pointer',
-    transition: 'all 0.2s ease-in-out',
+  articleInputContainer: {
     width: '100%',
-    padding: theme.spacing(2),
-    '&:hover': {
-      backgroundColor: theme.palette.action.hover,
-      boxShadow: '0px 5px 5px -1px rgba(0,0,0,0.2), 0px 5px 5px 0px rgba(0,0,0,0.14), 0px 5px 5px 0px rgba(0,0,0,0.12)',
-      transform: 'translate(0, -2px)',
-    }
-  },
-  image: () => ({
-    height: '150px',
-    width: '288px',
-    backgroundColor: theme.palette.grey[300],
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    borderRadius: '4px',
-    marginBottom: theme.spacing(1),
-    animation: 'skeleton 1s ease-in-out infinite alternate',
-    '@keyframes skeleton': {
-      '0%': {
-        backgroundColor: theme.palette.grey[200],
-      },
-      '100%': {
-        backgroundColor: theme.palette.grey[100],
-      }
-    },
-  }),
-  textLine: {
-    marginBottom: theme.spacing(1),
-    color: theme.palette.text.secondary,
-  },
-  articleTitle: {
-    height: '48px',
-  },
-  source: {
-    fontSize: theme.typography.fontSize * 1
-  },
-  articleDate: {
-    fontSize: theme.typography.fontSize * 0.75
-  },
-  objectivityScore: {
-    color: theme.palette.text.secondary,
-    margin: 'auto',
-    marginBottom: theme.spacing(1),
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: theme.spacing(1),
-    width: '100%',
-
-  },
-  scoreDigit: (score) => getScoreStyle(score),
-  viewReportButton: {
-    width: '100%',
-    color: theme.palette.text.secondary,
-    borderColor: theme.palette.divider,
-    '&:hover': {
-      borderColor: theme.palette.divider,
-      outline: `2px solid theme.palette.divider`,
-    }
+    margin: '0 auto auto',
+    padding: theme.spacing(0, 2, 2, 2),
   },
   pagination: {
     display: 'flex',
@@ -432,42 +240,4 @@ const REPORTS_STYLES = {
   skipIcon: {
     transform: 'scale(0.75)'
   }
-}
-
-
-
-const createReport = async () => {
-  let res = await fetch(URL, {
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    method: 'POST',
-    body: JSON.stringify({
-      title: 'New ' + Math.floor(Math.random() * 1000000),
-      content: 'New content',
-    }),
-  });
-  res = await res.json();
-};
-
-const getScoreStyle = (score) => {
-  let color;
-  let content;
-
-  if (score < 70) {
-    color = theme.palette.error.main;
-    content = ' Low';
-  } else if (score < 80) {
-    color = theme.palette.warning.main;
-    content = ' Medium';
-  } else {
-    color = theme.palette.success.main;
-    content = ' High';
-  }
-
-  return {
-    color,
-    content
-  };
 }
