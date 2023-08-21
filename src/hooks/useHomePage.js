@@ -82,7 +82,7 @@ export default function useHomePage() {
         router.push(SAVED_REPORT_STATIC_PATH);
         const { reportId } = await fetchReport(article) || {};
 
-        va.track(EVENT.reportReceived, { report: reportResTrimmed });
+        va.track(EVENT.reportReceived, { reportId });
 
         router.push(`${SAVED_REPORT_STATIC_PATH}${reportId}`);
     }
