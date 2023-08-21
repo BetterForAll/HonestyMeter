@@ -18,9 +18,9 @@ export async function fetchReport(text) {
     body: JSON.stringify({ text }),
   };
   const reportRes = await fetch(GENERATE_REPORT_API_URL, options);
-  const responseJson = await reportRes.json();
+  const { responseText, reportId } = await reportRes.json() || {};
 
-  return responseJson?.responseText;
+  return { responseText, reportId }
 }
 
 export const mockFetchReport = async (delay = 1000) => { //for testing

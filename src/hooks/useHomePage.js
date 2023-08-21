@@ -8,7 +8,7 @@ import { EMPTY_STRING, EVENT } from "@/constants/constants";
 import { checkIsUrl, scrollToTop } from '@/utils/utils';
 import { useRouter } from 'next/router';
 
-const IS_TESTING_MODE = false;
+const IS_TESTING_MODE = true;
 const ARTICLE_DEFAULT_VALUE = ''
 const TEXTS = {
     honestyMeter: 'Honesty Meter',
@@ -19,6 +19,7 @@ const TEXTS = {
 }
 
 const REPORT_STATIC_PATH = '/report/?report='
+const SAVED_REPORT_STATIC_PATH = '/report/'
 
 export default function useHomePage() {
     const router = useRouter();
@@ -70,57 +71,20 @@ export default function useHomePage() {
 
     const getMockReport = async () => {
         router.push('/report');
-        const reportRes = await mockFetchReport();
-        const reportJsonRes = JSON.stringify(reportRes);
+        const responseText = await mockFetchReport();
+        const reportJsonRes = JSON.stringify(responseText);
         setReportJson(reportJsonRes);
         const reportPath = `${REPORT_STATIC_PATH}${reportJsonRes}`;
         router.push(reportPath);
     }
 
     const getRealReport = async () => { //TODO: refactor and clean up this function
-        router.push('/report');
-        const reportRes = await fetchReport(article);
-        const reportResTrimmed = reportRes.trim();
+        router.push(SAVED_REPORT_STATIC_PATH);
+        const { reportId } = await fetchReport(article) || {};
+
         va.track(EVENT.reportReceived, { report: reportResTrimmed });
 
-        const isResponseInJsonFormat = reportResTrimmed.startsWith('{') //TODO: improve this check (take into account possibility of multiple '\n' at the end)
-        //TODO: replace BE logic with openai function call API - then this check will be redundant
-
-        if (!isResponseInJsonFormat) {
-            va.track(EVENT.reportError, { error: reportResTrimmed });
-            goToHomePage()
-            alert(TEXTS.error); //TODO: replace with error component
-
-            return;
-        }
-
-        setReportJson(reportResTrimmed);
-
-        let parsedReport;
-
-        try {
-            parsedReport = JSON.parse(reportResTrimmed);
-        } catch (e) {
-            goToHomePage();
-            alert(TEXTS.error, e); //TODO: replace with error component
-
-            return;
-        }
-
-        const isInputError = Boolean(parsedReport?.errors?.length);
-
-        if (isInputError) {
-            const errorListString = parsedReport.errors.join(',\n');
-            va.track(EVENT.reportError, { error: errorListString });
-            goToHomePage()
-            alert(errorListString); //TODO: replace with error component
-
-            return;
-        }
-
-        va.track(EVENT.reportParsed, { report: reportResTrimmed });
-
-        router.push(`/report/?report=${reportResTrimmed}`);
+        router.push(`${SAVED_REPORT_STATIC_PATH}${reportId}`);
     }
 
     const handleGetReport = async () => {

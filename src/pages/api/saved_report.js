@@ -48,7 +48,13 @@ async function getReportsPage(req, db) {
 
     if (isPageInRange) {
         reports = await db.collection(collectionName)
-            .find({})
+            .find({
+                $or: [
+                    { isUserGenerated: { $exists: false } },
+                    { isUserGenerated: null },
+                    { isUserGenerated: false }
+                ]
+            })
             .sort({ articleDate: -1 })
             .skip(skip)
             .limit(ITEMS_PER_PAGE).toArray();
