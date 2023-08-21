@@ -54,3 +54,5 @@ async function getTextForAnalysis(text) {
   return { textForAnalysis, articleTitle, articleDate, articleLink };
 }
 
+
+
