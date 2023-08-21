@@ -120,7 +120,7 @@ export default function useHomePage() {
             if (IS_TESTING_MODE) {
                 await getMockReport();
             } else {
-                va.track(EVENT.reportRequested, { article });
+                va.track(EVENT.reportRequested, { isUrlProvidedAsInput });
 
                 await getRealReport();
             }
