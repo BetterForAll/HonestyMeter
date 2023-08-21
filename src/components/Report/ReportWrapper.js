@@ -21,7 +21,7 @@ const TEXTS = {
     closeReport: 'close report',
 }
 
-export default function ReportWrapper({ report = {}, shareLevel, showArticleInput = EMPTY_FUNCTION }) {
+function ReportWrapper({ report = {}, shareLevel, showArticleInput = EMPTY_FUNCTION }) {
     const shareUrl = createShareUrl(shareLevel);
     const shareProps = getShareProps({ report, shareUrl });
     const { articleTitle, articleLink, score } = report;
@@ -36,7 +36,6 @@ export default function ReportWrapper({ report = {}, shareLevel, showArticleInpu
         va.track(EVENT.reportViewed, { articleTitle, articleLink, score });
 
     }, [report, articleLink, articleTitle, score])
-
 
     return (
         <Box sx={STYLES.container}>
@@ -62,7 +61,7 @@ export default function ReportWrapper({ report = {}, shareLevel, showArticleInpu
 ReportWrapper.propTypes = {
     report: reportPropType,
     reportJson: string,
-    showArticleInput: func.isRequired
+    showArticleInput: func.isRequired,
 }
 
 
@@ -160,3 +159,5 @@ const STYLES = {
         margin: theme.spacing(0, 0, 4, 0)
     }
 }
+
+export default ReportWrapper;

@@ -5,10 +5,10 @@ import {
     mockFetchReport // for testing
 } from '../services/reportService'
 import { EMPTY_STRING, EVENT } from "@/constants/constants";
-import { scrollToTop } from '@/utils/utils';
+import { checkIsUrl, scrollToTop } from '@/utils/utils';
 import { useRouter } from 'next/router';
 
-const IS_TESTING_MODE = false;
+const IS_TESTING_MODE = true;
 const ARTICLE_DEFAULT_VALUE = ''
 const TEXTS = {
     honestyMeter: 'Honesty Meter',
@@ -31,6 +31,7 @@ export default function useHomePage() {
     const isArticleInputShown = !isLoading && !report && !reportFromQuery;
     const isReportShown = Boolean(!isLoading && (report || parsedReportFromQuery));
     const { score, articleTitle, articleLink } = report || {};
+    const isUrlProvidedAsInput = checkIsUrl(article);
 
     const goToHomePage = () => {
         router.push('/');
@@ -40,9 +41,9 @@ export default function useHomePage() {
         va.track(EVENT.closeReportClicked, { score, articleTitle, articleLink });
 
         goToHomePage();
-
-        setArtilce(EMPTY_STRING);
+        clearArticleInput();
         scrollToTop();
+
     }
 
     const clearArticleInput = () => {
@@ -149,6 +150,7 @@ export default function useHomePage() {
         isLoading,
         isReportShown,
         article,
+        isUrlProvidedAsInput,
         report,
         reportJson,
         shareLevel,

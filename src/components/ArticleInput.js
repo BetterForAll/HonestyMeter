@@ -6,7 +6,7 @@ import { Box } from '@mui/material';
 import { string, func } from 'prop-types';
 
 const TEXTS = {
-    placeholder: 'Paste a text for bias analysis',
+    placeholder: 'Paste text or link for bias analysis',
     alert: 'Please enter an article',
     cta: 'Discover the truth',
 }

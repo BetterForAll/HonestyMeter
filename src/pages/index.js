@@ -43,13 +43,17 @@ const TEXTS = {
     low: 'Low',
     medium: 'Medium',
     high: 'High',
-  }
+  },
+  articleTextExtracted: 'text extrasction by url powered by',
+  worldNewsApi: 'world news api',
 }
 
 const STEPS = {
   forward: 1,
   back: -1,
 }
+
+const WOLRD_NEWS_API_URL = 'https://worldnewsapi.com';
 
 export default function Home({ homePageProps, reports, isLastPage, date }) {
   const router = useRouter();
@@ -62,6 +66,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
     handleArticleChange,
     clearArticleInput,
     handleGetReport,
+    isUrlProvidedAsInput
   } = homePageProps;
   const [isArticleInputShown, setIsArticleInputShown] = useState(false);
 
@@ -126,10 +131,34 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
           {
             isArticleInputShown &&
             <Box sx={REPORTS_STYLES.articleInputContainer} >
+              {
+                isUrlProvidedAsInput &&
+                <Typography sx={{
+                  margin: 'auto',
+                  textAlign: 'center',
+                  marginBottom: theme.spacing(2),
+                  marginTop: theme.spacing(-2),
+                  fontSize: theme.typography.fontSize * 0.75,
+                  color: theme.palette.text.secondary,
+                  ' & a': {
+                    color: theme.palette.text.secondary
+                  },
+                }}>
+                  {TEXTS.articleTextExtracted}
+                  &nbsp;
+                  < a href={WOLRD_NEWS_API_URL} target="_blank" rel="noreferrer">
+                    {TEXTS.worldNewsApi}
+                  </a>
+                </Typography>
+              }
+
               <AtricleInput
                 article={article}
                 onArticleChange={handleArticleChange}
-                onGetReport={handleGetReport} />
+                onGetReport={handleGetReport}
+                isUrlProvidedAsInput={isUrlProvidedAsInput}
+
+              />
             </Box>
           }
           <ReportList reports={reports} onCardClick={onCardClick} isLoading={isLoading} />

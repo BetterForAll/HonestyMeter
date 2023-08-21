@@ -4,7 +4,6 @@ import { Box } from '@mui/material'
 import ReportLoading from '@/components/Report/ReportLoading'
 import ReportWrapper from '@/components/Report/ReportWrapper'
 
-
 function ReportPage({ homePageProps = {} }) {
     const { report, shareLevel, closeReport } = homePageProps
 
@@ -16,7 +15,8 @@ function ReportPage({ homePageProps = {} }) {
                     <ReportWrapper
                         report={report}
                         showArticleInput={closeReport}
-                        shareLevel={shareLevel} />
+                        shareLevel={shareLevel}
+                    />
                     :
                     <ReportLoading />
             }
@@ -32,4 +32,4 @@ const STYLES = {
     },
 }
 
-export default ReportPage
+export default ReportPage;

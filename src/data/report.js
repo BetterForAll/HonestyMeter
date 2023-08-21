@@ -1,6 +1,7 @@
 const report = {
     "articleLink": "https://www.nytimes.com/2021/09/14/us/politics/california-recall-election.html",
     "articleTitle": "California Recall Election: Live Updates",
+    "articleDate": "2023-08-21 11:08:50",
     "score": 80,
     "explanation": "The article provides a relatively objective overview of the ongoing election campaign in Imaginaria, highlighting the key differences between the two main candidates and their policy positions. However, there are some instances of biased language and logical fallacies that detract from the overall objectivity of the article.",
     "sidesScore": [
