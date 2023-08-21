@@ -20,8 +20,8 @@ const TEXTS = {
 function SavedReport({ homePageProps, report = {}, host }) {
     const { shareLevel, closeReport } = homePageProps
     const isLoading = usePageLoading();
-    const { explanation = '', articleTitle = '', _id: reportId } = report;
-    const title = getReportShareTitle(articleTitle);
+    const { explanation = '', articleTitle = '', _id: reportId, score } = report;
+    const title = getReportShareTitle(articleTitle, score);
     const url = getSavedReportUrl(host, reportId);
 
     const HtmlHead = (
