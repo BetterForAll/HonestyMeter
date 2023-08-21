@@ -80,9 +80,16 @@ export default function useHomePage() {
             return;
         }
 
+        let parsedReport;
+
         setReportJson(reportResTrimmed);
 
-        const parsedReport = JSON.parse(reportResTrimmed);
+        try {
+            parsedReport = JSON.parse(reportResTrimmed);
+        } catch (e) {
+            alert(TEXTS.error, e); //TODO: replace with error component
+        }
+
         const isInputError = Boolean(parsedReport?.errors?.length);
 
         if (isInputError) {
