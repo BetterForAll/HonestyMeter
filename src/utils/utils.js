@@ -113,13 +113,15 @@ export function cutTextIfExeedsMaxCharsCount(text, maxCharacterCount) {
 }
 
 export function convertUTCDateToUserTimeZone(dateString) {
+  if (!dateString) return EMPTY_STRING;
+
   const isoString = dateString.replace(' ', 'T') + 'Z';
   const date = new Date(isoString);
 
   return date.toLocaleString();
 }
 
-export function isUrl(string) {
+export function checkIsUrl(string) {
   const pattern = /^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/i;
   return pattern.test(string);
 }
