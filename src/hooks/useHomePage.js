@@ -80,7 +80,7 @@ export default function useHomePage() {
 
     const getRealReport = async () => { //TODO: refactor and clean up this function
         router.push(SAVED_REPORT_STATIC_PATH);
-        const { reportId } = await fetchReport(article) || {};
+        const reportId = await fetchReport(article) || {};
 
         va.track(EVENT.reportReceived, { reportId });
 
