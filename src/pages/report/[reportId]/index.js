@@ -9,8 +9,8 @@ import reportPropType from '@/components/Report/reportPropTypes';
 import { getReportShareTitle, getSavedReportUrl } from '@/components/Report/reportUtils';
 import { API_URL } from '@/constants/constants';
 
-const LOGO_URL = './public/favicon.ico';
-const OPEN_GRAPH_IMAGE_URL = './public/opengraph-logo.png';
+const LOGO_URL = './favicon.ico';
+const OPEN_GRAPH_IMAGE_URL = './opengraph-logo.png';
 const TEXTS = {
     objectivityReport: 'HonestyMeter Bias Report',
     biasReport: 'Bias Report',
