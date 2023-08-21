@@ -9,6 +9,9 @@ const options = {
 let client
 let clientPromise
 
+export const dbName = 'honesty_meter';
+export const collectionName = 'report';
+
 if (!process.env.MONGODB_URI) {
     throw new Error('Add Mongo URI to .env.local')
 }

@@ -1,12 +1,11 @@
-import clientPromise from "../../../server/mongodb/mongodb";
+import clientPromise, { collectionName, dbName } from "../../../server/mongodb/mongodb";
 import { ObjectId } from "mongodb";
 import { STATUS_CODE } from "../../../server/constants/status_code";
 import METHODS from "../../../server/constants/rest_methods";
+import { saveReport } from "../../../server/services/saved_report_service";
 
 //draft code, just to test the API
 
-const dbName = 'honesty_meter';
-const collectionName = 'report';
 const ITEMS_PER_PAGE = 12;
 
 export default async function handler(req, res) {
@@ -16,7 +15,7 @@ export default async function handler(req, res) {
     switch (req.method) {
         case METHODS.POST:
             let report = req.body;
-            let { insertedId } = await db.collection(collectionName).insertOne(report);
+            let { insertedId } = await saveReport(db, report);
 
             res.json({ insertedId });
             break;
