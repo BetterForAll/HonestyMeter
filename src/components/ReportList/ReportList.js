@@ -245,6 +245,11 @@ const REPORT_CARD_STYLES = {
     },
     articleTitle: {
         height: '48px',
+        width: '100%',
+        display: '-webkit-box',
+        WebkitLineClamp: 2,
+        WebkitBoxOrient: 'vertical',
+        overflow: 'hidden'
     },
     source: {
         fontSize: theme.typography.fontSize * 1
