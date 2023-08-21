@@ -98,10 +98,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
 
     va.track(event);
 
-    if (isArticleInputShown) {
-      clearArticleInput();
-    }
-
+    clearArticleInput();
     setIsArticleInputShown(!isArticleInputShown);
     const scrollMethod = isTop ? scrollToTop : scrollToBottom;
     setTimeout(() => {

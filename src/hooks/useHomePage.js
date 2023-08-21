@@ -13,6 +13,7 @@ const ARTICLE_DEFAULT_VALUE = ''
 const TEXTS = {
     honestyMeter: 'Honesty Meter',
     error: 'Something went wrong. Please try again later.',
+    parseError: 'Error parsing report. Try to copy the article and paste it in the input field.',
     enterArticle: 'Enter article',
     desciptiion: 'Honesty Meter is a tool that helps you discover the truth behind the news.',
 }
@@ -21,11 +22,25 @@ const REPORT_STATIC_PATH = '/report/?report='
 
 export default function useHomePage() {
     const router = useRouter();
-    const query = router?.query || {};
+    const query = useMemo(() => router?.query, [router?.query]) || {};
     const { report: reportFromQuery, shareLevel = 0 } = query || {};
-    const parsedReportFromQuery = useMemo(() => reportFromQuery ? JSON.parse(reportFromQuery) : null, [reportFromQuery])
     const [isLoading, setLoading] = useState(false);
     const [article, setArtilce] = useState(ARTICLE_DEFAULT_VALUE);
+    const parsedReportFromQuery = useMemo(() => {
+        if (!reportFromQuery) {
+            return null;
+        }
+
+        try {
+            return JSON.parse(reportFromQuery);
+        } catch (e) {
+            router.query = {};
+            router.push('/');
+            alert(TEXTS.error, e); //TODO: replace with error component
+
+            return null;
+        }
+    }, [reportFromQuery, router])
     const [report, setReport] = useState(null);
     const [reportJson, setReportJson] = useState(EMPTY_STRING);
     const isArticleInputShown = !isLoading && !report && !reportFromQuery;
@@ -43,7 +58,6 @@ export default function useHomePage() {
         goToHomePage();
         clearArticleInput();
         scrollToTop();
-
     }
 
     const clearArticleInput = () => {
@@ -80,14 +94,17 @@ export default function useHomePage() {
             return;
         }
 
-        let parsedReport;
-
         setReportJson(reportResTrimmed);
+
+        let parsedReport;
 
         try {
             parsedReport = JSON.parse(reportResTrimmed);
         } catch (e) {
+            goToHomePage();
             alert(TEXTS.error, e); //TODO: replace with error component
+
+            return;
         }
 
         const isInputError = Boolean(parsedReport?.errors?.length);
