@@ -14,8 +14,8 @@ export default async function handler(req, res) {
 
     switch (req.method) {
         case METHODS.POST:
-            let report = req.body;
-            let { insertedId } = await saveReport(db, report);
+            const report = req.body;
+            const { insertedId } = await saveReport(db, report);
 
             res.json({ insertedId });
             break;
