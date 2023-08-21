@@ -99,17 +99,17 @@ export function convertStringToPascalCase(str) {
 }
 
 export function checkIsTextOverflowByElementSize(el) {
-  return el.clientWidth < el.scrollWidth;
+  return el?.clientWidth < el?.scrollWidth;
 }
 
 export function cutTextIfExeedsMaxCharsCount(text, maxCharacterCount) {
   if (!text) return EMPTY_STRING;
 
-  const ThreeDots = '...';
+  const threeDots = '...';
 
   if (text.length <= maxCharacterCount) return text;
 
-  return text.substring(0, maxCharacterCount) + ThreeDots;
+  return text.substring(0, maxCharacterCount) + threeDots;
 }
 
 export function convertUTCDateToUserTimeZone(dateString) {
@@ -122,4 +122,8 @@ export function convertUTCDateToUserTimeZone(dateString) {
 export function isUrl(string) {
   const pattern = /^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/i;
   return pattern.test(string);
+}
+
+export function isTextLinesOverFlow(el) {
+  return el?.clientHeight < el?.scrollHeight;
 }

@@ -1,18 +1,18 @@
 /* eslint-disable @next/next/no-img-element */
-import React from 'react'
+import React, { useRef } from 'react'
 import theme from '@/theme';
 import { Box, Button, Card, List, ListItem, Skeleton, Typography } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
-import { getBaseUrl, getBaseUrlFromUrlString, cutTextIfExeedsMaxCharsCount, convertUTCDateToUserTimeZone } from '@/utils/utils';
+import { getBaseUrl, getBaseUrlFromUrlString, convertUTCDateToUserTimeZone } from '@/utils/utils';
 import CircularProgressWithLabel from '@/components/ReportList/CircularProgressWithLabel';
 import { string, number, bool, arrayOf, shape, func } from 'prop-types';
 import reportPropType from '../Report/reportPropTypes';
+import useIsTextLinesOverFlow from '@/hooks/useIsTextLinesOverflow';
 
 //TODO: consider moving components to separate files
 
 const baseUrl = getBaseUrl();
 const REPORT_URL = `${baseUrl}report`;
-const MAX_TITLE_LENGTH = 66;
 const IMAGE_URL = 'https://picsum.photos/288/150?random=';
 const TEXTS = {
     title: 'News Integrity Feed',
@@ -47,8 +47,6 @@ export default function ReportList({ reports, onCardClick, isLoading }) {
             const randomImageUrl = `${IMAGE_URL}${report._id}`;
             const { articleTitle, articleDate } = report || {};
             const articleDateInUserTimeZone = articleDate ? convertUTCDateToUserTimeZone(articleDate) : '';
-            const isTitleTooLong = articleTitle.length > MAX_TITLE_LENGTH;
-            const toolTipTitle = isTitleTooLong ? articleTitle : '';
 
             return (
                 <ReportListItem
@@ -57,7 +55,6 @@ export default function ReportList({ reports, onCardClick, isLoading }) {
                     reportUrl={reportUrl}
                     report={report}
                     isLoading={isLoading}
-                    toolTipTitle={toolTipTitle}
                     articleTitle={articleTitle}
                     randomImageUrl={randomImageUrl}
                     source={source}
@@ -89,7 +86,6 @@ function ReportListItem({
     reportUrl,
     report = {},
     isLoading,
-    toolTipTitle,
     articleTitle,
     randomImageUrl,
     source,
@@ -97,17 +93,10 @@ function ReportListItem({
 }) {
     return <ListItem sx={REPORT_LIST_ITEM_STYLES.listItem} onClick={onCardClick(reportUrl)} key={report._id}>
         {isLoading ?
-            <ReportCardSkeleton
-                {...{
-                    toolTipTitle,
-                    articleTitle,
-                    randomImageUrl,
-                    report
-                }} />
+            <ReportCardSkeleton />
             :
             <ReportCard
                 {...{
-                    toolTipTitle,
                     articleTitle,
                     source,
                     articleDateInUserTimeZone,
@@ -124,7 +113,6 @@ ReportListItem.propTypes = {
     reportUrl: string.isRequired,
     // report: shape(reportPropType), //TODO: add default to prevent warning 
     isLoading: bool.isRequired,
-    toolTipTitle: string,
     articleTitle: string.isRequired,
     randomImageUrl: string.isRequired,
     source: string.isRequired,
@@ -138,16 +126,16 @@ const REPORT_LIST_ITEM_STYLES = {
     },
 }
 
-function ReportCard({ toolTipTitle, articleTitle, source, articleDateInUserTimeZone, randomImageUrl, objectivityScore }) {
+function ReportCard({ articleTitle, source, articleDateInUserTimeZone, randomImageUrl, objectivityScore }) {
     const { color, content } = getScoreStyle(objectivityScore)
-
+    const articleTitleRef = useRef({ current: null });
+    const isTextOverflow = useIsTextLinesOverFlow(articleTitleRef);
+    const tooltipTitle = isTextOverflow ? articleTitle : '';
 
     return <Card sx={REPORT_CARD_STYLES.card}>
-        <Tooltip title={toolTipTitle} placement="top">
-            <Typography sx={{ ...REPORT_CARD_STYLES.textLine, ...REPORT_CARD_STYLES.articleTitle }}>
-                <b>
-                    {articleTitle}
-                </b>
+        <Tooltip title={tooltipTitle} placement="top">
+            <Typography sx={{ ...REPORT_CARD_STYLES.textLine, ...REPORT_CARD_STYLES.articleTitle }} ref={articleTitleRef}>
+                {articleTitle}
             </Typography>
         </Tooltip>
         <Typography sx={REPORT_CARD_STYLES.textLine} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -177,7 +165,6 @@ function ReportCard({ toolTipTitle, articleTitle, source, articleDateInUserTimeZ
 }
 
 ReportCard.propTypes = {
-    toolTipTitle: string,
     articleTitle: string.isRequired,
     source: string.isRequired,
     articleDateInUserTimeZone: string.isRequired,
@@ -248,7 +235,8 @@ const REPORT_CARD_STYLES = {
         display: '-webkit-box',
         WebkitLineClamp: 2,
         WebkitBoxOrient: 'vertical',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        fontWeight: theme.typography.fontWeightMedium,
     },
     source: {
         fontSize: theme.typography.fontSize * 1
