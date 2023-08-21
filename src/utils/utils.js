@@ -121,13 +121,9 @@ export function convertUTCDateToUserTimeZone(dateString) {
   return date.toLocaleString();
 }
 
-export function checkIsUrl(string) {
-  try {
-    new URL(string.startsWith('http') ? string : 'http://' + string);
-    return true;
-  } catch (e) {
-    return false;
-  }
+export function checkIsUrl(text) {
+  const pattern = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+([\/?#].*)?$/;
+  return pattern.test(text);
 }
 
 export function isTextLinesOverFlow(el) {
