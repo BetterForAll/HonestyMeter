@@ -30,12 +30,15 @@ export default function useHomePage() {
     const [reportJson, setReportJson] = useState(EMPTY_STRING);
     const isArticleInputShown = !isLoading && !report && !reportFromQuery;
     const isReportShown = Boolean(!isLoading && (report || parsedReportFromQuery));
+    const { score, articleTitle, articleLink } = report || {};
 
     const goToHomePage = () => {
         router.push('/');
     }
 
     const closeReport = () => {
+        va.track(EVENT.closeReportClicked, { score, articleTitle, articleLink });
+
         goToHomePage();
 
         setArtilce(EMPTY_STRING);

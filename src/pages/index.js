@@ -2,21 +2,22 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import va from '@vercel/analytics';
 import theme from '@/theme';
 import { Box, Button, Typography } from '@mui/material';
 import usePageLoading from '@/hooks/usePageLoading';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import { getBaseUrl, scrollToTop, scrollToBottom } from '../utils/utils'
+import { scrollToTop, scrollToBottom } from '../utils/utils'
 import Share from '@/components/Share';
 import AtricleInput from '@/components/ArticleInput';
 import Disclamer from '@/components/Disclamer';
-import { API_URL, BASE_URL } from '@/constants/constants';
+import { API_URL, BASE_URL, EVENT } from '@/constants/constants';
 import ReportList from '@/components/ReportList/ReportList';
 
-const LOGO_URL = './public/favicon.png'
-const OPEN_GRAPH_IMAGE_URL = './public/opengraph-logo.png'
+const LOGO_URL = './favicon.png'
+const OPEN_GRAPH_IMAGE_URL = './opengraph-logo.png'
 const TWITTER_IMAGE_URL = './favicon.png'
 const SHARING_CONTEXT = 'app'
 const TEXTS = {
@@ -65,20 +66,33 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
   const [isArticleInputShown, setIsArticleInputShown] = useState(false);
 
   const onCardClick = (reportUrl) => () => {
+    va.track(EVENT.reportCardClicked, { reportUrl });
+
     router.push(reportUrl);
   }
 
   const onChangePage = (step) => () => {
+    const event = step === STEPS.forward ? EVENT.nextPageClicked : EVENT.previousPageClicked;
+    va.track(event, { page: pageFromQuery });
+
     const nextPage = parseInt(pageFromQuery) + step;
     router.query.page = nextPage;
     router.push(router);
   }
 
   const onStartClick = () => {
+    va.track(EVENT.skipToFirstPageClicked, { page: pageFromQuery });
+
     router.push('/');
   }
 
   const toggleArticleInput = (isTop) => () => {
+    const event = isArticleInputShown ?
+      EVENT.cancelNewReportClicked :
+      EVENT.generateNewReportClicked;
+
+    va.track(event);
+
     if (isArticleInputShown) {
       clearArticleInput();
     }
@@ -90,9 +104,14 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
     }, 0)
   }
 
+  useEffect(() => {
+    va.track(EVENT.pageLoaded, { page: pageFromQuery });
+  }, [pageFromQuery])
+
   if (reports.length === 0) {
     return <Typography variant="body1" sx={REPORTS_STYLES.noReportsText}>{TEXTS.noReportsYet}</Typography>
   }
+
 
   return (
     <>
@@ -116,13 +135,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
           <ReportList reports={reports} onCardClick={onCardClick} isLoading={isLoading} />
           {
             isPaginationEnabled &&
-            <Box sx={REPORTS_STYLES.pagination}>
-              <Button disabled={isFirstPage} onClick={onStartClick}>
-                <SkipPreviousIcon fontSize='large' sx={REPORTS_STYLES.skipIcon} />
-              </Button>
-              <Button disabled={isFirstPage} onClick={onChangePage(STEPS.back)}><ArrowLeftIcon fontSize='large' /></Button>
-              <Button disabled={isLastPage} onClick={onChangePage(STEPS.forward)}><ArrowRightIcon fontSize='large' /></Button>
-            </Box>
+            <Pagination {...{ isFirstPage, onStartClick, onChangePage, isLastPage }} />
           }
           <CreateReportButton onClick={toggleArticleInput(false)} isArticleInputShown={isArticleInputShown} />
           {
@@ -144,11 +157,21 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
         </Box >
       }
       {
-        pageFromQuery === 1 &&
+        isFirstPage &&
         < Disclamer />
       }
     </>
   )
+}
+
+function Pagination({ isFirstPage, onStartClick, onChangePage, isLastPage }) {
+  return <Box sx={REPORTS_STYLES.pagination}>
+    <Button disabled={isFirstPage} onClick={onStartClick}>
+      <SkipPreviousIcon fontSize='large' sx={REPORTS_STYLES.skipIcon} />
+    </Button>
+    <Button disabled={isFirstPage} onClick={onChangePage(STEPS.back)}><ArrowLeftIcon fontSize='large' /></Button>
+    <Button disabled={isLastPage} onClick={onChangePage(STEPS.forward)}><ArrowRightIcon fontSize='large' /></Button>
+  </Box>;
 }
 
 function CreateReportButton({ onClick, isArticleInputShown }) {

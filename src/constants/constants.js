@@ -31,6 +31,17 @@ export const EVENT = {
     shareApp: (platform) => `Share app on ${platform}`,
     shareReport: (platform) => `Share report on ${platform}`,
     sharedReportViewed: 'Shared report viewed',
+    pageLoaded: 'Page loaded',
+    generateNewReportClicked: 'Generate New Report Clicked',
+    cancelNewReportClicked: 'Cancel New Report Clicked',
+    reportCardClicked: 'Report Card Clicked',
+    viewReportClicked: 'View Report Clicked',
+    closeReportClicked: 'Close Report Clicked',
+    nextPageClicked: 'Next Page Clicked',
+    previousPageClicked: 'Previous Page Clicked',
+    skipToFirstPageClicked: 'Skip To First Page Clicked',
+    articleLinkClicked: 'Article Link Clicked',
+    reportViewed: 'Report Viewed',
 }
 
 export const API_URL = {

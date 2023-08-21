@@ -1,8 +1,10 @@
 import React from 'react';
+import va from '@vercel/analytics';
 import { Typography, Paper, Box } from '@mui/material';
 import theme from '@/theme';
 import { string, number } from 'prop-types';
 import { convertUTCDateToUserTimeZone, getBaseUrlFromUrlString } from '@/utils/utils';
+import { EVENT } from '@/constants/constants';
 
 const TEXTS = {
   score: 'Objectivity Score',
@@ -21,6 +23,10 @@ export default function ReportHeader({
 }) {
   const articleBaseUrl = articleLink ? getBaseUrlFromUrlString(articleLink) : '';
   const userTimeZoneArticleDate = convertUTCDateToUserTimeZone(articleDate);
+
+  const fireArticleLinkClickEvent = () => {
+    va.track(EVENT.articleLinkClicked, { articleTitle, articleLink, score, articleDate })
+  }
 
   return (
     <Paper elevation={2} sx={STYLES.paper}>
@@ -53,7 +59,7 @@ export default function ReportHeader({
             <Typography component='span'
               sx={STYLES.articleLink}
             >
-              <a href={articleLink} target="_blank">
+              <a href={articleLink} target="_blank" onClick={fireArticleLinkClickEvent}>
                 {TEXTS.readOn}
                 &nbsp;
                 {articleBaseUrl}

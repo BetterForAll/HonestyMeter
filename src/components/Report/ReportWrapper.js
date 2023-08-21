@@ -1,17 +1,19 @@
-import React from 'react'
-import Report from './Report'
+import React, { useEffect } from 'react'
+import { string, func } from 'prop-types';
+import theme from '@/theme';
+import va from '@vercel/analytics';
+import Report from './Report';
 import Divider from '@mui/material/Divider';
 import { Box, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Tooltip from '@mui/material/Tooltip';
-import theme from '@/theme';
-import { EMPTY_FUNCTION } from '@/utils/utils';
-import { string, func } from 'prop-types';
+import { EMPTY_FUNCTION, scrollToTop } from '@/utils/utils';
 import reportPropType from './reportPropTypes';
 import CopyToClipboard from './CopyToClipboard';
 import Share from '../Share';
 import { createShareUrl, getShareProps } from './reportUtils';
+import { EVENT } from '@/constants/constants';
 
 const TEXTS = {
     title: 'Bias report',
@@ -22,6 +24,19 @@ const TEXTS = {
 export default function ReportWrapper({ report = {}, shareLevel, showArticleInput = EMPTY_FUNCTION }) {
     const shareUrl = createShareUrl(shareLevel);
     const shareProps = getShareProps({ report, shareUrl });
+    const { articleTitle, articleLink, score } = report;
+
+    useEffect(() => {
+        scrollToTop();
+
+        const isReportEmpty = !report.score;
+
+        if (isReportEmpty) return
+
+        va.track(EVENT.reportViewed, { articleTitle, articleLink, score });
+
+    }, [report, articleLink, articleTitle, score])
+
 
     return (
         <Box sx={STYLES.container}>
