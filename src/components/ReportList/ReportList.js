@@ -12,7 +12,7 @@ import reportPropType from '../Report/reportPropTypes';
 
 const baseUrl = getBaseUrl();
 const REPORT_URL = `${baseUrl}report`;
-const MAX_TITLE_LENGTH = 62;
+const MAX_TITLE_LENGTH = 66;
 const IMAGE_URL = 'https://picsum.photos/288/150?random=';
 const TEXTS = {
     title: 'News Integrity Feed',
@@ -48,8 +48,6 @@ export default function ReportList({ reports, onCardClick, isLoading }) {
             const { articleTitle, articleDate } = report || {};
             const articleDateInUserTimeZone = articleDate ? convertUTCDateToUserTimeZone(articleDate) : '';
             const isTitleTooLong = articleTitle.length > MAX_TITLE_LENGTH;
-            const articleShortTitle = isTitleTooLong ? cutTextIfExeedsMaxCharsCount(articleTitle, MAX_TITLE_LENGTH) : '';
-            const shownArticleTitle = isTitleTooLong ? articleShortTitle : articleTitle;
             const toolTipTitle = isTitleTooLong ? articleTitle : '';
 
             return (
@@ -60,7 +58,7 @@ export default function ReportList({ reports, onCardClick, isLoading }) {
                     report={report}
                     isLoading={isLoading}
                     toolTipTitle={toolTipTitle}
-                    shownArticleTitle={shownArticleTitle}
+                    articleTitle={articleTitle}
                     randomImageUrl={randomImageUrl}
                     source={source}
                     articleDateInUserTimeZone={articleDateInUserTimeZone}
@@ -92,7 +90,7 @@ function ReportListItem({
     report = {},
     isLoading,
     toolTipTitle,
-    shownArticleTitle,
+    articleTitle,
     randomImageUrl,
     source,
     articleDateInUserTimeZone
@@ -102,7 +100,7 @@ function ReportListItem({
             <ReportCardSkeleton
                 {...{
                     toolTipTitle,
-                    shownArticleTitle,
+                    articleTitle,
                     randomImageUrl,
                     report
                 }} />
@@ -110,7 +108,7 @@ function ReportListItem({
             <ReportCard
                 {...{
                     toolTipTitle,
-                    shownArticleTitle,
+                    articleTitle,
                     source,
                     articleDateInUserTimeZone,
                     randomImageUrl,
@@ -127,7 +125,7 @@ ReportListItem.propTypes = {
     // report: shape(reportPropType), //TODO: add default to prevent warning 
     isLoading: bool.isRequired,
     toolTipTitle: string,
-    shownArticleTitle: string.isRequired,
+    articleTitle: string.isRequired,
     randomImageUrl: string.isRequired,
     source: string.isRequired,
     articleDateInUserTimeZone: string.isRequired
@@ -140,14 +138,15 @@ const REPORT_LIST_ITEM_STYLES = {
     },
 }
 
-function ReportCard({ toolTipTitle, shownArticleTitle, source, articleDateInUserTimeZone, randomImageUrl, objectivityScore }) {
+function ReportCard({ toolTipTitle, articleTitle, source, articleDateInUserTimeZone, randomImageUrl, objectivityScore }) {
     const { color, content } = getScoreStyle(objectivityScore)
+
 
     return <Card sx={REPORT_CARD_STYLES.card}>
         <Tooltip title={toolTipTitle} placement="top">
             <Typography sx={{ ...REPORT_CARD_STYLES.textLine, ...REPORT_CARD_STYLES.articleTitle }}>
                 <b>
-                    {shownArticleTitle}
+                    {articleTitle}
                 </b>
             </Typography>
         </Tooltip>
@@ -179,7 +178,7 @@ function ReportCard({ toolTipTitle, shownArticleTitle, source, articleDateInUser
 
 ReportCard.propTypes = {
     toolTipTitle: string,
-    shownArticleTitle: string.isRequired,
+    articleTitle: string.isRequired,
     source: string.isRequired,
     articleDateInUserTimeZone: string.isRequired,
     randomImageUrl: string.isRequired,
