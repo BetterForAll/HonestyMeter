@@ -15,6 +15,7 @@ import AtricleInput from "@/components/ArticleInput";
 import Disclamer from "@/components/Disclamer";
 import { API_URL, BASE_URL, EVENT } from "@/constants/constants";
 import ReportList from "@/components/ReportList/ReportList";
+import usePageLoadingFull from "@/hooks/usePageLoadingFull";
 
 const LOGO_URL = "./favicon.png";
 const OPEN_GRAPH_IMAGE_URL = "./opengraph-logo.png";
@@ -63,7 +64,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
   const pageFromQuery = parseInt(router.query.page) || 1;
   const isFirstPage = pageFromQuery === 1;
   const isPaginationEnabled = !(isFirstPage && isLastPage);
-  const isLoading = usePageLoading();
+  const isLoading = usePageLoadingFull();
   const {
     article,
     handleArticleChange,
