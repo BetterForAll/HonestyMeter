@@ -42,15 +42,11 @@ async function getReports(req, db) {
 }
 
 async function getReportsPage(req, db) {
-  const page = req.query.page || 1;
-  const person = req.query.person;
-  const skip = (page - 1) * ITEMS_PER_PAGE;
-  const reportsCount = await db.collection(collectionName).countDocuments();
-  const isPageInRange = skip < reportsCount;
-  const isLastPage = isPageInRange && skip + ITEMS_PER_PAGE >= reportsCount;
-  let reports = [];
-
-  if (isPageInRange) {
+    const page = req.query.page || 1;
+    const person = req.query.person;
+    const skip = (page - 1) * ITEMS_PER_PAGE;
+    let reports = [];
+  
     const queryConditions = {
       $or: [
         { isUserGenerated: { $exists: false } },
@@ -58,30 +54,34 @@ async function getReportsPage(req, db) {
         { isUserGenerated: false },
       ],
     };
-
+  
     if (person) {
       const personKey = "sidesBalance." + person;
       queryConditions[personKey] = { $exists: true };
     }
-
-    reports = await db
-      .collection(collectionName)
-      .find(queryConditions, {
-        projection: {
-          articleTitle: 1,
-          articleDate: 1,
-          articleLink: 1,
-          score: 1,
-        },
-      })
-      .sort({ articleDate: -1 })
-      .skip(skip)
-      .limit(ITEMS_PER_PAGE)
-      .toArray();
+  
+    reports =
+      (await db
+        .collection(collectionName)
+        .find(queryConditions, {
+          projection: {
+            articleTitle: 1,
+            articleDate: 1,
+            articleLink: 1,
+            score: 1,
+          },
+        })
+        .sort({ articleDate: -1 })
+        .skip(skip)
+        .limit(ITEMS_PER_PAGE)
+        .toArray()) || [];
+  
+    const reportsCount = await db.collection(collectionName).countDocuments(queryConditions);
+  
+    const isLastPage = skip + ITEMS_PER_PAGE >= reportsCount;
+  
+    return { reports, isLastPage };
   }
-
-  return { reports, isLastPage };
-}
 
 async function getReportById(id, db) {
   const report = await db

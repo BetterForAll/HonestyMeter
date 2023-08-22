@@ -1,28 +1,28 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import Head from 'next/head';
-import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import { CacheProvider } from '@emotion/react';
-import theme from '../theme';
-import createEmotionCache from '../createEmotionCache';
-import Header from '@/components/Layout/Header';
-import Menu from '@/components/Layout/DesktopMenu';
-import { useRouter } from 'next/router'
-import Divider from '@mui/material/Divider';
-import { Box } from '@mui/material';
-import Footer from '@/components/Layout/Footer';
-import { PAGE_ROUTES, PAGE_URL_TO_INDEX_MAP } from '@/constants/constants';
-import useHomePage from '@/hooks/useHomePage';
-import MobileMenu from '@/components/Layout/MobileMenu';
-import { Analytics } from '@vercel/analytics/react';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import Head from "next/head";
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import { CacheProvider } from "@emotion/react";
+import theme from "../theme";
+import createEmotionCache from "../createEmotionCache";
+import Header from "@/components/Layout/Header";
+import Menu from "@/components/Layout/DesktopMenu";
+import { useRouter } from "next/router";
+import Divider from "@mui/material/Divider";
+import { Box } from "@mui/material";
+import Footer from "@/components/Layout/Footer";
+import { PAGE_ROUTES, PAGE_URL_TO_INDEX_MAP } from "@/constants/constants";
+import useHomePage from "@/hooks/useHomePage";
+import MobileMenu from "@/components/Layout/MobileMenu";
+import { Analytics } from "@vercel/analytics/react";
 
 const clientSideEmotionCache = createEmotionCache();
 
 export default function MyApp(props) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
-  const router = useRouter()
-  const { pathname = '/' } = router || {};
+  const router = useRouter();
+  const { pathname = "/" } = router || {};
   const initialPageIndex = PAGE_URL_TO_INDEX_MAP[pathname] || 0;
   const [currentPage, setCurrentPage] = useState(initialPageIndex);
   const homePageProps = useHomePage();
@@ -55,21 +55,21 @@ export default function MyApp(props) {
         </Box>
         <Analytics />
       </ThemeProvider>
-    </CacheProvider >
+    </CacheProvider>
   );
 }
 
 const STYLES = {
   appContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100vh'
-  }
-}
+    display: "flex",
+    flexDirection: "column",
+    height: "100vh",
+    overflowX: "hidden",
+  },
+};
 
 MyApp.propTypes = {
   Component: PropTypes.elementType.isRequired,
   emotionCache: PropTypes.object,
   pageProps: PropTypes.object.isRequired,
 };
-

@@ -131,7 +131,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
     <>
       {HtmlHead}
       {
-        <Box sx={REPORTS_STYLES.container}>
+        <Box sx={REPORTS_STYLES.container} key={reports}>
           {/* <Typography variant="body1" sx={REPORTS_STYLES.date}>{date}</Typography> */}
           <Typography variant="h2" sx={REPORTS_STYLES.title}>
             {TEXTS.title}
@@ -279,9 +279,19 @@ const People = ({ people }) => {
   ));
 
   return (
-    <List spacing={1} sx={REPORTS_STYLES.people}>
-      {peopleList}
-    </List>
+    <Box
+      sx={{
+        maxWidth: { xs: "100vw", sm: "100%" },
+        display: "flex",
+        overflowX: { xs: "auto", sm: "hidden" }, // Scrollable on small devices, hidden overflow on larger screens
+        whiteSpace: { xs: "nowrap", sm: "normal" }, // Prevent wrapping on small devices, allow on larger screens
+        scrollbarWidth: { xs: "thin", sm: "none" }, // Apply thin scrollbar on small devices, hide on larger screens
+
+        // Add other styles as needed
+      }}
+    >
+      <List sx={REPORTS_STYLES.people}>{peopleList}</List>
+    </Box>
   );
 };
 
@@ -354,7 +364,7 @@ const REPORTS_STYLES = {
   },
   newReportButton: {
     margin: "auto",
-    marginBottom: theme.spacing(3),
+    marginBottom: theme.spacing(1),
     textAlign: "center",
     minWidth: "266px",
   },
@@ -376,10 +386,12 @@ const REPORTS_STYLES = {
   people: {
     display: "flex",
     flexDirection: "row",
-    flexWrap: "wrap",
-    width: "100%",
+    flexWrap: { xs: "nowrap", sm: "wrap" },
+    // width: "100%",
     gap: theme.spacing(0.5),
-    padding: theme.spacing(2),
+    padding: { xs: theme.spacing(1), sm: theme.spacing(2) },
+    justifyContent: "center",
+    alignItems: "center",
   },
   personListItem: {
     width: "fit-content",
