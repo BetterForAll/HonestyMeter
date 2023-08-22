@@ -49,9 +49,9 @@ const TEXTS = {
 
   noOneIsPerfect: `
   - It is essential to acknowledge that no one can be entirely objective,
-  and some degree of bias is inevitable.Furthermore,
+  and some degree of bias is inevitable. Furthermore,
     a low objectivity score does not necessarily indicate malicious intent
-on the part of the mass media or journalists.Many instances of biased
+on the part of the mass media or journalists. Many instances of biased
 content are created unknowingly, with the best of intentions.`,
 
   somwContentIsHardToEvaluate: `
