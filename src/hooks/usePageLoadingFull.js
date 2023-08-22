@@ -11,7 +11,7 @@ function usePageLoadingFull() {
 
   useEffect(() => {
     const handleStart = () => {
-      timeoutRef.current = setTimeout(() => setLoading(true), 200);
+      timeoutRef.current = setTimeout(() => setLoading(true), 400);
     };
 
     const handleComplete = () => setLoading(false);
