@@ -4,8 +4,15 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import va from "@vercel/analytics";
 import theme from "@/theme";
-import { Box, Button, Typography } from "@mui/material";
-import usePageLoading from "@/hooks/usePageLoading";
+import {
+  Box,
+  Button,
+  Chip,
+  List,
+  ListItem,
+  Stack,
+  Typography,
+} from "@mui/material";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
@@ -16,6 +23,7 @@ import Disclamer from "@/components/Disclamer";
 import { API_URL, BASE_URL, EVENT } from "@/constants/constants";
 import ReportList from "@/components/ReportList/ReportList";
 import usePageLoadingFull from "@/hooks/usePageLoadingFull";
+import PEOPLE from "@/data/people";
 
 const LOGO_URL = "./favicon.png";
 const OPEN_GRAPH_IMAGE_URL = "./opengraph-logo.png";
@@ -50,6 +58,7 @@ const TEXTS = {
   },
   articleTextExtracted: "text extrasction by url powered by",
   worldNewsApi: "world news api",
+  people: "People",
 };
 
 const STEPS = {
@@ -73,6 +82,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
     isUrlProvidedAsInput,
   } = homePageProps;
   const [isArticleInputShown, setIsArticleInputShown] = useState(false);
+  const isReportListEmpty = reports.length === 0;
 
   const onCardClick = (reportUrl) => () => {
     va.track(EVENT.reportCardClicked, { reportUrl });
@@ -117,14 +127,6 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
     va.track(EVENT.pageLoaded, { page: pageFromQuery });
   }, [pageFromQuery]);
 
-  if (reports.length === 0) {
-    return (
-      <Typography variant="body1" sx={REPORTS_STYLES.noReportsText}>
-        {TEXTS.noReportsYet}
-      </Typography>
-    );
-  }
-
   return (
     <>
       {HtmlHead}
@@ -144,6 +146,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
             onClick={toggleArticleInput(true)}
             isArticleInputShown={isArticleInputShown}
           />
+          <People people={PEOPLE} />
           {isArticleInputShown && (
             <Box sx={REPORTS_STYLES.articleInputContainer}>
               {isUrlProvidedAsInput && (
@@ -176,11 +179,19 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
               />
             </Box>
           )}
-          <ReportList
-            reports={reports}
-            onCardClick={onCardClick}
-            isLoading={isLoading}
-          />
+          {isReportListEmpty ? (
+            <Box sx={REPORTS_STYLES.noReportsContainer}>
+              <Typography variant="body1" sx={REPORTS_STYLES.noReportsText}>
+                {TEXTS.noReportsYet}
+              </Typography>
+            </Box>
+          ) : (
+            <ReportList
+              reports={reports}
+              onCardClick={onCardClick}
+              isLoading={isLoading}
+            />
+          )}
           {isPaginationEnabled && (
             <Pagination
               {...{ isFirstPage, onStartClick, onChangePage, isLastPage }}
@@ -243,6 +254,37 @@ function CreateReportButton({ onClick, isArticleInputShown }) {
   );
 }
 
+const People = ({ people }) => {
+  const router = useRouter();
+
+  const handleClick = (person) => () => {
+    // va.track(EVENT.personClicked, { person });
+    router.push(`/?person=${person}`);
+  };
+
+  const peopleList = people.map((person) => (
+    <ListItem
+      key={person}
+      sx={REPORTS_STYLES.personListItem}
+      onClick={handleClick(person)}
+    >
+      <Chip
+        clickable
+        label={person}
+        size="small"
+        sx={REPORTS_STYLES.personChip}
+        color="info"
+      />
+    </ListItem>
+  ));
+
+  return (
+    <List spacing={1} sx={REPORTS_STYLES.people}>
+      {peopleList}
+    </List>
+  );
+};
+
 const HtmlHead = (
   <Head>
     <title>{TEXTS.honestyMeter}</title>
@@ -262,8 +304,8 @@ const HtmlHead = (
 export async function getServerSideProps(context) {
   const { req } = context;
   const host = req?.headers?.host;
-  const { page = 1 } = context.query;
-  const url = `http://${host}/${API_URL.SAVED_REPORT}?page=${page}`;
+  const { page = 1, person = "" } = context.query;
+  const url = `http://${host}/${API_URL.SAVED_REPORT}?page=${page}&person=${person}`;
 
   try {
     const res = await fetch(url);
@@ -330,5 +372,27 @@ const REPORTS_STYLES = {
   },
   skipIcon: {
     transform: "scale(0.75)",
+  },
+  people: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    width: "100%",
+    gap: theme.spacing(0.5),
+    padding: theme.spacing(2),
+  },
+  personListItem: {
+    width: "fit-content",
+    padding: theme.spacing(0.5),
+  },
+  personChip: {
+    // padding: theme.spacing(0.5),
+  },
+  noReportsContainer: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: theme.spacing(2),
   },
 };

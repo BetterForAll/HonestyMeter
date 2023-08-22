@@ -43,6 +43,7 @@ async function getReports(req, db) {
 
 async function getReportsPage(req, db) {
   const page = req.query.page || 1;
+  const person = req.query.person;
   const skip = (page - 1) * ITEMS_PER_PAGE;
   const reportsCount = await db.collection(collectionName).countDocuments();
   const isPageInRange = skip < reportsCount;
@@ -50,25 +51,29 @@ async function getReportsPage(req, db) {
   let reports = [];
 
   if (isPageInRange) {
+    const queryConditions = {
+      $or: [
+        { isUserGenerated: { $exists: false } },
+        { isUserGenerated: null },
+        { isUserGenerated: false },
+      ],
+    };
+
+    if (person) {
+      const personKey = "sidesBalance." + person;
+      queryConditions[personKey] = { $exists: true };
+    }
+
     reports = await db
       .collection(collectionName)
-      .find(
-        {
-          $or: [
-            { isUserGenerated: { $exists: false } },
-            { isUserGenerated: null },
-            { isUserGenerated: false },
-          ],
+      .find(queryConditions, {
+        projection: {
+          articleTitle: 1,
+          articleDate: 1,
+          articleLink: 1,
+          score: 1,
         },
-        {
-          projection: {
-            articleTitle: 1,
-            articleDate: 1,
-            articleLink: 1,
-            score: 1,
-          },
-        }
-      )
+      })
       .sort({ articleDate: -1 })
       .skip(skip)
       .limit(ITEMS_PER_PAGE)
