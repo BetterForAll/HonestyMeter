@@ -11,11 +11,11 @@ export const getRandom = (min, max) => {
   }
 
   return Math.random() * (max - min) + min;
-}
+};
 
 export const openEmail = (mailTo) => {
   window.location.href = mailTo;
-}
+};
 
 export const generateRandomRgbaColor = () => {
   const o = Math.round,
@@ -24,12 +24,17 @@ export const generateRandomRgbaColor = () => {
   return `rgba(${o(r() * s)}, ${o(r() * s)}, ${o(r() * s)}, 0.5)`;
 };
 
-export const generateMatchingColor = (bgColorRgba) => {//TODO: use for showing color matching background in favoredSide chip
-  const rgbValues = bgColorRgba.substring(bgColor.indexOf('(') + 1, bgColorRgba.lastIndexOf(')')).split(',').map(x => parseInt(x));
-  const luminance = 0.2126 * rgbValues[0] + 0.7152 * rgbValues[1] + 0.0722 * rgbValues[2];
+export const generateMatchingColor = (bgColorRgba) => {
+  //TODO: use for showing color matching background in favoredSide chip
+  const rgbValues = bgColorRgba
+    .substring(bgColor.indexOf('(') + 1, bgColorRgba.lastIndexOf(')'))
+    .split(',')
+    .map((x) => parseInt(x));
+  const luminance =
+    0.2126 * rgbValues[0] + 0.7152 * rgbValues[1] + 0.0722 * rgbValues[2];
 
   return luminance > 128 ? '#000000' : '#ffffff';
-}
+};
 
 export const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -51,8 +56,6 @@ export function scrollToBottom({ isSmooth = true } = {}) {
 
 export const EMPTY_FUNCTION = () => { };
 
-
-
 export function getBaseUrl() {
   const isServer = typeof window === 'undefined';
 
@@ -71,7 +74,9 @@ export function getBaseUrlFromUrlString(urlString = EMPTY_STRING) {
   const url = new URL(urlString);
   const removeUrlPrefixAndQueryParamsRegex = /(https?:\/\/)?(www.)?/;
 
-  return url.origin.replace(removeUrlPrefixAndQueryParamsRegex, EMPTY_STRING).split('/')[0];
+  return url.origin
+    .replace(removeUrlPrefixAndQueryParamsRegex, EMPTY_STRING)
+    .split('/')[0];
 }
 
 export async function copyTextToClipboard(text) {
@@ -87,7 +92,7 @@ export function getHttpProtocol(host) {
   const HTTP = 'http';
   const HTTPS = 'https';
 
-  return host.includes(LOCALHOST) ? HTTP : HTTPS
+  return host.includes(LOCALHOST) ? HTTP : HTTPS;
 }
 
 export function convertStringToPascalCase(str) {
@@ -122,7 +127,8 @@ export function convertUTCDateToUserTimeZone(dateString) {
 }
 
 export function checkIsUrl(text) {
-  const pattern = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+([\/?#].*)?$/;
+  const pattern =
+    /^(https?:\/\/)?([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+([\/?#].*)?$/;
   return pattern.test(text);
 }
 

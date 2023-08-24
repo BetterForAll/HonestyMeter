@@ -4,27 +4,17 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import va from '@vercel/analytics';
 import theme from '@/theme';
-import {
-  Box,
-  Button,
-  Chip,
-  List,
-  ListItem,
-  Stack,
-  Typography,
-} from '@mui/material';
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import { scrollToTop, scrollToBottom } from '../utils/utils';
+import { Box, Button, Chip, List, ListItem, Typography } from '@mui/material';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import { scrollToTop, scrollToBottom } from '../../../utils/utils';
 import Share from '@/components/Share';
 import AtricleInput from '@/components/ArticleInput';
 import Disclamer from '@/components/Disclamer';
-import { API_URL, BASE_URL, EVENT } from '@/constants/constants';
+import { API_URL, BASE_URL, EVENT, SPACE } from '@/constants/constants';
 import ReportList from '@/components/ReportList/ReportList';
 import usePageLoadingFull from '@/hooks/usePageLoadingFull';
-import PEOPLE from '@/data/people';
 import Pagination from '@/components/Layout/Pagination';
+import { array, bool, string, object } from 'prop-types';
 
 const LOGO_URL = './favicon.png';
 const OPEN_GRAPH_IMAGE_URL = './opengraph-logo.png';
@@ -32,7 +22,7 @@ const TWITTER_IMAGE_URL = './favicon.png';
 const SHARING_CONTEXT = 'app';
 const TEXTS = {
   title: 'News Integrity Feed',
-  subtitle: 'Top news analysed for bias by HonestyMeter',
+  subtitle: (name) => `News Integrity Feed for ${name}`,
   poweredBy: 'news api powered by newsdata.io',
   newReport: 'Create new bias report',
   cancelNewReport: 'Cancel new report',
@@ -73,6 +63,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
   const router = useRouter();
   const pageFromQuery = parseInt(router.query.page) || 1;
   const isFirstPage = pageFromQuery === 1;
+  const name = router.query.name || '';
   const isPaginationEnabled = !(isFirstPage && isLastPage);
   const isLoading = usePageLoadingFull();
   const {
@@ -127,20 +118,38 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
       {HtmlHead}
       {
         <Box sx={REPORTS_STYLES.container} key={reports}>
-          {/* <Typography variant='body1' sx={REPORTS_STYLES.date}>{date}</Typography> */}
           <Typography variant='h2' sx={REPORTS_STYLES.title}>
-            {TEXTS.title}
+            {name}
           </Typography>
           <Typography variant='body1' sx={REPORTS_STYLES.subtitle}>
-            {TEXTS.subtitle}
+            {TEXTS.subtitle(name)}
           </Typography>
-          <Typography variant='body1' sx={REPORTS_STYLES.poweredBy}>
-            ({TEXTS.poweredBy})
-          </Typography>
+          {!isReportListEmpty && (
+            <Typography variant='body1' sx={REPORTS_STYLES.poweredBy}>
+              ({TEXTS.poweredBy})
+            </Typography>
+          )}
+          {
+            <Button
+              variant='text'
+              sx={{
+                margin: theme.spacing(1, 0, 3),
+                display: 'flex',
+                alignItems: 'center',
+              }}
+              onClick={() => {
+                router.push('/people');
+              }}
+            >
+              <ChevronLeftIcon />
+              <Typography>Back To People Index</Typography>
+            </Button>
+          }
           <CreateReportButton
             onClick={toggleArticleInput(true)}
             isArticleInputShown={isArticleInputShown}
           />
+
           {isArticleInputShown && (
             <Box sx={REPORTS_STYLES.articleInputContainer}>
               {isUrlProvidedAsInput && (
@@ -189,19 +198,64 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
           {isPaginationEnabled && (
             <Pagination {...{ isFirstPage, onChangePage, isLastPage }} />
           )}
-          <CreateReportButton
-            onClick={toggleArticleInput(false)}
-            isArticleInputShown={isArticleInputShown}
-          />
+
+          {reports.length > 8 && (
+            <CreateReportButton
+              onClick={toggleArticleInput(false)}
+              isArticleInputShown={isArticleInputShown}
+            />
+          )}
+
           {isArticleInputShown && (
             <Box sx={REPORTS_STYLES.articleInputContainer}>
+              {isUrlProvidedAsInput && (
+                <Typography
+                  sx={{
+                    margin: 'auto',
+                    textAlign: 'center',
+                    marginBottom: theme.spacing(2),
+                    marginTop: theme.spacing(-2),
+                    fontSize: theme.typography.fontSize * 0.75,
+                    color: theme.palette.text.secondary,
+                    ' & a': {
+                      color: theme.palette.text.secondary,
+                    },
+                  }}
+                >
+                  {TEXTS.articleTextExtracted}
+                  &nbsp;
+                  <a href={WOLRD_NEWS_API_URL} target='_blank' rel='noreferrer'>
+                    {TEXTS.worldNewsApi}
+                  </a>
+                </Typography>
+              )}
+
               <AtricleInput
                 article={article}
                 onArticleChange={handleArticleChange}
                 onGetReport={handleGetReport}
+                isUrlProvidedAsInput={isUrlProvidedAsInput}
               />
             </Box>
           )}
+
+          {reports.length > 8 && (
+            <Button
+              variant='text'
+              sx={{
+                margin: theme.spacing(1, 0, 3),
+                display: 'flex',
+                alignItems: 'center',
+              }}
+              onClick={() => {
+                router.push('/people');
+              }}
+            >
+              <ChevronLeftIcon />
+              <Typography>Back To People Index</Typography>
+            </Button>
+          )}
+
           <Share
             title={TEXTS.shareTitle}
             url={BASE_URL}
@@ -216,6 +270,13 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
   );
 }
 
+Home.propTypes = {
+  reports: array,
+  isLastPage: bool,
+  date: string,
+  homePageProps: object,
+};
+
 function CreateReportButton({ onClick, isArticleInputShown }) {
   const text = isArticleInputShown ? TEXTS.cancelNewReport : TEXTS.newReport;
 
@@ -229,6 +290,47 @@ function CreateReportButton({ onClick, isArticleInputShown }) {
     </Button>
   );
 }
+
+const People = ({ people }) => {
+  const router = useRouter();
+
+  const handleClick = (person) => () => {
+    // va.track(EVENT.personClicked, { person });
+    router.push(`/?person=${person}`);
+  };
+
+  const peopleList = people.map((person) => (
+    <ListItem
+      key={person}
+      sx={REPORTS_STYLES.personListItem}
+      onClick={handleClick(person)}
+    >
+      <Chip
+        clickable
+        label={person}
+        size='small'
+        sx={REPORTS_STYLES.personChip}
+        color='info'
+      />
+    </ListItem>
+  ));
+
+  return (
+    <Box
+      sx={{
+        maxWidth: { xs: '100vw', sm: '100%' },
+        display: 'flex',
+        overflowX: { xs: 'auto', sm: 'hidden' }, // Scrollable on small devices, hidden overflow on larger screens
+        whiteSpace: { xs: 'nowrap', sm: 'normal' }, // Prevent wrapping on small devices, allow on larger screens
+        scrollbarWidth: { xs: 'thin', sm: 'none' }, // Apply thin scrollbar on small devices, hide on larger screens
+
+        // Add other styles as needed
+      }}
+    >
+      <List sx={REPORTS_STYLES.people}>{peopleList}</List>
+    </Box>
+  );
+};
 
 const HtmlHead = (
   <Head>
@@ -249,8 +351,8 @@ const HtmlHead = (
 export async function getServerSideProps(context) {
   const { req } = context;
   const host = req?.headers?.host;
-  const { page = 1, person = '' } = context.query;
-  const url = `http://${host}/${API_URL.SAVED_REPORT}?page=${page}&person=${person}`;
+  const { page = 1, name = '' } = context.query;
+  const url = `http://${host}/${API_URL.SAVED_REPORT}?page=${page}&person=${name}`;
 
   try {
     const res = await fetch(url);
@@ -267,7 +369,7 @@ export async function getServerSideProps(context) {
 
 const REPORTS_STYLES = {
   container: {
-    maxWidth: '1400px',
+    width: '100%',
     margin: 'auto',
     display: 'flex',
     flexDirection: 'column',
