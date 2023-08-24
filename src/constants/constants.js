@@ -37,6 +37,8 @@ export const EVENT = {
   shareReport: (platform) => `Share report on ${platform}`,
   sharedReportViewed: 'Shared report viewed',
   pageLoaded: 'Page loaded',
+  peoplePageLoaded: 'People page loaded',
+  personPageLoaded: (name) => 'Person page loaded',
   generateNewReportClicked: 'Generate New Report Clicked',
   cancelNewReportClicked: 'Cancel New Report Clicked',
   reportCardClicked: 'Report Card Clicked',

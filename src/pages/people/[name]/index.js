@@ -87,8 +87,8 @@ export default function PersonPage({ homePageProps, reports, isLastPage }) {
   };
 
   useEffect(() => {
-    va.track(EVENT.pageLoaded, { page: pageFromQuery });
-  }, [pageFromQuery]);
+    va.track(EVENT.personPageLoaded(name), { page: pageFromQuery });
+  }, [name, pageFromQuery]);
 
   return (
     <>
@@ -120,6 +120,7 @@ export default function PersonPage({ homePageProps, reports, isLastPage }) {
             onClick={toggleArticleInput(true)}
             isArticleInputShown={isArticleInputShown}
           />
+
           {isArticleInputShown && (
             <Box sx={STYLES.articleInputContainer}>
               {isUrlProvidedAsInput && (

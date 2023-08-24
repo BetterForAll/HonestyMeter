@@ -76,7 +76,7 @@ export default function PeoplePage() {
   };
 
   useEffect(() => {
-    va.track(EVENT.pageLoaded, { page: pageFromQuery });
+    va.track(EVENT.peoplePageLoaded);
   }, [pageFromQuery]);
 
   return (
