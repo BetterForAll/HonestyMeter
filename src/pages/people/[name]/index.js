@@ -271,7 +271,7 @@ const getHtmlHead = ({ name }) => (
     <meta property='og:image' content={OPEN_GRAPH_IMAGE_URL} />
     <meta property='twitter:image' content={TWITTER_IMAGE_URL} />
     <link rel='shortcut icon' href={LOGO_URL} />
-    <link rel='canonical' href={BASE_URL + '/' + name} />
+    <link rel='canonical' href={BASE_URL + '/people/' + name} />
   </Head>
 );
 
