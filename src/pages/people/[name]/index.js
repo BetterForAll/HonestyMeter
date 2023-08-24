@@ -61,7 +61,6 @@ export default function PersonPage({ homePageProps, reports, isLastPage }) {
   const shouldShowBottomControls = reports.length > 8;
   const htmlHead = getHtmlHead({ name });
 
-
   const onCardClick = (reportUrl) => () => {
     va.track(EVENT.reportCardClicked, { reportUrl });
 
@@ -86,7 +85,6 @@ export default function PersonPage({ homePageProps, reports, isLastPage }) {
   const handleBack = () => {
     router.push('/people');
   };
-
 
   useEffect(() => {
     va.track(EVENT.pageLoaded, { page: pageFromQuery });
@@ -122,7 +120,6 @@ export default function PersonPage({ homePageProps, reports, isLastPage }) {
             onClick={toggleArticleInput(true)}
             isArticleInputShown={isArticleInputShown}
           />
-
           {isArticleInputShown && (
             <Box sx={STYLES.articleInputContainer}>
               {isUrlProvidedAsInput && (
@@ -200,7 +197,6 @@ export default function PersonPage({ homePageProps, reports, isLastPage }) {
                   </a>
                 </Typography>
               )}
-
               <AtricleInput
                 article={article}
                 onArticleChange={handleArticleChange}
