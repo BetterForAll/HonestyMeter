@@ -4,13 +4,13 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import va from '@vercel/analytics';
 import theme from '@/theme';
-import { Box, Button, Chip, List, ListItem, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { scrollToTop, scrollToBottom } from '../../../utils/utils';
 import Share from '@/components/Share';
 import AtricleInput from '@/components/ArticleInput';
 import Disclamer from '@/components/Disclamer';
-import { API_URL, BASE_URL, EVENT, SPACE } from '@/constants/constants';
+import { API_URL, BASE_URL, EVENT, SPACE, WOLRD_NEWS_API_URL } from '@/constants/constants';
 import ReportList from '@/components/ReportList/ReportList';
 import usePageLoadingFull from '@/hooks/usePageLoadingFull';
 import Pagination from '@/components/Layout/Pagination';
@@ -26,11 +26,6 @@ const TEXTS = {
   poweredBy: 'news api powered by newsdata.io',
   newReport: 'Create new bias report',
   cancelNewReport: 'Cancel new report',
-  articleTitle: 'Article Title',
-  source: 'Source',
-  objectivityScore: 'Objectivity Score',
-  viewReport: 'View Bias Report',
-  imageAlt: 'Random illustration image',
   honestyMeter: 'Honesty Meter',
   error: 'Something went wrong. Please try again later.',
   desciptiion:
@@ -42,14 +37,8 @@ const TEXTS = {
     'HonestyMeter - Check media content for objectivity and bias.',
   shareHashTags: ['HonestyMeter', 'MediaBias', 'FakeNews'],
   noReportsYet: 'No reports yet',
-  objectivityLevel: {
-    low: 'Low',
-    medium: 'Medium',
-    high: 'High',
-  },
   articleTextExtracted: 'text extrasction by url powered by',
   worldNewsApi: 'world news api',
-  people: 'People',
 };
 
 const STEPS = {
@@ -57,7 +46,6 @@ const STEPS = {
   back: -1,
 };
 
-const WOLRD_NEWS_API_URL = 'https://worldnewsapi.com';
 
 export default function Home({ homePageProps, reports, isLastPage, date }) {
   const router = useRouter();
@@ -75,6 +63,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
   } = homePageProps;
   const [isArticleInputShown, setIsArticleInputShown] = useState(false);
   const isReportListEmpty = reports.length === 0;
+  const shouldShowBottomControls = reports.length > 8;
 
   const onCardClick = (reportUrl) => () => {
     va.track(EVENT.reportCardClicked, { reportUrl });
@@ -117,15 +106,15 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
     <>
       {HtmlHead}
       {
-        <Box sx={REPORTS_STYLES.container} key={reports}>
-          <Typography variant='h2' sx={REPORTS_STYLES.title}>
+        <Box sx={STYLES.container} key={reports}>
+          <Typography variant='h2' sx={STYLES.title}>
             {name}
           </Typography>
-          <Typography variant='body1' sx={REPORTS_STYLES.subtitle}>
+          <Typography variant='body1' sx={STYLES.subtitle}>
             {TEXTS.subtitle(name)}
           </Typography>
           {!isReportListEmpty && (
-            <Typography variant='body1' sx={REPORTS_STYLES.poweredBy}>
+            <Typography variant='body1' sx={STYLES.poweredBy}>
               ({TEXTS.poweredBy})
             </Typography>
           )}
@@ -151,7 +140,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
           />
 
           {isArticleInputShown && (
-            <Box sx={REPORTS_STYLES.articleInputContainer}>
+            <Box sx={STYLES.articleInputContainer}>
               {isUrlProvidedAsInput && (
                 <Typography
                   sx={{
@@ -173,7 +162,6 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
                   </a>
                 </Typography>
               )}
-
               <AtricleInput
                 article={article}
                 onArticleChange={handleArticleChange}
@@ -183,8 +171,8 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
             </Box>
           )}
           {isReportListEmpty ? (
-            <Box sx={REPORTS_STYLES.noReportsContainer}>
-              <Typography variant='body1' sx={REPORTS_STYLES.noReportsText}>
+            <Box sx={STYLES.noReportsContainer}>
+              <Typography variant='body1' sx={STYLES.noReportsText}>
                 {TEXTS.noReportsYet}
               </Typography>
             </Box>
@@ -199,7 +187,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
             <Pagination {...{ isFirstPage, onChangePage, isLastPage }} />
           )}
 
-          {reports.length > 8 && (
+          {shouldShowBottomControls && (
             <CreateReportButton
               onClick={toggleArticleInput(false)}
               isArticleInputShown={isArticleInputShown}
@@ -207,7 +195,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
           )}
 
           {isArticleInputShown && (
-            <Box sx={REPORTS_STYLES.articleInputContainer}>
+            <Box sx={STYLES.articleInputContainer}>
               {isUrlProvidedAsInput && (
                 <Typography
                   sx={{
@@ -238,33 +226,33 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
               />
             </Box>
           )}
+          {
+            shouldShowBottomControls && (
+              <Button
+                variant='text'
+                sx={{
+                  margin: theme.spacing(1, 0, 3),
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+                onClick={() => {
+                  router.push('/people');
+                }}
+              >
+                <ChevronLeftIcon />
+                <Typography>Back To People Index</Typography>
+              </Button>
+            )}
 
-          {reports.length > 8 && (
-            <Button
-              variant='text'
-              sx={{
-                margin: theme.spacing(1, 0, 3),
-                display: 'flex',
-                alignItems: 'center',
-              }}
-              onClick={() => {
-                router.push('/people');
-              }}
-            >
-              <ChevronLeftIcon />
-              <Typography>Back To People Index</Typography>
-            </Button>
-          )}
-
-          <Share
-            title={TEXTS.shareTitle}
-            url={BASE_URL}
-            description={TEXTS.shareDescription}
-            hashTags={TEXTS.shareHashTags}
-            context={SHARING_CONTEXT}
-          />
         </Box>
       }
+      <Share
+        title={TEXTS.shareTitle}
+        url={BASE_URL}
+        description={TEXTS.shareDescription}
+        hashTags={TEXTS.shareHashTags}
+        context={SHARING_CONTEXT}
+      />
       {isFirstPage && <Disclamer />}
     </>
   );
@@ -284,53 +272,12 @@ function CreateReportButton({ onClick, isArticleInputShown }) {
     <Button
       variant='outlined'
       onClick={onClick}
-      sx={REPORTS_STYLES.newReportButton}
+      sx={STYLES.newReportButton}
     >
       {text}
     </Button>
   );
 }
-
-const People = ({ people }) => {
-  const router = useRouter();
-
-  const handleClick = (person) => () => {
-    // va.track(EVENT.personClicked, { person });
-    router.push(`/?person=${person}`);
-  };
-
-  const peopleList = people.map((person) => (
-    <ListItem
-      key={person}
-      sx={REPORTS_STYLES.personListItem}
-      onClick={handleClick(person)}
-    >
-      <Chip
-        clickable
-        label={person}
-        size='small'
-        sx={REPORTS_STYLES.personChip}
-        color='info'
-      />
-    </ListItem>
-  ));
-
-  return (
-    <Box
-      sx={{
-        maxWidth: { xs: '100vw', sm: '100%' },
-        display: 'flex',
-        overflowX: { xs: 'auto', sm: 'hidden' }, // Scrollable on small devices, hidden overflow on larger screens
-        whiteSpace: { xs: 'nowrap', sm: 'normal' }, // Prevent wrapping on small devices, allow on larger screens
-        scrollbarWidth: { xs: 'thin', sm: 'none' }, // Apply thin scrollbar on small devices, hide on larger screens
-
-        // Add other styles as needed
-      }}
-    >
-      <List sx={REPORTS_STYLES.people}>{peopleList}</List>
-    </Box>
-  );
-};
 
 const HtmlHead = (
   <Head>
@@ -367,7 +314,7 @@ export async function getServerSideProps(context) {
   }
 }
 
-const REPORTS_STYLES = {
+const STYLES = {
   container: {
     width: '100%',
     margin: 'auto',
@@ -409,33 +356,6 @@ const REPORTS_STYLES = {
     width: '100%',
     margin: '0 auto auto',
     padding: theme.spacing(0, 2, 2, 2),
-  },
-  pagination: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-  },
-  skipIcon: {
-    transform: 'scale(0.75)',
-  },
-  people: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: { xs: 'nowrap', sm: 'wrap' },
-    // width: '100%',
-    gap: theme.spacing(0.5),
-    padding: { xs: theme.spacing(1), sm: theme.spacing(2) },
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  personListItem: {
-    width: 'fit-content',
-    padding: theme.spacing(0.5),
-  },
-  personChip: {
-    // padding: theme.spacing(0.5),
   },
   noReportsContainer: {
     display: 'flex',

@@ -322,7 +322,6 @@ const REPORTS_STYLES = {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: { xs: 'nowrap', sm: 'wrap' },
-    // width: '100%',
     gap: theme.spacing(0.5),
     padding: { xs: theme.spacing(1), sm: theme.spacing(2) },
     justifyContent: 'center',
@@ -332,9 +331,7 @@ const REPORTS_STYLES = {
     width: 'fit-content',
     padding: theme.spacing(0.5),
   },
-  personChip: {
-    // padding: theme.spacing(0.5),
-  },
+  personChip: {},
   noReportsContainer: {
     display: 'flex',
     flexDirection: 'column',

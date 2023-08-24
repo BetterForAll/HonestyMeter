@@ -24,6 +24,7 @@ export const SPACE = ' ';
 export const PAYPAL_DONATE_URL =
   'https://www.paypal.com/donate/?hosted_button_id=2K88Y2UF99YRU';
 export const GITHUB_URL = 'https://github.com/BetterForAll/HonestyMeter';
+export const WOLRD_NEWS_API_URL = 'https://worldnewsapi.com';
 
 export const EVENT = {
   reportRequested: 'Report requested',
@@ -46,6 +47,7 @@ export const EVENT = {
   skipToFirstPageClicked: 'Skip To First Page Clicked',
   articleLinkClicked: 'Article Link Clicked',
   reportViewed: 'Report Viewed',
+  personClicked: 'Person Clicked',
 };
 
 export const API_URL = {

@@ -17,7 +17,6 @@ export default function Menu({ currentPage, setCurrentPage, pageRoutes }) {
     setCurrentPage(pageIndex);
     const pageToPush = pageRoutes[pageIndex];
 
-    console.log({ pageToPush });
     router.push('/' + pageToPush);
   };
 
