@@ -54,3 +54,8 @@ export const API_URL = {
   GENERATE_REPORT: './api/report',
   SAVED_REPORT: './api/saved_report',
 };
+
+export const STEPS = {
+  forward: 1,
+  back: -1,
+};

@@ -10,7 +10,7 @@ import { scrollToTop, scrollToBottom } from '../../../utils/utils';
 import Share from '@/components/Share';
 import AtricleInput from '@/components/ArticleInput';
 import Disclamer from '@/components/Disclamer';
-import { API_URL, BASE_URL, EVENT, SPACE, WOLRD_NEWS_API_URL } from '@/constants/constants';
+import { API_URL, BASE_URL, EVENT, WOLRD_NEWS_API_URL } from '@/constants/constants';
 import ReportList from '@/components/ReportList/ReportList';
 import usePageLoadingFull from '@/hooks/usePageLoadingFull';
 import Pagination from '@/components/Layout/Pagination';
@@ -39,15 +39,10 @@ const TEXTS = {
   noReportsYet: 'No reports yet',
   articleTextExtracted: 'text extrasction by url powered by',
   worldNewsApi: 'world news api',
+  backButton: 'Back To People Index',
 };
 
-const STEPS = {
-  forward: 1,
-  back: -1,
-};
-
-
-export default function Home({ homePageProps, reports, isLastPage, date }) {
+export default function PersonPage({ homePageProps, reports, isLastPage }) {
   const router = useRouter();
   const pageFromQuery = parseInt(router.query.page) || 1;
   const isFirstPage = pageFromQuery === 1;
@@ -64,23 +59,13 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
   const [isArticleInputShown, setIsArticleInputShown] = useState(false);
   const isReportListEmpty = reports.length === 0;
   const shouldShowBottomControls = reports.length > 8;
+  const htmlHead = getHtmlHead({ name });
+
 
   const onCardClick = (reportUrl) => () => {
     va.track(EVENT.reportCardClicked, { reportUrl });
 
     router.push(reportUrl);
-  };
-
-  const onChangePage = (step) => () => {
-    const event =
-      step === STEPS.forward
-        ? EVENT.nextPageClicked
-        : EVENT.previousPageClicked;
-    va.track(event, { page: pageFromQuery });
-
-    const nextPage = parseInt(pageFromQuery) + step;
-    router.query.page = nextPage;
-    router.push(router);
   };
 
   const toggleArticleInput = (isTop) => () => {
@@ -98,13 +83,18 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
     }, 0);
   };
 
+  const handleBack = () => {
+    router.push('/people');
+  };
+
+
   useEffect(() => {
     va.track(EVENT.pageLoaded, { page: pageFromQuery });
   }, [pageFromQuery]);
 
   return (
     <>
-      {HtmlHead}
+      {htmlHead}
       {
         <Box sx={STYLES.container} key={reports}>
           <Typography variant='h2' sx={STYLES.title}>
@@ -121,17 +111,11 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
           {
             <Button
               variant='text'
-              sx={{
-                margin: theme.spacing(1, 0, 3),
-                display: 'flex',
-                alignItems: 'center',
-              }}
-              onClick={() => {
-                router.push('/people');
-              }}
+              sx={STYLES.backButton}
+              onClick={handleBack}
             >
               <ChevronLeftIcon />
-              <Typography>Back To People Index</Typography>
+              <Typography>{TEXTS.backButton}</Typography>
             </Button>
           }
           <CreateReportButton
@@ -157,7 +141,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
                 >
                   {TEXTS.articleTextExtracted}
                   &nbsp;
-                  <a href={WOLRD_NEWS_API_URL} target='_blank' rel='noreferrer'>
+                  <a href={WOLRD_NEWS_API_URL} target='_blank' rel='1400pxreferrer'>
                     {TEXTS.worldNewsApi}
                   </a>
                 </Typography>
@@ -184,7 +168,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
             />
           )}
           {isPaginationEnabled && (
-            <Pagination {...{ isFirstPage, onChangePage, isLastPage }} />
+            <Pagination {...{ isFirstPage, isLastPage }} />
           )}
 
           {shouldShowBottomControls && (
@@ -193,7 +177,6 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
               isArticleInputShown={isArticleInputShown}
             />
           )}
-
           {isArticleInputShown && (
             <Box sx={STYLES.articleInputContainer}>
               {isUrlProvidedAsInput && (
@@ -258,7 +241,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
   );
 }
 
-Home.propTypes = {
+PersonPage.propTypes = {
   reports: array,
   isLastPage: bool,
   date: string,
@@ -279,19 +262,19 @@ function CreateReportButton({ onClick, isArticleInputShown }) {
   );
 }
 
-const HtmlHead = (
+const getHtmlHead = ({ name }) => (
   <Head>
     <title>{TEXTS.honestyMeter}</title>
     <meta name='description' content={TEXTS.desciptiion} />
     <meta name='viewport' content='width=device-width, initial-scale=1' />
     <meta property='og:type' content='website' />
-    <meta property='og:title' content={TEXTS.honestyMeter} />
-    <meta property='og:description' content={TEXTS.ogDescription} />
+    <meta property='og:title' content={name} />
+    <meta property='og:description' content={TEXTS.subtitle(name)} />
     <meta property='og:url' content={BASE_URL} />
     <meta property='og:image' content={OPEN_GRAPH_IMAGE_URL} />
     <meta property='twitter:image' content={TWITTER_IMAGE_URL} />
     <link rel='shortcut icon' href={LOGO_URL} />
-    <link rel='canonical' href={BASE_URL} />
+    <link rel='canonical' href={BASE_URL + '/' + name} />
   </Head>
 );
 
@@ -316,7 +299,7 @@ export async function getServerSideProps(context) {
 
 const STYLES = {
   container: {
-    width: '100%',
+    width: '1400px',
     margin: 'auto',
     display: 'flex',
     flexDirection: 'column',
@@ -364,4 +347,9 @@ const STYLES = {
     alignItems: 'center',
     padding: theme.spacing(2),
   },
+  backButton: {
+    margin: theme.spacing(1, 0, 3),
+    display: 'flex',
+    alignItems: 'center',
+  }
 };

@@ -6,7 +6,6 @@ import va from '@vercel/analytics';
 import theme from '@/theme';
 import {
   Box,
-  Button,
   Chip,
   List,
   ListItem,
@@ -17,9 +16,8 @@ import {
   FormControl,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { scrollToTop, scrollToBottom, EMPTY_FUNCTION } from '../../utils/utils';
+import { EMPTY_FUNCTION } from '../../utils/utils';
 import { BASE_URL, EVENT } from '@/constants/constants';
-import usePageLoadingFull from '@/hooks/usePageLoadingFull';
 import PEOPLE from '@/data/people';
 
 const LOGO_URL = './favicon.png';
@@ -55,77 +53,14 @@ const TEXTS = {
   articleTextExtracted: 'text extrasction by url powered by',
   worldNewsApi: 'world news api',
   people: 'People',
+  noMatchesFound: 'No matches found',
 };
 
-const STEPS = {
-  forward: 1,
-  back: -1,
-};
-
-const WOLRD_NEWS_API_URL = 'https://worldnewsapi.com';
-
-export default function PeoplePage({
-  homePageProps,
-  reports = [],
-  isLastPage = true,
-  date,
-}) {
+export default function PeoplePage() {
   const router = useRouter();
   const pageFromQuery = parseInt(router.query.page) || 1;
-  const isFirstPage = pageFromQuery === 1;
   const personFromQuery = router.query.person || '';
-  const isPaginationEnabled = !(isFirstPage && isLastPage);
-  const isLoading = usePageLoadingFull();
-  const {
-    article,
-    handleArticleChange,
-    clearArticleInput,
-    handleGetReport,
-    isUrlProvidedAsInput,
-  } = homePageProps;
-  const [isArticleInputShown, setIsArticleInputShown] = useState(false);
   const [people, setPeople] = useState(PEOPLE);
-  const [selectedPerson, setSelectedPerson] = useState(personFromQuery);
-  const isReportListEmpty = reports.length === 0;
-
-  const onCardClick = (reportUrl) => () => {
-    va.track(EVENT.reportCardClicked, { reportUrl });
-
-    router.push(reportUrl);
-  };
-
-  const onChangePage = (step) => () => {
-    const event =
-      step === STEPS.forward
-        ? EVENT.nextPageClicked
-        : EVENT.previousPageClicked;
-    va.track(event, { page: pageFromQuery });
-
-    const nextPage = parseInt(pageFromQuery) + step;
-    router.query.page = nextPage;
-    router.push(router);
-  };
-
-  const onStartClick = () => {
-    va.track(EVENT.skipToFirstPageClicked, { page: pageFromQuery });
-
-    router.push('/');
-  };
-
-  const toggleArticleInput = (isTop) => () => {
-    const event = isArticleInputShown
-      ? EVENT.cancelNewReportClicked
-      : EVENT.generateNewReportClicked;
-
-    va.track(event);
-
-    clearArticleInput();
-    setIsArticleInputShown(!isArticleInputShown);
-    const scrollMethod = isTop ? scrollToTop : scrollToBottom;
-    setTimeout(() => {
-      scrollMethod();
-    }, 0);
-  };
 
   const handleLocalSearch = (e) => {
     const searchValue = e.target.value;
@@ -148,11 +83,10 @@ export default function PeoplePage({
     <>
       {HtmlHead}
       {
-        <Box sx={REPORTS_STYLES.container} key={reports}>
-          <Typography variant='h2' sx={REPORTS_STYLES.title}>
+        <Box sx={STYLES.container}>
+          <Typography variant='h2' sx={STYLES.title}>
             {TEXTS.title}
           </Typography>
-
           <FormControl
             sx={{ m: 1, width: '25ch', marginTop: 1 }}
             variant='outlined'
@@ -173,40 +107,24 @@ export default function PeoplePage({
               sx={{ padding: theme.spacing(0, 0, 1, 0) }}
             />
           </FormControl>
-          <Typography variant='body1' sx={REPORTS_STYLES.subtitle}>
+          <Typography variant='body1' sx={STYLES.subtitle}>
             {TEXTS.subtitle}
           </Typography>
           <People
-            people={!!selectedPerson ? [selectedPerson] : people}
-            selectedPerson={selectedPerson}
+            people={people}
+            selectedPerson={personFromQuery}
             onClick={handlePersonClick}
           />
         </Box>
       }
-      {/* {isFirstPage && <Disclamer />} */}
     </>
-  );
-}
-
-function CreateReportButton({ onClick, isArticleInputShown }) {
-  const text = isArticleInputShown ? TEXTS.cancelNewReport : TEXTS.newReport;
-
-  return (
-    <Button
-      variant='outlined'
-      onClick={onClick}
-      sx={REPORTS_STYLES.newReportButton}
-    >
-      {text}
-    </Button>
   );
 }
 
 const People = ({ people, selectedPerson, onClick }) => {
   const handleClick = (person) => () => {
-    // va.track(EVENT.personClicked, { person });
+    va.track(EVENT.personClicked, { person });
     onClick && onClick(person)();
-    // router.push(`/people?person=${person}`);
   };
 
   const isEmpty = people.length === 0;
@@ -219,14 +137,14 @@ const People = ({ people, selectedPerson, onClick }) => {
     return (
       <ListItem
         key={person}
-        sx={REPORTS_STYLES.personListItem}
+        sx={STYLES.personListItem}
         onClick={handleClick(person)}
       >
         <Chip
           clickable={!isSelected}
           label={person}
           size='small'
-          sx={REPORTS_STYLES.personChip}
+          sx={STYLES.personChip}
           color='info'
           {...onDeleteProp}
         />
@@ -254,14 +172,14 @@ const People = ({ people, selectedPerson, onClick }) => {
         >
           <Typography
             variant='body1'
-            sx={{ color: theme.palette.text.disabledm }}
+            sx={{ color: theme.palette.text.disabled }}
           >
-            No matches found
+            {TEXTS.noMatchesFound}
           </Typography>
         </Box>
       ) : (
         <Box>
-          <List sx={REPORTS_STYLES.people}>{peopleList}</List>
+          <List sx={STYLES.people}>{peopleList}</List>
         </Box>
       )}
     </Box>
@@ -284,7 +202,7 @@ const HtmlHead = (
   </Head>
 );
 
-const REPORTS_STYLES = {
+const STYLES = {
   container: {
     maxWidth: '1400px',
     margin: '0 auto',
@@ -342,9 +260,6 @@ const REPORTS_STYLES = {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    // flexWrap: { xs: 'nowrap', sm: 'wrap' },
-    // // width: '100%',
-    // gap: theme.spacing(0.5),
     padding: { xs: theme.spacing(1), sm: theme.spacing(2) },
     justifyContent: 'center',
     alignItems: 'flex-start',
@@ -354,7 +269,6 @@ const REPORTS_STYLES = {
     padding: theme.spacing(0.5),
   },
   personChip: {
-    // padding: theme.spacing(0.5),
     '& hover': {
       backgroundColor: 'auto',
     },

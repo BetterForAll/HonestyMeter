@@ -7,23 +7,15 @@ import theme from '@/theme';
 import {
   Box,
   Button,
-  Chip,
-  List,
-  ListItem,
-  Stack,
   Typography,
 } from '@mui/material';
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { scrollToTop, scrollToBottom } from '../utils/utils';
 import Share from '@/components/Share';
 import AtricleInput from '@/components/ArticleInput';
 import Disclamer from '@/components/Disclamer';
-import { API_URL, BASE_URL, EVENT } from '@/constants/constants';
+import { API_URL, BASE_URL, EVENT, STEPS, WOLRD_NEWS_API_URL } from '@/constants/constants';
 import ReportList from '@/components/ReportList/ReportList';
 import usePageLoadingFull from '@/hooks/usePageLoadingFull';
-import PEOPLE from '@/data/people';
 import Pagination from '@/components/Layout/Pagination';
 
 const LOGO_URL = './favicon.png';
@@ -62,13 +54,6 @@ const TEXTS = {
   people: 'People',
 };
 
-const STEPS = {
-  forward: 1,
-  back: -1,
-};
-
-const WOLRD_NEWS_API_URL = 'https://worldnewsapi.com';
-
 export default function Home({ homePageProps, reports, isLastPage, date }) {
   const router = useRouter();
   const pageFromQuery = parseInt(router.query.page) || 1;
@@ -89,18 +74,6 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
     va.track(EVENT.reportCardClicked, { reportUrl });
 
     router.push(reportUrl);
-  };
-
-  const onChangePage = (step) => () => {
-    const event =
-      step === STEPS.forward
-        ? EVENT.nextPageClicked
-        : EVENT.previousPageClicked;
-    va.track(event, { page: pageFromQuery });
-
-    const nextPage = parseInt(pageFromQuery) + step;
-    router.query.page = nextPage;
-    router.push(router);
   };
 
   const toggleArticleInput = (isTop) => () => {
@@ -127,7 +100,6 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
       {HtmlHead}
       {
         <Box sx={REPORTS_STYLES.container} key={reports}>
-          {/* <Typography variant='body1' sx={REPORTS_STYLES.date}>{date}</Typography> */}
           <Typography variant='h2' sx={REPORTS_STYLES.title}>
             {TEXTS.title}
           </Typography>
@@ -145,17 +117,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
             <Box sx={REPORTS_STYLES.articleInputContainer}>
               {isUrlProvidedAsInput && (
                 <Typography
-                  sx={{
-                    margin: 'auto',
-                    textAlign: 'center',
-                    marginBottom: theme.spacing(2),
-                    marginTop: theme.spacing(-2),
-                    fontSize: theme.typography.fontSize * 0.75,
-                    color: theme.palette.text.secondary,
-                    ' & a': {
-                      color: theme.palette.text.secondary,
-                    },
-                  }}
+                  sx={STYLES.articleTextExtracted}
                 >
                   {TEXTS.articleTextExtracted}
                   &nbsp;
@@ -187,7 +149,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
             />
           )}
           {isPaginationEnabled && (
-            <Pagination {...{ isFirstPage, onChangePage, isLastPage }} />
+            <Pagination {...{ isFirstPage, isLastPage }} />
           )}
           <CreateReportButton
             onClick={toggleArticleInput(false)}
@@ -308,35 +270,15 @@ const REPORTS_STYLES = {
     margin: '0 auto auto',
     padding: theme.spacing(0, 2, 2, 2),
   },
-  pagination: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: theme.spacing(2),
+  articleTextExtracted: {
+    margin: 'auto',
+    textAlign: 'center',
     marginBottom: theme.spacing(2),
-  },
-  skipIcon: {
-    transform: 'scale(0.75)',
-  },
-  people: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: { xs: 'nowrap', sm: 'wrap' },
-    gap: theme.spacing(0.5),
-    padding: { xs: theme.spacing(1), sm: theme.spacing(2) },
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  personListItem: {
-    width: 'fit-content',
-    padding: theme.spacing(0.5),
-  },
-  personChip: {},
-  noReportsContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: theme.spacing(2),
-  },
+    marginTop: theme.spacing(-2),
+    fontSize: theme.typography.fontSize * 0.75,
+    color: theme.palette.text.secondary,
+    ' & a': {
+      color: theme.palette.text.secondary,
+    },
+  }
 };

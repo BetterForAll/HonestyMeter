@@ -6,21 +6,16 @@ import theme from '@/theme';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import { EVENT } from '@/constants/constants';
-
-const STEPS = {
-  forward: 1,
-  back: -1,
-};
+import { EVENT, STEPS } from '@/constants/constants';
 
 export default function Pagination({
   isFirstPage,
   onClick,
-  onChangePage,
   isLastPage,
+  onChange
 }) {
   const router = useRouter();
-  const { page: pageFromQuery } = router.query;
+  const { page: pageFromQuery = 1 } = router.query || {};
 
   const onStartClick = () => {
     va.track(EVENT.skipToFirstPageClicked, { page: pageFromQuery });
@@ -40,15 +35,35 @@ export default function Pagination({
     onClick && onClick();
   };
 
+  const handlePageChange = (step) => () => {
+    const event =
+      step === STEPS.forward
+        ? EVENT.nextPageClicked
+        : EVENT.previousPageClicked;
+    va.track(event, { page: pageFromQuery });
+
+    const nextPage = parseInt(pageFromQuery) + step;
+    router.query.page = nextPage;
+    router.push(router);
+
+    console.log({
+      pageFromQuery,
+      nextPage,
+      router
+    })
+
+    onChange && onChange();
+  };
+
   return (
     <Box sx={REPORTS_STYLES.pagination}>
       <Button disabled={isFirstPage} onClick={onStartClick}>
         <SkipPreviousIcon fontSize='large' sx={REPORTS_STYLES.skipIcon} />
       </Button>
-      <Button disabled={isFirstPage} onClick={onChangePage(STEPS.back)}>
+      <Button disabled={isFirstPage} onClick={handlePageChange(STEPS.back)}>
         <ArrowLeftIcon fontSize='large' />
       </Button>
-      <Button disabled={isLastPage} onClick={onChangePage(STEPS.forward)}>
+      <Button disabled={isLastPage} onClick={handlePageChange(STEPS.forward)}>
         <ArrowRightIcon fontSize='large' />
       </Button>
     </Box>
