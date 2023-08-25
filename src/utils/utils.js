@@ -150,3 +150,11 @@ export const goBack = (router) => {
 
   window.history.back();
 };
+
+export const capitalizeFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export const capitalizeFirstLetterOfEachWord = (string) => {
+  return string.split(SPACE).map(capitalizeFirstLetter).join(SPACE);
+}

@@ -9,7 +9,7 @@ import {
   Button,
   Typography,
 } from '@mui/material';
-import { scrollToTop, scrollToBottom } from '../utils/utils';
+import { scrollToTop, scrollToBottom, capitalizeFirstLetterOfEachWord } from '../utils/utils';
 import Share from '@/components/Share';
 import AtricleInput from '@/components/ArticleInput';
 import Disclamer from '@/components/Disclamer';
@@ -101,7 +101,18 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
     }, 0);
   };
 
-  const handleSearchClick = () => router.push('/?' + 'person=' + searchValue);
+  const handleSearchClick = () => {
+    const trimmedSearchValue = searchValue.trim();
+    if (!trimmedSearchValue) return;
+
+    va.track(EVENT.searchClicked, { searchValue });
+
+    const searchValueCapitalizedLetters = capitalizeFirstLetterOfEachWord(trimmedSearchValue);
+    const url = `/?person=${searchValueCapitalizedLetters}`;
+    router.push(url);
+
+    setSearchValue('');
+  }
 
   const handleSearchFieldChange = (e) => setSearchValue(e.target.value);
 
@@ -155,7 +166,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
             </Box>
           )}
           {
-            searchFromQuery && <BackButton />
+            searchFromQuery && <BackButton goTo='/' />
           }
           {isReportListEmpty ? (
             <Box sx={REPORTS_STYLES.noReportsContainer}>

@@ -11,11 +11,17 @@ const TEXTS = {
     back: 'Back',
 }
 
-export default function BackButton({ text = TEXTS.back, onClick = EMPTY_FUNCTION }) {
+export default function BackButton({ text = TEXTS.back, onClick = EMPTY_FUNCTION, goTo = EMPTY_STRING }) {
     const router = useRouter();
 
     const handleGoBack = () => {
-        router.back();
+        if (goTo) {
+            router.push(goTo);
+
+        } else {
+            router.back();
+        }
+
         onClick();
     }
 
@@ -35,6 +41,7 @@ export default function BackButton({ text = TEXTS.back, onClick = EMPTY_FUNCTION
 
 BackButton.propTypes = {
     text: string,
+    goTo: string,
     onClick: func,
 }
 
