@@ -14,6 +14,7 @@ import {
   InputLabel,
   Input,
   FormControl,
+  IconButton,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { EMPTY_FUNCTION } from '../../utils/utils';
@@ -54,6 +55,7 @@ const TEXTS = {
   worldNewsApi: 'world news api',
   people: 'People',
   noMatchesFound: 'No matches found',
+  searchName: 'Search Name',
 };
 
 export default function PeoplePage() {
@@ -61,15 +63,30 @@ export default function PeoplePage() {
   const pageFromQuery = parseInt(router.query.page) || 1;
   const personFromQuery = router.query.person || '';
   const [people, setPeople] = useState(PEOPLE);
+  const [searchValue, setSearchValue] = useState('');
+  const isPeopleListEmpty = people.length === 0;
+  const isSearchValueEmpty = searchValue.trim() === '';
 
   const handleLocalSearch = (e) => {
-    const searchValue = e.target.value;
+    const searchValueRes = e.target.value;
+    setSearchValue(searchValueRes);
+
     const filteredPeople = PEOPLE.filter((person) =>
-      person.toLowerCase().includes(searchValue.toLowerCase().trim())
+      person.toLowerCase().includes(searchValueRes.toLowerCase().trim())
     );
 
     setPeople(filteredPeople);
   };
+
+  const handleSearchClick = () => {
+    va.track(EVENT.searchClicked);
+
+    const isLocalResultsFound = !isPeopleListEmpty;
+
+    if (isSearchValueEmpty || isLocalResultsFound) return;
+
+    router.push(`/people/${searchValue}`);
+  }
 
   const handlePersonClick = (person) => () => {
     router.push(`/people/${person}`);
@@ -92,14 +109,16 @@ export default function PeoplePage() {
             variant='outlined'
           >
             <InputLabel htmlFor='outlined-adornment-password'>
-              Search Name
+              {TEXTS.searchName}
             </InputLabel>
             <Input
               id='outlined-adornment-password'
               type='text'
               endAdornment={
                 <InputAdornment position='end'>
-                  <SearchIcon />
+                  <IconButton onClick={handleSearchClick} disabled={!isPeopleListEmpty}>
+                    <SearchIcon sx={{ color: isPeopleListEmpty && theme.palette.primary.main }} />
+                  </IconButton>
                 </InputAdornment>
               }
               label='Name'
@@ -107,15 +126,18 @@ export default function PeoplePage() {
               sx={{ padding: theme.spacing(0, 0, 1, 0) }}
             />
           </FormControl>
-          <Typography variant='body1' sx={STYLES.subtitle}>
-            {TEXTS.subtitle}
-          </Typography>
+          {
+            !isPeopleListEmpty &&
+            <Typography variant='body1' sx={STYLES.subtitle}>
+              {TEXTS.subtitle}
+            </Typography>
+          }
           <People
             people={people}
             selectedPerson={personFromQuery}
             onClick={handlePersonClick}
           />
-        </Box>
+        </Box >
       }
     </>
   );
@@ -161,27 +183,9 @@ const People = ({ people, selectedPerson, onClick }) => {
         alignItems: 'felx-start',
       }}
     >
-      {isEmpty ? (
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100%',
-          }}
-        >
-          <Typography
-            variant='body1'
-            sx={{ color: theme.palette.text.disabled }}
-          >
-            {TEXTS.noMatchesFound}
-          </Typography>
-        </Box>
-      ) : (
-        <Box>
-          <List sx={STYLES.people}>{peopleList}</List>
-        </Box>
-      )}
+      <Box>
+        <List sx={STYLES.people}>{peopleList}</List>
+      </Box>
     </Box>
   );
 };
