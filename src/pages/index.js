@@ -17,11 +17,17 @@ import { API_URL, BASE_URL, EVENT, STEPS, WOLRD_NEWS_API_URL } from '@/constants
 import ReportList from '@/components/ReportList/ReportList';
 import usePageLoadingFull from '@/hooks/usePageLoadingFull';
 import Pagination from '@/components/Layout/Pagination';
+import Search from '@/components/Layout/Search';
+import useIsMobileClient from '@/hooks/useIsMobileClient';
+import CreateReportButton from '@/components/Layout/CreateReportButton';
+import BackButton from '@/components/Layout/BackButton';
 
 const LOGO_URL = './favicon.png';
 const OPEN_GRAPH_IMAGE_URL = './opengraph-logo.png';
 const TWITTER_IMAGE_URL = './favicon.png';
 const SHARING_CONTEXT = 'app';
+const SEARCH_FIELD_ID = 'search-field-home';
+const MINIMUM_CARDS_COUNT_TO_SHOW_BOTTOM_CTA = 8;
 const TEXTS = {
   title: 'News Integrity Feed',
   subtitle: 'Top news analysed for bias by HonestyMeter',
@@ -43,7 +49,7 @@ const TEXTS = {
   shareDescription:
     'HonestyMeter - Check media content for objectivity and bias.',
   shareHashTags: ['HonestyMeter', 'MediaBias', 'FakeNews'],
-  noReportsYet: 'No reports yet',
+  noReportsFound: 'No reports found for',
   objectivityLevel: {
     low: 'Low',
     medium: 'Medium',
@@ -57,6 +63,7 @@ const TEXTS = {
 export default function Home({ homePageProps, reports, isLastPage, date }) {
   const router = useRouter();
   const pageFromQuery = parseInt(router.query.page) || 1;
+  const searchFromQuery = router.query.person || '';
   const isFirstPage = pageFromQuery === 1;
   const isPaginationEnabled = !(isFirstPage && isLastPage);
   const isLoading = usePageLoadingFull();
@@ -68,7 +75,10 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
     isUrlProvidedAsInput,
   } = homePageProps;
   const [isArticleInputShown, setIsArticleInputShown] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
+  const isMobile = useIsMobileClient();
   const isReportListEmpty = reports.length === 0;
+  const shouldShowBottomCTA = reports.length > MINIMUM_CARDS_COUNT_TO_SHOW_BOTTOM_CTA || !isReportListEmpty && isMobile;
 
   const onCardClick = (reportUrl) => () => {
     va.track(EVENT.reportCardClicked, { reportUrl });
@@ -91,6 +101,10 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
     }, 0);
   };
 
+  const handleSearchClick = () => router.push('/?' + 'person=' + searchValue);
+
+  const handleSearchFieldChange = (e) => setSearchValue(e.target.value);
+
   useEffect(() => {
     va.track(EVENT.pageLoaded, { page: pageFromQuery });
   }, [pageFromQuery]);
@@ -106,6 +120,11 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
           <Typography variant='body1' sx={REPORTS_STYLES.subtitle}>
             {TEXTS.subtitle}
           </Typography>
+          <Search
+            id={SEARCH_FIELD_ID}
+            onClick={handleSearchClick}
+            onChange={handleSearchFieldChange}
+            value={searchValue} />
           <Typography variant='body1' sx={REPORTS_STYLES.poweredBy}>
             ({TEXTS.poweredBy})
           </Typography>
@@ -135,10 +154,13 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
               />
             </Box>
           )}
+          {
+            searchFromQuery && <BackButton />
+          }
           {isReportListEmpty ? (
             <Box sx={REPORTS_STYLES.noReportsContainer}>
               <Typography variant='body1' sx={REPORTS_STYLES.noReportsText}>
-                {TEXTS.noReportsYet}
+                {`${TEXTS.noReportsFound} "${searchFromQuery}"`}
               </Typography>
             </Box>
           ) : (
@@ -151,10 +173,16 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
           {isPaginationEnabled && (
             <Pagination {...{ isFirstPage, isLastPage }} />
           )}
-          <CreateReportButton
-            onClick={toggleArticleInput(false)}
-            isArticleInputShown={isArticleInputShown}
-          />
+          {
+            shouldShowBottomCTA &&
+            <CreateReportButton
+              onClick={toggleArticleInput(false)}
+              isArticleInputShown={isArticleInputShown}
+            />
+          }
+          {
+            searchFromQuery && shouldShowBottomCTA && <BackButton />
+          }
           {isArticleInputShown && (
             <Box sx={REPORTS_STYLES.articleInputContainer}>
               <AtricleInput
@@ -175,20 +203,6 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
       }
       {isFirstPage && <Disclamer />}
     </>
-  );
-}
-
-function CreateReportButton({ onClick, isArticleInputShown }) {
-  const text = isArticleInputShown ? TEXTS.cancelNewReport : TEXTS.newReport;
-
-  return (
-    <Button
-      variant='outlined'
-      onClick={onClick}
-      sx={REPORTS_STYLES.newReportButton}
-    >
-      {text}
-    </Button>
   );
 }
 
@@ -259,12 +273,6 @@ const REPORTS_STYLES = {
     textAlign: 'center',
     margin: theme.spacing(0, 2, 2, 2),
   },
-  newReportButton: {
-    margin: 'auto',
-    marginBottom: theme.spacing(1),
-    textAlign: 'center',
-    minWidth: '266px',
-  },
   articleInputContainer: {
     width: '100%',
     margin: '0 auto auto',
@@ -280,5 +288,8 @@ const REPORTS_STYLES = {
     ' & a': {
       color: theme.palette.text.secondary,
     },
+  },
+  noReportsContainer: {
+    margin: theme.spacing(2, 0),
   }
 };

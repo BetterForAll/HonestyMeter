@@ -4,6 +4,7 @@ import theme from '@/theme';
 import { FormControl, IconButton, Input, InputAdornment, InputLabel } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import { EMPTY_FUNCTION } from '@/utils/utils';
+import { EMPTY_STRING } from '@/constants/constants';
 
 const TEXTS = {
     search: 'Search',
@@ -14,6 +15,9 @@ const POSITION = {
 }
 const TYPE = {
     text: 'text',
+}
+const KEYS = {
+    enter: 'Enter',
 }
 
 export default function Search({
@@ -26,6 +30,12 @@ export default function Search({
     onClick = EMPTY_FUNCTION,
     isIconButtonDisabled = false,
 }) {
+    const handleKeyDown = (event) => {
+        if (event.key === KEYS.enter) {
+            onClick();
+        }
+    }
+
     return (
         <FormControl
             sx={STYLES.formControl}
@@ -39,13 +49,15 @@ export default function Search({
                 endAdornment={
                     <InputAdornment position={position}>
                         <IconButton onClick={onClick} disabled={isIconButtonDisabled}>
-                            <SearchIcon sx={STYLES.searchIcon(isIconButtonDisabled)} />
+                            <SearchIcon />
                         </IconButton>
                     </InputAdornment>
                 }
                 label={label}
                 onChange={onChange}
-                sx={STYLES.input} />
+                sx={STYLES.input}
+                onKeyDown={handleKeyDown}
+            />
         </FormControl>
     )
 }
@@ -59,6 +71,8 @@ Search.propTypes = {
     handleLocalSearch: func,
     handleSearchClick: func,
     isIconButtonDisabled: bool,
+    value: string,
+    setValue: func,
 }
 
 const STYLES = {
@@ -68,9 +82,6 @@ const STYLES = {
         marginTop: 1
     },
     input: {
-        padding: theme.spacing(0, 0, 1, 0)
+        padding: theme.spacing(0, 0, 1, 0),
     },
-    searchIcon: (isIconButtonDisabled) => ({
-        color: !isIconButtonDisabled && theme.palette.primary.main
-    })
 }

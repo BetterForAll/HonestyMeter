@@ -15,6 +15,8 @@ import ReportList from '@/components/ReportList/ReportList';
 import usePageLoadingFull from '@/hooks/usePageLoadingFull';
 import Pagination from '@/components/Layout/Pagination';
 import { array, bool, string, object } from 'prop-types';
+import CreateReportButton from '@/components/Layout/CreateReportButton';
+import BackButton from '@/components/Layout/BackButton';
 
 const LOGO_URL = './favicon.png';
 const OPEN_GRAPH_IMAGE_URL = './opengraph-logo.png';
@@ -107,14 +109,7 @@ export default function PersonPage({ homePageProps, reports, isLastPage }) {
             </Typography>
           )}
           {
-            <Button
-              variant='text'
-              sx={STYLES.backButton}
-              onClick={handleBack}
-            >
-              <ChevronLeftIcon />
-              <Typography>{TEXTS.backButton}</Typography>
-            </Button>
+            <BackButton text={TEXTS.backButton} onClick={handleBack} />
           }
           <CreateReportButton
             onClick={toggleArticleInput(true)}
@@ -244,20 +239,6 @@ PersonPage.propTypes = {
   date: string,
   homePageProps: object,
 };
-
-function CreateReportButton({ onClick, isArticleInputShown }) {
-  const text = isArticleInputShown ? TEXTS.cancelNewReport : TEXTS.newReport;
-
-  return (
-    <Button
-      variant='outlined'
-      onClick={onClick}
-      sx={STYLES.newReportButton}
-    >
-      {text}
-    </Button>
-  );
-}
 
 const getHtmlHead = ({ name }) => (
   <Head>

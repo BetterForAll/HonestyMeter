@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import theme from '@/theme';
 import {
   Box,
@@ -17,9 +17,10 @@ import {
   convertUTCDateToUserTimeZone,
 } from '@/utils/utils';
 import CircularProgressWithLabel from '@/components/ReportList/CircularProgressWithLabel';
-import { string, number, bool, arrayOf, shape, func } from 'prop-types';
+import { string, number, bool, arrayOf, func } from 'prop-types';
 import reportPropType from '../Report/reportPropTypes';
 import useIsTextLinesOverFlow from '@/hooks/useIsTextLinesOverflow';
+import { EMPTY_STRING } from '@/constants/constants';
 
 //TODO: consider moving components to separate files
 
@@ -65,7 +66,7 @@ export default function ReportList({ reports, onCardClick, isLoading }) {
         const { articleTitle, articleDate } = report || {};
         const articleDateInUserTimeZone = articleDate
           ? convertUTCDateToUserTimeZone(articleDate)
-          : '';
+          : EMPTY_STRING;
 
         return (
           <ReportListItem
