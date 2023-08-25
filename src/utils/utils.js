@@ -1,5 +1,6 @@
 import { EMPTY_STRING, SPACE } from '@/constants/constants';
 
+
 export function isServer() {
   return typeof window === 'undefined';
 }
@@ -135,3 +136,17 @@ export function checkIsUrl(text) {
 export function isTextLinesOverFlow(el) {
   return el?.clientHeight < el?.scrollHeight;
 }
+
+export const goBack = (router) => {
+  if (isServer()) return;
+
+  const isFirstVisitedPage = window.history.length <= 2;
+
+  if (isFirstVisitedPage) {
+    router.push('/');
+
+    return;
+  }
+
+  window.history.back();
+};

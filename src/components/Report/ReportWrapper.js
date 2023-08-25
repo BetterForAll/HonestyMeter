@@ -8,12 +8,13 @@ import { Box, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Tooltip from '@mui/material/Tooltip';
-import { EMPTY_FUNCTION, isServer, scrollToTop } from '@/utils/utils';
+import { EMPTY_FUNCTION, goBack } from '@/utils/utils';
 import reportPropType from './reportPropTypes';
 import CopyToClipboard from './CopyToClipboard';
 import Share from '../Share';
 import { createShareUrl, getShareProps } from './reportUtils';
 import { EVENT } from '@/constants/constants';
+import { useRouter } from 'next/router';
 
 const TEXTS = {
   title: 'Bias report',
@@ -25,12 +26,11 @@ function ReportWrapper({ report = {}, shareLevel }) {
   const shareUrl = createShareUrl(shareLevel);
   const shareProps = getShareProps({ report, shareUrl });
   const { articleTitle, articleLink, score } = report;
+  const router = useRouter();
 
-  const goBack = () => {
-    if (isServer()) return;
-
-    window.history.back();
-  };
+  const handleGoBack = () => {
+    goBack(router);
+  }
 
   useEffect(() => {
     const isReportEmpty = !report.score;
@@ -42,7 +42,7 @@ function ReportWrapper({ report = {}, shareLevel }) {
 
   return (
     <Box sx={STYLES.container}>
-      <ReportWrapperHeader onCloseReportClick={goBack} />
+      <ReportWrapperHeader onCloseReportClick={handleGoBack} />
       <Report report={report} />
       <Box sx={STYLES.copyToClipboardContainer}>
         <CopyToClipboard copyText={shareUrl} />
@@ -53,7 +53,7 @@ function ReportWrapper({ report = {}, shareLevel }) {
         variant='outlined'
         size='large'
         sx={STYLES.closeButton}
-        onClick={goBack}
+        onClick={handleGoBack}
       >
         {TEXTS.closeReport}
       </Button>
