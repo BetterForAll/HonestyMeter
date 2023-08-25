@@ -6,14 +6,13 @@ import va from '@vercel/analytics';
 import theme from '@/theme';
 import {
   Box,
-  Button,
   Typography,
 } from '@mui/material';
 import { scrollToTop, scrollToBottom, capitalizeFirstLetterOfEachWord } from '../utils/utils';
 import Share from '@/components/Share';
 import AtricleInput from '@/components/ArticleInput';
 import Disclamer from '@/components/Disclamer';
-import { API_URL, BASE_URL, EVENT, STEPS, WOLRD_NEWS_API_URL } from '@/constants/constants';
+import { API_URL, BASE_URL, EMPTY_STRING, EVENT, STEPS, WOLRD_NEWS_API_URL } from '@/constants/constants';
 import ReportList from '@/components/ReportList/ReportList';
 import usePageLoadingFull from '@/hooks/usePageLoadingFull';
 import Pagination from '@/components/Layout/Pagination';
@@ -102,16 +101,17 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
   };
 
   const handleSearchClick = () => {
+    va.track(EVENT.searchClickedHomePage, { searchValue });
+
     const trimmedSearchValue = searchValue.trim();
     if (!trimmedSearchValue) return;
 
-    va.track(EVENT.searchClicked, { searchValue });
 
     const searchValueCapitalizedLetters = capitalizeFirstLetterOfEachWord(trimmedSearchValue);
     const url = `/?person=${searchValueCapitalizedLetters}`;
     router.push(url);
 
-    setSearchValue('');
+    setSearchValue(EMPTY_STRING);
   }
 
   const handleSearchFieldChange = (e) => setSearchValue(e.target.value);

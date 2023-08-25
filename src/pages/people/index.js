@@ -11,7 +11,7 @@ import {
   ListItem,
   Typography,
 } from '@mui/material';
-import { EMPTY_FUNCTION } from '../../utils/utils';
+import { EMPTY_FUNCTION, capitalizeFirstLetterOfEachWord } from '../../utils/utils';
 import { BASE_URL, EVENT } from '@/constants/constants';
 import PEOPLE from '@/data/people';
 import Search from '@/components/Layout/Search';
@@ -76,13 +76,15 @@ export default function PeoplePage() {
   };
 
   const handleSearchClick = () => {
-    va.track(EVENT.searchClicked);
+    va.track(EVENT.searchClickedPeoplePage, { searchValue });
 
-    const isLocalResultsFound = !isPeopleListEmpty;
+    const trimmedSearchValue = searchValue.trim();
+    if (!trimmedSearchValue) return;
 
-    if (isSearchValueEmpty || isLocalResultsFound) return;
+    const searchValueCapitalizedLetters = capitalizeFirstLetterOfEachWord(trimmedSearchValue);
+    const url = `/people/${searchValueCapitalizedLetters}`;
 
-    router.push(`/people/${searchValue}`);
+    router.push(url);
   }
 
   const handlePersonClick = (person) => () => {
@@ -107,7 +109,6 @@ export default function PeoplePage() {
             onClick={handleSearchClick}
             label={TEXTS.name}
             inputLabel={TEXTS.searchName}
-            isIconButtonDisabled={!isPeopleListEmpty}
             id={SEARCH_FIELD_ID}
           />
           {
@@ -132,8 +133,6 @@ const People = ({ people, selectedPerson, onClick }) => {
     va.track(EVENT.personClicked, { person });
     onClick && onClick(person)();
   };
-
-  const isEmpty = people.length === 0;
 
   const peopleList = people.map((person) => {
     const isSelected = person === selectedPerson;

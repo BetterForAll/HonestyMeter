@@ -50,7 +50,9 @@ export const EVENT = {
   articleLinkClicked: 'Article Link Clicked',
   reportViewed: 'Report Viewed',
   personClicked: 'Person Clicked',
-  searchClicked: 'Search Clicked',
+  searchClickedPeoplePage: 'Search Clicked - People',
+  searchClickedHomePage: 'Search Clicked - Home Page',
+
 };
 
 export const API_URL = {

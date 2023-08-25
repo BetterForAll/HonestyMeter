@@ -6,6 +6,7 @@ import { Button, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { EMPTY_FUNCTION } from '@/utils/utils';
+import { EMPTY_STRING } from '@/constants/constants';
 
 const TEXTS = {
     back: 'Back',
