@@ -10,20 +10,16 @@ import {
   List,
   ListItem,
   Typography,
-  InputAdornment,
-  InputLabel,
-  Input,
-  FormControl,
-  IconButton,
 } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
 import { EMPTY_FUNCTION } from '../../utils/utils';
 import { BASE_URL, EVENT } from '@/constants/constants';
 import PEOPLE from '@/data/people';
+import Search from '@/components/Layout/Search';
 
 const LOGO_URL = './favicon.png';
 const OPEN_GRAPH_IMAGE_URL = './opengraph-logo.png';
 const TWITTER_IMAGE_URL = './favicon.png';
+const SEARCH_FIELD_ID = 'search-field-people';
 const TEXTS = {
   title: 'Popular People',
   subtitle: 'Click on a person to see articles',
@@ -55,6 +51,7 @@ const TEXTS = {
   worldNewsApi: 'world news api',
   people: 'People',
   noMatchesFound: 'No matches found',
+  name: 'Name',
   searchName: 'Search Name',
 };
 
@@ -104,28 +101,15 @@ export default function PeoplePage() {
           <Typography variant='h2' sx={STYLES.title}>
             {TEXTS.title}
           </Typography>
-          <FormControl
-            sx={{ m: 1, width: '25ch', marginTop: 1 }}
-            variant='outlined'
-          >
-            <InputLabel htmlFor='outlined-adornment-password'>
-              {TEXTS.searchName}
-            </InputLabel>
-            <Input
-              id='outlined-adornment-password'
-              type='text'
-              endAdornment={
-                <InputAdornment position='end'>
-                  <IconButton onClick={handleSearchClick} disabled={!isPeopleListEmpty}>
-                    <SearchIcon sx={{ color: isPeopleListEmpty && theme.palette.primary.main }} />
-                  </IconButton>
-                </InputAdornment>
-              }
-              label='Name'
-              onChange={handleLocalSearch}
-              sx={{ padding: theme.spacing(0, 0, 1, 0) }}
-            />
-          </FormControl>
+          <Search
+            value={searchValue}
+            onChange={handleLocalSearch}
+            onClick={handleSearchClick}
+            label={TEXTS.name}
+            inputLabel={TEXTS.searchName}
+            isIconButtonDisabled={!isPeopleListEmpty}
+            id={SEARCH_FIELD_ID}
+          />
           {
             !isPeopleListEmpty &&
             <Typography variant='body1' sx={STYLES.subtitle}>
