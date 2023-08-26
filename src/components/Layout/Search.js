@@ -1,5 +1,5 @@
 import React from 'react'
-import { oneOf, string, func, bool } from 'prop-types';
+import { oneOf, string, func, bool, node } from 'prop-types';
 import theme from '@/theme';
 import { FormControl, IconButton, Input, InputAdornment, InputLabel, OutlinedInput } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
@@ -22,7 +22,7 @@ const KEYS = {
 }
 
 export default function Search({
-    onClear = EMPTY_FUNCTION,
+    onIconClick = EMPTY_FUNCTION,
     label = TEXTS.search,
     inputLabel = TEXTS.search,
     type = TYPE.text,
@@ -33,6 +33,8 @@ export default function Search({
     isIconButtonDisabled = false,
     variant = 'text',
     value = EMPTY_STRING,
+    Icon = SearchIcon,
+    iconVisibilityToggle = false,
 }) {
     const handleKeyDown = (event) => {
         if (event.key === KEYS.enter) {
@@ -41,6 +43,7 @@ export default function Search({
     }
 
     const ShownInput = variant === 'text' ? Input : OutlinedInput;
+    const toggleVisibility = Boolean(value) ? 'visible' : 'hidden';
 
     return (
         <FormControl
@@ -58,12 +61,12 @@ export default function Search({
                 variant={variant}
                 endAdornment={
                     <InputAdornment position={position}  >
-                        <IconButton onClick={onClear} sx={{
-                            visibility: Boolean(value) ? 'visible' : 'hidden',
+                        <IconButton onClick={onIconClick} sx={{
+                            visibility: iconVisibilityToggle ? toggleVisibility : 'visible',
                             marginBottom: theme.spacing(0),
                             transform: 'scale(0.8)'
                         }}>
-                            <CloseIcon />
+                            <Icon />
                         </IconButton>
                     </InputAdornment>
                 }
@@ -91,7 +94,9 @@ Search.propTypes = {
     value: string,
     setValue: func,
     variant: string,
-    onClear: func,
+    onIconClick: func,
+    Icon: node,
+    iconVisibilityToggle: bool,
 }
 
 const STYLES = {

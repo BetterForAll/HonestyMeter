@@ -32,7 +32,7 @@ import CreateReportButton from '@/components/Layout/CreateReportButton';
 import BackButton from '@/components/Layout/BackButton';
 import AutoComplete from '@/components/Autocomplete/Autocomplete';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
-
+import CloseIcon from '@mui/icons-material/Close';
 
 const LOGO_URL = './favicon.png';
 const OPEN_GRAPH_IMAGE_URL = './opengraph-logo.png';
@@ -345,9 +345,11 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
                     id={SEARCH_FIELD_ID}
                     onClick={handleSearchClick}
                     onChange={handleSearchFieldChange}
-                    onClear={cleanSearchField}
+                    onIconClick={cleanSearchField}
                     value={searchValue}
                     variant='text'
+                    Icon={CloseIcon}
+                    iconVisibilityToggle
                   />
                   <Button
                     sx={{
