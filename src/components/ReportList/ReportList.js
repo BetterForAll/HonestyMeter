@@ -162,8 +162,9 @@ function ReportCard({
 }) {
   const { color, content } = getScoreStyle(objectivityScore);
   const articleTitleRef = useRef({ current: null });
-  const isTextOverflow = useIsTextLinesOverFlow(articleTitleRef);
-  const tooltipTitle = isTextOverflow ? articleTitle : '';
+  const urlRef = useRef({ current: null });
+  const isTitleTextOverflow = useIsTextLinesOverFlow(articleTitleRef);
+  const tooltipTitle = isTitleTextOverflow ? articleTitle : '';
 
   return (
     <Card sx={REPORT_CARD_STYLES.card}>
@@ -315,6 +316,10 @@ const REPORT_CARD_STYLES = {
   },
   source: {
     fontSize: theme.typography.fontSize * 1,
+    width: '160px',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
   },
   articleDate: {
     fontSize: theme.typography.fontSize * 0.75,

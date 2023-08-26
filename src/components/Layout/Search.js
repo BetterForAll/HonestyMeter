@@ -64,7 +64,7 @@ export default function Search({
                         <IconButton onClick={onIconClick} sx={{
                             visibility: iconVisibilityToggle ? toggleVisibility : 'visible',
                             marginBottom: theme.spacing(0),
-                            transform: 'scale(0.8)'
+                            transform: 'scale(0.7)'
                         }}>
                             <Icon />
                         </IconButton>
@@ -101,10 +101,8 @@ Search.propTypes = {
 
 const STYLES = {
     formControl: {
-        // m: 1,
         width: { xs: '100%', sm: '25ch' },
         marginTop: 0,
-        // paddingBottom: '5px',
         '& label': {
             paddingTop: '3px',
             paddingLeft: 0,
@@ -112,6 +110,5 @@ const STYLES = {
         }
     },
     input: {
-        // padding: theme.spacing(0, 0, 1, 0),
     },
 }
