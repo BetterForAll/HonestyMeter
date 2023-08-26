@@ -58,12 +58,11 @@ async function getReportsPage(req, db) {
   const queryConditions = { $and: [alwaysTrueConditions] };
 
   if (searchTerm && searchTerm.length < 100) {
-    const searchTermKey = "sidesBalance." + searchTerm;
     const searchConditions = {
       $or: [
-        { [searchTermKey]: { $exists: true } },
-        { "sidesScore.sideName": { $regex: new RegExp(searchTerm, "i") } },  // Corrected here
-        { "articleTitle": { $regex: new RegExp(searchTerm, "i") } }
+        { "sidesScore.sideName": { $regex: new RegExp(searchTerm, "i") } },
+        { "articleTitle": { $regex: new RegExp(searchTerm, "i") } },
+        { "category": { $regex: new RegExp(searchTerm, "i") } },
       ],
     };
     queryConditions.$and.push(searchConditions);

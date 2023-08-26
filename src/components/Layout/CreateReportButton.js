@@ -2,6 +2,10 @@ import React from 'react';
 import theme from '@/theme';
 import { Button } from "@mui/material";
 import { bool, func } from 'prop-types';
+import NoteAddIcon from '@mui/icons-material/NoteAdd';
+import EditCalendarIcon from '@mui/icons-material/EditCalendar';
+import CancelIcon from '@mui/icons-material/Cancel';
+import Tooltip from '@mui/material/Tooltip';
 
 const TEXTS = {
     newReport: 'Create New Report',
@@ -9,17 +13,20 @@ const TEXTS = {
 }
 
 export default function CreateReportButton({ onClick, isArticleInputShown }) {
-    const text = isArticleInputShown ? TEXTS.cancelNewReport : TEXTS.newReport;
+    const icon = isArticleInputShown ? <CancelIcon sx={STYLES.icon} /> : <EditCalendarIcon sx={STYLES.icon} />;
+    const tooltipTitle = isArticleInputShown ? TEXTS.cancelNewReport : TEXTS.newReport;
 
     return (
-        <Button
-            variant='outlined'
-            onClick={onClick}
-            sx={STYLES.newReportButton}
-        >
-            {text}
-        </Button>
-    );
+        <Tooltip title={tooltipTitle}>
+            <Button
+                variant='text'
+                onClick={onClick}
+                sx={STYLES.newReportButton}
+            >
+                {icon}
+            </Button>
+        </Tooltip>
+    )
 }
 
 CreateReportButton.propTypes = {
@@ -29,9 +36,12 @@ CreateReportButton.propTypes = {
 
 const STYLES = {
     newReportButton: {
-        margin: 'auto',
-        marginBottom: theme.spacing(2),
+        // margin: 'auto',
+        // marginBottom: theme.spacing(2),
         textAlign: 'center',
-        minWidth: '266px',
+        // minWidth: '266px',
     },
+    icon: {
+        color: theme.palette.text.secondary,
+    }
 }

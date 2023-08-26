@@ -6,8 +6,14 @@ import va from '@vercel/analytics';
 import theme from '@/theme';
 import {
   Box,
+  Button,
+  Tooltip,
   Typography,
 } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import SearchOffIcon from '@mui/icons-material/SearchOff';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import { scrollToTop, scrollToBottom, capitalizeFirstLetterOfEachWord } from '../utils/utils';
 import Share from '@/components/Share';
 import AtricleInput from '@/components/ArticleInput';
@@ -17,9 +23,12 @@ import ReportList from '@/components/ReportList/ReportList';
 import usePageLoadingFull from '@/hooks/usePageLoadingFull';
 import Pagination from '@/components/Layout/Pagination';
 import Search from '@/components/Layout/Search';
+
 import useIsMobileClient from '@/hooks/useIsMobileClient';
 import CreateReportButton from '@/components/Layout/CreateReportButton';
 import BackButton from '@/components/Layout/BackButton';
+import AutoComplete from '@/components/Autocomplete/Autocomplete';
+
 
 const LOGO_URL = './favicon.png';
 const OPEN_GRAPH_IMAGE_URL = './opengraph-logo.png';
@@ -75,6 +84,8 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
   } = homePageProps;
   const [isArticleInputShown, setIsArticleInputShown] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [isSearchShown, setIsSearchShown] = useState(false);
+  const [isFilterShown, setIsFilterShown] = useState(false);
   const isMobile = useIsMobileClient();
   const isReportListEmpty = reports.length === 0;
   const shouldShowBottomCTA = reports.length > MINIMUM_CARDS_COUNT_TO_SHOW_BOTTOM_CTA || !isReportListEmpty && isMobile;
@@ -116,6 +127,18 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
 
   const handleSearchFieldChange = (e) => setSearchValue(e.target.value);
 
+  const toggleSearch = () => {
+    if (searchFromQuery) {
+      router.push('/');
+    }
+
+    setIsSearchShown(!isSearchShown);
+  }
+
+  const toggleFilter = () => {
+    setIsFilterShown(!isFilterShown);
+  }
+
   useEffect(() => {
     va.track(EVENT.pageLoaded, { page: pageFromQuery });
   }, [pageFromQuery]);
@@ -131,18 +154,97 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
           <Typography variant='body1' sx={STYLES.subtitle}>
             {TEXTS.subtitle}
           </Typography>
-          <Search
-            id={SEARCH_FIELD_ID}
-            onClick={handleSearchClick}
-            onChange={handleSearchFieldChange}
-            value={searchValue} />
+
+
           <Typography variant='body1' sx={STYLES.poweredBy}>
             ({TEXTS.poweredBy})
           </Typography>
-          <CreateReportButton
-            onClick={toggleArticleInput(true)}
-            isArticleInputShown={isArticleInputShown}
-          />
+          <Box sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginBottom: 2,
+          }}>
+            <CreateReportButton
+              onClick={toggleArticleInput(true)}
+              isArticleInputShown={isArticleInputShown}
+            />
+            <Box sx={{
+              display: 'flex',
+              gap: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              '& svg': {
+                color: theme.palette.text.secondary
+              }
+            }}>
+
+              <Tooltip
+                title={isFilterShown ? 'Remove filter' : 'Filter by Category and Country'}>
+                <Button
+                  onClick={toggleFilter}
+                >
+                  {isFilterShown ?
+                    <FilterAltOffIcon />
+                    :
+                    <FilterAltIcon />
+                  }
+                </Button>
+              </Tooltip>
+
+              <Tooltip title={isSearchShown ? 'Cancel Search' : 'Search'}>
+                <Button onClick={toggleSearch}>
+                  {isSearchShown ?
+                    <SearchOffIcon />
+                    :
+                    <SearchIcon />
+                  }
+                </Button>
+              </Tooltip>
+            </Box>
+          </Box>
+
+          {
+            (isFilterShown || isSearchShown) &&
+            <Box sx={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              width: '100%',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: theme.spacing(2),
+              margin: theme.spacing(2, 0, 2, 0),
+            }}>
+
+              {isFilterShown &&
+                <>
+                  <AutoComplete label="Category" />
+                  <AutoComplete label="Country" />
+                </>
+              }
+              {
+                isSearchShown &&
+                <Search
+                  id={SEARCH_FIELD_ID}
+                  onClick={handleSearchClick}
+                  onChange={handleSearchFieldChange}
+                  value={searchValue} />
+              }
+              <Button
+                sx={{
+                  height: '100%',
+                  borderColor: theme.palette.grey[400]
+                }}
+                variant="text"
+                onClick={handleSearchClick}
+              >
+                <SearchIcon />
+              </Button>
+            </Box>
+          }
+
           {isArticleInputShown && (
             <Box sx={STYLES.articleInputContainer}>
               {isUrlProvidedAsInput && (
@@ -165,9 +267,9 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
               />
             </Box>
           )}
-          {
+          {/* {
             searchFromQuery && <BackButton goTo='/' />
-          }
+          } */}
           {isReportListEmpty ? (
             <Box sx={STYLES.noReportsContainer}>
               <Typography variant='body1' sx={STYLES.noReportsText}>
@@ -191,9 +293,9 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
               isArticleInputShown={isArticleInputShown}
             />
           }
-          {
+          {/* {
             searchFromQuery && shouldShowBottomCTA && <BackButton />
-          }
+          } */}
           {isArticleInputShown && (
             <Box sx={STYLES.articleInputContainer}>
               <AtricleInput
@@ -210,7 +312,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
             hashTags={TEXTS.shareHashTags}
             context={SHARING_CONTEXT}
           />
-        </Box>
+        </Box >
       }
       {isFirstPage && <Disclamer />}
     </>
@@ -261,6 +363,7 @@ const STYLES = {
     justifyContent: 'center',
     alignItems: 'center',
     paddingBottom: theme.spacing(2),
+    padding: theme.spacing(0, 2),
   },
   date: {
     color: theme.palette.text.secondary,

@@ -18,6 +18,7 @@ import MobileMenu from '@/components/Layout/MobileMenu';
 import { Analytics } from '@vercel/analytics/react';
 import { scrollToTop } from '@/utils/utils';
 import GoogleTranslate from '@/components/GoogleTranslate';
+import '../global.css'
 
 const clientSideEmotionCache = createEmotionCache();
 

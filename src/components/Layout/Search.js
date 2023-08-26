@@ -1,13 +1,13 @@
 import React from 'react'
 import { oneOf, string, func, bool } from 'prop-types';
 import theme from '@/theme';
-import { FormControl, IconButton, Input, InputAdornment, InputLabel } from '@mui/material'
+import { FormControl, IconButton, Input, InputAdornment, InputLabel, OutlinedInput } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import { EMPTY_FUNCTION } from '@/utils/utils';
 import { EMPTY_STRING } from '@/constants/constants';
 
 const TEXTS = {
-    search: 'Search',
+    search: 'Search Term',
 }
 const POSITION = {
     start: 'start',
@@ -43,20 +43,15 @@ export default function Search({
             <InputLabel htmlFor={id}>
                 {inputLabel}
             </InputLabel>
-            <Input
+            <OutlinedInput
                 id={id}
                 type={type}
-                endAdornment={
-                    <InputAdornment position={position}>
-                        <IconButton onClick={onClick} disabled={isIconButtonDisabled}>
-                            <SearchIcon />
-                        </IconButton>
-                    </InputAdornment>
-                }
+
                 label={label}
                 onChange={onChange}
                 sx={STYLES.input}
                 onKeyDown={handleKeyDown}
+                variant='outlined'
             />
         </FormControl>
     )
@@ -77,11 +72,11 @@ Search.propTypes = {
 
 const STYLES = {
     formControl: {
-        m: 1,
+        // m: 1,
         width: '25ch',
-        marginTop: 1
+        marginTop: 0
     },
     input: {
-        padding: theme.spacing(0, 0, 1, 0),
+        // padding: theme.spacing(0, 0, 1, 0),
     },
 }
