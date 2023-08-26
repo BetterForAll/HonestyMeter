@@ -124,11 +124,11 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
     <>
       {HtmlHead}
       {
-        <Box sx={REPORTS_STYLES.container} key={reports}>
-          <Typography variant='h2' sx={REPORTS_STYLES.title}>
+        <Box sx={STYLES.container} key={reports}>
+          <Typography variant='h2' sx={STYLES.title}>
             {TEXTS.title}
           </Typography>
-          <Typography variant='body1' sx={REPORTS_STYLES.subtitle}>
+          <Typography variant='body1' sx={STYLES.subtitle}>
             {TEXTS.subtitle}
           </Typography>
           <Search
@@ -136,7 +136,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
             onClick={handleSearchClick}
             onChange={handleSearchFieldChange}
             value={searchValue} />
-          <Typography variant='body1' sx={REPORTS_STYLES.poweredBy}>
+          <Typography variant='body1' sx={STYLES.poweredBy}>
             ({TEXTS.poweredBy})
           </Typography>
           <CreateReportButton
@@ -144,7 +144,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
             isArticleInputShown={isArticleInputShown}
           />
           {isArticleInputShown && (
-            <Box sx={REPORTS_STYLES.articleInputContainer}>
+            <Box sx={STYLES.articleInputContainer}>
               {isUrlProvidedAsInput && (
                 <Typography
                   sx={STYLES.articleTextExtracted}
@@ -169,8 +169,8 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
             searchFromQuery && <BackButton goTo='/' />
           }
           {isReportListEmpty ? (
-            <Box sx={REPORTS_STYLES.noReportsContainer}>
-              <Typography variant='body1' sx={REPORTS_STYLES.noReportsText}>
+            <Box sx={STYLES.noReportsContainer}>
+              <Typography variant='body1' sx={STYLES.noReportsText}>
                 {`${TEXTS.noReportsFound} "${searchFromQuery}"`}
               </Typography>
             </Box>
@@ -195,7 +195,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
             searchFromQuery && shouldShowBottomCTA && <BackButton />
           }
           {isArticleInputShown && (
-            <Box sx={REPORTS_STYLES.articleInputContainer}>
+            <Box sx={STYLES.articleInputContainer}>
               <AtricleInput
                 article={article}
                 onArticleChange={handleArticleChange}
@@ -252,7 +252,7 @@ export async function getServerSideProps(context) {
   }
 }
 
-const REPORTS_STYLES = {
+const STYLES = {
   container: {
     maxWidth: '1400px',
     margin: 'auto',
@@ -293,7 +293,7 @@ const REPORTS_STYLES = {
     margin: 'auto',
     textAlign: 'center',
     marginBottom: theme.spacing(2),
-    marginTop: theme.spacing(-2),
+    marginTop: theme.spacing(0),
     fontSize: theme.typography.fontSize * 0.75,
     color: theme.palette.text.secondary,
     ' & a': {
