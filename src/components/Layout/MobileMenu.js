@@ -59,8 +59,8 @@ export default function MobileMenu({
   };
 
   const onMenuItemClick = (index) => () => {
-    const isContactIconClicked = index === 3;
-    const isGitHubIconClicked = index === 4;
+    const isContactIconClicked = index === 4;
+    const isGitHubIconClicked = index === 5;
 
     if (isContactIconClicked) {
       openEmail(MAIL_TO);
