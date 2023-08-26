@@ -17,6 +17,7 @@ import useHomePage from '@/hooks/useHomePage';
 import MobileMenu from '@/components/Layout/MobileMenu';
 import { Analytics } from '@vercel/analytics/react';
 import { scrollToTop } from '@/utils/utils';
+import GoogleTranslate from '@/components/GoogleTranslate';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -46,6 +47,7 @@ export default function MyApp(props) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Box sx={STYLES.appContainer}>
+          {/* <GoogleTranslate /> */}
           <Header />
           <Menu
             currentPage={currentPage}

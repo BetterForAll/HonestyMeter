@@ -148,8 +148,10 @@ export const goBack = (router) => {
     return;
   }
 
-  if (router.query.report) {
+  if (router.query.custom) {
     window.history.go(-2);
+
+    return;
   }
 
   window.history.back();

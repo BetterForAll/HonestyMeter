@@ -19,7 +19,6 @@ const TEXTS = {
   desciptiion:
     'Honesty Meter is a tool that helps you discover the truth behind the news.',
 };
-
 const REPORT_STATIC_PATH = '/report/?report=';
 const SAVED_REPORT_STATIC_PATH = '/report/';
 
@@ -77,7 +76,7 @@ export default function useHomePage() {
     const responseText = await mockFetchReport();
     const reportJsonRes = JSON.stringify(responseText);
     setReportJson(reportJsonRes);
-    const reportPath = `${REPORT_STATIC_PATH}${reportJsonRes}`;
+    const reportPath = `${REPORT_STATIC_PATH}${reportJsonRes}&custom=1`;
     router.push(reportPath);
   };
 
@@ -88,7 +87,7 @@ export default function useHomePage() {
 
     va.track(EVENT.reportReceived, { reportId });
 
-    router.push(`${SAVED_REPORT_STATIC_PATH}${reportId}`);
+    router.push(`${SAVED_REPORT_STATIC_PATH}${reportId}?custom=1`);
   };
 
   const handleGetReport = async () => {
