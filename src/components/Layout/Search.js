@@ -5,6 +5,7 @@ import { FormControl, IconButton, Input, InputAdornment, InputLabel, OutlinedInp
 import SearchIcon from '@mui/icons-material/Search';
 import { EMPTY_FUNCTION } from '@/utils/utils';
 import { EMPTY_STRING } from '@/constants/constants';
+import CloseIcon from '@mui/icons-material/Close';
 
 const TEXTS = {
     search: 'Search Term',
@@ -21,6 +22,7 @@ const KEYS = {
 }
 
 export default function Search({
+    onClear = EMPTY_FUNCTION,
     label = TEXTS.search,
     inputLabel = TEXTS.search,
     type = TYPE.text,
@@ -29,6 +31,8 @@ export default function Search({
     onChange = EMPTY_FUNCTION,
     onClick = EMPTY_FUNCTION,
     isIconButtonDisabled = false,
+    variant = 'text',
+    value = EMPTY_STRING,
 }) {
     const handleKeyDown = (event) => {
         if (event.key === KEYS.enter) {
@@ -36,22 +40,40 @@ export default function Search({
         }
     }
 
+    const ShownInput = variant === 'text' ? Input : OutlinedInput;
+
     return (
         <FormControl
-            sx={STYLES.formControl}
-            variant='outlined'>
+            sx={STYLES.formControl}>
             <InputLabel htmlFor={id}>
                 {inputLabel}
             </InputLabel>
-            <OutlinedInput
+            <ShownInput
                 id={id}
                 type={type}
-
                 label={label}
                 onChange={onChange}
                 sx={STYLES.input}
                 onKeyDown={handleKeyDown}
-                variant='outlined'
+                variant={variant}
+                endAdornment={
+                    <InputAdornment position={position}  >
+                        <IconButton onClick={onClear} sx={{
+                            visibility: Boolean(value) ? 'visible' : 'hidden',
+                            marginBottom: theme.spacing(0),
+                            transform: 'scale(0.8)'
+                        }}>
+                            <CloseIcon />
+                        </IconButton>
+                    </InputAdornment>
+                }
+                value={value}
+                InputLabelProps={{
+                    sx: {
+                        paddingTop: '3px',
+                        color: 'red'
+                    }
+                }}
             />
         </FormControl>
     )
@@ -68,13 +90,21 @@ Search.propTypes = {
     isIconButtonDisabled: bool,
     value: string,
     setValue: func,
+    variant: string,
+    onClear: func,
 }
 
 const STYLES = {
     formControl: {
         // m: 1,
-        width: '25ch',
-        marginTop: 0
+        width: { xs: '100%', sm: '25ch' },
+        marginTop: 0,
+        // paddingBottom: '5px',
+        '& label': {
+            paddingTop: '3px',
+            paddingLeft: 0,
+            left: '-15px'
+        }
     },
     input: {
         // padding: theme.spacing(0, 0, 1, 0),

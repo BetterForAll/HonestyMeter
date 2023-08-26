@@ -70,17 +70,17 @@ export const CATEGORIES = [
   'world',
   'politics',
   'business',
-  'entertainment',
-  'environment',
-  'food',
   'health',
   'science',
   'sports',
   'technology',
+  'entertainment',
+  'environment',
+  'food',
   'tourism',
 ];
 
-const countries = [
+export const COUNTRIES = [
   { country: 'Afghanistan', code: 'af' },
   { country: 'Albania', code: 'al' },
   { country: 'Algeria', code: 'dz' },
@@ -227,7 +227,7 @@ const countries = [
   { country: 'Ukraine', code: 'ua' },
   { country: 'United arab emirates', code: 'ae' },
   { country: 'United kingdom', code: 'gb' },
-  { country: 'United states of america', code: 'us' },
+  { country: 'United States of America', code: 'us' },
   { country: 'Uruguay', code: 'uy' },
   { country: 'Uzbekistan', code: 'uz' },
   { country: 'Venezuela', code: 've' },

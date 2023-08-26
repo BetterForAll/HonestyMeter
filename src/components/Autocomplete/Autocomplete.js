@@ -1,15 +1,24 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import { CATEGORIES } from '@/constants/constants';
 
-export default function AutoComplete({ list, label = "Category", onChange, value }) {
+export default function AutoComplete({ list = [], label = "Category", onChange, value, variant = 'standard' }) {
     return (
         <Autocomplete
             disablePortal
             id="combo-box-demo"
-            options={top100Films}
-            sx={{ width: 224 }}
-            renderInput={(params) => <TextField {...params} label={label} />}
+            options={list}
+            sx={{
+                width: {
+                    xs: '100%', sm: 224
+                }
+            }}
+            onChange={onChange}
+            renderInput={(params) => <TextField {...params} label={label} variant='standard' />}
+            value={value}
+            InputProps={{
+            }}
         />
     );
 }

@@ -110,6 +110,7 @@ export default function PeoplePage() {
             label={TEXTS.name}
             inputLabel={TEXTS.searchName}
             id={SEARCH_FIELD_ID}
+            variant='text'
           />
           {
             !isPeopleListEmpty &&
@@ -207,12 +208,12 @@ const STYLES = {
   },
   title: {
     fontSize: theme.typography.fontSize * 2,
-    margin: theme.spacing(2, 0, 1),
+    margin: theme.spacing(2, 0, 2),
   },
   subtitle: {
     fontSize: theme.typography.fontSize * 0.875,
     color: theme.palette.text.secondary,
-    margin: theme.spacing(0, 2, 0.5, 2),
+    margin: theme.spacing(1, 2, 0, 2),
     textAlign: 'center',
   },
   poweredBy: {

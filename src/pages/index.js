@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from 'react';
+import useIsMobileClient from '@/hooks/useIsMobileClient';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import va from '@vercel/analytics';
@@ -7,6 +8,9 @@ import theme from '@/theme';
 import {
   Box,
   Button,
+  Chip,
+  List,
+  ListItem,
   Tooltip,
   Typography,
 } from '@mui/material';
@@ -14,20 +18,20 @@ import SearchIcon from '@mui/icons-material/Search';
 import SearchOffIcon from '@mui/icons-material/SearchOff';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
-import { scrollToTop, scrollToBottom, capitalizeFirstLetterOfEachWord } from '../utils/utils';
+import { scrollToTop, scrollToBottom, capitalizeFirstLetterOfEachWord, EMPTY_FUNCTION } from '../utils/utils';
 import Share from '@/components/Share';
 import AtricleInput from '@/components/ArticleInput';
 import Disclamer from '@/components/Disclamer';
-import { API_URL, BASE_URL, EMPTY_STRING, EVENT, STEPS, WOLRD_NEWS_API_URL } from '@/constants/constants';
+import { API_URL, BASE_URL, CATEGORIES, COUNTRIES, EMPTY_STRING, EVENT, STEPS, WOLRD_NEWS_API_URL } from '@/constants/constants';
 import ReportList from '@/components/ReportList/ReportList';
 import usePageLoadingFull from '@/hooks/usePageLoadingFull';
 import Pagination from '@/components/Layout/Pagination';
 import Search from '@/components/Layout/Search';
 
-import useIsMobileClient from '@/hooks/useIsMobileClient';
 import CreateReportButton from '@/components/Layout/CreateReportButton';
 import BackButton from '@/components/Layout/BackButton';
 import AutoComplete from '@/components/Autocomplete/Autocomplete';
+import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 
 
 const LOGO_URL = './favicon.png';
@@ -57,7 +61,7 @@ const TEXTS = {
   shareDescription:
     'HonestyMeter - Check media content for objectivity and bias.',
   shareHashTags: ['HonestyMeter', 'MediaBias', 'FakeNews'],
-  noReportsFound: 'No reports found for',
+  noReportsFound: 'No reports found',
   objectivityLevel: {
     low: 'Low',
     medium: 'Medium',
@@ -71,9 +75,14 @@ const TEXTS = {
 export default function Home({ homePageProps, reports, isLastPage, date }) {
   const router = useRouter();
   const pageFromQuery = parseInt(router.query.page) || 1;
-  const searchFromQuery = router.query.searchTerm || '';
+  const {
+    searchTerm: searchFromQuery = EMPTY_STRING,
+    category: categoryFromQuery = EMPTY_STRING,
+    country: countryFromQuery = EMPTY_STRING
+  } = router.query || {};
+  const isQueryParams = Boolean(searchFromQuery || countryFromQuery || categoryFromQuery);
   const isFirstPage = pageFromQuery === 1;
-  const isPaginationEnabled = !(isFirstPage && isLastPage);
+  const isPaginationEnabled = reports.length > 2 && !isLastPage;
   const isLoading = usePageLoadingFull();
   const {
     article,
@@ -83,9 +92,11 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
     isUrlProvidedAsInput,
   } = homePageProps;
   const [isArticleInputShown, setIsArticleInputShown] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState(EMPTY_STRING);
   const [isSearchShown, setIsSearchShown] = useState(false);
   const [isFilterShown, setIsFilterShown] = useState(false);
+  const [category, setCategory] = useState(EMPTY_STRING);
+  const [country, setCountry] = useState(EMPTY_STRING);
   const isMobile = useIsMobileClient();
   const isReportListEmpty = reports.length === 0;
   const shouldShowBottomCTA = reports.length > MINIMUM_CARDS_COUNT_TO_SHOW_BOTTOM_CTA || !isReportListEmpty && isMobile;
@@ -97,14 +108,19 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
   };
 
   const toggleArticleInput = (isTop) => () => {
+
     const event = isArticleInputShown
       ? EVENT.cancelNewReportClicked
       : EVENT.generateNewReportClicked;
 
     va.track(event);
 
+
+
     clearArticleInput();
     setIsArticleInputShown(!isArticleInputShown);
+    setIsSearchShown(false);
+    setIsFilterShown(false);
     const scrollMethod = isTop ? scrollToTop : scrollToBottom;
     setTimeout(() => {
       scrollMethod();
@@ -114,29 +130,111 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
   const handleSearchClick = () => {
     va.track(EVENT.searchClickedHomePage, { searchValue });
 
-    const trimmedSearchValue = searchValue.trim();
-    if (!trimmedSearchValue) return;
 
+
+    const trimmedSearchValue = searchValue.trim();
+    if (!trimmedSearchValue && !country && !category) return;
+
+    setIsSearchShown(false);
 
     const searchValueCapitalizedLetters = capitalizeFirstLetterOfEachWord(trimmedSearchValue);
-    const url = `/?searchTerm=${searchValueCapitalizedLetters}`;
+    const categoryParam = category ? `&category=${category}` : EMPTY_STRING;
+    const countryParam = country ? `&country=${country}` : EMPTY_STRING;
+    const searchTermParam = `searchTerm=${searchValueCapitalizedLetters}`;
+    const url = `/?${searchTermParam}${categoryParam}${countryParam}`;
+
+    console.log({
+      categoryParam,
+      countryParam,
+      searchTermParam,
+      url
+    })
+
+
     router.push(url);
 
     setSearchValue(EMPTY_STRING);
   }
 
-  const handleSearchFieldChange = (e) => setSearchValue(e.target.value);
+  const handleSearchFieldChange = (e) => {
+    e.stopPropagation();
+    setSearchValue(e.target.value);
+  }
 
   const toggleSearch = () => {
-    if (searchFromQuery) {
+    if (!isSearchShown) {
+      setIsArticleInputShown(false);
+      setIsFilterShown(false);
+    }
+
+    const shouldRedirectHome = searchFromQuery || countryFromQuery || categoryFromQuery;
+
+    if (shouldRedirectHome) {
       router.push('/');
+      setIsSearchShown(false);
+      setCountry(EMPTY_STRING);
+      setCategory(EMPTY_STRING);
+      setSearchValue(EMPTY_STRING);
+
+      return;
     }
 
     setIsSearchShown(!isSearchShown);
   }
 
   const toggleFilter = () => {
+    if (!isFilterShown) {
+      setIsArticleInputShown(false);
+      setIsSearchShown(false);
+    }
+
     setIsFilterShown(!isFilterShown);
+  }
+
+  const handleCountryChange = (_e, newValue = EMPTY_STRING) => {
+    setCountry(newValue);
+    // router.query.country = newValue;
+  }
+
+  const handleCategoryChange = (_e, newValue = EMPTY_STRING) => {
+    setCategory(newValue);
+    // router.query.category = newValue;
+  }
+
+  const getNotFoundText = () => {
+    const contryPart = countryFromQuery ? `in "${countryFromQuery}"` : EMPTY_STRING;
+    const categoryPart = categoryFromQuery ? `in "${categoryFromQuery}" category` : EMPTY_STRING;
+    const searchPart = searchFromQuery ? `for "${searchFromQuery}"` : EMPTY_STRING;
+    const isFilterOn = Boolean(countryFromQuery || categoryFromQuery);
+    const advicePrefix = 'Try to search without'
+    const advicePartOne = countryFromQuery ? 'Country' : '';
+    const advicePartTwo = categoryFromQuery ? countryFromQuery ? 'or category' : 'category' : '';
+    const adviceSufix = 'filters';
+    const advice = `${advicePrefix} ${advicePartOne} ${advicePartTwo} ${adviceSufix}`;
+
+    return `${TEXTS.noReportsFound} ${searchPart} ${contryPart} ${categoryPart}. \n ${isFilterOn ? advice : ''}`;
+  }
+
+
+  const handleChipDelete = (type) => () => {
+    router.query.page = 1;
+    if (type === 'country') {
+      delete router.query.country
+      setCountry(EMPTY_STRING);
+      router.push(router);
+    } else if (type === 'category') {
+      delete router.query.category
+      setCategory(EMPTY_STRING);
+      router.push(router);
+    } else {
+      delete router.query.searchTerm
+      setSearchValue(EMPTY_STRING);
+      router.push(router);
+    }
+  }
+
+  const cleanSearchField = (e) => {
+    setSearchValue(EMPTY_STRING);
   }
 
   useEffect(() => {
@@ -155,10 +253,6 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
             {TEXTS.subtitle}
           </Typography>
 
-
-          <Typography variant='body1' sx={STYLES.poweredBy}>
-            ({TEXTS.poweredBy})
-          </Typography>
           <Box sx={{
             display: 'flex',
             flexWrap: 'wrap',
@@ -166,6 +260,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
             justifyContent: 'center',
             alignItems: 'center',
             marginBottom: 2,
+            marginTop: 1,
           }}>
             <CreateReportButton
               onClick={toggleArticleInput(true)}
@@ -176,12 +271,9 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
               gap: 1,
               justifyContent: 'center',
               alignItems: 'center',
-              '& svg': {
-                color: theme.palette.text.secondary
-              }
             }}>
 
-              <Tooltip
+              {/* <Tooltip
                 title={isFilterShown ? 'Remove filter' : 'Filter by Category and Country'}>
                 <Button
                   onClick={toggleFilter}
@@ -192,19 +284,23 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
                     <FilterAltIcon />
                   }
                 </Button>
-              </Tooltip>
+              </Tooltip> */}
 
-              <Tooltip title={isSearchShown ? 'Cancel Search' : 'Search'}>
+              <Tooltip title={isSearchShown || searchFromQuery ? searchFromQuery ? 'Clean Search' : 'Cancel Search' : 'Search'}>
                 <Button onClick={toggleSearch}>
-                  {isSearchShown ?
-                    <SearchOffIcon />
+                  {(isSearchShown || isQueryParams) ?
+                    <SearchOffIcon sx={{
+                      color: isQueryParams ? theme.palette.primary.main : theme.palette.text.secondary
+                    }} />
                     :
-                    <SearchIcon />
+                    <SearchIcon sx={{ color: theme.palette.text.secondary }} />
+
                   }
                 </Button>
               </Tooltip>
             </Box>
           </Box>
+
 
           {
             (isFilterShown || isSearchShown) &&
@@ -214,34 +310,57 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
               width: '100%',
               justifyContent: 'center',
               alignItems: 'center',
-              gap: theme.spacing(2),
-              margin: theme.spacing(2, 0, 2, 0),
+              gap: theme.spacing(4),
+              margin: theme.spacing(0, 0, 2, 0),
+              flexDirection: { xs: 'column', sm: 'row' }
             }}>
 
-              {isFilterShown &&
-                <>
-                  <AutoComplete label="Category" />
-                  <AutoComplete label="Country" />
-                </>
+              {isSearchShown &&
+                <Box sx={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: 4,
+                  width: { xs: '100%', sm: 'auto' },
+                }}>
+                  <AutoComplete
+                    label="Country"
+                    list={COUNTRIES.map(c => c.country)}
+                    onChange={handleCountryChange}
+                    variant='text'
+                  />
+                  <AutoComplete
+                    label="Category"
+                    list={CATEGORIES}
+                    onChange={handleCategoryChange}
+                    variant='text'
+                  />
+                </Box>
               }
               {
                 isSearchShown &&
-                <Search
-                  id={SEARCH_FIELD_ID}
-                  onClick={handleSearchClick}
-                  onChange={handleSearchFieldChange}
-                  value={searchValue} />
+                <>
+                  <Search
+                    id={SEARCH_FIELD_ID}
+                    onClick={handleSearchClick}
+                    onChange={handleSearchFieldChange}
+                    onClear={cleanSearchField}
+                    value={searchValue}
+                    variant='text'
+                  />
+                  <Button
+                    sx={{
+                      height: '56px',
+                      minWidth: { xs: '100%', sm: '56px !important' },
+                    }}
+                    variant={isMobile ? 'contained' : 'text'}
+                    onClick={handleSearchClick}
+                  >
+                    <SearchIcon />
+                  </Button>
+                </>
               }
-              <Button
-                sx={{
-                  height: '100%',
-                  borderColor: theme.palette.grey[400]
-                }}
-                variant="text"
-                onClick={handleSearchClick}
-              >
-                <SearchIcon />
-              </Button>
             </Box>
           }
 
@@ -268,12 +387,39 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
             </Box>
           )}
           {/* {
-            searchFromQuery && <BackButton goTo='/' />
+            isQueryParams && <BackButton goTo='/' />
           } */}
+
+          <Typography variant='body1' sx={STYLES.poweredBy}>
+            ({TEXTS.poweredBy})
+          </Typography>
+          {
+            isQueryParams &&
+            <List sx={{
+              display: 'flex',
+              gap: 2,
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+            }}>
+              {
+                categoryFromQuery &&
+                <Chip onDelete={handleChipDelete('category')} label={`Category: ${categoryFromQuery}`} />
+              }
+              {
+                countryFromQuery &&
+                <Chip onDelete={handleChipDelete('country')} label={`Country: ${countryFromQuery}`} />
+              }
+              {
+                (searchFromQuery) &&
+                <Chip onDelete={handleChipDelete('searchTerm')} label={`Search Term: ${searchFromQuery}`} />
+              }
+            </List>
+          }
           {isReportListEmpty ? (
             <Box sx={STYLES.noReportsContainer}>
               <Typography variant='body1' sx={STYLES.noReportsText}>
-                {`${TEXTS.noReportsFound} "${searchFromQuery}"`}
+                {getNotFoundText()}
               </Typography>
             </Box>
           ) : (
@@ -288,14 +434,16 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
           )}
           {
             shouldShowBottomCTA &&
-            <CreateReportButton
-              onClick={toggleArticleInput(false)}
-              isArticleInputShown={isArticleInputShown}
-            />
+            <Box sx={{ marginBottom: 2 }}>
+              <CreateReportButton
+                onClick={toggleArticleInput(false)}
+                isArticleInputShown={isArticleInputShown}
+              />
+            </Box>
           }
-          {/* {
-            searchFromQuery && shouldShowBottomCTA && <BackButton />
-          } */}
+          {
+            isQueryParams && shouldShowBottomCTA && <BackButton />
+          }
           {isArticleInputShown && (
             <Box sx={STYLES.articleInputContainer}>
               <AtricleInput
@@ -305,13 +453,15 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
               />
             </Box>
           )}
-          <Share
-            title={TEXTS.shareTitle}
-            url={BASE_URL}
-            description={TEXTS.shareDescription}
-            hashTags={TEXTS.shareHashTags}
-            context={SHARING_CONTEXT}
-          />
+          <Box sx={{ marginTop: theme.spacing(2) }}>
+            <Share
+              title={TEXTS.shareTitle}
+              url={BASE_URL}
+              description={TEXTS.shareDescription}
+              hashTags={TEXTS.shareHashTags}
+              context={SHARING_CONTEXT}
+            />
+          </Box>
         </Box >
       }
       {isFirstPage && <Disclamer />}
@@ -338,8 +488,11 @@ const HtmlHead = (
 export async function getServerSideProps(context) {
   const { req } = context;
   const host = req?.headers?.host;
-  const { page = 1, searchTerm = '' } = context.query;
-  const url = `http://${host}/${API_URL.SAVED_REPORT}?page=${page}&searchTerm=${searchTerm}`;
+  const { page = 1, searchTerm = '', country = '', category = '' } = context.query || {};
+  const categoryParam = category ? `&category=${category}` : EMPTY_STRING;
+  const countryParam = country ? `&country=${country}` : EMPTY_STRING;
+  const searchTermParam = `&searchTerm=${searchTerm}`;
+  const url = `http://${host}/${API_URL.SAVED_REPORT}?page=${page}${searchTermParam}${categoryParam}${countryParam}`;
 
   try {
     const res = await fetch(url);
@@ -385,7 +538,7 @@ const STYLES = {
     color: theme.palette.text.secondary,
     opacity: 0.8,
     textAlign: 'center',
-    margin: theme.spacing(0, 2, 2, 2),
+    margin: theme.spacing(0, 2, 0, 2),
   },
   articleInputContainer: {
     width: '100%',

@@ -6,6 +6,7 @@ import { ObjectId } from "mongodb";
 import { STATUS_CODE } from "../../../server/constants/status_code";
 import METHODS from "../../../server/constants/rest_methods";
 import { saveReport } from "../../../server/services/saved_report_service";
+import { EMPTY_STRING } from "@/constants/constants";
 
 //draft code, just to test the API
 
@@ -43,7 +44,7 @@ async function getReports(req, db) {
 
 async function getReportsPage(req, db) {
   const page = req.query.page || 1;
-  const searchTerm = req.query.searchTerm;
+  const { searchTerm = EMPTY_STRING, category = EMPTY_STRING, country = EMPTY_STRING } = req.query || {};
   const skip = (page - 1) * ITEMS_PER_PAGE;
   let reports = [];
 
@@ -57,16 +58,34 @@ async function getReportsPage(req, db) {
 
   const queryConditions = { $and: [alwaysTrueConditions] };
 
-  if (searchTerm && searchTerm.length < 100) {
+  const filterConditions = {
+    $and: [],
+  };
+
+  if (category) {
+    filterConditions.$and.push({ "category": { $regex: new RegExp(category, "i") } });
+  }
+
+  if (country?.length) {
+    filterConditions.$and.push({ "country": { $regex: new RegExp(country, "i") } });
+  }
+
+  if (filterConditions.$and.length > 0) {
+    queryConditions.$and.push(filterConditions);
+  }
+
+  if (searchTerm?.length && searchTerm.length < 100) {
     const searchConditions = {
       $or: [
         { "sidesScore.sideName": { $regex: new RegExp(searchTerm, "i") } },
         { "articleTitle": { $regex: new RegExp(searchTerm, "i") } },
-        { "category": { $regex: new RegExp(searchTerm, "i") } },
+        // { "category": { $regex: new RegExp(category, "i") } },
       ],
     };
     queryConditions.$and.push(searchConditions);
   }
+
+  console.log({ queryConditions, country, category });
 
   reports =
     (await db

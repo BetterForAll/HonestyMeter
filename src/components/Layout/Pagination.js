@@ -6,7 +6,10 @@ import theme from '@/theme';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import EjectIcon from '@mui/icons-material/Eject';
 import { EVENT, STEPS } from '@/constants/constants';
+import { scrollToTop } from '@/utils/utils';
+import { Scale } from 'chart.js';
 
 export default function Pagination({
   isFirstPage,
@@ -65,6 +68,9 @@ export default function Pagination({
       </Button>
       <Button disabled={isLastPage} onClick={handlePageChange(STEPS.forward)}>
         <ArrowRightIcon fontSize='large' />
+      </Button>
+      <Button onClick={scrollToTop}>
+        <EjectIcon fontSize='large' sx={{ transform: 'scale(0.60)' }} />
       </Button>
     </Box>
   );
