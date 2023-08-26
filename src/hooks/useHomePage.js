@@ -5,7 +5,7 @@ import {
   mockFetchReport, // for testing
 } from '../services/reportService';
 import { EMPTY_STRING, EVENT } from '@/constants/constants';
-import { checkIsUrl, scrollToTop } from '@/utils/utils';
+import { checkIsUrl } from '@/utils/utils';
 import { useRouter } from 'next/router';
 
 const IS_TESTING_MODE = false;
