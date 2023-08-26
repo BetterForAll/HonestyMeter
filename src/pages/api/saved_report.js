@@ -42,46 +42,57 @@ async function getReports(req, db) {
 }
 
 async function getReportsPage(req, db) {
-    const page = req.query.page || 1;
-    const person = req.query.person;
-    const skip = (page - 1) * ITEMS_PER_PAGE;
-    let reports = [];
-  
-    const queryConditions = {
+  const page = req.query.page || 1;
+  const searchTerm = req.query.searchTerm;
+  const skip = (page - 1) * ITEMS_PER_PAGE;
+  let reports = [];
+
+  const alwaysTrueConditions = {
+    $or: [
+      { isUserGenerated: { $exists: false } },
+      { isUserGenerated: null },
+      { isUserGenerated: false },
+    ],
+  };
+
+  const queryConditions = { $and: [alwaysTrueConditions] };
+
+  if (searchTerm && searchTerm.length < 100) {
+    const searchTermKey = "sidesBalance." + searchTerm;
+    const searchConditions = {
       $or: [
-        { isUserGenerated: { $exists: false } },
-        { isUserGenerated: null },
-        { isUserGenerated: false },
+        { [searchTermKey]: { $exists: true } },
+        { "sidesScore.sideName": { $regex: new RegExp(searchTerm, "i") } },  // Corrected here
+        { "articleTitle": { $regex: new RegExp(searchTerm, "i") } }
       ],
     };
-  
-    if (person) {
-      const personKey = "sidesBalance." + person;
-      queryConditions[personKey] = { $exists: true };
-    }
-  
-    reports =
-      (await db
-        .collection(collectionName)
-        .find(queryConditions, {
-          projection: {
-            articleTitle: 1,
-            articleDate: 1,
-            articleLink: 1,
-            score: 1,
-          },
-        })
-        .sort({ articleDate: -1 })
-        .skip(skip)
-        .limit(ITEMS_PER_PAGE)
-        .toArray()) || [];
-  
-    const reportsCount = await db.collection(collectionName).countDocuments(queryConditions);
-  
-    const isLastPage = skip + ITEMS_PER_PAGE >= reportsCount;
-  
-    return { reports, isLastPage };
+    queryConditions.$and.push(searchConditions);
   }
+
+  reports =
+    (await db
+      .collection(collectionName)
+      .find(queryConditions, {
+        projection: {
+          articleTitle: 1,
+          articleDate: 1,
+          articleLink: 1,
+          score: 1,
+        },
+      })
+      .sort({ articleDate: -1 })
+      .skip(skip)
+      .limit(ITEMS_PER_PAGE)
+      .toArray()) || [];
+
+  const reportsCount = await db.collection(collectionName).countDocuments(queryConditions);
+
+  const isLastPage = skip + ITEMS_PER_PAGE >= reportsCount;
+
+  return { reports, isLastPage };
+}
+
+
 
 async function getReportById(id, db) {
   const report = await db

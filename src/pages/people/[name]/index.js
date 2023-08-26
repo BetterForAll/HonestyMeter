@@ -260,7 +260,7 @@ export async function getServerSideProps(context) {
   const { req } = context;
   const host = req?.headers?.host;
   const { page = 1, name = '' } = context.query;
-  const url = `http://${host}/${API_URL.SAVED_REPORT}?page=${page}&person=${name}`;
+  const url = `http://${host}/${API_URL.SAVED_REPORT}?page=${page}&searchTerm=${name}`;
 
   try {
     const res = await fetch(url);

@@ -62,7 +62,7 @@ const TEXTS = {
 export default function Home({ homePageProps, reports, isLastPage, date }) {
   const router = useRouter();
   const pageFromQuery = parseInt(router.query.page) || 1;
-  const searchFromQuery = router.query.person || '';
+  const searchFromQuery = router.query.searchTerm || '';
   const isFirstPage = pageFromQuery === 1;
   const isPaginationEnabled = !(isFirstPage && isLastPage);
   const isLoading = usePageLoadingFull();
@@ -108,7 +108,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
 
 
     const searchValueCapitalizedLetters = capitalizeFirstLetterOfEachWord(trimmedSearchValue);
-    const url = `/?person=${searchValueCapitalizedLetters}`;
+    const url = `/?searchTerm=${searchValueCapitalizedLetters}`;
     router.push(url);
 
     setSearchValue(EMPTY_STRING);
@@ -236,8 +236,8 @@ const HtmlHead = (
 export async function getServerSideProps(context) {
   const { req } = context;
   const host = req?.headers?.host;
-  const { page = 1, person = '' } = context.query;
-  const url = `http://${host}/${API_URL.SAVED_REPORT}?page=${page}&person=${person}`;
+  const { page = 1, searchTerm = '' } = context.query;
+  const url = `http://${host}/${API_URL.SAVED_REPORT}?page=${page}&searchTerm=${searchTerm}`;
 
   try {
     const res = await fetch(url);
