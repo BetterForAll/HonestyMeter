@@ -411,6 +411,8 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
               justifyContent: 'center',
               alignItems: 'center',
               flexWrap: 'wrap',
+              minHeight: 40,
+              marginBottom: 2,
             }}>
               {
                 categoryFromQuery &&
