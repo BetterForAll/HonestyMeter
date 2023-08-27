@@ -9,8 +9,8 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import Tooltip from '@mui/material/Tooltip';
 
 const TEXTS = {
-    newReport: 'Create New Report',
-    cancelNewReport: 'Cancel New Report',
+    newReport: 'Create Bias Report',
+    cancelNewReport: 'Cancel Bias Report',
 }
 
 export default function CreateReportButton({ onClick, isArticleInputShown }) {

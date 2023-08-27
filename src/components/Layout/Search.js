@@ -35,6 +35,7 @@ export default function Search({
     value = EMPTY_STRING,
     Icon = SearchIcon,
     iconVisibilityToggle = false,
+    onClear = EMPTY_FUNCTION,
 }) {
     const handleKeyDown = (event) => {
         if (event.key === KEYS.enter) {
@@ -61,10 +62,18 @@ export default function Search({
                 variant={variant}
                 endAdornment={
                     <InputAdornment position={position}  >
+                        <IconButton onClick={onClear} sx={{
+                            visibility: toggleVisibility,
+                            marginBottom: theme.spacing(0),
+                            transform: 'scale(0.75)',
+                        }}>
+                            <CloseIcon />
+                        </IconButton>
                         <IconButton onClick={onIconClick} sx={{
                             visibility: iconVisibilityToggle ? toggleVisibility : 'visible',
                             marginBottom: theme.spacing(0),
-                            transform: 'scale(0.7)'
+                            marginLeft: theme.spacing(-1.25),
+                            transform: 'scale(0.75)'
                         }}>
                             <Icon />
                         </IconButton>
@@ -97,6 +106,7 @@ Search.propTypes = {
     onIconClick: func,
     Icon: node,
     iconVisibilityToggle: bool,
+    onClear: func,
 }
 
 const STYLES = {
@@ -107,6 +117,9 @@ const STYLES = {
             paddingTop: '3px',
             paddingLeft: 0,
             left: '-15px'
+        },
+        '& svg': {
+            color: theme.palette.text.secondary,
         }
     },
     input: {

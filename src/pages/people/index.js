@@ -12,7 +12,7 @@ import {
   Typography,
 } from '@mui/material';
 import { EMPTY_FUNCTION, capitalizeFirstLetterOfEachWord } from '../../utils/utils';
-import { BASE_URL, EVENT } from '@/constants/constants';
+import { BASE_URL, EMPTY_STRING, EVENT } from '@/constants/constants';
 import PEOPLE from '@/data/people';
 import Search from '@/components/Layout/Search';
 
@@ -91,6 +91,11 @@ export default function PeoplePage() {
     router.push(`/people/${person}`);
   };
 
+  const clearSearch = () => {
+    setSearchValue(EMPTY_STRING);
+    setPeople(PEOPLE);
+  }
+
   useEffect(() => {
     va.track(EVENT.peoplePageLoaded);
   }, [pageFromQuery]);
@@ -111,6 +116,7 @@ export default function PeoplePage() {
             inputLabel={TEXTS.searchName}
             id={SEARCH_FIELD_ID}
             variant='text'
+            onClear={clearSearch}
           />
           {
             !isPeopleListEmpty &&

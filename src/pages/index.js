@@ -127,7 +127,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
     }, 0);
   };
 
-  const handleSearchClick = () => {
+  const handleSearchClick = (shouldRunAnyway = false) => {
     va.track(EVENT.searchClickedHomePage, { searchValue });
 
 
@@ -135,7 +135,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
     const trimmedSearchValue = searchValue.trim();
     if (!trimmedSearchValue && !country && !category) return;
 
-    setIsSearchShown(false);
+    // setIsSearchShown(false);
 
     const searchValueCapitalizedLetters = capitalizeFirstLetterOfEachWord(trimmedSearchValue);
     const categoryParam = category ? `&category=${category}` : EMPTY_STRING;
@@ -150,10 +150,12 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
       url
     })
 
+    router.query.searchTerm = searchValueCapitalizedLetters;
+    router.push(router);
 
-    router.push(url);
+    // router.push(url);
 
-    setSearchValue(EMPTY_STRING);
+    // setSearchValue(EMPTY_STRING);
   }
 
   const handleSearchFieldChange = (e) => {
@@ -193,12 +195,14 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
 
   const handleCountryChange = (_e, newValue = EMPTY_STRING) => {
     setCountry(newValue);
-    // router.query.country = newValue;
+    router.query.country = newValue;
+    router.push(router);
   }
 
   const handleCategoryChange = (_e, newValue = EMPTY_STRING) => {
     setCategory(newValue);
-    // router.query.category = newValue;
+    router.query.category = newValue;
+    router.push(router);
   }
 
   const getNotFoundText = () => {
@@ -234,7 +238,13 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
   }
 
   const cleanSearchField = (e) => {
+    const currentParam = router.query.searchTerm;
     setSearchValue(EMPTY_STRING);
+
+    if (!currentParam) return;
+
+    router.query.searchTerm = EMPTY_STRING;
+    router.push(router);
   }
 
   useEffect(() => {
@@ -259,7 +269,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
             gap: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            marginBottom: 1,
+            marginBottom: 2,
             marginTop: 1,
           }}>
             <CreateReportButton
@@ -288,9 +298,9 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
 
               <Tooltip title={isSearchShown || searchFromQuery ? searchFromQuery ? 'Clean Search' : 'Cancel Search' : 'Search'}>
                 <Button onClick={toggleSearch}>
-                  {(isSearchShown || isQueryParams) ?
+                  {(isSearchShown) ?
                     <SearchOffIcon sx={{
-                      color: isQueryParams ? theme.palette.primary.main : theme.palette.text.secondary
+                      color: theme.palette.primary.main
                     }} />
                     :
                     <SearchIcon sx={{ color: theme.palette.text.secondary }} />
@@ -305,23 +315,23 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
           {
             (isFilterShown || isSearchShown) &&
             <Box sx={{
-              display: 'flex',
+              display: { xs: 'flex', sm: 'flex' },
               flexWrap: 'wrap',
               width: '100%',
               justifyContent: 'center',
               alignItems: 'center',
-              gap: theme.spacing(4),
+              gap: { sx: theme.spacing(3), sm: theme.spacing(4) },
               margin: theme.spacing(0, 0, 2, 0),
               flexDirection: { xs: 'column', sm: 'row' }
             }}>
 
               {isSearchShown &&
                 <Box sx={{
-                  display: 'flex',
+                  display: { xs: 'flex', sm: 'flex' },
                   flexWrap: 'wrap',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  gap: 4,
+                  gap: { sx: theme.spacing(3), sm: theme.spacing(4) },
                   width: { xs: '100%', sm: 'auto' },
                 }}>
                   <AutoComplete
@@ -329,12 +339,14 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
                     list={COUNTRIES.map(c => c.country)}
                     onChange={handleCountryChange}
                     variant='text'
+                    value={country}
                   />
                   <AutoComplete
                     label="Category"
                     list={CATEGORIES}
                     onChange={handleCategoryChange}
                     variant='text'
+                    value={category}
                   />
                 </Box>
               }
@@ -345,13 +357,12 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
                     id={SEARCH_FIELD_ID}
                     onClick={handleSearchClick}
                     onChange={handleSearchFieldChange}
-                    onIconClick={cleanSearchField}
+                    onIconClick={handleSearchClick}
                     value={searchValue}
                     variant='text'
-                    Icon={CloseIcon}
-                    iconVisibilityToggle
+                    onClear={cleanSearchField}
                   />
-                  <Button
+                  {/* <Button
                     sx={{
                       height: '50px',
                       minWidth: { xs: '100%', sm: '112px !important' },
@@ -360,7 +371,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
                     onClick={handleSearchClick}
                   >
                     <SearchIcon />
-                  </Button>
+                  </Button> */}
                 </>
               }
             </Box>
@@ -393,7 +404,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
           } */}
 
 
-          {
+          {/* {
             <List sx={{
               display: 'flex',
               gap: 2,
@@ -414,7 +425,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
                 <Chip onDelete={handleChipDelete('searchTerm')} label={`Search Term: ${searchFromQuery}`} />
               }
             </List>
-          }
+          } */}
           <Typography variant='body1' sx={STYLES.poweredBy}>
             {TEXTS.poweredBy}
           </Typography>
