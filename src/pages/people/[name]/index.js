@@ -111,10 +111,12 @@ export default function PersonPage({ homePageProps, reports, isLastPage }) {
           {
             <BackButton text={TEXTS.backButton} onClick={handleBack} />
           }
-          <CreateReportButton
-            onClick={toggleArticleInput(true)}
-            isArticleInputShown={isArticleInputShown}
-          />
+          <Box sx={{ marginBottom: 2 }}>
+            <CreateReportButton
+              onClick={toggleArticleInput(true)}
+              isArticleInputShown={isArticleInputShown}
+            />
+          </Box>
 
           {isArticleInputShown && (
             <Box sx={STYLES.articleInputContainer}>
@@ -306,6 +308,7 @@ const STYLES = {
     opacity: 0.8,
     textAlign: 'center',
     margin: theme.spacing(0, 2, 2, 2),
+    alignSelf: 'center',
   },
   newReportButton: {
     margin: 'auto',

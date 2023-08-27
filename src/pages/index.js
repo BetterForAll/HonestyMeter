@@ -249,9 +249,9 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
           <Typography variant='h2' sx={STYLES.title}>
             {TEXTS.title}
           </Typography>
-          <Typography variant='body1' sx={STYLES.subtitle}>
+          {/* <Typography variant='body1' sx={STYLES.subtitle}>
             {TEXTS.subtitle}
-          </Typography>
+          </Typography> */}
 
           <Box sx={{
             display: 'flex',
@@ -259,7 +259,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
             gap: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            marginBottom: 2,
+            marginBottom: 1,
             marginTop: 1,
           }}>
             <CreateReportButton
@@ -353,10 +353,10 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
                   />
                   <Button
                     sx={{
-                      height: '56px',
-                      minWidth: { xs: '100%', sm: '56px !important' },
+                      height: '50px',
+                      minWidth: { xs: '100%', sm: '112px !important' },
                     }}
-                    variant={isMobile ? 'contained' : 'text'}
+                    variant={isMobile ? 'contained' : 'contained'}
                     onClick={handleSearchClick}
                   >
                     <SearchIcon />
@@ -392,11 +392,8 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
             isQueryParams && <BackButton goTo='/' />
           } */}
 
-          <Typography variant='body1' sx={STYLES.poweredBy}>
-            ({TEXTS.poweredBy})
-          </Typography>
+
           {
-            isQueryParams &&
             <List sx={{
               display: 'flex',
               gap: 2,
@@ -418,6 +415,9 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
               }
             </List>
           }
+          <Typography variant='body1' sx={STYLES.poweredBy}>
+            {TEXTS.poweredBy}
+          </Typography>
           {isReportListEmpty ? (
             <Box sx={STYLES.noReportsContainer}>
               <Typography variant='body1' sx={STYLES.noReportsText}>
@@ -431,6 +431,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
               isLoading={isLoading}
             />
           )}
+
           {isPaginationEnabled && (
             <Pagination {...{ isFirstPage, isLastPage }} />
           )}
@@ -540,7 +541,8 @@ const STYLES = {
     color: theme.palette.text.secondary,
     opacity: 0.8,
     textAlign: 'center',
-    margin: theme.spacing(0, 2, 0, 2),
+    margin: theme.spacing(0, 3),
+    alignSelf: 'center',
   },
   articleInputContainer: {
     width: '100%',

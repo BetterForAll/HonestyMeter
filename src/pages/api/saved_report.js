@@ -85,8 +85,6 @@ async function getReportsPage(req, db) {
     queryConditions.$and.push(searchConditions);
   }
 
-  console.log({ queryConditions, country, category });
-
   reports =
     (await db
       .collection(collectionName)
