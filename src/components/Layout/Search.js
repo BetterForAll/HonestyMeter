@@ -69,7 +69,7 @@ export default function Search({
                         }}>
                             <CloseIcon />
                         </IconButton>
-                        <IconButton onClick={onIconClick} sx={{
+                        <IconButton onClick={onClick} sx={{
                             visibility: iconVisibilityToggle ? toggleVisibility : 'visible',
                             marginBottom: theme.spacing(0),
                             marginLeft: theme.spacing(-1.25),

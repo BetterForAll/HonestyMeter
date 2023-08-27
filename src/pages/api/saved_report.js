@@ -62,12 +62,30 @@ async function getReportsPage(req, db) {
     $and: [],
   };
 
-  if (category) {
-    filterConditions.$and.push({ "category": { $regex: new RegExp(category, "i") } });
+  const searchConditions = {
+    $or: [],
+  }
+
+  if (category?.length) {
+    const categoryQuery = {
+      $or: [
+        { category: { $regex: new RegExp(category, "i") } },
+        { "sidesScore.sideName": { $regex: new RegExp(category, "i") } },
+        { "articleTitle": { $regex: new RegExp(category, "i") } },
+      ]
+    }
+    filterConditions.$and.push(categoryQuery);
   }
 
   if (country?.length) {
-    filterConditions.$and.push({ "country": { $regex: new RegExp(country, "i") } });
+    const countryQuery = {
+      $or: [
+        { country: { $regex: new RegExp(country, "i") } },
+        { "sidesScore.sideName": { $regex: new RegExp(country, "i") } },
+        { "articleTitle": { $regex: new RegExp(country, "i") } },
+      ]
+    }
+    filterConditions.$and.push(countryQuery);
   }
 
   if (filterConditions.$and.length > 0) {
@@ -75,15 +93,14 @@ async function getReportsPage(req, db) {
   }
 
   if (searchTerm?.length && searchTerm.length < 100) {
-    const searchConditions = {
-      $or: [
-        { "sidesScore.sideName": { $regex: new RegExp(searchTerm, "i") } },
-        { "articleTitle": { $regex: new RegExp(searchTerm, "i") } },
-        // { "category": { $regex: new RegExp(category, "i") } },
-      ],
-    };
+    searchConditions.$or = [
+      ...searchConditions.$or,
+      { "sidesScore.sideName": { $regex: new RegExp(searchTerm, "i") } },
+      { "articleTitle": { $regex: new RegExp(searchTerm, "i") } },
+
+    ]
     queryConditions.$and.push(searchConditions);
-  }
+  };
 
   reports =
     (await db

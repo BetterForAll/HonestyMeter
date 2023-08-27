@@ -111,7 +111,7 @@ export default function PeoplePage() {
           <Search
             value={searchValue}
             onChange={handleLocalSearch}
-            onIconClick={handleSearchClick}
+            onClick={handleSearchClick}
             label={TEXTS.name}
             inputLabel={TEXTS.searchName}
             id={SEARCH_FIELD_ID}

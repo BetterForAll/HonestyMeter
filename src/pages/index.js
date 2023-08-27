@@ -357,7 +357,6 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
                     id={SEARCH_FIELD_ID}
                     onClick={handleSearchClick}
                     onChange={handleSearchFieldChange}
-                    onIconClick={handleSearchClick}
                     value={searchValue}
                     variant='text'
                     onClear={cleanSearchField}
