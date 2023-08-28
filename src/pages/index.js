@@ -179,14 +179,26 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
 
   const handleCountryChange = (_e, newValue = EMPTY_STRING) => {
     setCountry(newValue);
-    router.query.country = newValue;
+
+    if (newValue) {
+      router.query.country = newValue;
+    } else {
+      delete router.query.country;
+    }
+
     router.query.page = 1;
     router.push(router);
   }
 
   const handleCategoryChange = (_e, newValue = EMPTY_STRING) => {
     setCategory(newValue);
-    router.query.category = newValue;
+
+    if (newValue) {
+      router.query.category = newValue;
+    } else {
+      delete router.query.category;
+    }
+
     router.query.page = 1;
     router.push(router);
   }
