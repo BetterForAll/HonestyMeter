@@ -338,14 +338,12 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
                     label="Country"
                     list={COUNTRIES.map(c => c.country)}
                     onChange={handleCountryChange}
-                    variant='text'
                     value={country}
                   />
                   <AutoComplete
                     label="Category"
                     list={CATEGORIES}
                     onChange={handleCategoryChange}
-                    variant='text'
                     value={category}
                   />
                 </Box>

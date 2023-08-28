@@ -3,27 +3,42 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import theme from '@/theme';
 
-export default function AutoComplete({ list = [], label = "Category", onChange, value, variant = 'standard' }) {
+export default function AutoComplete({
+    list = [],
+    label = "Category",
+    onChange,
+    value,
+    variant = 'standard' }) {
+    const renderInputCb = getRenderInputCb(label, variant);
+
     return (
         <Autocomplete
             disablePortal
-            id="combo-box-demo"
+            id="category-autocomplete-homepage"
             options={list}
-            sx={{
-                width: {
-                    xs: '100%', sm: 224,
-                },
-                marginBottom: { xs: theme.spacing(2), sm: 0 },
-                '&:first-child': {
-                    marginTop: { xs: theme.spacing(1), sm: 0 },
-                }
-            }}
+            sx={STYLES.root}
             onChange={onChange}
-            renderInput={(params) => <TextField {...params} label={label} variant='standard' />}
+            renderInput={renderInputCb}
             value={value}
-            InputProps={{
-            }}
         />
     );
+}
+
+function getRenderInputCb(label, variant) {
+    const renderInputCb = (params) => <TextField  {...params} label={label} variant={variant} />;
+
+    return renderInputCb;
+}
+
+const STYLES = {
+    root: {
+        width: {
+            xs: '100%', sm: 224,
+        },
+        marginBottom: { xs: theme.spacing(2), sm: 0 },
+        '&:first-child': {
+            marginTop: { xs: theme.spacing(1), sm: 0 },
+        }
+    }
 }
 
