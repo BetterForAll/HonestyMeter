@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import theme from '@/theme';
 import ClearIcon from '@mui/icons-material/Clear';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 export default function AutoComplete({
     list = [],
@@ -43,7 +44,7 @@ export default function AutoComplete({
             onClose={handleClose}
             renderInput={renderInputCb}
             value={value}
-            clearIcon={<ClearIcon fontSize="small" onClick={handleClearClick} />}
+            clearIcon={<ClearIcon fontSize="small" onClick={handleClearClick} visibility={Boolean(value) ? 'visible' : 'hidden'} />}
         />
     );
 }
