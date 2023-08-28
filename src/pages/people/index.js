@@ -199,6 +199,7 @@ const HtmlHead = (
 
 const STYLES = {
   container: {
+    width: '100%',
     maxWidth: '1400px',
     margin: '0 auto',
     display: 'flex',

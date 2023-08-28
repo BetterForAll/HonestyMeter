@@ -549,6 +549,7 @@ export async function getServerSideProps(context) {
 
 const STYLES = {
   container: {
+    width: '100%',
     maxWidth: '1400px',
     margin: 'auto',
     display: 'flex',
