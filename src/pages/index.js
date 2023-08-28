@@ -87,7 +87,8 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
   } = router.query || {};
   const isQueryParams = Boolean(searchFromQuery || countryFromQuery || categoryFromQuery);
   const isFirstPage = pageFromQuery === 1;
-  const isPaginationEnabled = reports.length > 2 && !isLastPage;
+  const isOnlyOnePage = isFirstPage && isLastPage;
+  const isPaginationEnabled = !isOnlyOnePage;
   const isLoading = usePageLoadingFull();
   const {
     article,
