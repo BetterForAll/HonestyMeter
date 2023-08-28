@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import theme from '@/theme';
@@ -13,13 +13,16 @@ export default function AutoComplete({
     onClearClick,
 }) {
 
+    const inputRef = useRef(null);
+
     const handleClearClick = (e) => {
         e.preventDefault();
         e.stopPropagation();
         onClearClick && onClearClick();
+        inputRef.current.blur();
     }
 
-    const renderInputCb = getRenderInputCb(label, variant);
+    const renderInputCb = getRenderInputCb(label, variant, inputRef);
 
     return (
         <Autocomplete
@@ -37,7 +40,7 @@ export default function AutoComplete({
 }
 
 function getRenderInputCb(label, variant, inputRef) {
-    const renderInputCb = (params) => <TextField  {...params} label={label} variant={variant} />;
+    const renderInputCb = (params) => <TextField  {...params} label={label} variant={variant} ref={inputRef} />;
 
     return renderInputCb;
 }
