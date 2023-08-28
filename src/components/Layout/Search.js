@@ -133,12 +133,14 @@ const STYLES = {
     mainIcon: (iconVisibilityToggle, toggleVisibility) => ({
         visibility: iconVisibilityToggle ? toggleVisibility : 'visible',
         marginBottom: theme.spacing(0),
-        marginLeft: theme.spacing(-1.25),
-        transform: 'scale(0.75)'
+        marginLeft: theme.spacing(-2.5),
+        transform: 'scale(0.75)',
+        right: theme.spacing(0.5),
+
     }),
     closeIcon: (toggleVisibility) => ({
         visibility: toggleVisibility,
         marginBottom: theme.spacing(0),
-        transform: 'scale(0.75)',
+        transform: 'scale(0.8)',
     })
 }
