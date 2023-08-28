@@ -70,7 +70,7 @@ const TEXTS = {
   articleTextExtracted: 'text extrasction by url powered by',
   worldNewsApi: 'world news api',
   people: 'People',
-  searchAndFilter: 'Search and Filter by Countires, Categories and Search Terms',
+  searchAndFilter: 'Search and Filter',
   cancelSearch: 'Cancel Search',
   clearSearch: 'Clear Search',
 };
