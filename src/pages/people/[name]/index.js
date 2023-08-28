@@ -205,21 +205,9 @@ export default function PersonPage({ homePageProps, reports, isLastPage }) {
           )}
           {
             shouldShowBottomControls && (
-              <Button
-                variant='text'
-                sx={{
-                  margin: theme.spacing(1, 0, 3),
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-                onClick={() => {
-                  router.push('/people');
-                }}
-              >
-                <ChevronLeftIcon />
-                <Typography>Back To People Index</Typography>
-              </Button>
-            )}
+              <BackButton text={TEXTS.backButton} onClick={handleBack} />
+            )
+          }
 
         </Box>
       }
