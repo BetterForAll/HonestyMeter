@@ -22,20 +22,21 @@ const KEYS = {
 }
 
 export default function Search({
-    onIconClick = EMPTY_FUNCTION,
+    onChange = EMPTY_FUNCTION,
+    onClick = EMPTY_FUNCTION,
+    onClear = EMPTY_FUNCTION,
     label = TEXTS.search,
     inputLabel = TEXTS.search,
     type = TYPE.text,
     id,
     position = POSITION.end,
-    onChange = EMPTY_FUNCTION,
-    onClick = EMPTY_FUNCTION,
-    isIconButtonDisabled = false,
     variant = 'text',
     value = EMPTY_STRING,
     Icon = SearchIcon,
     iconVisibilityToggle = false,
-    onClear = EMPTY_FUNCTION,
+    width = '25ch',
+    mobileWidth = '100%',
+
 }) {
     const handleKeyDown = (event) => {
         if (event.key === KEYS.enter) {
@@ -48,7 +49,7 @@ export default function Search({
 
     return (
         <FormControl
-            sx={STYLES.formControl}>
+            sx={STYLES.formControl(width, mobileWidth)}>
             <InputLabel htmlFor={id}>
                 {inputLabel}
             </InputLabel>
@@ -62,29 +63,17 @@ export default function Search({
                 variant={variant}
                 endAdornment={
                     <InputAdornment position={position}  >
-                        <IconButton onClick={onClear} sx={{
-                            visibility: toggleVisibility,
-                            marginBottom: theme.spacing(0),
-                            transform: 'scale(0.75)',
-                        }}>
+                        <IconButton onClick={onClear} sx={STYLES.closeIcon(toggleVisibility)}>
                             <CloseIcon />
                         </IconButton>
-                        <IconButton onClick={onClick} sx={{
-                            visibility: iconVisibilityToggle ? toggleVisibility : 'visible',
-                            marginBottom: theme.spacing(0),
-                            marginLeft: theme.spacing(-1.25),
-                            transform: 'scale(0.75)'
-                        }}>
+                        <IconButton onClick={onClick} sx={STYLES.mainIcon(iconVisibilityToggle, toggleVisibility)}>
                             <Icon />
                         </IconButton>
                     </InputAdornment>
                 }
                 value={value}
                 InputLabelProps={{
-                    sx: {
-                        paddingTop: '3px',
-                        color: 'red'
-                    }
+                    sx: STYLES.inputLabel
                 }}
             />
         </FormControl>
@@ -99,19 +88,19 @@ Search.propTypes = {
     position: oneOf([POSITION.start, POSITION.end]),
     handleLocalSearch: func,
     handleSearchClick: func,
-    isIconButtonDisabled: bool,
     value: string,
     setValue: func,
     variant: string,
-    onIconClick: func,
     Icon: node,
     iconVisibilityToggle: bool,
     onClear: func,
+    width: string,
+    mobileWidth: string,
 }
 
 const STYLES = {
-    formControl: {
-        width: { xs: '100%', sm: '25ch' },
+    formControl: (width, mobileWidth) => ({
+        width: { xs: mobileWidth, sm: width },
         marginTop: 0,
         '& label': {
             paddingTop: '3px',
@@ -121,7 +110,20 @@ const STYLES = {
         '& svg': {
             color: theme.palette.text.secondary,
         }
+    }),
+    inputLabel: {
+        paddingTop: '3px',
+        color: 'red'
     },
-    input: {
-    },
+    mainIcon: (iconVisibilityToggle, toggleVisibility) => ({
+        visibility: iconVisibilityToggle ? toggleVisibility : 'visible',
+        marginBottom: theme.spacing(0),
+        marginLeft: theme.spacing(-1.25),
+        transform: 'scale(0.75)'
+    }),
+    closeIcon: (toggleVisibility) => ({
+        visibility: toggleVisibility,
+        marginBottom: theme.spacing(0),
+        transform: 'scale(0.75)',
+    })
 }

@@ -117,6 +117,7 @@ export default function PeoplePage() {
             id={SEARCH_FIELD_ID}
             variant='text'
             onClear={clearSearch}
+            mobileWidth='auto'
           />
           {
             !isPeopleListEmpty &&
