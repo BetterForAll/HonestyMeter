@@ -70,6 +70,9 @@ const TEXTS = {
   articleTextExtracted: 'text extrasction by url powered by',
   worldNewsApi: 'world news api',
   people: 'People',
+  searchAndFilter: 'Search and Filter by Countires, Categories and Search Terms',
+  cancelSearch: 'Cancel Search',
+  clearSearch: 'Clear Search',
 };
 
 export default function Home({ homePageProps, reports, isLastPage, date }) {
@@ -100,6 +103,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
   const isMobile = useIsMobileClient();
   const isReportListEmpty = reports.length === 0;
   const shouldShowBottomCTA = reports.length > MINIMUM_CARDS_COUNT_TO_SHOW_BOTTOM_CTA || !isReportListEmpty && isMobile;
+  const searchIconTooltip = getSearchIconTooltipText(isSearchShown, isQueryParams);
 
   const onCardClick = (reportUrl) => () => {
     va.track(EVENT.reportCardClicked, { reportUrl });
@@ -108,70 +112,50 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
   };
 
   const toggleArticleInput = (isTop) => () => {
-
     const event = isArticleInputShown
       ? EVENT.cancelNewReportClicked
       : EVENT.generateNewReportClicked;
 
     va.track(event);
 
-
-
     clearArticleInput();
     setIsArticleInputShown(!isArticleInputShown);
     setIsSearchShown(false);
     setIsFilterShown(false);
+
     const scrollMethod = isTop ? scrollToTop : scrollToBottom;
-    setTimeout(() => {
+    setTimeout(() => { // wait for the animation to finish. TODO: find a better way to do this, see MUI docs
       scrollMethod();
     }, 0);
   };
 
-  const handleSearchClick = (shouldRunAnyway = false) => {
+  const handleSearchClick = () => {
     va.track(EVENT.searchClickedHomePage, { searchValue });
 
-
-
     const trimmedSearchValue = searchValue.trim();
-    if (!trimmedSearchValue && !country && !category) return;
+    const isSearchParamsEmpty = Boolean(!trimmedSearchValue && !country && !category)
 
-    // setIsSearchShown(false);
+    if (isSearchParamsEmpty) return;
 
     const searchValueCapitalizedLetters = capitalizeFirstLetterOfEachWord(trimmedSearchValue);
-    const categoryParam = category ? `&category=${category}` : EMPTY_STRING;
-    const countryParam = country ? `&country=${country}` : EMPTY_STRING;
-    const searchTermParam = `searchTerm=${searchValueCapitalizedLetters}`;
-    const url = `/?${searchTermParam}${categoryParam}${countryParam}`;
-
-    console.log({
-      categoryParam,
-      countryParam,
-      searchTermParam,
-      url
-    })
 
     router.query.searchTerm = searchValueCapitalizedLetters;
     router.push(router);
-
-    // router.push(url);
-
-    // setSearchValue(EMPTY_STRING);
   }
 
   const handleSearchFieldChange = (e) => {
-    e.stopPropagation();
     setSearchValue(e.target.value);
   }
 
   const toggleSearch = () => {
-    if (!isSearchShown) {
+    const isSearchShownAfterChange = !isSearchShown;
+
+    if (isSearchShownAfterChange) {
       setIsArticleInputShown(false);
       setIsFilterShown(false);
     }
 
-    const shouldRedirectHome = searchFromQuery || countryFromQuery || categoryFromQuery;
-
-    if (shouldRedirectHome) {
+    if (isQueryParams) {
       router.push('/');
       setIsSearchShown(false);
       setCountry(EMPTY_STRING);
@@ -181,10 +165,10 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
       return;
     }
 
-    setIsSearchShown(!isSearchShown);
+    setIsSearchShown(isSearchShownAfterChange);
   }
 
-  const toggleFilter = () => {
+  const toggleFilter = () => { //TODO: Decide if we want to use filter. Activate if we do
     if (!isFilterShown) {
       setIsArticleInputShown(false);
       setIsSearchShown(false);
@@ -196,12 +180,14 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
   const handleCountryChange = (_e, newValue = EMPTY_STRING) => {
     setCountry(newValue);
     router.query.country = newValue;
+    router.query.page = 1;
     router.push(router);
   }
 
   const handleCategoryChange = (_e, newValue = EMPTY_STRING) => {
     setCategory(newValue);
     router.query.category = newValue;
+    router.query.page = 1;
     router.push(router);
   }
 
@@ -221,6 +207,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
 
 
   const handleChipDelete = (type) => () => {
+    //TODO: Decide if we want to use Chips. Activate if we do, move to a separate component
     router.query.page = 1;
     if (type === 'country') {
       delete router.query.country
@@ -237,7 +224,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
     }
   }
 
-  const cleanSearchField = (e) => {
+  const clearSearchField = (e) => {
     const currentParam = router.query.searchTerm;
     setSearchValue(EMPTY_STRING);
 
@@ -246,6 +233,8 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
     router.query.searchTerm = EMPTY_STRING;
     router.push(router);
   }
+
+  getSearchIconTooltipText(isSearchShown, isQueryParams)
 
   useEffect(() => {
     va.track(EVENT.pageLoaded, { page: pageFromQuery });
@@ -259,6 +248,9 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
           <Typography variant='h2' sx={STYLES.title}>
             {TEXTS.title}
           </Typography>
+
+          {/* TODO: Decide if we want to show the subtitle */}
+
           {/* <Typography variant='body1' sx={STYLES.subtitle}>
             {TEXTS.subtitle}
           </Typography> */}
@@ -283,6 +275,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
               alignItems: 'center',
             }}>
 
+              {/* TODO: Decide if we want to use filter*/}
               {/* <Tooltip
                 title={isFilterShown ? 'Remove filter' : 'Filter by Category and Country'}>
                 <Button
@@ -296,7 +289,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
                 </Button>
               </Tooltip> */}
 
-              <Tooltip title={isSearchShown || searchFromQuery ? searchFromQuery ? 'Clean Search' : 'Cancel Search' : 'Search'}>
+              <Tooltip title={searchIconTooltip}>
                 <Button onClick={toggleSearch}>
                   {(isSearchShown) ?
                     <SearchOffIcon sx={{
@@ -310,10 +303,8 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
               </Tooltip>
             </Box>
           </Box>
-
-
           {
-            (isFilterShown || isSearchShown) &&
+            (isSearchShown) &&
             <Box sx={{
               display: { xs: 'flex', sm: 'flex' },
               flexWrap: 'wrap',
@@ -357,18 +348,8 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
                     onChange={handleSearchFieldChange}
                     value={searchValue}
                     variant='text'
-                    onClear={cleanSearchField}
+                    onClear={clearSearchField}
                   />
-                  {/* <Button
-                    sx={{
-                      height: '50px',
-                      minWidth: { xs: '100%', sm: '112px !important' },
-                    }}
-                    variant={isMobile ? 'contained' : 'contained'}
-                    onClick={handleSearchClick}
-                  >
-                    <SearchIcon />
-                  </Button> */}
                 </>
               }
             </Box>
@@ -396,10 +377,6 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
               />
             </Box>
           )}
-          {/* {
-            isQueryParams && <BackButton goTo='/' />
-          } */}
-
 
           {/* {
             <List sx={{
@@ -425,6 +402,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
               }
             </List>
           } */}
+
           <Typography variant='body1' sx={STYLES.poweredBy}>
             {TEXTS.poweredBy}
           </Typography>
@@ -453,9 +431,6 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
                 isArticleInputShown={isArticleInputShown}
               />
             </Box>
-          }
-          {
-            isQueryParams && shouldShowBottomCTA && <BackButton />
           }
           {isArticleInputShown && (
             <Box sx={STYLES.articleInputContainer}>
@@ -497,6 +472,16 @@ const HtmlHead = (
     <link rel='canonical' href={BASE_URL} />
   </Head>
 );
+
+function getSearchIconTooltipText(isSearchShown, isQueryParams) {
+  let tooltipText = isSearchShown ? TEXTS.cancelSearch : TEXTS.searchAndFilter;
+
+  if (isQueryParams) {
+    tooltipText = TEXTS.clearSearch;
+  }
+
+  return tooltipText;
+}
 
 export async function getServerSideProps(context) {
   const { req } = context;
