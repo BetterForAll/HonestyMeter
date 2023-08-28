@@ -418,6 +418,10 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
           <Typography variant='body1' sx={STYLES.poweredBy}>
             {TEXTS.poweredBy}
           </Typography>
+
+          {isPaginationEnabled && !isFirstPage && (
+            <Pagination {...{ isFirstPage, isLastPage }} />
+          )}
           {isReportListEmpty ? (
             <Box sx={STYLES.noReportsContainer}>
               <Typography variant='body1' sx={STYLES.noReportsText}>
@@ -431,9 +435,10 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
               isLoading={isLoading}
             />
           )}
-
           {isPaginationEnabled && (
-            <Pagination {...{ isFirstPage, isLastPage }} />
+            <Box sx={STYLES.paginationContainerBottom}>
+              <Pagination {...{ isFirstPage, isLastPage }} isScrollUpIconShown />
+            </Box>
           )}
           {
             shouldShowBottomCTA &&
@@ -569,5 +574,8 @@ const STYLES = {
   },
   noReportsContainer: {
     margin: theme.spacing(2, 0),
-  }
+  },
+  paginationContainerBottom: {
+    marginBottom: 2
+  },
 };

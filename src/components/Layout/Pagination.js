@@ -15,7 +15,8 @@ export default function Pagination({
   isFirstPage,
   onClick,
   isLastPage,
-  onChange
+  onChange,
+  isScrollUpIconShown
 }) {
   const router = useRouter();
   const { page: pageFromQuery = 1 } = router.query || {};
@@ -69,9 +70,12 @@ export default function Pagination({
       <Button disabled={isLastPage} onClick={handlePageChange(STEPS.forward)}>
         <ArrowRightIcon fontSize='large' />
       </Button>
-      <Button onClick={scrollToTop}>
-        <EjectIcon fontSize='large' sx={{ transform: 'scale(0.60)' }} />
-      </Button>
+      {
+        isScrollUpIconShown &&
+        <Button onClick={scrollToTop}>
+          <EjectIcon fontSize='large' sx={{ transform: 'scale(0.60)' }} />
+        </Button>
+      }
     </Box>
   );
 }
@@ -82,7 +86,6 @@ const REPORTS_STYLES = {
     justifyContent: 'space-between',
     alignItems: 'center',
     gap: theme.spacing(2),
-    marginBottom: theme.spacing(2),
   },
   skipIcon: {
     transform: 'scale(0.75)',

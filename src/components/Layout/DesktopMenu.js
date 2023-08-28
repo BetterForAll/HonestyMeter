@@ -20,20 +20,21 @@ export default function Menu({ currentPage, setCurrentPage, pageRoutes }) {
     router.push('/' + pageToPush);
   };
 
+  const onTabClick = (index) => (e) => handleChange(e, index)
+
   return (
     <Box sx={STYLES.visibilityBlockContainer}>
       <Box style={{ ...STYLES.flexContainer, ...STYLES.flexCenter }}>
         <Box sx={STYLES.tabsContainer}>
           <Tabs
             value={currentPage}
-            onChange={handleChange}
             variant='scrollable'
             scrollButtons
             allowScrollButtonsMobile
             aria-label='page tabs'
           >
             {PAGE_LABELS.map((pageLabel, index) => (
-              <Tab label={pageLabel} key={pageLabel} />
+              <Tab label={pageLabel} key={pageLabel} onClick={onTabClick(index)} />
             ))}
           </Tabs>
         </Box>

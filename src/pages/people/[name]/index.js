@@ -163,7 +163,9 @@ export default function PersonPage({ homePageProps, reports, isLastPage }) {
             />
           )}
           {isPaginationEnabled && (
-            <Pagination {...{ isFirstPage, isLastPage }} />
+            <Box sx={STYLES.paginationContainer}>
+              <Pagination {...{ isFirstPage, isLastPage }} isScrollUpIconShown />
+            </Box>
           )}
 
           {shouldShowBottomControls && (
@@ -209,7 +211,7 @@ export default function PersonPage({ homePageProps, reports, isLastPage }) {
             )
           }
 
-        </Box>
+        </Box >
       }
       <Share
         title={TEXTS.shareTitle}
@@ -320,5 +322,8 @@ const STYLES = {
     margin: theme.spacing(1, 0, 3),
     display: 'flex',
     alignItems: 'center',
+  },
+  paginationContainer: {
+    marginBottom: 2
   }
 };
