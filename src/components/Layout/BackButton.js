@@ -28,7 +28,7 @@ export default function BackButton({ text = TEXTS.back, onClick = EMPTY_FUNCTION
 
     return (
         <Button
-            variant='outlined'
+            variant='standard'
             sx={STYLES.backButton}
             onClick={handleGoBack}
         >
