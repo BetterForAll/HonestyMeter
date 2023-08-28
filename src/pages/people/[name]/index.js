@@ -269,7 +269,8 @@ export async function getServerSideProps(context) {
 
 const STYLES = {
   container: {
-    width: { xs: '100%', sm: '1400px' },
+    width: '100%',
+    maxWidth: { xs: '100%', sm: '1400px' },
     margin: 'auto',
     display: 'flex',
     flexDirection: 'column',

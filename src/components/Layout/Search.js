@@ -77,21 +77,21 @@ export default function Search({
                 variant={variant}
                 ref={inputRef}
                 endAdornment={
-                    <InputAdornment position={position}  >
+                    <InputAdornment position={position} sx={{ marginRight: -1.25 }} >
                         <IconButton onClick={onClear} sx={STYLES.closeIcon(toggleVisibility)}>
                             <CloseIcon />
                         </IconButton>
                         <IconButton onClick={handleSearchClick} sx={STYLES.mainIcon(iconVisibilityToggle, toggleVisibility)}>
                             <Icon />
                         </IconButton>
-                    </InputAdornment>
+                    </InputAdornment >
                 }
                 value={value}
                 InputLabelProps={{
                     sx: STYLES.inputLabel
                 }}
             />
-        </FormControl>
+        </FormControl >
     )
 }
 
@@ -133,10 +133,8 @@ const STYLES = {
     mainIcon: (iconVisibilityToggle, toggleVisibility) => ({
         visibility: iconVisibilityToggle ? toggleVisibility : 'visible',
         marginBottom: theme.spacing(0),
-        marginLeft: theme.spacing(-2.5),
+        marginLeft: theme.spacing(-1.25),
         transform: 'scale(0.75)',
-        right: theme.spacing(0.5),
-
     }),
     closeIcon: (toggleVisibility) => ({
         visibility: toggleVisibility,
