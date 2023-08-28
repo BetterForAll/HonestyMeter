@@ -75,6 +75,8 @@ const TEXTS = {
   clearSearch: 'Clear Search',
 };
 
+const COUNTIRES_LIST = COUNTRIES.map(c => c.country);
+
 export default function Home({ homePageProps, reports, isLastPage, date }) {
   const router = useRouter();
   const pageFromQuery = parseInt(router.query.page) || 1;
@@ -236,6 +238,26 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
     }
   }
 
+  const clearCountryField = (e) => {
+    const currentParam = router.query.country;
+    setCountry(EMPTY_STRING);
+
+    if (!currentParam) return;
+
+    router.query.country = EMPTY_STRING;
+    router.push(router);
+  }
+
+  const clearCategoryField = (e) => {
+    const currentParam = router.query.category;
+    setCategory(EMPTY_STRING);
+
+    if (!currentParam) return;
+
+    router.query.category = EMPTY_STRING;
+    router.push(router);
+  }
+
   const clearSearchField = (e) => {
     const currentParam = router.query.searchTerm;
     setSearchValue(EMPTY_STRING);
@@ -342,12 +364,14 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
                     list={CATEGORIES}
                     onChange={handleCategoryChange}
                     value={category}
+                    onClearClick={clearCategoryField}
                   />
                   <AutoComplete
                     label="Country"
-                    list={COUNTRIES.map(c => c.country)}
+                    list={COUNTIRES_LIST}
                     onChange={handleCountryChange}
                     value={country}
+                    onClearClick={clearCountryField}
                   />
                 </Box>
               }
