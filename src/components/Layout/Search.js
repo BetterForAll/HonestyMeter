@@ -55,9 +55,15 @@ export default function Search({
         inputRef.current.blur();
     }
 
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        inputRef.current.blur();
+    }
+
     return (
         <FormControl
-            sx={STYLES.formControl(width, mobileWidth)}>
+            sx={STYLES.formControl(width, mobileWidth)}
+            onSubmit={handleSubmit}>
             <InputLabel htmlFor={id}>
                 {inputLabel}
             </InputLabel>
