@@ -51,5 +51,6 @@ const STYLES = {
         margin: theme.spacing(1, 0, 3),
         display: 'flex',
         alignItems: 'center',
+        color: theme.palette.primary.main,
     },
 }
