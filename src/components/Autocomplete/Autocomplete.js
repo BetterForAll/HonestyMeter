@@ -32,6 +32,7 @@ export default function AutoComplete({
     };
 
     const renderInputCb = getRenderInputCb(label, variant, inputRef);
+    const clearIconVisibility = Boolean(value) ? 'visible' : 'hidden !important'
 
     return (
         <Autocomplete
@@ -39,12 +40,12 @@ export default function AutoComplete({
             blurOnSelect
             id={`autocomplete-${label}`}
             options={list}
-            sx={STYLES.root}
+            sx={STYLES.root(clearIconVisibility)}
             onChange={onChange}
             onClose={handleClose}
             renderInput={renderInputCb}
             value={value}
-            clearIcon={<ClearIcon fontSize="small" onClick={handleClearClick} visibility={Boolean(value) ? 'visible' : 'hidden'} />}
+            clearIcon={<ClearIcon fontSize="small" onClick={handleClearClick} />}
         />
     );
 }
@@ -56,14 +57,18 @@ function getRenderInputCb(label, variant, inputRef) {
 }
 
 const STYLES = {
-    root: {
+    root: (visibility) => ({
         width: {
             xs: '100%', sm: 224,
-        },
-        marginBottom: { xs: theme.spacing(2), sm: 0 },
-        '&:first-child': {
-            marginTop: { xs: theme.spacing(1), sm: 0 },
+            '& .MuiAutocomplete-clearIndicator': {
+                visibility
+            }
         }
+    }),
+    marginBottom: { xs: theme.spacing(2), sm: 0 },
+    '&:first-child': {
+        marginTop: { xs: theme.spacing(1), sm: 0 },
     }
 }
+
 
