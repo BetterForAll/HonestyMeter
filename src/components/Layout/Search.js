@@ -112,8 +112,8 @@ const STYLES = {
         width: { xs: mobileWidth, sm: width },
         marginTop: 0,
         '& label': {
-            paddingTop: '3px',
             paddingLeft: 0,
+            top: '3px',
             left: '-15px'
         },
         '& svg': {

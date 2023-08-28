@@ -244,7 +244,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
 
     if (!currentParam) return;
 
-    router.query.country = EMPTY_STRING;
+    delete router.query.country
     router.push(router);
   }
 
@@ -254,7 +254,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
 
     if (!currentParam) return;
 
-    router.query.category = EMPTY_STRING;
+    delete router.query.category;
     router.push(router);
   }
 
@@ -264,7 +264,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
 
     if (!currentParam) return;
 
-    router.query.searchTerm = EMPTY_STRING;
+    delete router.query.searchTerm;
     router.push(router);
   }
 
@@ -358,6 +358,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
                   alignItems: 'center',
                   gap: { sx: theme.spacing(3), sm: theme.spacing(4) },
                   width: { xs: '100%', sm: 'auto' },
+                  marginBottom: { xs: theme.spacing(0.5), sm: 0 },
                 }}>
                   <AutoComplete
                     label="Category"

@@ -58,6 +58,7 @@ function getRenderInputCb(label, variant, inputRef) {
 
 const STYLES = {
     root: (visibility) => ({
+        marginBottom: { xs: theme.spacing(0.5), sm: 0 },
         width: {
             xs: '100%', sm: 224,
             '& .MuiAutocomplete-clearIndicator': {
