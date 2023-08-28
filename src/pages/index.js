@@ -338,16 +338,16 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
                   width: { xs: '100%', sm: 'auto' },
                 }}>
                   <AutoComplete
-                    label="Country"
-                    list={COUNTRIES.map(c => c.country)}
-                    onChange={handleCountryChange}
-                    value={country}
-                  />
-                  <AutoComplete
                     label="Category"
                     list={CATEGORIES}
                     onChange={handleCategoryChange}
                     value={category}
+                  />
+                  <AutoComplete
+                    label="Country"
+                    list={COUNTRIES.map(c => c.country)}
+                    onChange={handleCountryChange}
+                    value={country}
                   />
                 </Box>
               }
