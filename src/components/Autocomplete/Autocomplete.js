@@ -19,8 +19,15 @@ export default function AutoComplete({
         e.preventDefault();
         e.stopPropagation();
         onClearClick && onClearClick();
-        inputRef.current.blur();
     }
+
+    const handleClose = (_e, reason) => {
+        if (reason === 'clear') {
+            if (inputRef.current) {
+                inputRef.current.blur();
+            }
+        }
+    };
 
     const renderInputCb = getRenderInputCb(label, variant, inputRef);
 
@@ -32,6 +39,7 @@ export default function AutoComplete({
             options={list}
             sx={STYLES.root}
             onChange={onChange}
+            onClose={handleClose}
             renderInput={renderInputCb}
             value={value}
             clearIcon={<ClearIcon fontSize="small" onClick={handleClearClick} />}
