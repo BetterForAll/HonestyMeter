@@ -19,6 +19,7 @@ export default function AutoComplete({
         e.preventDefault();
         e.stopPropagation();
         onClearClick && onClearClick();
+        inputRef.current.blur();
     }
 
     const handleClose = (_e, reason) => {
