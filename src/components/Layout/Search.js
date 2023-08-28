@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { oneOf, string, func, bool, node } from 'prop-types';
 import theme from '@/theme';
 import { FormControl, IconButton, Input, InputAdornment, InputLabel, OutlinedInput } from '@mui/material'
@@ -38,14 +38,22 @@ export default function Search({
     mobileWidth = '100%',
 
 }) {
+    const inputRef = useRef(null);
+
+
+    const ShownInput = variant === 'text' ? Input : OutlinedInput;
+    const toggleVisibility = Boolean(value) ? 'visible' : 'hidden';
+
     const handleKeyDown = (event) => {
         if (event.key === KEYS.enter) {
             onClick();
         }
     }
 
-    const ShownInput = variant === 'text' ? Input : OutlinedInput;
-    const toggleVisibility = Boolean(value) ? 'visible' : 'hidden';
+    const handleSearchClick = () => {
+        onClick();
+        inputRef.current.blur();
+    }
 
     return (
         <FormControl
@@ -61,12 +69,13 @@ export default function Search({
                 sx={STYLES.input}
                 onKeyDown={handleKeyDown}
                 variant={variant}
+                ref={inputRef}
                 endAdornment={
                     <InputAdornment position={position}  >
                         <IconButton onClick={onClear} sx={STYLES.closeIcon(toggleVisibility)}>
                             <CloseIcon />
                         </IconButton>
-                        <IconButton onClick={onClick} sx={STYLES.mainIcon(iconVisibilityToggle, toggleVisibility)}>
+                        <IconButton onClick={handleSearchClick} sx={STYLES.mainIcon(iconVisibilityToggle, toggleVisibility)}>
                             <Icon />
                         </IconButton>
                     </InputAdornment>
