@@ -246,6 +246,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
     if (!currentParam) return;
 
     delete router.query.country
+    router.query.page = 1;
     router.push(router);
   }
 
@@ -256,6 +257,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
     if (!currentParam) return;
 
     delete router.query.category;
+    router.query.page = 1;
     router.push(router);
   }
 
@@ -266,6 +268,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
     if (!currentParam) return;
 
     delete router.query.searchTerm;
+    router.query.page = 1;
     router.push(router);
   }
 
