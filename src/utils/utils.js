@@ -121,8 +121,17 @@ export function cutTextIfExeedsMaxCharsCount(text, maxCharacterCount) {
 export function convertUTCDateToUserTimeZone(dateString) {
   if (!dateString) return EMPTY_STRING;
 
-  const isoString = dateString.replace(' ', 'T') + 'Z';
-  const date = new Date(isoString);
+  let date;
+
+  const isIsoString = dateString.includes('T') && dateString.endsWith('Z');
+
+  if (isIsoString) { //TODO: remove this if block after all dates are in ISO format
+    date = new Date(dateString);
+  } else {
+    // Assume it's in the old custom format "23-08-30 09:06:04"
+    const isoString = dateString.replace(' ', 'T') + 'Z';
+    date = new Date(isoString);
+  }
 
   return date.toLocaleString();
 }

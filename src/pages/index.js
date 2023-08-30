@@ -419,6 +419,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
             </Box>
           )}
 
+          {/*TODO: decide if we need the chips*/}
           {/* {
             <List sx={{
               display: 'flex',
