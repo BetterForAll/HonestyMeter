@@ -44,9 +44,8 @@ const TEXTS = {
   backButton: 'Back To People Index',
 };
 
-export default function PersonPage({ homePageProps, reports, page, isFirstPage, isLastPage }) {
+export default function PersonPage({ homePageProps, reports, page, name, isFirstPage, isLastPage }) {
   const router = useRouter();
-  const name = router.query.name || '';
   const isPaginationEnabled = !(isFirstPage && isLastPage);
   const isLoading = usePageLoadingFull();
   const {
@@ -162,7 +161,7 @@ export default function PersonPage({ homePageProps, reports, page, isFirstPage, 
           )}
           {isPaginationEnabled && (
             <Box sx={STYLES.paginationContainer}>
-              <Pagination {...{ page, isFirstPage, isLastPage }} isScrollUpIconShown />
+              <Pagination {...{ page, name, isFirstPage, isLastPage }} isScrollUpIconShown />
             </Box>
           )}
 
@@ -260,7 +259,7 @@ export async function getServerSideProps(context) {
 
     const date = new Date().toLocaleString();
 
-    return { props: { reports, page, isFirstPage, isLastPage, date } };
+    return { props: { reports, page, name, isFirstPage, isLastPage, date } };
   } catch (error) {
     console.log({ error });
   }

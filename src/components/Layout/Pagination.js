@@ -7,7 +7,7 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import EjectIcon from '@mui/icons-material/Eject';
 import { Box, Button } from '@mui/material';
 import Link from 'next/link';
-import { EVENT } from '@/constants/constants';
+import { EMPTY_STRING, EVENT } from '@/constants/constants';
 import { scrollToTop } from '@/utils/utils';
 
 const TEXTS = {
@@ -18,18 +18,15 @@ const TEXTS = {
 
 export default function Pagination({
   page,
+  name = EMPTY_STRING,
   isFirstPage,
   onClick,
   isLastPage,
   onChange,
   isScrollUpIconShown,
 }) {
-  const pageParams = {
-    prev: `?page=${parseInt(page) - 1}`,
-    next: `?page=${parseInt(page) + 1}`,
-    first: '?page=1',
 
-  }
+  const pageParams = getPageParams(name, page);
 
   const onStartClick = () => {
     va.track(EVENT.skipToFirstPageClicked, { page });
@@ -37,6 +34,7 @@ export default function Pagination({
   };
 
   const handlePageChange = (direction) => () => {
+    console.log({ page, direction })
     const event = EVENT.pageChanged(direction)
     va.track(event, { page });
     onChange && onChange();
@@ -67,6 +65,15 @@ export default function Pagination({
       }
     </Box>
   );
+}
+
+const getPageParams = (name, page) => {
+  const prefix = name ? `/people/${name}` : EMPTY_STRING;
+  return {
+    prev: `${prefix}?page=${parseInt(page) - 1}`,
+    next: `${prefix}?page=${parseInt(page) + 1}`,
+    first: `${prefix}?page=1`,
+  }
 }
 
 const STYLES = {
