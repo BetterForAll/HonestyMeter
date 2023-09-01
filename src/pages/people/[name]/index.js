@@ -44,10 +44,8 @@ const TEXTS = {
   backButton: 'Back To People Index',
 };
 
-export default function PersonPage({ homePageProps, reports, isLastPage }) {
+export default function PersonPage({ homePageProps, reports, page, isFirstPage, isLastPage }) {
   const router = useRouter();
-  const pageFromQuery = parseInt(router.query.page) || 1;
-  const isFirstPage = pageFromQuery === 1;
   const name = router.query.name || '';
   const isPaginationEnabled = !(isFirstPage && isLastPage);
   const isLoading = usePageLoadingFull();
@@ -89,14 +87,14 @@ export default function PersonPage({ homePageProps, reports, isLastPage }) {
   };
 
   useEffect(() => {
-    va.track(EVENT.personPageLoaded(name), { page: pageFromQuery });
-  }, [name, pageFromQuery]);
+    va.track(EVENT.personPageLoaded(name), { page });
+  }, [name, page]);
 
   return (
     <>
       {htmlHead}
       {
-        <Box sx={STYLES.container} key={reports}>
+        <Box sx={STYLES.container}>
           <Typography variant='h2' sx={STYLES.title}>
             {name}
           </Typography>
@@ -164,7 +162,7 @@ export default function PersonPage({ homePageProps, reports, isLastPage }) {
           )}
           {isPaginationEnabled && (
             <Box sx={STYLES.paginationContainer}>
-              <Pagination {...{ isFirstPage, isLastPage }} isScrollUpIconShown />
+              <Pagination {...{ page, isFirstPage, isLastPage }} isScrollUpIconShown />
             </Box>
           )}
 
@@ -252,6 +250,7 @@ export async function getServerSideProps(context) {
   const { req } = context;
   const host = req?.headers?.host;
   const { page = 1, name = '' } = context.query;
+  const isFirstPage = page == 1;
   const url = `http://${host}/${API_URL.SAVED_REPORT}?page=${page}&searchTerm=${name}`;
 
   try {
@@ -261,7 +260,7 @@ export async function getServerSideProps(context) {
 
     const date = new Date().toLocaleString();
 
-    return { props: { reports, isLastPage, date } };
+    return { props: { reports, page, isFirstPage, isLastPage, date } };
   } catch (error) {
     console.log({ error });
   }

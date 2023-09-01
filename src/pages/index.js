@@ -77,16 +77,14 @@ const TEXTS = {
 
 const COUNTIRES_LIST = COUNTRIES.map(c => c.country);
 
-export default function Home({ homePageProps, reports, isLastPage, date }) {
+export default function Home({ homePageProps, reports, page, isFirstPage, isLastPage, date }) {
   const router = useRouter();
-  const pageFromQuery = parseInt(router.query.page) || 1;
   const {
     searchTerm: searchFromQuery = EMPTY_STRING,
     category: categoryFromQuery = EMPTY_STRING,
     country: countryFromQuery = EMPTY_STRING
   } = router.query || {};
   const isQueryParams = Boolean(searchFromQuery || countryFromQuery || categoryFromQuery);
-  const isFirstPage = pageFromQuery === 1;
   const isOnlyOnePage = isFirstPage && isLastPage;
   const isPaginationEnabled = !isOnlyOnePage;
   const isLoading = usePageLoadingFull();
@@ -275,8 +273,8 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
   getSearchIconTooltipText(isSearchShown, isQueryParams)
 
   useEffect(() => {
-    va.track(EVENT.pageLoaded, { page: pageFromQuery });
-  }, [pageFromQuery]);
+    va.track(EVENT.pageLoaded, { page });
+  }, [page]);
 
   return (
     <>
@@ -450,7 +448,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
           </Typography>
 
           {isPaginationEnabled && !isFirstPage && (
-            <Pagination {...{ isFirstPage, isLastPage }} />
+            <Pagination {...{ page, isFirstPage, isLastPage }} />
           )}
           {isReportListEmpty ? (
             <Box sx={STYLES.noReportsContainer}>
@@ -467,7 +465,7 @@ export default function Home({ homePageProps, reports, isLastPage, date }) {
           )}
           {isPaginationEnabled && (
             <Box sx={STYLES.paginationContainerBottom}>
-              <Pagination {...{ isFirstPage, isLastPage }} isScrollUpIconShown />
+              <Pagination {...{ page, isFirstPage, isLastPage }} isScrollUpIconShown />
             </Box>
           )}
           {
@@ -534,6 +532,7 @@ export async function getServerSideProps(context) {
   const { req } = context;
   const host = req?.headers?.host;
   const { page = 1, searchTerm = '', country = '', category = '' } = context.query || {};
+  const isFirstPage = page == 1;
   const categoryParam = category ? `&category=${category}` : EMPTY_STRING;
   const countryParam = country ? `&country=${country}` : EMPTY_STRING;
   const searchTermParam = `&searchTerm=${searchTerm}`;
@@ -546,7 +545,7 @@ export async function getServerSideProps(context) {
 
     const date = new Date().toLocaleString();
 
-    return { props: { reports, isLastPage, date } };
+    return { props: { reports, page, isFirstPage, isLastPage, date } };
   } catch (error) {
     console.log({ error });
   }

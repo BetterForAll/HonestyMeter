@@ -1,86 +1,75 @@
 import React from 'react';
-const { useRouter } = require('next/router');
 import va from '@vercel/analytics';
-import { Box, Button } from '@mui/material';
 import theme from '@/theme';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import EjectIcon from '@mui/icons-material/Eject';
-import { EVENT, STEPS } from '@/constants/constants';
+import { Box, Button } from '@mui/material';
+import Link from 'next/link';
+
+import { EVENT } from '@/constants/constants';
 import { scrollToTop } from '@/utils/utils';
-import { Scale } from 'chart.js';
+
+const TEXTS = {
+  skipToFirstPage: 'Skip to First Page',
+  previousPage: 'Previous Page',
+  nextPage: 'Next Page',
+}
 
 export default function Pagination({
+  page,
   isFirstPage,
   onClick,
   isLastPage,
   onChange,
-  isScrollUpIconShown
+  isScrollUpIconShown,
 }) {
-  const router = useRouter();
-  const { page: pageFromQuery = 1 } = router.query || {};
+  const pageParams = {
+    prev: `?page=${parseInt(page) - 1}`,
+    next: `?page=${parseInt(page) + 1}`,
+    first: '?page=1',
+
+  }
 
   const onStartClick = () => {
-    va.track(EVENT.skipToFirstPageClicked, { page: pageFromQuery });
-
-    const currentQuery = router.query;
-
-    const newQuery = {
-      ...currentQuery,
-      page: 1,
-    };
-
-    router.push({
-      pathname: router.pathname,
-      query: newQuery,
-    });
-
+    va.track(EVENT.skipToFirstPageClicked, { page: page });
     onClick && onClick();
   };
 
-  const handlePageChange = (step) => () => {
-    const event =
-      step === STEPS.forward
-        ? EVENT.nextPageClicked
-        : EVENT.previousPageClicked;
-    va.track(event, { page: pageFromQuery });
-
-    const nextPage = parseInt(pageFromQuery) + step;
-    router.query.page = nextPage;
-    router.push(router);
-
-    console.log({
-      pageFromQuery,
-      nextPage,
-      router
-    })
-
+  const handlePageChange = () => {
+    va.track(EVENT.pageChanged, { page: page });
     onChange && onChange();
   };
 
   return (
-    <Box sx={REPORTS_STYLES.pagination}>
-      <Button disabled={isFirstPage} onClick={onStartClick}>
-        <SkipPreviousIcon fontSize='large' sx={REPORTS_STYLES.skipIcon} />
-      </Button>
-      <Button disabled={isFirstPage} onClick={handlePageChange(STEPS.back)}>
-        <ArrowLeftIcon fontSize='large' />
-      </Button>
-      <Button disabled={isLastPage} onClick={handlePageChange(STEPS.forward)}>
-        <ArrowRightIcon fontSize='large' />
-      </Button>
+    <Box sx={STYLES.pagination}>
+      <Link href={pageParams.first} aria-label={TEXTS.skipToFirstPage} rel="start">
+        <Button disabled={isFirstPage} onClick={onStartClick}>
+          <SkipPreviousIcon fontSize='large' sx={STYLES.skipIcon} />
+        </Button>
+      </Link>
+      <Link href={pageParams.prev} aria-label={TEXTS.previousPage} rel="prev">
+        <Button disabled={isFirstPage} onClick={handlePageChange}>
+          <ArrowLeftIcon fontSize='large' />
+        </Button>
+      </Link>
+      <Link href={pageParams.next} aria-label={TEXTS.nextPage} rel="next">
+        <Button disabled={isLastPage} onClick={handlePageChange}>
+          <ArrowRightIcon fontSize='large' />
+        </Button>
+      </Link>
       {
         isScrollUpIconShown &&
         <Button onClick={scrollToTop}>
-          <EjectIcon fontSize='large' sx={{ transform: 'scale(0.60)' }} />
+          <EjectIcon fontSize='large' sx={STYLES.ejectIcon} />
         </Button>
       }
     </Box>
   );
 }
 
-const REPORTS_STYLES = {
+const STYLES = {
   pagination: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -90,4 +79,7 @@ const REPORTS_STYLES = {
   skipIcon: {
     transform: 'scale(0.75)',
   },
+  ejectIcon: {
+    transform: 'scale(0.60)'
+  }
 };
