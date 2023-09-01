@@ -7,7 +7,6 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import EjectIcon from '@mui/icons-material/Eject';
 import { Box, Button } from '@mui/material';
 import Link from 'next/link';
-
 import { EVENT } from '@/constants/constants';
 import { scrollToTop } from '@/utils/utils';
 
@@ -33,12 +32,13 @@ export default function Pagination({
   }
 
   const onStartClick = () => {
-    va.track(EVENT.skipToFirstPageClicked, { page: page });
+    va.track(EVENT.skipToFirstPageClicked, { page });
     onClick && onClick();
   };
 
-  const handlePageChange = () => {
-    va.track(EVENT.pageChanged, { page: page });
+  const handlePageChange = (direction) => () => {
+    const event = EVENT.pageChanged(direction)
+    va.track(event, { page });
     onChange && onChange();
   };
 
@@ -50,12 +50,12 @@ export default function Pagination({
         </Button>
       </Link>
       <Link href={pageParams.prev} aria-label={TEXTS.previousPage} rel="prev">
-        <Button disabled={isFirstPage} onClick={handlePageChange}>
+        <Button disabled={isFirstPage} onClick={handlePageChange(TEXTS.nextPage)}>
           <ArrowLeftIcon fontSize='large' />
         </Button>
       </Link>
       <Link href={pageParams.next} aria-label={TEXTS.nextPage} rel="next">
-        <Button disabled={isLastPage} onClick={handlePageChange}>
+        <Button disabled={isLastPage} onClick={handlePageChange(TEXTS.previousPage)}>
           <ArrowRightIcon fontSize='large' />
         </Button>
       </Link>

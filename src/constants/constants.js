@@ -46,6 +46,7 @@ export const EVENT = {
   closeReportClicked: 'Close Report Clicked',
   nextPageClicked: 'Next Page Clicked',
   previousPageClicked: 'Previous Page Clicked',
+  pageChanged: (direction) => `${direction} Clicked}`,
   skipToFirstPageClicked: 'Skip To First Page Clicked',
   articleLinkClicked: 'Article Link Clicked',
   reportViewed: 'Report Viewed',
