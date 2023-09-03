@@ -12,8 +12,7 @@ import {
   Typography,
 } from '@mui/material';
 import { EMPTY_FUNCTION, capitalizeFirstLetterOfEachWord } from '../../utils/utils';
-import { BASE_URL, EMPTY_STRING, EVENT } from '@/constants/constants';
-import PEOPLE from '@/data/people';
+import { API_URL, BASE_URL, EMPTY_STRING, EVENT } from '@/constants/constants';
 import Search from '@/components/Layout/Search';
 
 const LOGO_URL = './favicon.png';
@@ -55,24 +54,24 @@ const TEXTS = {
   searchName: 'Search Name',
 };
 
-export default function PeoplePage() {
+export default function PeoplePage({ people: peopleFromDb }) {
   const router = useRouter();
   const pageFromQuery = parseInt(router.query.page) || 1;
   const personFromQuery = router.query.person || '';
-  const [people, setPeople] = useState(PEOPLE);
+  const [peopleLocal, setPeopleLocal] = useState(peopleFromDb);
   const [searchValue, setSearchValue] = useState('');
-  const isPeopleListEmpty = people.length === 0;
-  const isSearchValueEmpty = searchValue.trim() === '';
+  const isPeopleListEmpty = peopleLocal.length === 0;
+  const peopleNames = peopleLocal.map((person) => person.name);
 
   const handleLocalSearch = (e) => {
     const searchValueRes = e.target.value;
     setSearchValue(searchValueRes);
 
-    const filteredPeople = PEOPLE.filter((person) =>
-      person.toLowerCase().includes(searchValueRes.toLowerCase().trim())
+    const filteredPeople = peopleLocal?.filter((person) =>
+      person.name.toLowerCase().includes(searchValueRes.toLowerCase().trim())
     );
 
-    setPeople(filteredPeople);
+    setPeopleLocal(filteredPeople);
   };
 
   const handleSearchClick = () => {
@@ -93,7 +92,7 @@ export default function PeoplePage() {
 
   const clearSearch = () => {
     setSearchValue(EMPTY_STRING);
-    setPeople(PEOPLE);
+    setPeopleLocal(peopleFromDb);
   }
 
   useEffect(() => {
@@ -126,7 +125,7 @@ export default function PeoplePage() {
             </Typography>
           }
           <People
-            people={people}
+            people={peopleNames}
             selectedPerson={personFromQuery}
             onClick={handlePersonClick}
           />
@@ -196,6 +195,17 @@ const HtmlHead = (
     <link rel='canonical' href={BASE_URL + '/people'} />
   </Head>
 );
+
+export async function getServerSideProps(context) {
+  const { req } = context;
+  const host = req?.headers?.host
+  const url = `http://${host}/${API_URL.PEOPLE}`;
+  const res = await fetch(url);
+  const people = await res.json();
+
+  return { props: { people } };
+}
+
 
 const STYLES = {
   container: {

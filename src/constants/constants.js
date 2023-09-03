@@ -59,6 +59,7 @@ export const EVENT = {
 export const API_URL = {
   GENERATE_REPORT: './api/report',
   SAVED_REPORT: './api/saved_report',
+  PEOPLE: './api/people',
 };
 
 export const STEPS = {
