@@ -81,9 +81,7 @@ export default function PersonPage({ homePageProps, reports, page, name, isFirst
     }, 0);
   };
 
-  const handleBack = () => {
-    router.push('/people');
-  };
+
 
   useEffect(() => {
     va.track(EVENT.personPageLoaded(name), { page });
@@ -106,7 +104,7 @@ export default function PersonPage({ homePageProps, reports, page, name, isFirst
             </Typography>
           )}
           {
-            <BackButton text={TEXTS.backButton} onClick={handleBack} />
+            <BackButton text={TEXTS.backButton} goTo='/people' />
           }
           <Box sx={{ marginBottom: 2 }}>
             <CreateReportButton
@@ -204,7 +202,7 @@ export default function PersonPage({ homePageProps, reports, page, name, isFirst
           )}
           {
             shouldShowBottomControls && (
-              <BackButton text={TEXTS.backButton} onClick={handleBack} />
+              <BackButton text={TEXTS.backButton} goTo='/people' />
             )
           }
 
