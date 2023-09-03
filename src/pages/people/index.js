@@ -61,14 +61,14 @@ export default function PeoplePage({ people: peopleFromDb }) {
   const [peopleLocal, setPeopleLocal] = useState(peopleFromDb);
   const [searchValue, setSearchValue] = useState('');
   const isPeopleListEmpty = peopleLocal.length === 0;
-  const peopleNames = peopleLocal.map((person) => person.name);
 
   const handleLocalSearch = (e) => {
     const searchValueRes = e.target.value;
+    console.log({ searchValueRes })
     setSearchValue(searchValueRes);
 
-    const filteredPeople = peopleLocal?.filter((person) =>
-      person.name.toLowerCase().includes(searchValueRes.toLowerCase().trim())
+    const filteredPeople = peopleFromDb.filter((person) =>
+      person.toLowerCase().includes(searchValueRes.toLowerCase().trim())
     );
 
     setPeopleLocal(filteredPeople);
@@ -125,7 +125,7 @@ export default function PeoplePage({ people: peopleFromDb }) {
             </Typography>
           }
           <People
-            people={peopleNames}
+            people={peopleLocal}
             selectedPerson={personFromQuery}
             onClick={handlePersonClick}
           />
@@ -202,8 +202,9 @@ export async function getServerSideProps(context) {
   const url = `http://${host}/${API_URL.PEOPLE}`;
   const res = await fetch(url);
   const people = await res.json();
+  const peopleNames = people.map((person) => person.name);
 
-  return { props: { people } };
+  return { props: { people: peopleNames } };
 }
 
 

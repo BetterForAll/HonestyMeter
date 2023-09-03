@@ -12,7 +12,10 @@ export default async function handler(req, res) {
         if (req.method === 'GET') {
             const reportedPeople = await db
                 .collection(PEOPLE_COLLECTION_NAME)
-                .find({ reportCount: { $gt: 0 } })
+                .find(
+                    { reportCount: { $gt: 0 } },
+                    { projection: { name: 1, _id: 0 } }
+                )
                 .sort({ reportCount: -1 })
                 .toArray();
 
