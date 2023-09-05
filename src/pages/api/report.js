@@ -25,7 +25,21 @@ export default async function handler(req, res) {
     }
 
     const { text } = req.body;
-    const { textForAnalysis, articleTitle = '', articleDate = '', articleLink = '' } = await getTextForAnalysis(text) || {};
+    const isUrl = checkIsUrl(text);
+
+    let { textForAnalysis = text, articleTitle = '', articleDate = '', articleLink = '' } = {};
+
+    if (isUrl) {
+      const formattedUrl = formatUrl(text);
+      const existingReport = await db.collection(collectionName).findOne({ articleLink: formattedUrl });
+
+      if (existingReport?._id) {
+        return res.status(STATUS_CODE.OK).json({ reportId: existingReport._id });
+      }
+
+      ({ textForAnalysis, articleTitle = '', articleDate = '', articleLink = '' } = await getTextForAnalysisByUrl(text) || {});
+    }
+
 
     const responseText = await getOpenAiResponse(
       textForAnalysis,
@@ -47,12 +61,8 @@ export default async function handler(req, res) {
   }
 }
 
-async function getTextForAnalysis(text) {
-  const isUrl = checkIsUrl(text);
-
-  if (!isUrl) return ({ textForAnalysis: text });
-
-  const formattedUrl = formatUrl(text);
+async function getTextForAnalysisByUrl(url) {
+  const formattedUrl = formatUrl(url);
   const extractTextReponse = await fetch(`${EXTRACT_API_URL}${formattedUrl}`);
   const { title: articleTitle, text: articleText, url: articleLink, publish_date: articleDate } = await extractTextReponse.json() || {};
   const textForAnalysis = `TITLE: ${articleTitle} TEXT: ${articleText}`;
