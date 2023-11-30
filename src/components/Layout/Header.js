@@ -3,6 +3,7 @@ import Image from 'next/image';
 import logo from '../../../public/logo.png';
 import theme from '@/theme';
 import { Box } from '@mui/material';
+import Link from 'next/link';
 
 const TEXTS = {
   imageAlt: 'Honesty Meter Logo',
@@ -14,6 +15,7 @@ export default function Header() {
       components="header"
       style={STYLES.container}
     >
+      <Link href="/">
         <Box style={STYLES.imageContainer}>
           <Image
             src={logo}
@@ -21,7 +23,7 @@ export default function Header() {
             style={STYLES.image}
           />
         </Box>
-
+      </Link>
     </Box>
   );
 }
