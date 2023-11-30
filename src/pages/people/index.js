@@ -46,7 +46,7 @@ const TEXTS = {
     medium: 'Medium',
     high: 'High',
   },
-  articleTextExtracted: 'text extrasction by url powered by',
+  articleTextExtracted: 'text extraction by url powered by',
   worldNewsApi: 'world news api',
   people: 'People',
   noMatchesFound: 'No matches found',

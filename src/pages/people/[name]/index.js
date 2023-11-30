@@ -39,7 +39,7 @@ const TEXTS = {
     'HonestyMeter - Check media content for objectivity and bias.',
   shareHashTags: ['HonestyMeter', 'MediaBias', 'FakeNews'],
   noReportsYet: 'No reports yet',
-  articleTextExtracted: 'text extrasction by url powered by',
+  articleTextExtracted: 'text extraction by url powered by',
   worldNewsApi: 'world news api',
   backButton: 'Back To People Index',
 };
