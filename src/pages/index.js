@@ -340,7 +340,7 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
             </Box>
           </Box>
           {
-            (isSearchShown) &&
+            isSearchShown &&
             <Box sx={{
               display: { xs: 'flex', sm: 'flex' },
               flexWrap: 'wrap',
@@ -351,46 +351,38 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
               margin: theme.spacing(0, 0, 2, 0),
               flexDirection: { xs: 'column', sm: 'row' }
             }}>
-
-              {isSearchShown &&
-                <Box sx={{
-                  display: { xs: 'flex', sm: 'flex' },
-                  flexWrap: 'wrap',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  gap: { sx: theme.spacing(3), sm: theme.spacing(4) },
-                  width: { xs: '100%', sm: 'auto' },
-                  marginBottom: { xs: theme.spacing(0.5), sm: 0 },
-                }}>
-                  <AutoComplete
-                    label="Category"
-                    list={CATEGORIES}
-                    onChange={handleCategoryChange}
-                    value={category}
-                    onClearClick={clearCategoryField}
-                  />
-                  <AutoComplete
-                    label="Country"
-                    list={COUNTIRES_LIST}
-                    onChange={handleCountryChange}
-                    value={country}
-                    onClearClick={clearCountryField}
-                  />
-                </Box>
-              }
-              {
-                isSearchShown &&
-                <>
-                  <Search
-                    id={SEARCH_FIELD_ID}
-                    onClick={handleSearchClick}
-                    onChange={handleSearchFieldChange}
-                    value={searchValue}
-                    variant='text'
-                    onClear={clearSearchField}
-                  />
-                </>
-              }
+              <Box sx={{
+                display: { xs: 'flex', sm: 'flex' },
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: { sx: theme.spacing(3), sm: theme.spacing(4) },
+                width: { xs: '100%', sm: 'auto' },
+                marginBottom: { xs: theme.spacing(0.5), sm: 0 },
+              }}>
+                <AutoComplete
+                  label="Category"
+                  list={CATEGORIES}
+                  onChange={handleCategoryChange}
+                  value={category}
+                  onClearClick={clearCategoryField}
+                />
+                <AutoComplete
+                  label="Country"
+                  list={COUNTIRES_LIST}
+                  onChange={handleCountryChange}
+                  value={country}
+                  onClearClick={clearCountryField}
+                />
+              </Box>
+              <Search
+                id={SEARCH_FIELD_ID}
+                onClick={handleSearchClick}
+                onChange={handleSearchFieldChange}
+                value={searchValue}
+                variant='text'
+                onClear={clearSearchField}
+              />
             </Box>
           }
 
