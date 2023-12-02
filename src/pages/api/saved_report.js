@@ -72,7 +72,8 @@ async function getReportsPage(req, db) {
 function getQueryConditions({
   category = EMPTY_STRING,
   country = EMPTY_STRING,
-  searchTerm = EMPTY_STRING } = {}) {
+  searchTerm = EMPTY_STRING
+} = {}) {
 
   const alwaysTrueConditions = {
     $or: [
