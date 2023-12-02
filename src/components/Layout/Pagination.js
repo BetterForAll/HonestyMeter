@@ -34,7 +34,6 @@ export default function Pagination({
   };
 
   const handlePageChange = (direction) => () => {
-    console.log({ page, direction })
     const event = EVENT.pageChanged(direction)
     va.track(event, { page });
     onChange && onChange();

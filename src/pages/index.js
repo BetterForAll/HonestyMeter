@@ -198,17 +198,10 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
       delete router.query[type];
     }
 
-    router.query.page = 1;
+    delete router.query.page;
     router.push(router);
   }
 
-  const handleChipDelete = (type) => () => {
-    //TODO: Decide if we want to use Chips. If we do - activate, move to a separate component
-    setFilterStateMethods[type](EMPTY_STRING);
-    delete router.query[type]
-    router.query.page = 1;
-    router.push(router);
-  }
 
   useEffect(() => {
     va.track(EVENT.pageLoaded, { page });
@@ -360,15 +353,15 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
             }}>
               {
                 categoryFromQuery &&
-                <Chip onDelete={handleChipDelete(FILTER_PARAMS.category)} label={`Category: ${categoryFromQuery}`} />
+                <Chip onDelete={hanldeFilterChange(FILTER_PARAMS.category)} label={`Category: ${categoryFromQuery}`} />
               }
               {
                 countryFromQuery &&
-                <Chip onDelete={handleChipDelete(FILTER_PARAMS.country)} label={`Country: ${countryFromQuery}`} />
+                <Chip onDelete={hanldeFilterChange(FILTER_PARAMS.country)} label={`Country: ${countryFromQuery}`} />
               }
               {
                 (searchFromQuery) &&
-                <Chip onDelete={handleChipDelete(FILTER_PARAMS.searchTerm)} label={`Search Term: ${searchFromQuery}`} />
+                <Chip onDelete={hanldeFilterChange(FILTER_PARAMS.searchTerm)} label={`Search Term: ${searchFromQuery}`} />
               }
             </List>
           } */}
