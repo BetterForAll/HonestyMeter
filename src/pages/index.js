@@ -102,21 +102,20 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
     isUrlProvidedAsInput,
   } = homePageProps;
   const [isArticleInputShown, setIsArticleInputShown] = useState(false);
-  const [searchValue, setSearchValue] = useState(EMPTY_STRING);
   const [isSearchShown, setIsSearchShown] = useState(false);
   const [isFilterShown, setIsFilterShown] = useState(false);
+  const [searchValue, setSearchValue] = useState(EMPTY_STRING);
   const [category, setCategory] = useState(EMPTY_STRING);
   const [country, setCountry] = useState(EMPTY_STRING);
-  const isMobile = useIsMobileClient();
-  const isReportListEmpty = reports.length === 0;
-  const shouldShowBottomCTA = reports.length > MINIMUM_CARDS_COUNT_TO_SHOW_BOTTOM_CTA || !isReportListEmpty && isMobile;
-  const searchIconTooltip = getSearchIconTooltipText(isSearchShown, isQueryParams);
-
   const setFilterStateMethods = {
     [FILTER_PARAMS.category]: setCategory,
     [FILTER_PARAMS.country]: setCountry,
     [FILTER_PARAMS.searchTerm]: setSearchValue,
   };
+  const isMobile = useIsMobileClient();
+  const isReportListEmpty = reports.length === 0;
+  const shouldShowBottomCTA = reports.length > MINIMUM_CARDS_COUNT_TO_SHOW_BOTTOM_CTA || !isReportListEmpty && isMobile;
+  const searchIconTooltip = getSearchIconTooltipText(isSearchShown, isQueryParams);
 
   const onCardClick = (reportUrl) => () => {
     va.track(EVENT.reportCardClicked, { reportUrl });
