@@ -204,24 +204,11 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
 
   const handleChipDelete = (type) => () => {
     //TODO: Decide if we want to use Chips. If we do - activate, move to a separate component
-    router.query.page = 1;
-    delete router.query[type]
     setFilterStateMethods[type](EMPTY_STRING);
-    router.push(router);
-  }
-
-  const clearFilterField = (type) => () => {
-    const currentParam = router.query[type];
-    setFilterStateMethods[type](EMPTY_STRING);
-
-    if (!currentParam) return;
-
     delete router.query[type]
     router.query.page = 1;
     router.push(router);
   }
-
-  getSearchIconTooltipText(isSearchShown, isQueryParams)
 
   useEffect(() => {
     va.track(EVENT.pageLoaded, { page });
@@ -316,14 +303,14 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
                   list={CATEGORIES}
                   onChange={hanldeFilterChange(FILTER_PARAMS.category)}
                   value={category}
-                  onClearClick={clearFilterField(FILTER_PARAMS.category)}
+                  onClearClick={hanldeFilterChange(FILTER_PARAMS.category)}
                 />
                 <AutoComplete
                   label="Country"
                   list={COUNTIRES_LIST}
                   onChange={hanldeFilterChange(FILTER_PARAMS.country)}
                   value={country}
-                  onClearClick={clearFilterField(FILTER_PARAMS.country)}
+                  onClearClick={hanldeFilterChange(FILTER_PARAMS.country)}
                 />
               </Box>
               <Search
@@ -332,7 +319,7 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
                 onChange={handleSearchFieldChange}
                 value={searchValue}
                 variant='text'
-                onClear={clearFilterField(FILTER_PARAMS.searchTerm)}
+                onClear={hanldeFilterChange(FILTER_PARAMS.searchTerm)}
               />
             </Box>
           }
