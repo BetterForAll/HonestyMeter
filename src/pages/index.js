@@ -77,12 +77,18 @@ const TEXTS = {
 
 const COUNTIRES_LIST = COUNTRIES.map(c => c.country);
 
+const FILTER_PARAMS = {
+  searchTerm: 'searchTerm',
+  country: 'country',
+  category: 'category',
+}
+
 export default function Home({ homePageProps, reports, page, isFirstPage, isLastPage, date }) {
   const router = useRouter();
   const {
-    searchTerm: searchFromQuery = EMPTY_STRING,
-    category: categoryFromQuery = EMPTY_STRING,
-    country: countryFromQuery = EMPTY_STRING
+    [FILTER_PARAMS.searchTerm]: searchFromQuery = EMPTY_STRING,
+    [FILTER_PARAMS.category]: categoryFromQuery = EMPTY_STRING,
+    [FILTER_PARAMS.country]: countryFromQuery = EMPTY_STRING
   } = router.query || {};
   const isQueryParams = Boolean(searchFromQuery || countryFromQuery || categoryFromQuery);
   const isOnlyOnePage = isFirstPage && isLastPage;
@@ -105,6 +111,12 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
   const isReportListEmpty = reports.length === 0;
   const shouldShowBottomCTA = reports.length > MINIMUM_CARDS_COUNT_TO_SHOW_BOTTOM_CTA || !isReportListEmpty && isMobile;
   const searchIconTooltip = getSearchIconTooltipText(isSearchShown, isQueryParams);
+
+  const setFilterStateMethods = {
+    [FILTER_PARAMS.category]: setCategory,
+    [FILTER_PARAMS.country]: setCountry,
+    [FILTER_PARAMS.searchTerm]: setSearchValue,
+  };
 
   const onCardClick = (reportUrl) => () => {
     va.track(EVENT.reportCardClicked, { reportUrl });
@@ -178,94 +190,34 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
     setIsFilterShown(!isFilterShown);
   }
 
-  const handleCountryChange = (_e, newValue = EMPTY_STRING) => {
-    setCountry(newValue);
+  const hanldeFilterChange = (type) => (_e, newValue = EMPTY_STRING) => {
+    setFilterStateMethods[type](newValue);
 
     if (newValue) {
-      router.query.country = newValue;
+      router.query[type] = newValue;
     } else {
-      delete router.query.country;
+      delete router.query[type];
     }
 
     router.query.page = 1;
     router.push(router);
   }
-
-  const handleCategoryChange = (_e, newValue = EMPTY_STRING) => {
-    setCategory(newValue);
-
-    if (newValue) {
-      router.query.category = newValue;
-    } else {
-      delete router.query.category;
-    }
-
-    router.query.page = 1;
-    router.push(router);
-  }
-
-  const getNotFoundText = () => {
-    const contryPart = countryFromQuery ? `in "${countryFromQuery}"` : EMPTY_STRING;
-    const categoryPart = categoryFromQuery ? `in "${categoryFromQuery}" category` : EMPTY_STRING;
-    const searchPart = searchFromQuery ? `for "${searchFromQuery}"` : EMPTY_STRING;
-    const isFilterOn = Boolean(countryFromQuery || categoryFromQuery);
-    const advicePrefix = 'Try to search without'
-    const advicePartOne = countryFromQuery ? 'Country' : '';
-    const advicePartTwo = categoryFromQuery ? countryFromQuery ? 'or category' : 'category' : '';
-    const adviceSufix = 'filters';
-    const advice = `${advicePrefix} ${advicePartOne} ${advicePartTwo} ${adviceSufix}`;
-
-    return `${TEXTS.noReportsFound} ${searchPart} ${contryPart} ${categoryPart}. \n ${isFilterOn ? advice : ''}`;
-  }
-
 
   const handleChipDelete = (type) => () => {
-    //TODO: Decide if we want to use Chips. Activate if we do, move to a separate component
+    //TODO: Decide if we want to use Chips. If we do - activate, move to a separate component
     router.query.page = 1;
-    if (type === 'country') {
-      delete router.query.country
-      setCountry(EMPTY_STRING);
-      router.push(router);
-    } else if (type === 'category') {
-      delete router.query.category
-      setCategory(EMPTY_STRING);
-      router.push(router);
-    } else {
-      delete router.query.searchTerm
-      setSearchValue(EMPTY_STRING);
-      router.push(router);
-    }
-  }
-
-  const clearCountryField = (e) => {
-    const currentParam = router.query.country;
-    setCountry(EMPTY_STRING);
-
-    if (!currentParam) return;
-
-    delete router.query.country
-    router.query.page = 1;
+    delete router.query[type]
+    setFilterStateMethods[type](EMPTY_STRING);
     router.push(router);
   }
 
-  const clearCategoryField = (e) => {
-    const currentParam = router.query.category;
-    setCategory(EMPTY_STRING);
+  const clearFilterField = (type) => () => {
+    const currentParam = router.query[type];
+    setFilterStateMethods[type](EMPTY_STRING);
 
     if (!currentParam) return;
 
-    delete router.query.category;
-    router.query.page = 1;
-    router.push(router);
-  }
-
-  const clearSearchField = (e) => {
-    const currentParam = router.query.searchTerm;
-    setSearchValue(EMPTY_STRING);
-
-    if (!currentParam) return;
-
-    delete router.query.searchTerm;
+    delete router.query[type]
     router.query.page = 1;
     router.push(router);
   }
@@ -363,16 +315,16 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
                 <AutoComplete
                   label="Category"
                   list={CATEGORIES}
-                  onChange={handleCategoryChange}
+                  onChange={hanldeFilterChange(FILTER_PARAMS.category)}
                   value={category}
-                  onClearClick={clearCategoryField}
+                  onClearClick={clearFilterField(FILTER_PARAMS.category)}
                 />
                 <AutoComplete
                   label="Country"
                   list={COUNTIRES_LIST}
-                  onChange={handleCountryChange}
+                  onChange={hanldeFilterChange(FILTER_PARAMS.country)}
                   value={country}
-                  onClearClick={clearCountryField}
+                  onClearClick={clearFilterField(FILTER_PARAMS.country)}
                 />
               </Box>
               <Search
@@ -381,7 +333,7 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
                 onChange={handleSearchFieldChange}
                 value={searchValue}
                 variant='text'
-                onClear={clearSearchField}
+                onClear={clearFilterField(FILTER_PARAMS.searchTerm)}
               />
             </Box>
           }
@@ -422,15 +374,15 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
             }}>
               {
                 categoryFromQuery &&
-                <Chip onDelete={handleChipDelete('category')} label={`Category: ${categoryFromQuery}`} />
+                <Chip onDelete={handleChipDelete(FILTER_PARAMS.category)} label={`Category: ${categoryFromQuery}`} />
               }
               {
                 countryFromQuery &&
-                <Chip onDelete={handleChipDelete('country')} label={`Country: ${countryFromQuery}`} />
+                <Chip onDelete={handleChipDelete(FILTER_PARAMS.country)} label={`Country: ${countryFromQuery}`} />
               }
               {
                 (searchFromQuery) &&
-                <Chip onDelete={handleChipDelete('searchTerm')} label={`Search Term: ${searchFromQuery}`} />
+                <Chip onDelete={handleChipDelete(FILTER_PARAMS.searchTerm)} label={`Search Term: ${searchFromQuery}`} />
               }
             </List>
           } */}
@@ -518,6 +470,20 @@ function getSearchIconTooltipText(isSearchShown, isQueryParams) {
   }
 
   return tooltipText;
+}
+
+function getNotFoundText(countryFromQuery, categoryFromQuery, searchFromQuery) {
+  const contryPart = countryFromQuery ? `in "${countryFromQuery}"` : EMPTY_STRING;
+  const categoryPart = categoryFromQuery ? `in "${categoryFromQuery}" category` : EMPTY_STRING;
+  const searchPart = searchFromQuery ? `for "${searchFromQuery}"` : EMPTY_STRING;
+  const isFilterOn = Boolean(countryFromQuery || categoryFromQuery);
+  const advicePrefix = 'Try to search without'
+  const advicePartOne = countryFromQuery ? 'Country' : '';
+  const advicePartTwo = categoryFromQuery ? countryFromQuery ? 'or category' : 'category' : '';
+  const adviceSufix = 'filters';
+  const advice = `${advicePrefix} ${advicePartOne} ${advicePartTwo} ${adviceSufix}`;
+
+  return `${TEXTS.noReportsFound} ${searchPart} ${contryPart} ${categoryPart}. \n ${isFilterOn ? advice : ''}`;
 }
 
 export async function getServerSideProps(context) {
