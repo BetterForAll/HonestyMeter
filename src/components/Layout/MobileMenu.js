@@ -16,11 +16,11 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import { EMPTY_STRING, GITHUB_URL, PAGE_LABELS } from "@/constants/constants";
 import theme from "@/theme";
 import { EMAIL_ADDRESS } from "@/constants/constants";
-import { openEmail } from "@/utils/utils";
 import { useRouter } from "next/router";
 import { func, arrayOf, string } from "prop-types";
 import { Tooltip } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
+import Link from "next/link";
 
 const MAIL_TO_PREFIX = "mailto:";
 const MAIL_TO = MAIL_TO_PREFIX + EMAIL_ADDRESS;
@@ -59,24 +59,9 @@ export default function MobileMenu({
   };
 
   const onMenuItemClick = (index) => () => {
-    const isContactIconClicked = index === 4;
-    const isGitHubIconClicked = index === 5;
-
-    if (isContactIconClicked) {
-      openEmail(MAIL_TO);
-      return;
-    }
-
-    if (isGitHubIconClicked) {
-      window.open(GITHUB_URL, "_blank");
-      return;
-    }
-
     if (index === 0) closeReport();
 
     setCurrentPage(index);
-    const url = pageRoutes[index];
-    router.push(url);
   };
 
   const menuItemsList = (anchor) => (
@@ -90,18 +75,21 @@ export default function MobileMenu({
           const Icon = MENU_ICONS[index];
           const isContactIcon = index === 3;
           const tooltipTitle = isContactIcon ? EMAIL_ADDRESS : EMPTY_STRING;
+          const { link, target } = getLinkData(index, pageRoutes);
 
           return (
-            <Tooltip title={tooltipTitle} key={text} placement="top-start">
-              <ListItem disablePadding>
-                <ListItemButton onClick={onMenuItemClick(index)}>
-                  <ListItemIcon>
-                    <Icon />
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            </Tooltip>
+            <ListItem disablePadding key={text}>
+              <Tooltip title={tooltipTitle} placement="top-start">
+                <Link href={link} target={target} style={{ color: 'inherit', width: '100%' }}>
+                  <ListItemButton onClick={onMenuItemClick(index)}>
+                    <ListItemIcon>
+                      <Icon />
+                    </ListItemIcon>
+                    <ListItemText primary={text} />
+                  </ListItemButton>
+                </Link>
+              </Tooltip>
+            </ListItem>
           );
         })}
       </List>
@@ -142,3 +130,23 @@ const STYLES = {
     padding: theme.spacing(0, 2, 2, 0),
   },
 };
+
+
+function getLinkData(index, pageRoutes) {
+  const isContact = index === 4;
+  const isGitHub = index === 5;
+  let link = EMPTY_STRING;
+  let target = EMPTY_STRING;
+
+  if (isContact) {
+    link = MAIL_TO;
+  } else if (isGitHub) {
+    link = GITHUB_URL;
+    target = "_blank";
+  } else {
+    link = '../' + pageRoutes[index];
+  }
+
+  return { link, target };
+}
+
