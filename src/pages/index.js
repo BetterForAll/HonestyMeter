@@ -119,8 +119,6 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
 
   const onCardClick = (reportUrl) => () => {
     va.track(EVENT.reportCardClicked, { reportUrl });
-
-    router.push(reportUrl);
   };
 
   const toggleArticleInput = (isTop) => () => {

@@ -62,8 +62,6 @@ export default function PersonPage({ homePageProps, reports, page, name, isFirst
 
   const onCardClick = (reportUrl) => () => {
     va.track(EVENT.reportCardClicked, { reportUrl });
-
-    router.push(reportUrl);
   };
 
   const toggleArticleInput = (isTop) => () => {

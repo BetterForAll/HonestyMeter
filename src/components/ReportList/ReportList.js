@@ -21,6 +21,7 @@ import { string, number, bool, arrayOf, func } from 'prop-types';
 import reportPropType from '../Report/reportPropTypes';
 import useIsTextLinesOverFlow from '@/hooks/useIsTextLinesOverflow';
 import { EMPTY_STRING } from '@/constants/constants';
+import Link from 'next/link';
 
 //TODO: consider moving components to separate files
 
@@ -115,21 +116,23 @@ function ReportListItem({
   return (
     <ListItem
       sx={REPORT_LIST_ITEM_STYLES.listItem}
-      onClick={onCardClick(reportUrl)}
       key={report._id}
     >
       {isLoading ? (
         <ReportCardSkeleton />
       ) : (
-        <ReportCard
-          {...{
-            articleTitle,
-            source,
-            articleDateInUserTimeZone,
-            randomImageUrl,
-            objectivityScore: report.score,
-          }}
-        />
+        <Link href={reportUrl} onClick={onCardClick(reportUrl)}
+        >
+          <ReportCard
+            {...{
+              articleTitle,
+              source,
+              articleDateInUserTimeZone,
+              randomImageUrl,
+              objectivityScore: report.score,
+            }}
+          />
+        </Link>
       )}
     </ListItem>
   );
@@ -162,7 +165,6 @@ function ReportCard({
 }) {
   const { color, content } = getScoreStyle(objectivityScore);
   const articleTitleRef = useRef({ current: null });
-  const urlRef = useRef({ current: null });
   const isTitleTextOverflow = useIsTextLinesOverFlow(articleTitleRef);
   const tooltipTitle = isTitleTextOverflow ? articleTitle : '';
 
