@@ -14,6 +14,7 @@ import {
 import { EMPTY_FUNCTION, capitalizeFirstLetterOfEachWord } from '../../utils/utils';
 import { API_URL, BASE_URL, EMPTY_STRING, EVENT } from '@/constants/constants';
 import Search from '@/components/Layout/Search';
+import Link from 'next/link';
 
 const LOGO_URL = './favicon.png';
 const OPEN_GRAPH_IMAGE_URL = './opengraph-logo.png';
@@ -86,10 +87,6 @@ export default function PeoplePage({ people: peopleFromDb }) {
     router.push(url);
   }
 
-  const handlePersonClick = (person) => () => {
-    router.push(`/people/${person}`);
-  };
-
   const clearSearch = () => {
     setSearchValue(EMPTY_STRING);
     setPeopleLocal(peopleFromDb);
@@ -127,7 +124,6 @@ export default function PeoplePage({ people: peopleFromDb }) {
           <People
             people={peopleLocal}
             selectedPerson={personFromQuery}
-            onClick={handlePersonClick}
           />
         </Box >
       }
@@ -135,10 +131,9 @@ export default function PeoplePage({ people: peopleFromDb }) {
   );
 }
 
-const People = ({ people, selectedPerson, onClick }) => {
+const People = ({ people, selectedPerson }) => {
   const handleClick = (person) => () => {
     va.track(EVENT.personClicked, { person });
-    onClick && onClick(person)();
   };
 
   const peopleList = people.map((person) => {
@@ -150,16 +145,17 @@ const People = ({ people, selectedPerson, onClick }) => {
       <ListItem
         key={person}
         sx={STYLES.personListItem}
-        onClick={handleClick(person)}
       >
-        <Chip
-          clickable={!isSelected}
-          label={person}
-          size='small'
-          sx={STYLES.personChip}
-          color='info'
-          {...onDeleteProp}
-        />
+        <Link href={`/people/${person}`} onClick={handleClick(person)}>
+          <Chip
+            clickable={!isSelected}
+            label={person}
+            size='small'
+            sx={STYLES.personChip}
+            color='info'
+            {...onDeleteProp}
+          />
+        </Link>
       </ListItem>
     );
   });
