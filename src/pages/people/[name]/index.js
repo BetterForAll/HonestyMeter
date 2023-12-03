@@ -81,8 +81,6 @@ export default function PersonPage({ homePageProps, reports, page, name, isFirst
     }, 0);
   };
 
-
-
   useEffect(() => {
     va.track(EVENT.personPageLoaded(name), { page });
   }, [name, page]);
@@ -159,7 +157,7 @@ export default function PersonPage({ homePageProps, reports, page, name, isFirst
           )}
           {isPaginationEnabled && (
             <Box sx={STYLES.paginationContainer}>
-              <Pagination {...{ page, name, isFirstPage, isLastPage }} isScrollUpIconShown />
+              <Pagination {...{ page, isFirstPage, isLastPage }} isScrollUpIconShown />
             </Box>
           )}
 

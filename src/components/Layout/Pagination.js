@@ -9,6 +9,8 @@ import { Box, Button } from '@mui/material';
 import Link from 'next/link';
 import { EMPTY_STRING, EVENT } from '@/constants/constants';
 import { scrollToTop } from '@/utils/utils';
+import { useRouter } from 'next/router';
+
 
 const TEXTS = {
   skipToFirstPage: 'Skip to First Page',
@@ -16,17 +18,19 @@ const TEXTS = {
   nextPage: 'Next Page',
 }
 
+const PAGE_QUERY_PARAM_KEY = 'page';
+
+
 export default function Pagination({
   page,
-  name = EMPTY_STRING,
   isFirstPage,
   onClick,
   isLastPage,
   onChange,
   isScrollUpIconShown,
 }) {
-
-  const pageParams = getPageParams(name, page);
+  const router = useRouter();
+  const pageParams = getPageParams(page, router);
 
   const onStartClick = () => {
     va.track(EVENT.skipToFirstPageClicked, { page });
@@ -66,14 +70,29 @@ export default function Pagination({
   );
 }
 
-const getPageParams = (name, page) => {
-  const prefix = name ? `/people/${name}` : EMPTY_STRING;
+function GenerateLinkWithUpdatedQueryParam(key, value, router) {
+  const newQuery = new URLSearchParams(router.query);
+  newQuery.set(key, value.toString());
+
+  return newQuery.toString();
+};
+
+function getPageParams(page, router) {
+  const nextPage = parseInt(page) + 1;
+  const prevPage = parseInt(page) - 1;
+  const nextPageParamsString = GenerateLinkWithUpdatedQueryParam(PAGE_QUERY_PARAM_KEY, nextPage, router);
+  const prevPageParamsString = GenerateLinkWithUpdatedQueryParam(PAGE_QUERY_PARAM_KEY, prevPage, router);
+  const firstPageParamsString = GenerateLinkWithUpdatedQueryParam(PAGE_QUERY_PARAM_KEY, 1, router);
+  const nextPageLink = `${router.pathname}?${nextPageParamsString}`;
+  const prevPageLink = `${router.pathname}?${prevPageParamsString}`;
+  const firstPageLink = `${router.pathname}?${firstPageParamsString}`;
+
   return {
-    prev: `${prefix}?page=${parseInt(page) - 1}`,
-    next: `${prefix}?page=${parseInt(page) + 1}`,
-    first: `${prefix}?page=1`,
-  }
-}
+    prev: prevPageLink,
+    next: nextPageLink,
+    first: firstPageLink
+  };
+};
 
 const STYLES = {
   pagination: {
