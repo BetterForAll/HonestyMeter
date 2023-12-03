@@ -9,15 +9,14 @@ import { GITHUB_URL, PAGE_LABELS } from '@/constants/constants';
 import { number, func, arrayOf, string } from 'prop-types';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import { Link } from '@mui/material';
+import NextLink from 'next/link';
+
 
 export default function Menu({ currentPage, setCurrentPage, pageRoutes }) {
   const router = useRouter();
 
   const handleChange = (_, pageIndex) => {
     setCurrentPage(pageIndex);
-    const pageToPush = pageRoutes[pageIndex];
-
-    router.push('/' + pageToPush);
   };
 
   const onTabClick = (index) => (e) => handleChange(e, index)
@@ -34,8 +33,11 @@ export default function Menu({ currentPage, setCurrentPage, pageRoutes }) {
             aria-label='page tabs'
           >
             {PAGE_LABELS.map((pageLabel, index) => (
-              <Tab label={pageLabel} key={pageLabel} onClick={onTabClick(index)} />
+              <NextLink href={`/${pageRoutes[index]}`} key={pageLabel} style={{ color: 'inherit' }}>
+                <Tab label={pageLabel} key={pageLabel} onClick={onTabClick(index)} />
+              </NextLink>
             ))}
+
           </Tabs>
         </Box>
         <Box sx={{ ...STYLES.iconsContainer, ...STYLES.flexCenter }}>
