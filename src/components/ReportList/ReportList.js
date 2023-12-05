@@ -121,8 +121,7 @@ function ReportListItem({
       {isLoading ? (
         <ReportCardSkeleton />
       ) : (
-        <Link href={reportUrl} onClick={onCardClick(reportUrl)}
-        >
+        <Link href={reportUrl} onClick={onCardClick(reportUrl)} style={{ textDecoration: 'none' }}>
           <ReportCard
             {...{
               articleTitle,
