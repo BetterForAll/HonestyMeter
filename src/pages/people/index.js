@@ -65,7 +65,6 @@ export default function PeoplePage({ people: peopleFromDb }) {
 
   const handleLocalSearch = (e) => {
     const searchValueRes = e.target.value;
-    console.log({ searchValueRes })
     setSearchValue(searchValueRes);
 
     const filteredPeople = peopleFromDb.filter((person) =>
