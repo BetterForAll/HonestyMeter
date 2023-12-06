@@ -71,8 +71,14 @@ and use it to improve the objectivity of the content.`,
   aiGeneratedArticle: 'GPT-4 Generated Article Explores Imaginary Debates Between Fictional Candidates in a Hypothetical Country',
   futurePlans: {
     title: 'Future Plans:',
-    supportVideoandAudio: `Support links to video and audio content (evaluate text, tonality,
-       images and video content objectivity).`,
+    supportVideoandAudio: `User
+    In our ideal future vision, we aspire to create a comprehensive media objectivity analysis tool that supports images,
+     video and audio content analysis, evaluating combinations of text and images in articles, 
+     voice tonality in audio and video content, background images and video footage, 
+     as well as body language and facial expressions in video content.
+      This represents the challenging goal of creating a process that considers all possible modalities
+       and analyzes how they are integrated with each other in any piece of content,
+        be it an article, book, podcast, or video. Further, we consider to connect to fact-checking sources and compare multiple sources to ensure a robust and reliable analysis.`,
     connectFactChecking: 'Connect to fact checking sources.',
     compareMultipleSources: 'Compare multiple sources'
   },
@@ -270,23 +276,9 @@ export default function About() {
           </p>
         </div>
         <h2 id="future-plans">{TEXTS.futurePlans.title}</h2>
-        <ol>
-          <li>
-            <p>
-              {TEXTS.futurePlans.supportVideoandAudio}
-            </p>
-          </li>
-          <li>
-            <p>
-              {TEXTS.futurePlans.connectFactChecking}
-            </p>
-          </li>
-          <li>
-            <p>
-              {TEXTS.futurePlans.compareMultipleSources}
-            </p>
-          </li>
-        </ol>
+        <p>
+          {TEXTS.futurePlans.supportVideoandAudio}
+        </p>
         <h3 id="thanks">{TEXTS.thankYou.specialThanks}</h3>
         <p>
           <a href={TEXTS.thankYou.oneLittleCoder.link} target="_blank">
