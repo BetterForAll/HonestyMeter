@@ -71,8 +71,7 @@ and use it to improve the objectivity of the content.`,
   aiGeneratedArticle: 'GPT-4 Generated Article Explores Imaginary Debates Between Fictional Candidates in a Hypothetical Country',
   futurePlans: {
     title: 'Future Plans:',
-    supportVideoandAudio: `User
-    In our ideal future vision, we aspire to create a comprehensive media objectivity analysis tool that supports images,
+    supportVideoandAudio: `In our ideal future vision, we aspire to create a comprehensive media objectivity analysis tool that supports images,
      video and audio content analysis, evaluating combinations of text and images in articles, 
      voice tonality in audio and video content, background images and video footage, 
      as well as body language and facial expressions in video content.
