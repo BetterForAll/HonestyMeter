@@ -61,6 +61,8 @@ content are created unknowingly, with the best of intentions.`,
   Please use the framework judiciously and with respect.`,
 
   experimentalVersion: ` - This is an EXPERIMENTAL DEMO version that is not intended to be used for any other purpose than
-   to showcase the technology's potential.`,
+   to showcase the technology's potential. We are in the process of developing more sophisticated algorithms
+    to significantly enhance the reliability and consistency of evaluations. Nevertheless, even in its current state,
+     HonestyMeter frequently offers valuable insights that are challenging for humans to detect.`,
 }
 

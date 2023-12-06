@@ -101,7 +101,7 @@ and use it to improve the objectivity of the content.`,
   },
   disclosure: {
     title: 'Honest Disclosure:',
-    biasedWhitePaper: `This white paper was evaluated by the HonestyMeter framework and found to be
+    biasedWhitePaper: `This text was evaluated by the HonestyMeter and found to be
     highly biased towards promoting mass media transparency and the use of the HonestyMeter.
     😊`
   },
@@ -211,6 +211,56 @@ export default function About() {
             style={STYLES.image}
           />
         </Box>
+        <div class="content">
+          <h2>Challenges and Solutions</h2>
+          <p>Currently, the HonestyMeter version is just an experimental demo. The reports are not as deep, accurate,
+            or consistent as we would like them to be, for several reasons:</p>
+          <ul>
+            <li>The GPT-3.5-Turbo model is used in production to reduce costs, since the tool is free and self funded.</li>
+            <li>The LLM struggles with long texts, often becoming &quot;confused.&quot;</li>
+            <li>LLMs are not sufficiently effective in handling complex, multi-step tasks, especially with lengthy texts.</li>
+          </ul>
+          <p><strong>To enhance the results, we are undertaking the following steps, which are part of ongoing research and have not yet been implemented in production.</strong></p>
+          <ul>
+            <li>We conducted in-depth research on manipulation techniques, gaining a
+              comprehensive understanding of manipulation categories. We revised the list
+              of manipulations and created a more concise and well-structured list that covers
+              all manipulation groups without redundancy or omissions.
+            </li>
+            <br></br>
+            <li>We are moving away from our initial approach of relying on the LLM&apos;s &quot;magic&quot; with broad instructions,
+              which was intended to prove the concept and showcase its potential. We are now working on providing the LLM with thorough,
+              step-by-step instructions for detecting each technique.
+            </li>
+            <br></br>
+            <li>
+              We broke down the evaluation process into the smallest possible tasks.
+              We are currently testing distinct services for each micro-step, which involve chains of prompts,
+              autonomous agents and individual models that are specifically trained
+              and fine-tuned for certain tasks. This approach is anticipated to not only improve output consistency
+              but also reduce the system&apos;s dependence on any single model and simplify the process of replacing
+              existing models with better or more cost-effective open-source alternatives when necessary.
+            </li>
+            <br></br>
+            <li>
+              We are experimenting with the most advanced Large Language Models (LLMs) and closely monitoring their exponential progress.
+              The forthcoming models, such as Gemini and GPT-5, are set to bring about significant improvements.
+              By simply replacing our existing models with these newer versions,
+              we expect to achieve considerably enhanced accuracy and consistency,
+              even before we implement any other alterations to our current system.
+            </li>
+          </ul>
+          <p><span class="bold"><b>Accuracy, consistency, and deterministic outputs.</b></span></p>
+          <p>It&apos;s important to note that even if report accuracy and consistency are not perfect, as long as the system correctly identifies the broad objective or biased nature of an article in most cases, it can still provide statistically valuable insights into bias levels. This can be achieved by analyzing large volumes of content and calculating average scores from multiple iterations over the same articles.</p>
+          <p>For instance, by analyzing multiple articles from several sources and repeating the analysis of each article multiple times, we can identify which sources are more or less biased relative to each other. This approach, even with relatively low analysis accuracy, can yield statistically high confidence in the results.</p>
+          <p>Consequently, the effectiveness of the system isn&apos;t a binary choice between perfect operation and complete failure.
+            It involves attaining a minimum required level of accuracy and consistency, followed by gradual improvements towards maximum effectiveness</p>
+          <p>
+            We are optimistic that through ongoing research and development,
+            the accuracy and consistency of HonestyMeter will steadily improve, gradually approaching its maximum potential.
+            Even now, in its experimental demo phase, HonestyMeter frequently provides insights that are difficult for humans to discern.
+          </p>
+        </div>
         <h2 id="future-plans">{TEXTS.futurePlans.title}</h2>
         <ol>
           <li>
