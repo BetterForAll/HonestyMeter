@@ -261,11 +261,12 @@ export default function About() {
             This approach, even with relatively low analysis accuracy, can yield statistically high confidence in the results.
           </p>
           <p>Consequently, the effectiveness of the system isn&apos;t a binary choice between perfect operation and complete failure.
-            It involves attaining a minimum required level of accuracy and consistency, followed by gradual improvements towards maximum effectiveness</p>
+            It involves attaining a minimum required level of performance, followed by gradual improvements towards maximum effectiveness.</p>
           <p>
             We are optimistic that through ongoing research and development,
-            the performance of HonestyMeter will steadily improve, gradually approaching its maximum potential.
-            Even now, in its experimental demo phase, HonestyMeter frequently provides insights that are difficult for humans to discern.
+            the efficiency and capabilities of HonestyMeter will steadily improve,
+            gradually approaching its maximum potential. Even now, in its experimental demo phase,
+            HonestyMeter frequently provides insights that are difficult for humans to discern.
           </p>
         </div>
         <h2 id="future-plans">{TEXTS.futurePlans.title}</h2>
