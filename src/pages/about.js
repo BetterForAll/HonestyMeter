@@ -243,16 +243,22 @@ export default function About() {
             </li>
             <br></br>
             <li>
-              We are experimenting with the most advanced Large Language Models (LLMs) and closely monitoring their exponential progress.
-              The forthcoming models, such as Gemini and GPT-5, are set to bring about significant improvements.
-              By simply replacing our existing models with these newer versions,
-              we expect to achieve considerably enhanced accuracy and consistency,
-              even before we implement any other alterations to our current system.
+              We are experimenting with the most advanced Large Language Models (LLMs)
+              and closely monitoring their exponential progress. By incorporating upcoming,
+              newly released advanced models into our workflow, we expect to significantly enhance each component of our system,
+              thereby leading to an overall improvement in performance.
             </li>
           </ul>
           <p><span class="bold"><b>Accuracy, consistency, and deterministic outputs.</b></span></p>
-          <p>It&apos;s important to note that even if report accuracy and consistency are not perfect, as long as the system correctly identifies the broad objective or biased nature of an article in most cases, it can still provide statistically valuable insights into bias levels. This can be achieved by analyzing large volumes of content and calculating average scores from multiple iterations over the same articles.</p>
-          <p>For instance, by analyzing multiple articles from several sources and repeating the analysis of each article multiple times, we can identify which sources are more or less biased relative to each other. This approach, even with relatively low analysis accuracy, can yield statistically high confidence in the results.</p>
+          <p>
+            It&apos;s important to note that as long as the system correctly identifies the broad objective or biased nature of an article in most cases,
+            it can provide statistically valuable insights into bias levels, even if report accuracy and consistency are not perfect.
+            This can be achieved by analyzing large volumes of content and calculating average scores from multiple iterations over the same articles.          </p>
+          <p>For instance, by analyzing multiple articles from several sources
+            and repeating the analysis of each article multiple times, we can identify
+            which sources are more or less biased relative to each other.
+            This approach, even with relatively low analysis accuracy, can yield statistically high confidence in the results.
+          </p>
           <p>Consequently, the effectiveness of the system isn&apos;t a binary choice between perfect operation and complete failure.
             It involves attaining a minimum required level of accuracy and consistency, followed by gradual improvements towards maximum effectiveness</p>
           <p>

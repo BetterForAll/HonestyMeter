@@ -139,13 +139,14 @@ const People = ({ people, selectedPerson }) => {
     const isSelected = person === selectedPerson;
     const handleDelete = isSelected ? handleClick(person) : EMPTY_FUNCTION;
     const onDeleteProp = isSelected ? { onDelete: handleDelete } : {};
+    const personURIEncoded = encodeURIComponent(person);
 
     return (
       <ListItem
         key={person}
         sx={STYLES.personListItem}
       >
-        <Link href={`/people/${person}`} onClick={handleClick(person)}>
+        <Link href={`/people/${personURIEncoded}`} onClick={handleClick(person)}>
           <Chip
             clickable={!isSelected}
             label={person}

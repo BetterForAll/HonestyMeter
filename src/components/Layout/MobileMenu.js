@@ -80,7 +80,7 @@ export default function MobileMenu({
           return (
             <ListItem disablePadding key={text}>
               <Tooltip title={tooltipTitle} placement="top-start">
-                <Link href={link} target={target} style={{ color: 'inherit', width: '100%' }}>
+                <Link href={link} target={target} style={{ color: 'inherit', textDecoration: 'none', width: '100%' }}>
                   <ListItemButton onClick={onMenuItemClick(index)}>
                     <ListItemIcon>
                       <Icon />
