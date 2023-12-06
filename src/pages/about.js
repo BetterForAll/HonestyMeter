@@ -244,9 +244,10 @@ export default function About() {
             <br></br>
             <li>
               We are experimenting with the most advanced Large Language Models (LLMs)
-              and closely monitoring their exponential progress. By incorporating upcoming,
-              newly released advanced models into our workflow, we expect to significantly enhance each component of our system,
-              thereby leading to an overall improvement in performance.
+              and closely monitoring their exponential progress.
+              By incorporating upcoming, newly released advanced models into our workflow,
+              we expect to achieve significant enhancements in each component of our system,
+              thereby leading to an overall elevation in performance.
             </li>
           </ul>
           <p><span class="bold"><b>Accuracy, consistency, and deterministic outputs.</b></span></p>
