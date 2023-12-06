@@ -264,7 +264,7 @@ export default function About() {
             It involves attaining a minimum required level of accuracy and consistency, followed by gradual improvements towards maximum effectiveness</p>
           <p>
             We are optimistic that through ongoing research and development,
-            the accuracy and consistency of HonestyMeter will steadily improve, gradually approaching its maximum potential.
+            the performance of HonestyMeter will steadily improve, gradually approaching its maximum potential.
             Even now, in its experimental demo phase, HonestyMeter frequently provides insights that are difficult for humans to discern.
           </p>
         </div>
