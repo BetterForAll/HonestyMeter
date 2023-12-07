@@ -235,7 +235,7 @@ export default function About() {
             <br></br>
             <li>We are moving away from our initial approach of relying on the LLM&apos;s &quot;magic&quot; with broad instructions,
               which was intended to prove the concept and showcase its potential. We are now working on providing the LLM with thorough,
-              step-by-step instructions for detecting each mnipulation technique.
+              step-by-step instructions for detecting each manipulation technique.
             </li>
             <br></br>
             <li>
