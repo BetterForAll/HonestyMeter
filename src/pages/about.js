@@ -25,12 +25,12 @@ const TEXTS = {
   },
   introduction: {
     title: 'Introduction:',
-    problem: `In today's world, the media plays a significant role in shaping public opinion
-  and influencing decision-making processes. However, with the rise of fake news and
-  misinformation, it has become increasingly challenging to distinguish between fact
-  and fiction. The problem is compounded by the use of manipulative techniques such
-  as sensationalism, framing, and selective reporting that are employed by media
-  outlets to push their agendas`,
+    problem: `In today's world, the media significantly influences public opinion and decision-making processes.
+     However, the rise of fake news and misinformation has made it increasingly difficult to differentiate between fact and fiction, 
+     as well as between objective and biased content. This challenge is further exacerbated by the use of sophisticated,
+      hard-to-spot manipulative techniques. These techniques, which include sensationalism, framing, selective reporting,
+       among others, are often employed by media outlets to advance their agendas.
+        Interestingly, in some cases, they may also be unknowingly used with the best of intentions by biased journalists.`,
 
     solution: `To address this issue, we have developed the HonestyMeter framework
     - an innovative solution that enables users to evaluate the objectivity
