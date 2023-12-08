@@ -15,6 +15,7 @@ import Share from '../Share';
 import { createShareUrl, getShareProps } from './reportUtils';
 import { EVENT } from '@/constants/constants';
 import { useRouter } from 'next/router';
+import Disclamer from '../Disclamer';
 
 const TEXTS = {
   title: 'Bias report',
@@ -44,6 +45,7 @@ function ReportWrapper({ report = {}, shareLevel }) {
     <Box sx={STYLES.container}>
       <ReportWrapperHeader onCloseReportClick={handleGoBack} />
       <Report report={report} />
+      <Disclamer isShort />
       <Box sx={STYLES.copyToClipboardContainer}>
         <CopyToClipboard copyText={shareUrl} />
       </Box>

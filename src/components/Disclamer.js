@@ -2,14 +2,19 @@ import React from "react";
 import { Typography, Box } from '@mui/material';
 import theme from "@/theme";
 
-export default function Disclamer() {
+export default function Disclamer({ isShort }) {
 
   return (
     <Box sx={STYLES.container}>
       {/* <Title text={TEXTS.TITLE} /> */}
       <Paragrpah text={TEXTS.experimentalVersion} />
-      <Paragrpah text={TEXTS.noOneIsPerfect} />
-      <Paragrpah text={TEXTS.somwContentIsHardToEvaluate} />
+      {
+        !isShort &&
+        <>
+          <Paragrpah text={TEXTS.noOneIsPerfect} />
+          <Paragrpah text={TEXTS.somwContentIsHardToEvaluate} />
+        </>
+      }
     </Box>
   )
 }
