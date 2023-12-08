@@ -35,8 +35,7 @@ const TEXTS = {
     solution: `To address this issue, we have developed the HonestyMeter framework
     - an innovative solution that enables users to evaluate the objectivity
     and bias of media content. The framework uses neural networks and large
-    language models to analyze various media elements,
-    including text, images, audio, and video, and identify manipulative
+    language models to analyze various media elements, and identify manipulative
     techniques that may be present.`,
   },
   process: {
@@ -309,11 +308,12 @@ export default function About() {
         </h2>
         <p>
           Managing HonestyMeter we&apos;ve been investing not just our time,
-          but also our own funds into this project. This dedication underscores our commitment to truth in the media.
+          but also our own funds into this project.
 
 
           Though we are fully capable of progressing independently,
-          we are open to the possibility of partnering with those who can offer substantial financial backing and who resonate with our mission. Such a contribution would need to be significant enough to make a real difference in our quest for redefining media integrity.
+          we are open to the possibility of partnering with those who can offer substantial financial backing and who resonate with our mission.
+          Such a contribution would need to be significant enough to make a real difference in our quest for redefining media integrity.
 
           If you are prepared to make a substantial and meaningful investment,
           and see the value in being part of a pioneering movement, feel free to reach out to us at  <a href='mailto:info@honestymeter.com'>info@honestymeter.com</a>.
