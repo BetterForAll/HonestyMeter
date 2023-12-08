@@ -307,17 +307,15 @@ export default function About() {
           Join Us in Shaping the Future of Media Truth
         </h2>
         <p>
-          Managing HonestyMeter we&apos;ve been investing not just our time,
-          but also our own funds into this project.
+          While managing HonestyMeter, we have not only invested our time but also our own funds into this project.
+          Though we are fully capable of progressing independently, we are open to the possibility of partnering with
+          those who resonate with our vision and can offer a substantial contribution, whether it be financial, promotional, or in expertise.
           <br /> <br />
-          Though we are fully capable of progressing independently,
-          we are open to the possibility of partnering with those who can offer substantial financial backing and who resonate with our mission.
-          Such a contribution would need to be significant enough to make a real difference in our quest for redefining media integrity.
+
+          If your contribution aligns with our vision and has the capacity for major advancement, feel free to reach out to us at &nbsp;
+          <a href='mailto:info@honestymeter.com'>info@honestymeter.com</a>.
           <br /> <br />
-          If you are prepared to make a substantial and meaningful investment,
-          and see the value in being part of a pioneering movement, feel free to reach out to us at  <a href='mailto:info@honestymeter.com'>info@honestymeter.com</a>.
-          <br /> <br />
-          If your support aligns with our vision and capacity for major advancement, together, we can let the truth triumph.
+          Together, we can let the truth triumph.
 
         </p>
         <h3 id="disclosure">{TEXTS.disclosure.title}</h3>
