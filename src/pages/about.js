@@ -309,15 +309,14 @@ export default function About() {
         <p>
           Managing HonestyMeter we&apos;ve been investing not just our time,
           but also our own funds into this project.
-
-
+          <br /> <br />
           Though we are fully capable of progressing independently,
           we are open to the possibility of partnering with those who can offer substantial financial backing and who resonate with our mission.
           Such a contribution would need to be significant enough to make a real difference in our quest for redefining media integrity.
-
+          <br /> <br />
           If you are prepared to make a substantial and meaningful investment,
           and see the value in being part of a pioneering movement, feel free to reach out to us at  <a href='mailto:info@honestymeter.com'>info@honestymeter.com</a>.
-
+          <br /> <br />
           If your support aligns with our vision and capacity for major advancement, together, we can let the truth triumph.
 
         </p>
