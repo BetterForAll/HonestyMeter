@@ -25,18 +25,19 @@ const TEXTS = {
   },
   introduction: {
     title: 'Introduction:',
-    problem: `In today's world, the media significantly influences public opinion and decision-making processes.
-     However, the rise of fake news and misinformation has made it increasingly difficult to differentiate between fact and fiction, 
-     as well as between objective and biased content. This challenge is further exacerbated by the use of sophisticated,
-      hard-to-spot manipulative techniques. These techniques, which include sensationalism, framing, selective reporting,
-       among others, are often employed by media outlets to advance their agendas.
-        Interestingly, in some cases, they may also be unknowingly used with the best of intentions by biased journalists.`,
+    problem: `In today's world, media plays a crucial role in shaping public opinion and influencing decision-making processes.
+     However, the proliferation of fake news and misinformation has significantly blurred the lines between fact and fiction, 
+     and between objective and biased reporting. This challenge is intensified by the use of sophisticated, yet subtle,
+      manipulative techniques. Techniques such as sensationalism, framing, and selective reporting, among multiple others,
+       are commonly employed by media outlets. These tactics can lead audiences to form distorted perceptions of reality, 
+       hindering their ability to make well-informed decisions.`,
 
-    solution: `To address this issue, we have developed the HonestyMeter framework
-    - an innovative solution that enables users to evaluate the objectivity
-    and bias of media content. The framework uses neural networks and large
-    language models to analyze various media elements, and identify manipulative
-    techniques that may be present.`,
+    solution: `To address this issue, we have developed the HonestyMeter framework – a free,
+     AI-powered tool designed to assess the objectivity and bias of media content. 
+     Utilizing neural networks and advanced language models, HonestyMeter meticulously analyzes various media elements 
+     to identify potential manipulative tactics. It generates a comprehensive objectivity report, which includes an objectivity score,
+      a list of detected manipulations, and recommendations for mitigating bias within the text.
+       This tool empowers authors to craft more objective content and enables the audience to make better-informed decisions.`,
   },
   process: {
     title: 'Process:',
