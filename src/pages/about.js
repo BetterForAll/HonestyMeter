@@ -15,7 +15,7 @@ const VIDEO_URL = 'https://player.vimeo.com/video/820300228';
 
 const TEXTS = {
   pageTitle: 'HonestyMeter (Honesty Meter)',
-  title: 'HonestyMeter - A Free Open Source Framework for Evaluating the Objectivity and Credibility of Media Content',
+  title: 'HonestyMeter - A Free Open Source Framework for Evaluating the Objectivity of Media Content',
   article: {
     quote: `"By embracing HonestyMeter, you can join the vanguard of a movement that
     champions media objectivity and transparency. The more people who adopt this tool,
@@ -32,7 +32,7 @@ const TEXTS = {
      The next day, the headline in the newspapers reads: "The Pope's First Question Upon Arrival in Paris: Are There Bordellos in Paris?"...
     
     Although the facts presented are 100% true, the way they are reported is 100% misleading.
-    Even if the article provides full context, most readers read only headlines and will never know the truth`,
+    Even if the article provides full context, most readers read only headlines and will never know the truth.`,
 
     problem: `In today's world, media plays a crucial role in shaping public opinion and influencing decision-making processes.
      However, the proliferation of fake news and misinformation has significantly blurred the lines between fact and fiction, 
