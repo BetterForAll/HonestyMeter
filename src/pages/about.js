@@ -311,7 +311,6 @@ export default function About() {
           Though we are fully capable of progressing independently, we are open to the possibility of partnering with those
           who resonate with our vision and can offer a substantial contribution, whether it be financial, promotional, or in terms of expertise.
           <br /> <br />
-
           If you share our vision of truthful media and are interested in making a contribution
           that has the potential for major advancement, please feel free to reach out to us at&nbsp;
           <a href='mailto:info@honestymeter.com'>info@honestymeter.com</a>.
