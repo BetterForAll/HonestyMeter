@@ -31,7 +31,7 @@ const TEXTS = {
      Surprised by the question, the Pope responds, "Are there bordellos in Paris?" 
      The next day, the headline in the newspapers reads: "The Pope's First Question Upon Arrival in Paris: Are There Bordellos in Paris?"...
     
-    Although the facts presented are 100% true, the way they are reported is 100% misleading.+
+    Although the facts presented are 100% true, the way they are reported is 100% misleading.
     Even if the article provides full context, most readers read only headlines and will never know the truth`,
 
     problem: `In today's world, media plays a crucial role in shaping public opinion and influencing decision-making processes.
