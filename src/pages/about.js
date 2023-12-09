@@ -25,6 +25,15 @@ const TEXTS = {
   },
   introduction: {
     title: 'Introduction:',
+    joke: `The simplest way to illustrate what HonestyMeter addresses can be demonstrated through this joke:
+
+    Upon his arrival in Paris, a reporter asks the Pope for his opinion on the city's famous bordellos.
+     Surprised by the question, the Pope responds, "Are there bordellos in Paris?" 
+     The next day, the headline in the newspapers reads: "The Pope's First Question Upon Arrival in Paris: Are There Bordellos in Paris?"...
+    
+    Although the facts presented are 100% true, the way they are reported is 100% misleading.+
+    Even if the article provides full context, most readers read only headlines and will never know the truth`,
+
     problem: `In today's world, media plays a crucial role in shaping public opinion and influencing decision-making processes.
      However, the proliferation of fake news and misinformation has significantly blurred the lines between fact and fiction, 
      and between objective and biased reporting. This challenge is intensified by the use of sophisticated, yet subtle,
@@ -32,12 +41,25 @@ const TEXTS = {
        are commonly employed by media outlets. These tactics can lead audiences to form distorted perceptions of reality, 
        hindering their ability to make well-informed decisions.`,
 
+    problemNote: `It's important to emphasize that manipulative reporting is a much more dangerous phenomenon than fake news.
+     False facts can usually be easily detected, and authoritative sources conduct thorough fact-checking
+      before publishing any content, as publishing false facts leads to immediate accountability.
+
+    Consuming news from credible sources can almost fully protect people from fake news. However,
+     when content is published by an authoritative source and all the facts are real, but are presented 
+     using sophisticated hidden manipulation techniques, it can dramatically distort the perception of these facts.
+      This distortion can often lead the audience to understand the absolute opposite of the truth,
+       and yet the source often faces zero accountability!    
+
+    This terrible phenomenon gravely jeopardizes the very basis of freedom and democracy.`,
+
     solution: `To address this issue, we have developed the HonestyMeter framework – a free,
      AI-powered tool designed to assess the objectivity and bias of media content. 
      Utilizing neural networks and advanced language models, HonestyMeter meticulously analyzes various media elements 
      to identify potential manipulative tactics. It generates a comprehensive objectivity report, which includes an objectivity score,
       a list of detected manipulations, and recommendations for mitigating bias within the text.
-       This tool empowers authors to craft more objective content and enables the audience to make better-informed decisions.`,
+      Wide adoption of HonestyMeter is capable of enhancing media transparency and objectivity worldwide,
+       empowering authors to craft more objective content and enabling audiences to make better-informed decisions.`,
   },
   process: {
     title: 'Process:',
@@ -157,7 +179,13 @@ export default function About() {
         </Box>
         <h2 id="introduction">{TEXTS.introduction.title}</h2>
         <p>
+          {TEXTS.introduction.joke}
+        </p>
+        <p>
           {TEXTS.introduction.problem}
+        </p>
+        <p>
+          {TEXTS.introduction.problemNote}
         </p>
         <p>
           {TEXTS.introduction.solution}
