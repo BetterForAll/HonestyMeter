@@ -257,7 +257,7 @@ export default function About() {
               The GPT-3.5-Turbo model is currently in production to minimize costs, as the tool is free and self-funded.
             </li>
             <li>
-              The LLM struggles with long texts, often becoming &quot;confused.&quot;
+              The Large Language Models (LLMs) struggle with long texts, often becoming &quot;confused.&quot;
             </li>
             <li>
               LLMs are not sufficiently effective in handling complex, multi-step tasks, especially with lengthy texts.
@@ -295,6 +295,15 @@ export default function About() {
               By incorporating upcoming, newly released advanced models into our workflow,
               we expect to achieve significant enhancements in each component of our system,
               thereby leading to an overall elevation in performance.
+            </li>
+            <br></br>
+            <li>
+              We have planned the release of seven versions of the app, each building upon the previous one
+              and gradually incorporating more complex techniques for detecting manipulation.
+              The first MVP version focuses on the most common and easily detectable manipulation techniques,
+              providing a solid indication of bias levels. Every subsequent version builds upon this foundation,
+              gradually adding more complex techniques for detection. The last three versions focus on the most
+              advanced and complex techniques, offering the most detailed and thorough analysis of bias.
             </li>
           </ul>
           <p><span class="bold"><b>Accuracy, consistency, and deterministic outputs.</b></span></p>
