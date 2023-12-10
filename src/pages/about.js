@@ -178,15 +178,19 @@ export default function About() {
           </iframe>
         </Box>
         <h2 id="introduction">{TEXTS.introduction.title}</h2>
+        <h3>Understanding HonestyMeter Through a Joke</h3>
         <p>
           {TEXTS.introduction.joke}
         </p>
+        <h3>The Challenge of Media Manipulation in Today&apos;s World</h3>
         <p>
           {TEXTS.introduction.problem}
         </p>
+        <h3>Why Manipulative Reporting is More Dangerous Than Fake News</h3>
         <p>
           {TEXTS.introduction.problemNote}
         </p>
+        <h3>Introducing HonestyMeter: A Tool for Enhancing Media Objectivity and Transparency</h3>
         <p>
           {TEXTS.introduction.solution}
         </p>
@@ -246,14 +250,24 @@ export default function About() {
         </Box>
         <div class="content">
           <h2>Challenges and Solutions</h2>
-          <p>Currently, the HonestyMeter version is just an experimental demo. The reports are not as deep, accurate,
-            or consistent as we would like them to be, for several reasons:</p>
+          <p>The current version of HonestyMeter is an experimental demo.
+            There is significant room for improvement in terms of the depth, accuracy, and consistency of the reports, for the following reasons:</p>
           <ul>
-            <li>The GPT-3.5-Turbo model is used in production to reduce costs, since the tool is free and self funded.</li>
-            <li>The LLM struggles with long texts, often becoming &quot;confused.&quot;</li>
-            <li>LLMs are not sufficiently effective in handling complex, multi-step tasks, especially with lengthy texts.</li>
+            <li>
+              The GPT-3.5-Turbo model is currently in production to minimize costs, as the tool is free and self-funded.
+            </li>
+            <li>
+              The LLM struggles with long texts, often becoming &quot;confused.&quot;
+            </li>
+            <li>
+              LLMs are not sufficiently effective in handling complex, multi-step tasks, especially with lengthy texts.
+            </li>
           </ul>
-          <p><strong>To enhance the results, we are undertaking the following steps, which are part of ongoing research and have not yet been implemented in production.</strong></p>
+          <p>Therefore, we are actively developing more sophisticated, multi-staged algorithms to significantly enhance the reliability and consistency of evaluations.</p>
+          <p>Nevertheless, even in its current state, HonestyMeter frequently provides valuable insights that are challenging for humans to detect.</p>
+
+          <p><strong>To enhance the results, we are undertaking the following steps,
+            which are part of ongoing research and have not yet been implemented in production.</strong></p>
           <ul>
             <li>We conducted in-depth research on manipulation techniques, gaining a
               comprehensive understanding of manipulation categories. We revised the list
@@ -349,7 +363,7 @@ export default function About() {
         <h3 id="disclosure">{TEXTS.disclosure.title}</h3>
         <p>{TEXTS.disclosure.biasedWhitePaper}</p>
         <Share />
-      </main>
+      </main >
     </>
   )
 }
