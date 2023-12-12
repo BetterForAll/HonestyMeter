@@ -1,5 +1,5 @@
-import { SITEMAP } from ".";
-import clientPromise, { dbName } from "../../../server/mongodb/mongodb";
+import clientPromise, { dbName } from "../../../../server/mongodb/mongodb";
+import { SITEMAP } from "./main";
 
 export default async function sitemapHandler(req, res) {
     try {

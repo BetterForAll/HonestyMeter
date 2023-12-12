@@ -1,8 +1,8 @@
-import clientPromise, { dbName } from "../../../server/mongodb/mongodb";
+import clientPromise, { dbName } from "../../../../server/mongodb/mongodb";
 
 export const SITEMAP = "sitemap";
 
-export default async function sitemapHandler(req, res) {
+export default async function handler(req, res) {
     try {
         const client = await clientPromise;
         const db = client.db(dbName);

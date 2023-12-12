@@ -14,13 +14,13 @@ const nextConfig = {
   //   }
   //   return config;
   // },
-  // async rewrites() {
-  //   return [
-  //     { source: '/sitemap.xml', destination: '/api/sitemaps/index' },
-  //     { source: '/sitemaps/people/people.xml', destination: '/api/sitemaps/people' },
-  //     { source: '/sitemaps/reports/:id.xml', destination: '/api/sitemaps/reports/:id' },
-  //   ];
-  // },
+  async rewrites() {
+    return [
+      { source: '/sitemap.xml', destination: '/api/sitemaps/main' },
+      { source: '/sitemaps/people/people.xml', destination: '/api/sitemaps/people' },
+      { source: '/sitemaps/reports/:id.xml', destination: '/api/sitemaps/reports/:id' },
+    ];
+  },
 }
 
 module.exports = nextConfig
