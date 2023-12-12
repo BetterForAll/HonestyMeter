@@ -77,11 +77,10 @@ export default function PeoplePage({ people: peopleFromDb }) {
   const handleSearchClick = () => {
     va.track(EVENT.searchClickedPeoplePage, { searchValue });
 
-    const trimmedSearchValue = searchValue.trim();
+    const trimmedSearchValue = searchValue.trim().toLowerCase().split(' ').join('-');
     if (!trimmedSearchValue) return;
 
-    const searchValueCapitalizedLetters = capitalizeFirstLetterOfEachWord(trimmedSearchValue);
-    const url = `/people/${searchValueCapitalizedLetters}`;
+    const url = `/people/${trimmedSearchValue}`;
 
     router.push(url);
   }
@@ -139,14 +138,14 @@ const People = ({ people, selectedPerson }) => {
     const isSelected = person === selectedPerson;
     const handleDelete = isSelected ? handleClick(person) : EMPTY_FUNCTION;
     const onDeleteProp = isSelected ? { onDelete: handleDelete } : {};
-    const personURIEncoded = encodeURIComponent(person);
+    const formattedPerson = person.split(' ').join('-').toLowerCase();
 
     return (
       <ListItem
         key={person}
         sx={STYLES.personListItem}
       >
-        <Link href={`/people/${personURIEncoded}`} onClick={handleClick(person)}>
+        <Link href={`/people/${formattedPerson}`} onClick={handleClick(person)}>
           <Chip
             clickable={!isSelected}
             label={person}

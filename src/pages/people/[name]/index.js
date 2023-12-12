@@ -1,12 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
 import Head from 'next/head';
 import va from '@vercel/analytics';
 import theme from '@/theme';
-import { Box, Button, Typography } from '@mui/material';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { scrollToTop, scrollToBottom } from '../../../utils/utils';
+import { Box, Typography } from '@mui/material';
+import { scrollToTop, scrollToBottom, capitalizeFirstLetterOfEachWord } from '../../../utils/utils';
 import Share from '@/components/Share';
 import AtricleInput from '@/components/ArticleInput';
 import Disclamer from '@/components/Disclamer';
@@ -30,8 +28,8 @@ const TEXTS = {
   cancelNewReport: 'Cancel new report',
   honestyMeter: 'Honesty Meter',
   error: 'Something went wrong. Please try again later.',
-  desciptiion:
-    'Honesty Meter is a tool that helps you discover the truth behind the news.',
+  desciptiion: (name) =>
+    `Latest news about ${name} analysed for bias and objectivity by Honesty Meter - free AI power framework for bias detection.`,
   ogDescription: 'AI powered tool for bias detection',
   shareTitle:
     'HonestyMeter - A New Free AI powered tool for Evaluating the Objectivity and Bias of Media Content.',
@@ -44,8 +42,7 @@ const TEXTS = {
   backButton: 'Back To People Index',
 };
 
-export default function PersonPage({ homePageProps, reports, page, name, isFirstPage, isLastPage }) {
-  const router = useRouter();
+export default function PersonPage({ homePageProps, reports, page, name, nameUrl, isFirstPage, isLastPage }) {
   const isPaginationEnabled = !(isFirstPage && isLastPage);
   const isLoading = usePageLoadingFull();
   const {
@@ -58,7 +55,8 @@ export default function PersonPage({ homePageProps, reports, page, name, isFirst
   const [isArticleInputShown, setIsArticleInputShown] = useState(false);
   const isReportListEmpty = reports.length === 0;
   const shouldShowBottomControls = reports.length > 8;
-  const htmlHead = getHtmlHead({ name });
+  const nameCapitalized = capitalizeFirstLetterOfEachWord(name);
+  const htmlHead = getHtmlHead({ nameCapitalized, nameUrl });
 
   const onCardClick = (reportUrl) => () => {
     va.track(EVENT.reportCardClicked, { reportUrl });
@@ -80,8 +78,8 @@ export default function PersonPage({ homePageProps, reports, page, name, isFirst
   };
 
   useEffect(() => {
-    va.track(EVENT.personPageLoaded(name), { page });
-  }, [name, page]);
+    va.track(EVENT.personPageLoaded(nameCapitalized), { page });
+  }, [nameCapitalized, page]);
 
   return (
     <>
@@ -89,10 +87,10 @@ export default function PersonPage({ homePageProps, reports, page, name, isFirst
       {
         <Box sx={STYLES.container}>
           <Typography variant='h2' sx={STYLES.title}>
-            {name}
+            {nameCapitalized}
           </Typography>
           <Typography variant='body1' sx={STYLES.subtitle}>
-            {TEXTS.subtitle(name)}
+            {TEXTS.subtitle(nameCapitalized)}
           </Typography>
           {!isReportListEmpty && (
             <Typography variant='body1' sx={STYLES.poweredBy}>
@@ -221,21 +219,23 @@ PersonPage.propTypes = {
   isLastPage: bool,
   date: string,
   homePageProps: object,
+  name: string,
+  nameUrl: string,
 };
 
-const getHtmlHead = ({ name }) => (
+const getHtmlHead = ({ nameCapitalized, nameUrl }) => (
   <Head>
-    <title>{TEXTS.honestyMeter}</title>
-    <meta name='description' content={TEXTS.desciptiion} />
+    <title>{`${nameCapitalized} - ${TEXTS.honestyMeter}`}</title>
+    <meta name='description' content={TEXTS.desciptiion(nameCapitalized)} />
     <meta name='viewport' content='width=device-width, initial-scale=1' />
     <meta property='og:type' content='website' />
-    <meta property='og:title' content={name} />
-    <meta property='og:description' content={TEXTS.subtitle(name)} />
+    <meta property='og:title' content={nameCapitalized} />
+    <meta property='og:description' content={TEXTS.subtitle(nameCapitalized)} />
     <meta property='og:url' content={BASE_URL} />
     <meta property='og:image' content={OPEN_GRAPH_IMAGE_URL} />
     <meta property='twitter:image' content={TWITTER_IMAGE_URL} />
     <link rel='shortcut icon' href={LOGO_URL} />
-    <link rel='canonical' href={BASE_URL + '/people/' + name} />
+    <link rel='canonical' href={BASE_URL + '/people/' + nameUrl} />
   </Head>
 );
 
@@ -244,7 +244,8 @@ export async function getServerSideProps(context) {
   const host = req?.headers?.host;
   const { page = 1, name = '' } = context.query;
   const isFirstPage = page == 1;
-  const url = `http://${host}/${API_URL.SAVED_REPORT}?page=${page}&searchTerm=${name}`;
+  const formattedName = name.replace(/-/g, ' ');
+  const url = `http://${host}/${API_URL.SAVED_REPORT}?page=${page}&searchTerm=${formattedName}`;
 
   try {
     const res = await fetch(url);
@@ -253,7 +254,7 @@ export async function getServerSideProps(context) {
 
     const date = new Date().toLocaleString();
 
-    return { props: { reports, page, name, isFirstPage, isLastPage, date } };
+    return { props: { reports, page, name: formattedName, nameUrl: name, isFirstPage, isLastPage, date } };
   } catch (error) {
     console.log({ error });
   }
