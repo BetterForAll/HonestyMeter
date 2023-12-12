@@ -7,6 +7,20 @@ const nextConfig = {
   images: {
     domains: ['random.imagecdn.app', 'picsum.photos', 'images.unsplash.com'],
   },
+  // webpack: (config, { isServer, dev }) => {
+  //   // Only enable detailed source maps in production and not for the server
+  //   if (!isServer && !dev) {
+  //     config.devtool = 'source-map';
+  //   }
+  //   return config;
+  // },
+  // async rewrites() {
+  //   return [
+  //     { source: '/sitemap.xml', destination: '/api/sitemaps/index' },
+  //     { source: '/sitemaps/people/people.xml', destination: '/api/sitemaps/people' },
+  //     { source: '/sitemaps/reports/:id.xml', destination: '/api/sitemaps/reports/:id' },
+  //   ];
+  // },
 }
 
 module.exports = nextConfig

@@ -66,8 +66,8 @@ const TEXTS = {
     description: `The HonestyMeter framework uses a multi-step process to evaluate
      the objectivity and bias of media content:`,
 
-    input: `Input: The user provides a link to the media content,
-    which can include text, images, audio, or video.`,
+    input: `Input: The user provides a link to media content, which may include text, images, audio, or video. 
+    (Currently, we support only text but plan to add more modalities in future versions).`,
 
     analysis: `Analysis: The framework uses large language models to analyze
     the media content and identify any manipulative techniques that may be present.
