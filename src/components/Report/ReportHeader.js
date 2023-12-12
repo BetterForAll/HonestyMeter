@@ -44,7 +44,7 @@ export default function ReportHeader({
               {TEXTS.articleTitle}:
               &nbsp;
             </Typography>
-            <Typography component='span'>
+            <Typography component='h1' style={{ display: 'inline-block' }}>
               {articleTitle}.
               &nbsp;
             </Typography>

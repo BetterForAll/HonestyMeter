@@ -11,7 +11,7 @@ import {
   ListItem,
   Typography,
 } from '@mui/material';
-import { EMPTY_FUNCTION, capitalizeFirstLetterOfEachWord } from '../../utils/utils';
+import { EMPTY_FUNCTION } from '../../utils/utils';
 import { API_URL, BASE_URL, EMPTY_STRING, EVENT } from '@/constants/constants';
 import Search from '@/components/Layout/Search';
 import Link from 'next/link';
@@ -22,7 +22,7 @@ const TWITTER_IMAGE_URL = './favicon.png';
 const SEARCH_FIELD_ID = 'search-field-people';
 const TEXTS = {
   title: 'Popular People',
-  subtitle: 'Click on a person to see articles',
+  subtitle: 'Latest news analyzed by HonestyMeter',
   poweredBy: 'news api powered by newsdata.io',
   newReport: 'Create new bias report',
   cancelNewReport: 'Cancel new report',
@@ -34,7 +34,7 @@ const TEXTS = {
   honestyMeter: 'Honesty Meter',
   error: 'Something went wrong. Please try again later.',
   desciptiion:
-    'Honesty Meter is a tool that helps you discover the truth behind the news.',
+    'Latest news about popular people analyzed by HonestyMeter',
   ogDescription: 'AI powered tool for bias detection',
   shareTitle:
     'HonestyMeter - A New Free AI powered tool for Evaluating the Objectivity and Bias of Media Content.',
@@ -99,7 +99,7 @@ export default function PeoplePage({ people: peopleFromDb }) {
       {HtmlHead}
       {
         <Box sx={STYLES.container}>
-          <Typography variant='h2' sx={STYLES.title}>
+          <Typography variant='h1' sx={STYLES.title}>
             {TEXTS.title}
           </Typography>
           <Search

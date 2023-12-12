@@ -8,11 +8,12 @@ import Head from 'next/head';
 import reportPropType from '@/components/Report/reportPropTypes';
 import { getReportShareTitle, getSavedReportUrl } from '@/components/Report/reportUtils';
 import { API_URL } from '@/constants/constants';
+import { getBaseUrlFromUrlString } from '@/utils/utils';
 
 const LOGO_URL = './favicon.ico';
 const OPEN_GRAPH_IMAGE_URL = './opengraph-logo.png';
 const TEXTS = {
-    objectivityReport: 'HonestyMeter Bias Report',
+    objectivityReport: (articleTitle, source) => `'${articleTitle}' by ${source} - Bias Report by HonestyMeter - free AI powered bias detection framework`,
     biasReport: 'Bias Report',
     objectivityScore: 'Objectivity score',
 }
@@ -20,13 +21,15 @@ const TEXTS = {
 function SavedReport({ homePageProps, report = {}, host }) {
     const { shareLevel, closeReport } = homePageProps
     const isLoading = usePageLoading();
-    const { explanation = '', articleTitle = '', _id: reportId, score } = report;
+    const { explanation = '', articleTitle = '', articleLink = '', _id: reportId, score } = report;
     const title = getReportShareTitle(articleTitle, score);
     const url = getSavedReportUrl(host, reportId);
+    const source = getBaseUrlFromUrlString(articleLink);
+
 
     const HtmlHead = (
         <Head>
-            <title>{TEXTS.objectivityReport}</title>
+            <title>{TEXTS.objectivityReport(articleTitle, source)}</title>
             <meta name="description" content={explanation} />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <meta property="og:title" content={title} />

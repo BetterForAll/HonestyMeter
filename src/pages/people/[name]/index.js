@@ -86,10 +86,10 @@ export default function PersonPage({ homePageProps, reports, page, name, nameUrl
       {htmlHead}
       {
         <Box sx={STYLES.container}>
-          <Typography variant='h2' sx={STYLES.title}>
+          <Typography variant='h1' sx={STYLES.title}>
             {nameCapitalized}
           </Typography>
-          <Typography variant='body1' sx={STYLES.subtitle}>
+          <Typography variant='h2' sx={STYLES.subtitle}>
             {TEXTS.subtitle(nameCapitalized)}
           </Typography>
           {!isReportListEmpty && (
@@ -282,6 +282,7 @@ const STYLES = {
   },
   subtitle: {
     fontSize: theme.typography.fontSize * 0.875,
+    fontWeight: theme.typography.fontWeightRegular,
     color: theme.palette.text.secondary,
     margin: theme.spacing(0, 2, 0.5, 2),
     textAlign: 'center',
