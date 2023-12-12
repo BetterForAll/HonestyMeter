@@ -31,10 +31,10 @@ const TEXTS = {
   objectivityScore: 'Objectivity Score',
   viewReport: 'View Bias Report',
   imageAlt: 'Random illustration image',
-  honestyMeter: 'Honesty Meter',
+  honestyMeter: 'Honesty Meter - Popular People news integrity feed',
   error: 'Something went wrong. Please try again later.',
   desciptiion:
-    'Latest news about popular people analyzed by HonestyMeter',
+    'Latest news about popular people analyzed by HonestyMeter - AI powered tool for bias detection',
   ogDescription: 'AI powered tool for bias detection',
   shareTitle:
     'HonestyMeter - A New Free AI powered tool for Evaluating the Objectivity and Bias of Media Content.',
