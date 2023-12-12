@@ -17,7 +17,7 @@ const nextConfig = {
   async rewrites() {
     return [
       { source: '/sitemap.xml', destination: '/api/sitemaps/main' },
-      { source: '/sitemaps/people/people.xml', destination: '/api/sitemaps/people' },
+      { source: '/sitemaps/people.xml', destination: '/api/sitemaps/people' },
       { source: '/sitemaps/reports/:id.xml', destination: '/api/sitemaps/reports/:id' },
     ];
   },
