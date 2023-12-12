@@ -4,7 +4,7 @@ import clientPromise, {
 } from "../../../server/mongodb/mongodb";
 import { ObjectId } from "mongodb";
 import { STATUS_CODE } from "../../../server/constants/status_code";
-import METHODS from "../../../server/constants/rest_methods";
+import REST_METHODS from "../../../server/constants/rest_methods";
 import { saveReport } from "../../../server/services/saved_report_service";
 import { EMPTY_STRING } from "@/constants/constants";
 
@@ -17,13 +17,13 @@ export default async function handler(req, res) {
   const db = client.db(dbName);
 
   switch (req.method) {
-    case METHODS.POST:
-      const report = req.body;
+    case REST_METHODS.POST:
+      const report = { ...req.body, isNew: true };
       const { insertedId } = await saveReport(db, report);
 
       res.json({ insertedId });
       break;
-    case METHODS.GET:
+    case REST_METHODS.GET:
       const { reports, isLastPage } = (await getReports(req, db)) || {};
 
       res.json({ status: STATUS_CODE.OK, data: { reports, isLastPage } });

@@ -1,8 +1,8 @@
-const METHODS = {
+const REST_METHODS = {
     GET: 'GET',
     POST: 'POST',
     PUT: 'PUT',
     DELETE: 'DELETE',
 }
 
-export default METHODS;
+export default REST_METHODS;

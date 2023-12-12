@@ -1,3 +1,4 @@
+import REST_METHODS from "../../../server/constants/rest_methods";
 import clientPromise, {
     dbName,
 } from "../../../server/mongodb/mongodb";
@@ -9,7 +10,7 @@ export default async function handler(req, res) {
     const db = client.db(dbName);
 
     try {
-        if (req.method === 'GET') {
+        if (req.method === REST_METHODS.GET) {
             const reportedPeople = await db
                 .collection(PEOPLE_COLLECTION_NAME)
                 .find(
