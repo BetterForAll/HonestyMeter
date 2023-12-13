@@ -51,7 +51,7 @@ export default async function handler(req, res) {
     parsedReport.articleDate = articleDate;
     parsedReport.articleLink = articleLink;
     parsedReport.isUserGenerated = true;
-    parsedReport.isNew = true;
+    // parsedReport.isNew = true;
     const { insertedId: reportId } = await saveReport(db, collectionName, parsedReport) || {};
 
     res.status(STATUS_CODE.OK).json({ reportId });
