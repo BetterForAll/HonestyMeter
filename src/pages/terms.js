@@ -65,6 +65,15 @@ export default function Terms() {
       or other providers of such material and are protected by international copyright
       , trademark, patent, trade secret, and other intellectual property or proprietary rights laws.
     </p>
+    <h2 style={{ fontSize: 'inherit' }}>
+      DATA COLLECTION AND USAGE
+    </h2>
+    <p>
+      To improve user experience and ensure the functionality of the Website, HonestyMeter.com uses anonymous
+      identifiers in cookies and/or local/session storage. These identifiers are used to track user interactions
+      and detect issues on the Website. This data is non-personal and is solely for the purpose of maintaining
+      and improving the Website&apos;s performance and functionality.
+    </p>
 
     <h2 style={{ fontSize: 'inherit' }}>
       DISCLAIMER OF WARRANTIES
