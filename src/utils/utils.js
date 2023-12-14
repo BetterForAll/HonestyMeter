@@ -173,3 +173,13 @@ export const capitalizeFirstLetter = (string) => {
 export const capitalizeFirstLetterOfEachWord = (string) => {
   return string.split(SPACE).map(capitalizeFirstLetter).join(SPACE);
 }
+
+export function getQueryStringByAsPath(asPath) {
+  const queryString = asPath.split('?')[1];
+
+  if (queryString) {
+    return `?${queryString}`;
+  } else {
+    return EMPTY_STRING;
+  }
+}

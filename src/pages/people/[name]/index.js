@@ -4,17 +4,18 @@ import Head from 'next/head';
 import va from '@vercel/analytics';
 import theme from '@/theme';
 import { Box, Typography } from '@mui/material';
-import { scrollToTop, scrollToBottom, capitalizeFirstLetterOfEachWord } from '../../../utils/utils';
+import { scrollToTop, scrollToBottom, capitalizeFirstLetterOfEachWord, getQueryStringByAsPath } from '../../../utils/utils';
 import Share from '@/components/Share';
 import AtricleInput from '@/components/ArticleInput';
 import Disclamer from '@/components/Disclamer';
-import { API_URL, BASE_URL, EVENT, WOLRD_NEWS_API_URL } from '@/constants/constants';
+import { API_URL, BASE_URL, EMPTY_STRING, EVENT, WOLRD_NEWS_API_URL } from '@/constants/constants';
 import ReportList from '@/components/ReportList/ReportList';
 import usePageLoadingFull from '@/hooks/usePageLoadingFull';
 import Pagination from '@/components/Layout/Pagination';
 import { array, bool, string, object } from 'prop-types';
 import CreateReportButton from '@/components/Layout/CreateReportButton';
 import BackButton from '@/components/Layout/BackButton';
+import { useRouter } from 'next/router';
 
 const LOGO_URL = './favicon.png';
 const OPEN_GRAPH_IMAGE_URL = './opengraph-logo.png';
@@ -56,7 +57,9 @@ export default function PersonPage({ homePageProps, reports, page, name, nameUrl
   const isReportListEmpty = reports.length === 0;
   const shouldShowBottomControls = reports.length > 8;
   const nameCapitalized = capitalizeFirstLetterOfEachWord(name);
-  const htmlHead = getHtmlHead({ nameCapitalized, nameUrl });
+  const router = useRouter();
+  const { asPath } = router || {};
+  const htmlHead = getHtmlHead({ nameCapitalized, nameUrl, asPath });
 
   const onCardClick = (reportUrl) => () => {
     va.track(EVENT.reportCardClicked, { reportUrl });
@@ -223,21 +226,26 @@ PersonPage.propTypes = {
   nameUrl: string,
 };
 
-const getHtmlHead = ({ nameCapitalized, nameUrl }) => (
-  <Head>
-    <title>{`${nameCapitalized} - ${TEXTS.honestyMeter}`}</title>
-    <meta name='description' content={TEXTS.desciptiion(nameCapitalized)} />
-    <meta name='viewport' content='width=device-width, initial-scale=1' />
-    <meta property='og:type' content='website' />
-    <meta property='og:title' content={nameCapitalized} />
-    <meta property='og:description' content={TEXTS.subtitle(nameCapitalized)} />
-    <meta property='og:url' content={BASE_URL} />
-    <meta property='og:image' content={OPEN_GRAPH_IMAGE_URL} />
-    <meta property='twitter:image' content={TWITTER_IMAGE_URL} />
-    <link rel='shortcut icon' href={LOGO_URL} />
-    <link rel='canonical' href={BASE_URL + '/people/' + nameUrl} />
-  </Head>
-);
+function getHtmlHead({ nameCapitalized, nameUrl, asPath }) {
+  const queryString = getQueryStringByAsPath(asPath);
+  const canonicalUrl = `${BASE_URL}/people/${nameUrl}${queryString}`;
+
+  return (
+    <Head>
+      <title>{`${nameCapitalized} - ${TEXTS.honestyMeter}`}</title>
+      <meta name='description' content={TEXTS.desciptiion(nameCapitalized)} />
+      <meta name='viewport' content='width=device-width, initial-scale=1' />
+      <meta property='og:type' content='website' />
+      <meta property='og:title' content={nameCapitalized} />
+      <meta property='og:description' content={TEXTS.subtitle(nameCapitalized)} />
+      <meta property='og:url' content={BASE_URL} />
+      <meta property='og:image' content={OPEN_GRAPH_IMAGE_URL} />
+      <meta property='twitter:image' content={TWITTER_IMAGE_URL} />
+      <link rel='shortcut icon' href={LOGO_URL} />
+      <link rel='canonical' href={canonicalUrl} />
+    </Head>
+  );
+}
 
 export async function getServerSideProps(context) {
   const { req } = context;

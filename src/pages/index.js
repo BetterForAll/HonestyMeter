@@ -18,7 +18,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import SearchOffIcon from '@mui/icons-material/SearchOff';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
-import { scrollToTop, scrollToBottom, capitalizeFirstLetterOfEachWord, EMPTY_FUNCTION } from '../utils/utils';
+import { scrollToTop, scrollToBottom, capitalizeFirstLetterOfEachWord, getQueryStringByAsPath } from '../utils/utils';
 import Share from '@/components/Share';
 import AtricleInput from '@/components/ArticleInput';
 import Disclamer from '@/components/Disclamer';
@@ -207,7 +207,7 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
 
   return (
     <>
-      {HtmlHead}
+      {getHtmlHead(router.asPath)}
       {
         <Box sx={STYLES.container} key={reports}>
           <Typography variant='h2' sx={STYLES.title}>
@@ -423,21 +423,27 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
   );
 }
 
-const HtmlHead = (
-  <Head>
-    <title>{TEXTS.honestyMeter}</title>
-    <meta name='description' content={TEXTS.desciptiion} />
-    <meta name='viewport' content='width=device-width, initial-scale=1' />
-    <meta property='og:type' content='website' />
-    <meta property='og:title' content={TEXTS.honestyMeter} />
-    <meta property='og:description' content={TEXTS.ogDescription} />
-    <meta property='og:url' content={BASE_URL} />
-    <meta property='og:image' content={OPEN_GRAPH_IMAGE_URL} />
-    <meta property='twitter:image' content={TWITTER_IMAGE_URL} />
-    <link rel='shortcut icon' href={LOGO_URL} />
-    <link rel='canonical' href={BASE_URL} />
-  </Head>
-);
+
+function getHtmlHead(asPath) {
+  const queryString = getQueryStringByAsPath(asPath);
+  const canonicalUrl = `${BASE_URL}${queryString ? `/${queryString}` : EMPTY_STRING}`;
+
+  return (
+    <Head>
+      <title>{TEXTS.honestyMeter}</title>
+      <meta name='description' content={TEXTS.desciptiion} />
+      <meta name='viewport' content='width=device-width, initial-scale=1' />
+      <meta property='og:type' content='website' />
+      <meta property='og:title' content={TEXTS.honestyMeter} />
+      <meta property='og:description' content={TEXTS.ogDescription} />
+      <meta property='og:url' content={BASE_URL} />
+      <meta property='og:image' content={OPEN_GRAPH_IMAGE_URL} />
+      <meta property='twitter:image' content={TWITTER_IMAGE_URL} />
+      <link rel='shortcut icon' href={LOGO_URL} />
+      <link rel='canonical' href={canonicalUrl} />
+    </Head>
+  )
+}
 
 function getSearchIconTooltipText(isSearchShown, isQueryParams) {
   let tooltipText = isSearchShown ? TEXTS.cancelSearch : TEXTS.searchAndFilter;
