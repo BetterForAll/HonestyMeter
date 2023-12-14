@@ -15,6 +15,7 @@ import { EMPTY_FUNCTION } from '../../utils/utils';
 import { API_URL, BASE_URL, EMPTY_STRING, EVENT } from '@/constants/constants';
 import Search from '@/components/Layout/Search';
 import Link from 'next/link';
+import { getPeople } from '../api/people';
 
 const LOGO_URL = './favicon.png';
 const OPEN_GRAPH_IMAGE_URL = './opengraph-logo.png';
@@ -191,17 +192,12 @@ const HtmlHead = (
   </Head>
 );
 
-export async function getServerSideProps(context) {
-  const { req } = context;
-  const host = req?.headers?.host
-  const url = `http://${host}/${API_URL.PEOPLE}`;
-  const res = await fetch(url);
-  const people = await res.json();
+export async function getStaticProps() {
+  const people = await getPeople();
   const peopleNames = people.map((person) => person.name);
 
   return { props: { people: peopleNames } };
 }
-
 
 const STYLES = {
   container: {
