@@ -9,6 +9,7 @@ import createEmotionCache from '../createEmotionCache';
 import Header from '@/components/Layout/Header';
 import Menu from '@/components/Layout/DesktopMenu';
 import { useRouter } from 'next/router';
+import mixpanel from 'mixpanel-browser';
 import Divider from '@mui/material/Divider';
 import { Box } from '@mui/material';
 import Footer from '@/components/Layout/Footer';
@@ -16,11 +17,12 @@ import { PAGE_ROUTES, PAGE_URL_TO_INDEX_MAP } from '@/constants/constants';
 import useHomePage from '@/hooks/useHomePage';
 import MobileMenu from '@/components/Layout/MobileMenu';
 import { Analytics } from '@vercel/analytics/react';
-import { scrollToTop } from '@/utils/utils';
+import { isServer, scrollToTop } from '@/utils/utils';
 import GoogleTranslate from '@/components/GoogleTranslate';
 import '../global.css'
 
 const clientSideEmotionCache = createEmotionCache();
+const MIXPANEL_TOKEN = '8121618e088b8916064a9449a6d800e6'
 
 export default function MyApp(props) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
@@ -39,6 +41,27 @@ export default function MyApp(props) {
 
     scrollToTop();
   }, [initialPageIndex]);
+
+  useEffect(() => {
+    if (isServer()) return;
+
+    mixpanel.init(MIXPANEL_TOKEN); // Replace with your Mixpanel token
+
+    const handleRouteChange = (url) => {
+      mixpanel.track('Page View', {
+        distinct_id: mixpanel.get_distinct_id(), // Get or create a distinct ID for the user
+        page: url,
+      });
+    };
+
+    handleRouteChange(window.location.pathname);
+
+    router.events.on('routeChangeComplete', handleRouteChange);
+
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [router.events]);
 
   return (
     <CacheProvider value={emotionCache}>
