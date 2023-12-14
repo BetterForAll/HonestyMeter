@@ -72,10 +72,23 @@ export default function Pagination({
 
 function GenerateLinkWithUpdatedQueryParam(key, value, router) {
   const newQuery = new URLSearchParams(router.query);
-  newQuery.set(key, value.toString());
+  const isGoToFirstPage = key === 'page' && (value === 1 || value === '1');
 
-  return newQuery.toString();
+  if (isGoToFirstPage) {
+    newQuery.delete(key);
+  } else {
+    newQuery.set(key, value.toString());
+  }
+
+  const isQueryEmpty = [...newQuery].length === 0;
+
+  if (isQueryEmpty) {
+    return '';
+  }
+
+  return '?' + newQuery.toString();
 };
+
 
 function getPageParams(page, router) {
   const nextPage = parseInt(page) + 1;
@@ -83,9 +96,9 @@ function getPageParams(page, router) {
   const nextPageParamsString = GenerateLinkWithUpdatedQueryParam(PAGE_QUERY_PARAM_KEY, nextPage, router);
   const prevPageParamsString = GenerateLinkWithUpdatedQueryParam(PAGE_QUERY_PARAM_KEY, prevPage, router);
   const firstPageParamsString = GenerateLinkWithUpdatedQueryParam(PAGE_QUERY_PARAM_KEY, 1, router);
-  const nextPageLink = `${router.pathname}?${nextPageParamsString}`;
-  const prevPageLink = `${router.pathname}?${prevPageParamsString}`;
-  const firstPageLink = `${router.pathname}?${firstPageParamsString}`;
+  const nextPageLink = `${router.pathname}${nextPageParamsString}`;
+  const prevPageLink = `${router.pathname}${prevPageParamsString}`;
+  const firstPageLink = `${router.pathname}${firstPageParamsString}`;
 
   return {
     prev: prevPageLink,
