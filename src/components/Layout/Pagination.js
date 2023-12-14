@@ -82,11 +82,7 @@ function GenerateLinkWithUpdatedQueryParam(key, value, router) {
 
   const isQueryEmpty = [...newQuery].length === 0;
 
-  if (isQueryEmpty) {
-    return '';
-  }
-
-  return '?' + newQuery.toString();
+  return isQueryEmpty ? EMPTY_STRING : `?${newQuery.toString()}`;
 };
 
 
