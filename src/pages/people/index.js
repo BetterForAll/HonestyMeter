@@ -196,7 +196,10 @@ export async function getStaticProps() {
   const people = await getPeople();
   const peopleNames = people.map((person) => person.name);
 
-  return { props: { people: peopleNames } };
+  return {
+    props: { people: peopleNames },
+    revalidate: 4 * 60 * 60
+  };
 }
 
 const STYLES = {
