@@ -275,10 +275,10 @@ export default function About() {
               The GPT-3.5-Turbo model is currently in production to minimize costs, as the tool is free and self-funded.
             </li>
             <li>
-              The Large Language Models (LLMs) struggle with long texts, often becoming &quot;confused.&quot;
+              Large Language Models (LLMs) may face challenges in maintaining context in extended texts.
             </li>
             <li>
-              LLMs are not sufficiently effective in handling complex, multi-step tasks, especially with lengthy texts.
+              In tasks that are complex and multi-stepped, LLMs tend to be less efficient, especially with lengthy inputs.
             </li>
           </ul>
           <p>Therefore, we are actively developing more sophisticated, multi-staged algorithms to significantly enhance the reliability and consistency of evaluations.</p>
