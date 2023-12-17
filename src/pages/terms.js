@@ -74,7 +74,34 @@ export default function Terms() {
       and detect issues on the Website. This data is non-personal and is solely for the purpose of maintaining
       and improving the Website&apos;s performance and functionality.
     </p>
-
+    <h2 style={{ fontSize: 'inherit' }}>RESTRICTIONS ON DATA USE AND SCRAPING</h2>
+    <p style={{ fontSize: 'inherit' }}><b>Limited Permission for Search Engines and AI Tool Indexes</b></p>
+    <p>
+      HonestyMeter grants a limited exception to general web search engines (e.g., Google, Bing, Yahoo)
+      and AI tool indexes to use spiders or crawlers for the purpose of public indexing.
+      This exception is granted under the condition that the indexing is used to direct users
+      to the Website and not for creating a service that replicates or competes with HonestyMeter.
+    </p>
+    <p><b>Use of Data for Promotional Purposes</b></p>
+    <p>
+      Users are permitted to use small amounts of data from the Website for the purpose of
+      sharing information about the Website, writing articles or reviews about it,
+      or promoting its services, provided that such use does not infringe
+      on the intellectual property rights of HonestyMeter and is done in a non-misleading manner.
+    </p>
+    <p><b>Prohibition of Unauthorized Scraping</b></p>
+    <p>
+      Except as provided above, you agree not to engage in any form of data scraping
+      or unauthorized data extraction from the Website, including but not limited to the use of bots, scrapers,
+      or other automated systems without explicit prior written consent from HonestyMeter.
+    </p>
+    <p><b>Prohibition on Use of Data for Training</b></p>
+    <p>
+      You agree not to use any data or content obtained from the Website,
+      whether through scraping, direct access, or other means, for the purpose of training,
+      developing, or testing machine learning models, algorithms, or any form of artificial intelligence,
+      without explicit prior written consent from HonestyMeter.
+    </p>
     <h2 style={{ fontSize: 'inherit' }}>
       DISCLAIMER OF WARRANTIES
     </h2>
@@ -178,5 +205,5 @@ export default function Terms() {
       HonestyMeter. Address:  10685-B Hazelhurst Dr. # 35149 Houston, TX 77043 USA
     </p>
 
-  </main>
+  </main >
 }
