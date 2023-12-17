@@ -380,7 +380,7 @@ export default function About() {
           Up to this day, HonestyMeter has been fully self-funded. We invest our own time and money in research, development, and maintenance.
           Though we are fully capable of progressing independently, we are open to the possibility of partnering with those
           who resonate with our vision and can offer a substantial contribution, whether it be
-          enhancing visibility, funding collaborations, or offering expertise..
+          enhancing visibility, funding collaborations, or offering expertise.
           <br /> <br />
           If you share our vision of truthful media and are interested in making a contribution
           that has the potential for major advancement, please feel free to reach out to us at&nbsp;
