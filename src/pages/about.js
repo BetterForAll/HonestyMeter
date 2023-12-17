@@ -414,7 +414,7 @@ const STYLES = {
     fontStyle: 'italic',
     fontSize: theme.typography.fontSize * 1.125,
     color: theme.palette.text.secondary,
-    marginBottom: theme.spacing(8),
+    marginBottom: theme.spacing(5),
   },
   articleLink: {
     textDecoration: 'none',
