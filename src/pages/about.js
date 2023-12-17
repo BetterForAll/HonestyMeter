@@ -267,7 +267,7 @@ export default function About() {
           />
         </Box>
         <div class="content">
-          <h2>Challenges and Solutions</h2>
+          <h2>Technical Challenges and Solutions</h2>
           <p>The current version of HonestyMeter is an experimental demo.
             There is significant room for improvement in terms of the depth, accuracy, and consistency of the reports, for the following reasons:</p>
           <ul>
@@ -379,7 +379,8 @@ export default function About() {
         <p>
           Up to this day, HonestyMeter has been fully self-funded. We invest our own time and money in research, development, and maintenance.
           Though we are fully capable of progressing independently, we are open to the possibility of partnering with those
-          who resonate with our vision and can offer a substantial contribution, whether it be financial, promotional, or in terms of expertise.
+          who resonate with our vision and can offer a substantial contribution, whether it be
+          enhancing visibility, funding collaborations, or offering expertise..
           <br /> <br />
           If you share our vision of truthful media and are interested in making a contribution
           that has the potential for major advancement, please feel free to reach out to us at&nbsp;
