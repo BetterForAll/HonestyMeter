@@ -195,10 +195,14 @@ export default function About() {
           {TEXTS.introduction.solution}
         </p>
         <h3>Features:</h3>
+        <p>
+          Our initial release focused on a singular feature, allowing users to copy text and receive a bias report.
+          Below are the newly added features we have released in the past few months:
+        </p>
         <ul>
           <li><p><b>News Integrity Feed</b> (New Release): Offers analysis of the latest news from leading sources. Users can search by keyword or filter by category and country.</p></li>
           <li><p><b>Personal News Integrity Feed for Popular People</b> (New Release): Analyzes the latest news about famous people.</p></li>
-          <li><p><b>Custom Content Analysis</b>: Users can submit links or text to receive a comprehensive bias report. This feature enables analysis of content not featured on our website and allows authors to reduce bias in their original content.</p></li>
+          <li><p><b>Custom Content Analysis</b> (New Release - now with Link Support): Users can submit links or text to receive a comprehensive bias report. This feature enables analysis of content not featured on our website and allows authors to reduce bias in their original content.</p></li>
           <li><p><b>Ratings</b> (To be released soon): Will provide ratings for the most favored and criticized people, and the most objective media sources.</p></li>
         </ul>
 
