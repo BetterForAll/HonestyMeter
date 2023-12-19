@@ -45,11 +45,19 @@ export default function MyApp(props) {
   useEffect(() => {
     if (isServer()) return;
 
-    mixpanel.init(MIXPANEL_TOKEN); // Replace with your Mixpanel token
+    mixpanel.init(MIXPANEL_TOKEN);
+
+    const distinctId = mixpanel.get_distinct_id();
+    mixpanel.identify(distinctId);
+
+    mixpanel.people.set_once({
+      distinct_id: distinctId,
+      'First Seen': new Date().toISOString(),
+    });
 
     const handleRouteChange = (url) => {
       mixpanel.track('Page View', {
-        distinct_id: mixpanel.get_distinct_id(), // Get or create a distinct ID for the user
+        distinct_id: distinctId,
         page: url,
       });
     };
