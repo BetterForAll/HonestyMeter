@@ -431,16 +431,16 @@ function getHtmlHead(asPath) {
   return (
     <Head>
       <title>{TEXTS.honestyMeter}</title>
-      <meta name='description' content={TEXTS.desciptiion} />
-      <meta name='viewport' content='width=device-width, initial-scale=1' />
-      <meta property='og:type' content='website' />
-      <meta property='og:title' content={TEXTS.honestyMeter} />
-      <meta property='og:description' content={TEXTS.ogDescription} />
-      <meta property='og:url' content={BASE_URL} />
-      <meta property='og:image' content={OPEN_GRAPH_IMAGE_URL} />
-      <meta property='twitter:image' content={OPEN_GRAPH_IMAGE_URL} />
-      <link rel='shortcut icon' href={LOGO_URL} />
-      <link rel='canonical' href={canonicalUrl} />
+      <meta name="description" content={TEXTS.desciptiion} />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta property="og:type" content="website" />
+      <meta property="og:title" content={TEXTS.honestyMeter} />
+      <meta property="og:description" content={TEXTS.ogDescription} />
+      <meta property="og:url" content={BASE_URL} />
+      <meta property="og:image" content={OPEN_GRAPH_IMAGE_URL} />
+      <meta property="twitter:image" content={OPEN_GRAPH_IMAGE_URL} />
+      <link rel="shortcut icon" href={LOGO_URL} />
+      <link rel="canonical" href={canonicalUrl} />
     </Head>
   )
 }
