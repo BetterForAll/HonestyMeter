@@ -11,7 +11,7 @@ import { API_URL } from '@/constants/constants';
 import { getBaseUrlFromUrlString } from '@/utils/utils';
 
 const LOGO_URL = 'https://honestymeter.com/favicon.ico';
-const LOGO_PNG_URL = 'https://honestymeter.com/logo.png';
+const LOGO_PNG_URL = 'https://honestymeter.com/favicon.png';
 const OPEN_GRAPH_IMAGE_URL = 'https://honestymeter.com/opengraph-logo.png';
 const TEXTS = {
     objectivityReport: (articleTitle, source) => `'${articleTitle}' by ${source} - Bias Report by HonestyMeter - free AI powered bias detection framework`,
