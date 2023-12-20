@@ -438,7 +438,7 @@ function getHtmlHead(asPath) {
       <meta property='og:description' content={TEXTS.ogDescription} />
       <meta property='og:url' content={BASE_URL} />
       <meta property='og:image' content={OPEN_GRAPH_IMAGE_URL} />
-      <meta property='twitter:image' content={TWITTER_IMAGE_URL} />
+      <meta property='twitter:image' content={OPEN_GRAPH_IMAGE_URL} />
       <link rel='shortcut icon' href={LOGO_URL} />
       <link rel='canonical' href={canonicalUrl} />
     </Head>
