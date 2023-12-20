@@ -35,8 +35,8 @@ import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import CloseIcon from '@mui/icons-material/Close';
 
 const LOGO_URL = 'https://honestymeter.com/favicon.png';
-const OPEN_GRAPH_IMAGE_URL = 'https://honestymeter.com//opengraph-logo.png';
-const TWITTER_IMAGE_URL = 'https://honestymeter.com//favicon.png';
+const OPEN_GRAPH_IMAGE_URL = 'https://honestymeter.com/opengraph-logo.png';
+const TWITTER_IMAGE_URL = 'https://honestymeter.com/favicon.png';
 const SHARING_CONTEXT = 'app';
 const SEARCH_FIELD_ID = 'search-field-home';
 const MINIMUM_CARDS_COUNT_TO_SHOW_BOTTOM_CTA = 8;
