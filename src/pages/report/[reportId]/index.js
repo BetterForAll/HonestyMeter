@@ -37,7 +37,7 @@ function SavedReport({ homePageProps, report = {}, host }) {
             <meta property="og:url" content={url} />
             <meta property="og:image" content={OPEN_GRAPH_IMAGE_URL} />
             <meta property="og:type" content="article" />
-            <meta property="twitter:image" content={OPEN_GRAPH_IMAGE_URL} />
+            <meta property="twitter:image" content={LOGO_URL} />
             <link rel="shortcut icon" href={LOGO_URL} />
             <link rel="canonical" href={url} />
         </Head>
