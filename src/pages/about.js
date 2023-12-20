@@ -9,7 +9,7 @@ import Head from 'next/head';
 import { PAGE_ABSOLUTE_URL } from '@/constants/constants';
 
 //TODO: replace html tags with Material UI components, optionally - divide to components
-const LOGO_URL = './public/favicon.ico';
+const LOGO_URL = 'https://honestymeter.com/favicon.ico';
 const ARTICLE_URL = 'https://martechseries.com/predictive-ai/ai-platforms-machine-learning/honestymeter-ai-powered-pioneer-for-unbiased-media-integrity-and-transparency';
 const VIDEO_URL = 'https://player.vimeo.com/video/820300228';
 
