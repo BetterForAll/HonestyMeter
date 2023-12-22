@@ -36,6 +36,7 @@ import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import CloseIcon from '@mui/icons-material/Close';
 import { Methodology } from './rating';
 import Modal from '@mui/material/Modal';
+import StackedBarChartIcon from '@mui/icons-material/StackedBarChart';
 
 
 const LOGO_URL = 'https://honestymeter.com/favicon.png';
@@ -377,33 +378,34 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
 
           <Modal open={isMethodologyModalShown} onClose={handleRatingClick}>
             <Fade in={isMethodologyModalShown} timeout={{ enter: 300, exit: 400 }}>
-              <Box>
+              <Box onClick={handleRatingClick}>
                 <Methodology />
               </Box>
             </Fade>
           </Modal>
-          <Tooltip title={'Click for methdology details'}>
-            <Box sx={{
-              cursor: 'pointer',
-              fontSize: theme.typography.fontSize * 0.75,
-              textAlign: 'center',
-              color: theme.palette.text.secondary,
-              marginBottom: 2,
-            }}
-              onClick={handleRatingClick}>
-              <Typography variant='body1' sx={{ fontWeight: theme.typography.fontWeightBold, fontSize: 'inherit' }}>
-                Most Critisized
-              </Typography>
-              <Typography variant='body1' sx={{ fontSize: 'inherit', marginBottom: 1 }}>
-                Donald Trump, Jeniffer Lopez, Vladimir Putin
-              </Typography>
-              <Typography sx={{ fontWeight: theme.typography.fontWeightBold, fontSize: 'inherit' }}>
-                Most Praised
-              </Typography>
-              <Typography sx={{ fontSize: 'inherit' }}>
-                Elon Musk, Cristiano Ronaldo, Al Pachino
-              </Typography>
-            </Box>
+          {/* <Box sx={{
+                  cursor: 'pointer',
+                  fontSize: theme.typography.fontSize * 0.75,
+                  textAlign: 'center',
+                  color: theme.palette.text.secondary,
+                  marginBottom: 2,
+                }}
+                  onClick={handleRatingClick}>
+                  <Typography variant='body1' sx={{ fontWeight: theme.typography.fontWeightBold, fontSize: 'inherit' }}>
+                    Most Critisized
+                  </Typography>
+                  <Typography variant='body1' sx={{ fontSize: 'inherit', marginBottom: 1 }}>
+                    Donald Trump, Jeniffer Lopez, Vladimir Putin
+                  </Typography>
+                  <Typography sx={{ fontWeight: theme.typography.fontWeightBold, fontSize: 'inherit' }}>
+                    Most Praised
+                  </Typography>
+                  <Typography sx={{ fontSize: 'inherit' }}>
+                    Elon Musk, Cristiano Ronaldo, Al Pachino
+                  </Typography>
+                </Box> */}
+          <Tooltip title={'Ratings'}>
+            <StackedBarChartIcon sx={{ cursor: 'pointer', color: theme.palette.text.secondary }} onClick={handleRatingClick} />
           </Tooltip>
 
           <Typography variant='body1' sx={STYLES.poweredBy}>

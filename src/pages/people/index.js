@@ -7,8 +7,11 @@ import theme from '@/theme';
 import {
   Box,
   Chip,
+  Fade,
   List,
   ListItem,
+  Modal,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import { EMPTY_FUNCTION } from '../../utils/utils';
@@ -16,6 +19,8 @@ import { API_URL, BASE_URL, EMPTY_STRING, EVENT } from '@/constants/constants';
 import Search from '@/components/Layout/Search';
 import Link from 'next/link';
 import { getPeople } from '../api/people';
+import { Methodology } from '../rating';
+import InfoIcon from '@mui/icons-material/Info';
 
 const LOGO_URL = './favicon.png';
 const OPEN_GRAPH_IMAGE_URL = './opengraph-logo.png';
@@ -62,6 +67,7 @@ export default function PeoplePage({ people: peopleFromDb }) {
   const personFromQuery = router.query.person || '';
   const [peopleLocal, setPeopleLocal] = useState(peopleFromDb);
   const [searchValue, setSearchValue] = useState('');
+  const [isMethodologyModalShown, setIsMethodologyModalShown] = useState(false);
   const isPeopleListEmpty = peopleLocal.length === 0;
 
   const handleLocalSearch = (e) => {
@@ -91,6 +97,11 @@ export default function PeoplePage({ people: peopleFromDb }) {
     setPeopleLocal(peopleFromDb);
   }
 
+
+  const handleRatingClick = () => {
+    setIsMethodologyModalShown(prevShown => !prevShown);
+  }
+
   useEffect(() => {
     va.track(EVENT.peoplePageLoaded);
   }, [pageFromQuery]);
@@ -103,6 +114,52 @@ export default function PeoplePage({ people: peopleFromDb }) {
           <Typography variant='h1' sx={STYLES.title}>
             {TEXTS.title}
           </Typography>
+          <Modal open={isMethodologyModalShown} onClose={handleRatingClick}>
+            <Fade in={isMethodologyModalShown} timeout={{ enter: 300, exit: 400 }}>
+              <Box onClick={handleRatingClick}>
+                <Methodology />
+              </Box>
+            </Fade>
+          </Modal>
+          <Tooltip title={'Click for methodology details'}>
+            <Box sx={{
+              cursor: 'pointer',
+              fontSize: theme.typography.fontSize * 0.75,
+              textAlign: 'center',
+              color: theme.palette.text.secondary,
+              marginBottom: 2,
+            }}
+              onClick={handleRatingClick}>
+              <Typography variant='body1'
+                sx={{
+                  fontWeight: theme.typography.fontWeightBold,
+                  fontSize: theme.typography.fontSize * 1,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: 1,
+                }}>
+                Most Critisized <InfoIcon sx={{ fontSize: theme.typography.fontSize * 1.25, verticalAlign: 'middle', position: 'relative', bottom: '1px' }} />
+              </Typography>
+              <Typography variant='body1' sx={{ fontSize: 'inherit', marginBottom: 1 }}>
+                Justin Timberlake, Kanye West, Brad Pitt
+              </Typography>
+              <Typography
+                sx={{
+                  fontWeight: theme.typography.fontWeightBold,
+                  fontSize: theme.typography.fontSize * 1,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: 1,
+                }}>
+                Most Praised <InfoIcon sx={{ fontSize: theme.typography.fontSize * 1.25, verticalAlign: 'middle', position: 'relative', bottom: '1px' }} />
+              </Typography>
+              <Typography sx={{ fontSize: 'inherit' }}>
+                Britney Spears, Selena Gomez, Jennifer Lopez
+              </Typography>
+            </Box>
+          </Tooltip>
           <Search
             value={searchValue}
             onChange={handleLocalSearch}
