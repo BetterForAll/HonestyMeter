@@ -126,7 +126,7 @@ export default function PeoplePage({ people: peopleFromDb }) {
               cursor: 'pointer',
               fontSize: theme.typography.fontSize * 0.75,
               textAlign: 'center',
-              color: theme.palette.text.secondary,
+              color: theme.palette.warning.dark,
               marginBottom: 2,
             }}
               onClick={handleRatingClick}>
@@ -138,10 +138,11 @@ export default function PeoplePage({ people: peopleFromDb }) {
                   justifyContent: 'center',
                   alignItems: 'center',
                   gap: 1,
+                  marginBottom: 0.5,
                 }}>
                 Most Critisized <InfoIcon sx={{ fontSize: theme.typography.fontSize * 1.25 }} />
               </Typography>
-              <Typography variant='body1' sx={{ fontSize: 'inherit', marginBottom: 1 }}>
+              <Typography variant='body1' sx={{ fontSize: 'inherit', marginBottom: 1, color: theme.palette.text.primary, }}>
                 Justin Timberlake, Kanye West, Brad Pitt
               </Typography>
               <Typography
@@ -152,10 +153,12 @@ export default function PeoplePage({ people: peopleFromDb }) {
                   justifyContent: 'center',
                   alignItems: 'center',
                   gap: 1,
+                  color: theme.palette.secondary.dark,
+                  marginBottom: 0.5,
                 }}>
-                Most Praised <InfoIcon sx={{ fontSize: theme.typography.fontSize * 1.25, position: 'relative', bottom: '1px' }} />
+                Most Praised <InfoIcon sx={{ fontSize: theme.typography.fontSize * 1.25 }} />
               </Typography>
-              <Typography sx={{ fontSize: 'inherit' }}>
+              <Typography sx={{ fontSize: 'inherit', color: theme.palette.text.primary, }}>
                 Britney Spears, Selena Gomez, Jennifer Lopez
               </Typography>
             </Box>
