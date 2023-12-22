@@ -79,8 +79,8 @@ export const Methodology = () => {
             <Typography variant="h1" gutterBottom>
                 {TEXT.methodologyHeader}
             </Typography>
-            <Typography paragraph sx={{ color: theme.palette.text.secondary }}>
-                ({`Date range: 23/08/2023-${new Date().toLocaleDateString()}`})
+            <Typography paragraph sx={{ color: theme.palette.text.secondary, fontSize: theme.typography.fontSize * 0.75 }}>
+                {`Date range: 23/08/2023 - ${new Date().toLocaleDateString()}`}
             </Typography>
             <Typography paragraph>
                 {TEXT.methodologyDescription}

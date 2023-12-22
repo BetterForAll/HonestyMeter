@@ -19,6 +19,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import SearchOffIcon from '@mui/icons-material/SearchOff';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
+import InfoIcon from '@mui/icons-material/Info';
 import { scrollToTop, scrollToBottom, capitalizeFirstLetterOfEachWord, getQueryStringByAsPath } from '../utils/utils';
 import Share from '@/components/Share';
 import AtricleInput from '@/components/ArticleInput';
@@ -28,6 +29,7 @@ import ReportList from '@/components/ReportList/ReportList';
 import usePageLoadingFull from '@/hooks/usePageLoadingFull';
 import Pagination from '@/components/Layout/Pagination';
 import Search from '@/components/Layout/Search';
+
 
 import CreateReportButton from '@/components/Layout/CreateReportButton';
 import BackButton from '@/components/Layout/BackButton';
@@ -224,7 +226,45 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
             {TEXTS.title}
           </Typography>
 
-          {/* <Methodology /> */}
+          {/* {isFirstPage && <Tooltip title={'Click for methodology details'}>
+            <Box sx={{
+              cursor: 'pointer',
+              fontSize: theme.typography.fontSize * 0.75,
+              textAlign: 'center',
+              color: theme.palette.text.secondary,
+              marginBottom: 2,
+            }}
+              onClick={handleRatingClick}>
+              <Typography variant='body1'
+                sx={{
+                  fontWeight: theme.typography.fontWeightBold,
+                  fontSize: theme.typography.fontSize * 1,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: 1,
+                }}>
+                Most Critisized <InfoIcon sx={{ fontSize: theme.typography.fontSize * 1.25, verticalAlign: 'middle', position: 'relative', bottom: '1px' }} />
+              </Typography>
+              <Typography variant='body1' sx={{ fontSize: 'inherit', marginBottom: 1 }}>
+                Justin Timberlake, China, Kanye West
+              </Typography>
+              <Typography
+                sx={{
+                  fontWeight: theme.typography.fontWeightBold,
+                  fontSize: theme.typography.fontSize * 1,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: 1,
+                }}>
+                Most Praised <InfoIcon sx={{ fontSize: theme.typography.fontSize * 1.25, verticalAlign: 'middle', position: 'relative', bottom: '1px' }} />
+              </Typography>
+              <Typography sx={{ fontSize: 'inherit' }}>
+                Britney Spears, Arnold Schwarzenegger, Selena Gomez
+              </Typography>
+            </Box>
+          </Tooltip>} */}
 
           {/* TODO: Decide if we want to show the subtitle */}
 
@@ -404,10 +444,9 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
                     Elon Musk, Cristiano Ronaldo, Al Pachino
                   </Typography>
                 </Box> */}
-          <Tooltip title={'Ratings'}>
+          {/* <Tooltip title={'Ratings'}>
             <StackedBarChartIcon sx={{ cursor: 'pointer', color: theme.palette.text.secondary }} onClick={handleRatingClick} />
-          </Tooltip>
-
+          </Tooltip> */}
           <Typography variant='body1' sx={STYLES.poweredBy}>
             {TEXTS.poweredBy}
           </Typography>

@@ -139,7 +139,7 @@ export default function PeoplePage({ people: peopleFromDb }) {
                   alignItems: 'center',
                   gap: 1,
                 }}>
-                Most Critisized <InfoIcon sx={{ fontSize: theme.typography.fontSize * 1.25, verticalAlign: 'middle', position: 'relative', bottom: '1px' }} />
+                Most Critisized <InfoIcon sx={{ fontSize: theme.typography.fontSize * 1.25 }} />
               </Typography>
               <Typography variant='body1' sx={{ fontSize: 'inherit', marginBottom: 1 }}>
                 Justin Timberlake, Kanye West, Brad Pitt
@@ -153,7 +153,7 @@ export default function PeoplePage({ people: peopleFromDb }) {
                   alignItems: 'center',
                   gap: 1,
                 }}>
-                Most Praised <InfoIcon sx={{ fontSize: theme.typography.fontSize * 1.25, verticalAlign: 'middle', position: 'relative', bottom: '1px' }} />
+                Most Praised <InfoIcon sx={{ fontSize: theme.typography.fontSize * 1.25, position: 'relative', bottom: '1px' }} />
               </Typography>
               <Typography sx={{ fontSize: 'inherit' }}>
                 Britney Spears, Selena Gomez, Jennifer Lopez
