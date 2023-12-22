@@ -33,6 +33,9 @@ import BackButton from '@/components/Layout/BackButton';
 import AutoComplete from '@/components/Autocomplete/Autocomplete';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import CloseIcon from '@mui/icons-material/Close';
+import { Methodology } from './rating';
+import Modal from '@mui/material/Modal';
+
 
 const LOGO_URL = 'https://honestymeter.com/favicon.png';
 const OPEN_GRAPH_IMAGE_URL = 'https://honestymeter.com/opengraph-logo.png';
@@ -104,6 +107,7 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
   const [isArticleInputShown, setIsArticleInputShown] = useState(false);
   const [isSearchShown, setIsSearchShown] = useState(false);
   const [isFilterShown, setIsFilterShown] = useState(false);
+  const [isMethodologyModalShown, setIsMethodologyModalShown] = useState(false);
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
   const [category, setCategory] = useState(EMPTY_STRING);
   const [country, setCountry] = useState(EMPTY_STRING);
@@ -200,6 +204,10 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
     router.push(router);
   }
 
+  const handleRatingClick = () => {
+    setIsMethodologyModalShown(prevShown => !prevShown);
+  }
+
 
   useEffect(() => {
     va.track(EVENT.pageLoaded, { page });
@@ -213,6 +221,8 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
           <Typography variant='h2' sx={STYLES.title}>
             {TEXTS.title}
           </Typography>
+
+          {/* <Methodology /> */}
 
           {/* TODO: Decide if we want to show the subtitle */}
 
@@ -363,6 +373,33 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
               }
             </List>
           } */}
+
+          <Modal open={isMethodologyModalShown} onClose={handleRatingClick}>
+            <Methodology />
+          </Modal>
+          <Tooltip title={'Click for methdology details'}>
+            <Box sx={{
+              cursor: 'pointer',
+              fontSize: theme.typography.fontSize * 0.75,
+              textAlign: 'center',
+              color: theme.palette.text.secondary,
+              marginBottom: 2,
+            }}
+              onClick={handleRatingClick}>
+              <Typography variant='body1' sx={{ fontWeight: theme.typography.fontWeightBold, fontSize: 'inherit' }}>
+                Most Critisized:
+              </Typography>
+              <Typography variant='body1' sx={{ fontSize: 'inherit', marginBottom: 1 }}>
+                Donald Trump, Jeniffer Lopez, Vladimir Putin
+              </Typography>
+              <Typography sx={{ fontWeight: theme.typography.fontWeightBold, fontSize: 'inherit' }}>
+                Most Praised:
+              </Typography>
+              <Typography sx={{ fontSize: 'inherit' }}>
+                Elon Musk, Cristiano Ronaldo, Al Pachino
+              </Typography>
+            </Box>
+          </Tooltip>
 
           <Typography variant='body1' sx={STYLES.poweredBy}>
             {TEXTS.poweredBy}
