@@ -9,6 +9,7 @@ import {
   Box,
   Button,
   Chip,
+  Fade,
   List,
   ListItem,
   Tooltip,
@@ -375,7 +376,11 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
           } */}
 
           <Modal open={isMethodologyModalShown} onClose={handleRatingClick}>
-            <Methodology />
+            <Fade in={isMethodologyModalShown} timeout={{ enter: 300, exit: 400 }}>
+              <Box>
+                <Methodology />
+              </Box>
+            </Fade>
           </Modal>
           <Tooltip title={'Click for methdology details'}>
             <Box sx={{
@@ -387,13 +392,13 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
             }}
               onClick={handleRatingClick}>
               <Typography variant='body1' sx={{ fontWeight: theme.typography.fontWeightBold, fontSize: 'inherit' }}>
-                Most Critisized:
+                Most Critisized
               </Typography>
               <Typography variant='body1' sx={{ fontSize: 'inherit', marginBottom: 1 }}>
                 Donald Trump, Jeniffer Lopez, Vladimir Putin
               </Typography>
               <Typography sx={{ fontWeight: theme.typography.fontWeightBold, fontSize: 'inherit' }}>
-                Most Praised:
+                Most Praised
               </Typography>
               <Typography sx={{ fontSize: 'inherit' }}>
                 Elon Musk, Cristiano Ronaldo, Al Pachino
