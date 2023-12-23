@@ -379,31 +379,6 @@ export default function About() {
         <p>
           {TEXTS.conclusion.gameChanger}
         </p>
-        <h2>
-          Monetization in Harmony with Free and Transparent Media Integrity
-        </h2>
-        <p>
-          Our main goal is to provide free, forever objective analysis based on publicly open and transparent algorithms.
-          To make a significant impact, mass adoption is necessary. Although we have effective tactics for organic growth,
-          creating worldwide awareness and usage could be accelerated and made more efficient with solid funding.
-          Being realistic, we understand that mobilizing funds based solely on social impact,
-          without offering any profit potential to investors, might be challenging.
-        </p>
-        <p>
-          Therefore, we have developed a list of potential monetization strategies
-          that can be implemented while fully retaining our vision of a free,
-          open framework that makes the media more truthful and transparent.
-        </p>
-        <p>
-          This list includes innovative products with unique commercial value, capitalizing on our core functionality.
-          These products target rapidly growing multi-billion-dollar markets,
-          where even a minuscule market share could yield multimillion-dollar revenues.
-        </p>
-        <p>
-          We are open to discussing our detailed monetization strategies with investors
-          who share our vision and have proven funding capabilities, provided that a Non-Disclosure Agreement (NDA) is in place,
-          to ensure secure and professional interaction.
-        </p>
         <h2 id="join-us">
           Join Us in Shaping the Future of Media Truth
         </h2>
