@@ -216,7 +216,11 @@ export default function About() {
           <li><p>Extensive coverage for each of the most popular people, e.g., over 500 reports on Elon Musk, Donald Trump and Tylor Swift among others.</p></li>
           <li><p>Over 140 links from multiple websites in various languages, including listings and upvotes in leading AI tool indexes.</p></li>
           <li><p>Surprisingly, HonestyMeter is used in multiple languages, despite being primarily English-focused.</p></li>
-          <li><p>The current version is an experimental demo. We&apos;re developing a more sophisticated version with higher accuracy and consistency. Nonetheless, even in its current form, HonestyMeter often provides insights difficult for humans to detect.</p></li>
+          <li>
+            <p>The current version is an experimental demo. We&apos;re developing a more sophisticated version with higher accuracy and consistency.
+              Nonetheless, even in its current form, HonestyMeter often provides insights difficult for humans to detect.
+            </p>
+          </li>
         </ul>
 
         <h2 id="process">{TEXTS.process.title}</h2>
