@@ -53,34 +53,14 @@ const TEXT = {
                                      insights into media portrayals.`
 };
 
-export const Methodology = () => {
+export const Methodology = ({ createdAt }) => {
     return (
         <Box sx={STYLES.container}>
-            {/* <Box sx={{
-                cursor: 'pointer',
-                fontSize: theme.typography.fontSize,
-                textAlign: 'center',
-                color: theme.palette.text.primary,
-                marginBottom: 2,
-            }}>
-                <Typography variant='body1' sx={{ fontWeight: theme.typography.fontWeightBold, fontSize: 'inherit' }}>
-                    Most Critisized
-                </Typography>
-                <Typography variant='body1' sx={{ fontSize: 'inherit', marginBottom: 1 }}>
-                    Donald Trump, Jeniffer Lopez, Vladimir Putin
-                </Typography>
-                <Typography sx={{ fontWeight: theme.typography.fontWeightBold, fontSize: 'inherit' }}>
-                    Most Praised
-                </Typography>
-                <Typography sx={{ fontSize: 'inherit' }}>
-                    Elon Musk, Cristiano Ronaldo, Al Pachino
-                </Typography>
-            </Box> */}
             <Typography variant="h1" gutterBottom>
                 {TEXT.methodologyHeader}
             </Typography>
             <Typography paragraph sx={{ color: theme.palette.text.secondary, fontSize: theme.typography.fontSize * 0.75 }}>
-                {`Date range: 23/08/2023 - ${new Date().toLocaleDateString()}`}
+                {`Date range: 23/08/2023 - ${createdAt}`}
             </Typography>
             <Typography paragraph>
                 {TEXT.methodologyDescription}
@@ -141,11 +121,11 @@ function MethodologyPage() {
 const STYLES = {
     container: {
         width: '100%',
-        maxWidth: '80%',
+        maxWidth: { xs: '90%', md: '60%' },
         margin: '0 auto auto',
         padding: theme.spacing(2),
         backgroundColor: theme.palette.background.paper,
-        maxHeight: '50%',
+        maxHeight: '85%',
         overflowX: 'auto',
         // borderRadius: '8px',
         padding: theme.spacing(1),

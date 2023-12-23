@@ -14,13 +14,14 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { EMPTY_FUNCTION } from '../../utils/utils';
+import { EMPTY_FUNCTION, convertUTCDateToUserTimeZone } from '../../utils/utils';
 import { API_URL, BASE_URL, EMPTY_STRING, EVENT } from '@/constants/constants';
 import Search from '@/components/Layout/Search';
 import Link from 'next/link';
 import { getPeople } from '../api/people';
 import { Methodology } from '../rating';
 import InfoIcon from '@mui/icons-material/Info';
+import { getLastRating } from '../api/rating';
 
 const LOGO_URL = './favicon.png';
 const OPEN_GRAPH_IMAGE_URL = './opengraph-logo.png';
@@ -61,7 +62,7 @@ const TEXTS = {
   searchName: 'Search Name',
 };
 
-export default function PeoplePage({ people: peopleFromDb }) {
+export default function PeoplePage({ people: peopleFromDb, rating }) {
   const router = useRouter();
   const pageFromQuery = parseInt(router.query.page) || 1;
   const personFromQuery = router.query.person || '';
@@ -69,6 +70,8 @@ export default function PeoplePage({ people: peopleFromDb }) {
   const [searchValue, setSearchValue] = useState('');
   const [isMethodologyModalShown, setIsMethodologyModalShown] = useState(false);
   const isPeopleListEmpty = peopleLocal.length === 0;
+  const mostCriticizedPeople = rating?.mostCriticizedPeople?.join(', ') || '';
+  const mostPraisedPeople = rating?.mostPraisedPeople?.join(', ') || '';
 
   const handleLocalSearch = (e) => {
     const searchValueRes = e.target.value;
@@ -117,7 +120,7 @@ export default function PeoplePage({ people: peopleFromDb }) {
           <Modal open={isMethodologyModalShown} onClose={handleRatingClick}>
             <Fade in={isMethodologyModalShown} timeout={{ enter: 300, exit: 400 }}>
               <Box onClick={handleRatingClick}>
-                <Methodology />
+                <Methodology createdAt={rating?.createdAt} />
               </Box>
             </Fade>
           </Modal>
@@ -143,7 +146,7 @@ export default function PeoplePage({ people: peopleFromDb }) {
                 Most Critisized <InfoIcon sx={{ fontSize: theme.typography.fontSize * 1.25 }} />
               </Typography>
               <Typography variant='body1' sx={{ fontSize: 'inherit', marginBottom: 1, color: theme.palette.text.primary, }}>
-                Justin Timberlake, Kanye West, Brad Pitt
+                {mostCriticizedPeople}
               </Typography>
               <Typography
                 sx={{
@@ -153,13 +156,13 @@ export default function PeoplePage({ people: peopleFromDb }) {
                   justifyContent: 'center',
                   alignItems: 'center',
                   gap: 1,
-                  color: theme.palette.secondary.dark,
+                  color: theme.palette.text.primary,
                   marginBottom: 0.5,
                 }}>
                 Most Praised <InfoIcon sx={{ fontSize: theme.typography.fontSize * 1.25 }} />
               </Typography>
               <Typography sx={{ fontSize: 'inherit', color: theme.palette.text.primary, }}>
-                Britney Spears, Selena Gomez, Jennifer Lopez
+                {mostPraisedPeople}
               </Typography>
             </Box>
           </Tooltip>
@@ -253,11 +256,19 @@ const HtmlHead = (
 );
 
 export async function getStaticProps() {
+  const ENTRIES_TO_SHOW = 3;
   const people = await getPeople();
   const peopleNames = people.map((person) => person.name);
+  const rating = await getLastRating();
+  const { mostPraised, mostCriticized } = rating || {};
+  const mostPraisedPeople = mostPraised?.people?.slice(0, ENTRIES_TO_SHOW) || [];
+  const mostCriticizedPeople = mostCriticized?.people?.slice(0, ENTRIES_TO_SHOW) || [];
+  const createdAtDate = rating?.createdAt;
+  const createdAtISOString = createdAtDate.toISOString();
+  const createdAt = convertUTCDateToUserTimeZone(createdAtISOString).split(',')[0].trim();
 
   return {
-    props: { people: peopleNames },
+    props: { people: peopleNames, rating: { mostPraisedPeople, mostCriticizedPeople, createdAt } },
     revalidate: 4 * 60 * 60
   };
 }

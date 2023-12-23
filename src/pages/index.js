@@ -36,10 +36,6 @@ import BackButton from '@/components/Layout/BackButton';
 import AutoComplete from '@/components/Autocomplete/Autocomplete';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import CloseIcon from '@mui/icons-material/Close';
-import { Methodology } from './rating';
-import Modal from '@mui/material/Modal';
-import StackedBarChartIcon from '@mui/icons-material/StackedBarChart';
-
 
 const LOGO_URL = 'https://honestymeter.com/favicon.png';
 const OPEN_GRAPH_IMAGE_URL = 'https://honestymeter.com/opengraph-logo.png';
@@ -111,7 +107,6 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
   const [isArticleInputShown, setIsArticleInputShown] = useState(false);
   const [isSearchShown, setIsSearchShown] = useState(false);
   const [isFilterShown, setIsFilterShown] = useState(false);
-  const [isMethodologyModalShown, setIsMethodologyModalShown] = useState(false);
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
   const [category, setCategory] = useState(EMPTY_STRING);
   const [country, setCountry] = useState(EMPTY_STRING);
@@ -208,11 +203,6 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
     router.push(router);
   }
 
-  const handleRatingClick = () => {
-    setIsMethodologyModalShown(prevShown => !prevShown);
-  }
-
-
   useEffect(() => {
     va.track(EVENT.pageLoaded, { page });
   }, [page]);
@@ -225,47 +215,6 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
           <Typography variant='h2' sx={STYLES.title}>
             {TEXTS.title}
           </Typography>
-
-          {/* {isFirstPage && <Tooltip title={'Click for methodology details'}>
-            <Box sx={{
-              cursor: 'pointer',
-              fontSize: theme.typography.fontSize * 0.75,
-              textAlign: 'center',
-              color: theme.palette.text.secondary,
-              marginBottom: 2,
-            }}
-              onClick={handleRatingClick}>
-              <Typography variant='body1'
-                sx={{
-                  fontWeight: theme.typography.fontWeightBold,
-                  fontSize: theme.typography.fontSize * 1,
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  gap: 1,
-                }}>
-                Most Critisized <InfoIcon sx={{ fontSize: theme.typography.fontSize * 1.25, verticalAlign: 'middle', position: 'relative', bottom: '1px' }} />
-              </Typography>
-              <Typography variant='body1' sx={{ fontSize: 'inherit', marginBottom: 1 }}>
-                Justin Timberlake, China, Kanye West
-              </Typography>
-              <Typography
-                sx={{
-                  fontWeight: theme.typography.fontWeightBold,
-                  fontSize: theme.typography.fontSize * 1,
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  gap: 1,
-                }}>
-                Most Praised <InfoIcon sx={{ fontSize: theme.typography.fontSize * 1.25, verticalAlign: 'middle', position: 'relative', bottom: '1px' }} />
-              </Typography>
-              <Typography sx={{ fontSize: 'inherit' }}>
-                Britney Spears, Arnold Schwarzenegger, Selena Gomez
-              </Typography>
-            </Box>
-          </Tooltip>} */}
-
           {/* TODO: Decide if we want to show the subtitle */}
 
           {/* <Typography variant='body1' sx={STYLES.subtitle}>
@@ -415,38 +364,6 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
               }
             </List>
           } */}
-
-          <Modal open={isMethodologyModalShown} onClose={handleRatingClick}>
-            <Fade in={isMethodologyModalShown} timeout={{ enter: 300, exit: 400 }}>
-              <Box onClick={handleRatingClick}>
-                <Methodology />
-              </Box>
-            </Fade>
-          </Modal>
-          {/* <Box sx={{
-                  cursor: 'pointer',
-                  fontSize: theme.typography.fontSize * 0.75,
-                  textAlign: 'center',
-                  color: theme.palette.text.secondary,
-                  marginBottom: 2,
-                }}
-                  onClick={handleRatingClick}>
-                  <Typography variant='body1' sx={{ fontWeight: theme.typography.fontWeightBold, fontSize: 'inherit' }}>
-                    Most Critisized
-                  </Typography>
-                  <Typography variant='body1' sx={{ fontSize: 'inherit', marginBottom: 1 }}>
-                    Donald Trump, Jeniffer Lopez, Vladimir Putin
-                  </Typography>
-                  <Typography sx={{ fontWeight: theme.typography.fontWeightBold, fontSize: 'inherit' }}>
-                    Most Praised
-                  </Typography>
-                  <Typography sx={{ fontSize: 'inherit' }}>
-                    Elon Musk, Cristiano Ronaldo, Al Pachino
-                  </Typography>
-                </Box> */}
-          {/* <Tooltip title={'Ratings'}>
-            <StackedBarChartIcon sx={{ cursor: 'pointer', color: theme.palette.text.secondary }} onClick={handleRatingClick} />
-          </Tooltip> */}
           <Typography variant='body1' sx={STYLES.poweredBy}>
             {TEXTS.poweredBy}
           </Typography>

@@ -212,7 +212,7 @@ export default function About() {
         <ul>
           <li><p>Over 15,000 reports generated.</p></li>
           <li><p>Hundreds of new reports added daily.</p></li>
-          <li><p>Extensive coverage for each of the most popular people, e.g., over 500 reports on Elon Musk, over 600 on Taylor Swift, among others.</p></li>
+          <li><p>Extensive coverage for each of the most popular people, e.g., over 500 reports on Elon Musk, Donald Trump and Tylor Swift among others.</p></li>
           <li><p>Over 140 links from multiple websites in various languages, including listings and upvotes in leading AI tool indexes.</p></li>
           <li><p>Surprisingly, HonestyMeter is used in multiple languages, despite being primarily English-focused.</p></li>
           <li><p>The current version is an experimental demo. We&apos;re developing a more sophisticated version with higher accuracy and consistency. Nonetheless, even in its current form, HonestyMeter often provides insights difficult for humans to detect.</p></li>
@@ -378,6 +378,31 @@ export default function About() {
         <h2 id="conclusion">{TEXTS.conclusion.title}</h2>
         <p>
           {TEXTS.conclusion.gameChanger}
+        </p>
+        <h2>
+          Monetization in Harmony with Free and Transparent Media Integrity
+        </h2>
+        <p>
+          Our main goal is to provide free, forever objective analysis based on publicly open and transparent algorithms.
+          To make a significant impact, mass adoption is necessary. Although we have effective tactics for organic growth,
+          creating worldwide awareness and usage could be accelerated and made more efficient with solid funding.
+          Being realistic, we understand that mobilizing funds based solely on social impact,
+          without offering any profit potential to investors, might be challenging.
+        </p>
+        <p>
+          Therefore, we have developed a list of potential monetization strategies
+          that can be implemented while fully retaining our vision of a free,
+          open framework that makes the media more truthful and transparent.
+        </p>
+        <p>
+          This list includes innovative products with unique commercial value, capitalizing on our core functionality.
+          These products target rapidly growing multi-billion-dollar markets,
+          where even a minuscule market share could yield multimillion-dollar revenues.
+        </p>
+        <p>
+          We are open to discussing our detailed monetization strategies with investors
+          who share our vision and have proven funding capabilities, provided that a Non-Disclosure Agreement (NDA) is in place,
+          to ensure secure and professional interaction.
         </p>
         <h2 id="join-us">
           Join Us in Shaping the Future of Media Truth
