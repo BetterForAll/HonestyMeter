@@ -203,16 +203,17 @@ export default function About() {
           <li><p><b>News Integrity Feed</b> (New Release): Offers analysis of the latest news from leading sources.
             Users can search by keyword or filter by category and country.</p></li>
           <li><p><b>Personal News Integrity Feed for Popular People</b> (New Release): Analyzes the latest news about famous people. Users can search by name</p></li>
+          <li><p><b>Ratings</b> (New Release):  Ratings for the most praised and criticized people.
+            The most objective media sources&apos; ratings will be added in the future.</p></li>
           <li><p><b>Custom Content Analysis</b> (New Release - now with Link Support): Users can submit links or text to receive a comprehensive bias report.
             This feature enables analysis of content not featured on our website and allows authors to reduce bias in their original content.</p></li>
-          <li><p><b>Ratings</b> (To be released soon): Will provide ratings for the most favored and criticized people, and the most objective media sources.</p></li>
         </ul>
 
         <h3>Current State and Updates:</h3>
         <ul>
           <li><p>Over 15,000 reports generated.</p></li>
           <li><p>Hundreds of new reports added daily.</p></li>
-          <li><p>Extensive coverage for each of the most popular people, e.g., over 500 reports on Elon Musk, over 600 on Taylor Swift, among others.</p></li>
+          <li><p>Extensive coverage for each of the most popular people, e.g., over 500 reports on Elon Musk, Donald Trump and Tylor Swift among others.</p></li>
           <li><p>Over 140 links from multiple websites in various languages, including listings and upvotes in leading AI tool indexes.</p></li>
           <li><p>Surprisingly, HonestyMeter is used in multiple languages, despite being primarily English-focused.</p></li>
           <li><p>The current version is an experimental demo. We&apos;re developing a more sophisticated version with higher accuracy and consistency. Nonetheless, even in its current form, HonestyMeter often provides insights difficult for humans to detect.</p></li>

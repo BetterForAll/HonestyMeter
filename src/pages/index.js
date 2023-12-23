@@ -9,6 +9,7 @@ import {
   Box,
   Button,
   Chip,
+  Fade,
   List,
   ListItem,
   Tooltip,
@@ -18,6 +19,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import SearchOffIcon from '@mui/icons-material/SearchOff';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
+import InfoIcon from '@mui/icons-material/Info';
 import { scrollToTop, scrollToBottom, capitalizeFirstLetterOfEachWord, getQueryStringByAsPath } from '../utils/utils';
 import Share from '@/components/Share';
 import AtricleInput from '@/components/ArticleInput';
@@ -27,6 +29,7 @@ import ReportList from '@/components/ReportList/ReportList';
 import usePageLoadingFull from '@/hooks/usePageLoadingFull';
 import Pagination from '@/components/Layout/Pagination';
 import Search from '@/components/Layout/Search';
+
 
 import CreateReportButton from '@/components/Layout/CreateReportButton';
 import BackButton from '@/components/Layout/BackButton';
@@ -200,7 +203,6 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
     router.push(router);
   }
 
-
   useEffect(() => {
     va.track(EVENT.pageLoaded, { page });
   }, [page]);
@@ -213,7 +215,6 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
           <Typography variant='h2' sx={STYLES.title}>
             {TEXTS.title}
           </Typography>
-
           {/* TODO: Decide if we want to show the subtitle */}
 
           {/* <Typography variant='body1' sx={STYLES.subtitle}>
@@ -271,7 +272,7 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
           {
             isSearchShown &&
             <Box sx={{
-              display: { xs: 'flex', sm: 'flex' },
+              display: 'flex',
               flexWrap: 'wrap',
               width: '100%',
               justifyContent: 'center',
@@ -281,7 +282,7 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
               flexDirection: { xs: 'column', sm: 'row' }
             }}>
               <Box sx={{
-                display: { xs: 'flex', sm: 'flex' },
+                display: 'flex',
                 flexWrap: 'wrap',
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -363,7 +364,6 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
               }
             </List>
           } */}
-
           <Typography variant='body1' sx={STYLES.poweredBy}>
             {TEXTS.poweredBy}
           </Typography>

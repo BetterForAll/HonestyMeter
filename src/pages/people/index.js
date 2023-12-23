@@ -7,15 +7,21 @@ import theme from '@/theme';
 import {
   Box,
   Chip,
+  Fade,
   List,
   ListItem,
+  Modal,
+  Tooltip,
   Typography,
 } from '@mui/material';
-import { EMPTY_FUNCTION } from '../../utils/utils';
+import { EMPTY_FUNCTION, convertUTCDateToUserTimeZone } from '../../utils/utils';
 import { API_URL, BASE_URL, EMPTY_STRING, EVENT } from '@/constants/constants';
 import Search from '@/components/Layout/Search';
 import Link from 'next/link';
 import { getPeople } from '../api/people';
+import { Methodology } from '../rating';
+import InfoIcon from '@mui/icons-material/Info';
+import { getLastRating } from '../api/rating';
 
 const LOGO_URL = './favicon.png';
 const OPEN_GRAPH_IMAGE_URL = './opengraph-logo.png';
@@ -54,15 +60,21 @@ const TEXTS = {
   noMatchesFound: 'No matches found',
   name: 'Name',
   searchName: 'Search Name',
+  clickForMethodology: 'Click for methodology details',
+  mostPraised: 'Most Praised',
+  mostCriticized: 'Most Criticized',
 };
 
-export default function PeoplePage({ people: peopleFromDb }) {
+export default function PeoplePage({ people: peopleFromDb, rating }) {
   const router = useRouter();
   const pageFromQuery = parseInt(router.query.page) || 1;
   const personFromQuery = router.query.person || '';
   const [peopleLocal, setPeopleLocal] = useState(peopleFromDb);
   const [searchValue, setSearchValue] = useState('');
+  const [isMethodologyModalShown, setIsMethodologyModalShown] = useState(false);
   const isPeopleListEmpty = peopleLocal.length === 0;
+  const mostCriticizedPeople = rating?.mostCriticizedPeople?.join(', ') || '';
+  const mostPraisedPeople = rating?.mostPraisedPeople?.join(', ') || '';
 
   const handleLocalSearch = (e) => {
     const searchValueRes = e.target.value;
@@ -91,6 +103,11 @@ export default function PeoplePage({ people: peopleFromDb }) {
     setPeopleLocal(peopleFromDb);
   }
 
+
+  const handleRatingClick = () => {
+    setIsMethodologyModalShown(prevShown => !prevShown);
+  }
+
   useEffect(() => {
     va.track(EVENT.peoplePageLoaded);
   }, [pageFromQuery]);
@@ -103,6 +120,32 @@ export default function PeoplePage({ people: peopleFromDb }) {
           <Typography variant='h1' sx={STYLES.title}>
             {TEXTS.title}
           </Typography>
+          <Modal open={isMethodologyModalShown} onClose={handleRatingClick}>
+            <Fade in={isMethodologyModalShown} timeout={{ enter: 300, exit: 400 }}>
+              <Box onClick={handleRatingClick}>
+                <Methodology createdAt={rating?.createdAt} />
+              </Box>
+            </Fade>
+          </Modal>
+          <Tooltip title={TEXTS.clickForMethodology}>
+            <Box sx={STYLES.ratingContainer}
+              onClick={handleRatingClick}>
+              <Typography variant='body1'
+                sx={STYLES.mostCritisizedTitle}>
+                {TEXTS.mostCriticized} <InfoIcon sx={STYLES.infoIcon} />
+              </Typography>
+              <Typography variant='body1' sx={{ fontSize: 'inherit', marginBottom: 1, color: theme.palette.text.primary, }}>
+                {mostCriticizedPeople}
+              </Typography>
+              <Typography
+                sx={STYLES.mostPraisedTitle}>
+                {TEXTS.mostPraised} <InfoIcon sx={STYLES.infoIcon} />
+              </Typography>
+              <Typography sx={STYLES.ratingParagraph}>
+                {mostPraisedPeople}
+              </Typography>
+            </Box>
+          </Tooltip>
           <Search
             value={searchValue}
             onChange={handleLocalSearch}
@@ -193,11 +236,19 @@ const HtmlHead = (
 );
 
 export async function getStaticProps() {
+  const ENTRIES_TO_SHOW = 3;
   const people = await getPeople();
   const peopleNames = people.map((person) => person.name);
+  const rating = await getLastRating();
+  const { mostPraised, mostCriticized } = rating || {};
+  const mostPraisedPeople = mostPraised?.people?.slice(0, ENTRIES_TO_SHOW) || [];
+  const mostCriticizedPeople = mostCriticized?.people?.slice(0, ENTRIES_TO_SHOW) || [];
+  const createdAtDate = rating?.createdAt;
+  const createdAtISOString = createdAtDate.toISOString();
+  const createdAt = convertUTCDateToUserTimeZone(createdAtISOString).split(',')[0].trim();
 
   return {
-    props: { people: peopleNames },
+    props: { people: peopleNames, rating: { mostPraisedPeople, mostCriticizedPeople, createdAt } },
     revalidate: 4 * 60 * 60
   };
 }
@@ -228,6 +279,38 @@ const STYLES = {
     color: theme.palette.text.secondary,
     margin: theme.spacing(1, 2, 0, 2),
     textAlign: 'center',
+  },
+  ratingContainer: {
+    cursor: 'pointer',
+    fontSize: theme.typography.fontSize * 0.75,
+    textAlign: 'center',
+    color: theme.palette.warning.dark,
+    marginBottom: 2,
+  },
+  mostCritisizedTitle: {
+    fontWeight: theme.typography.fontWeightBold,
+    fontSize: theme.typography.fontSize * 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 1,
+    marginBottom: 0.5,
+  },
+  infoIcon: { fontSize: theme.typography.fontSize * 1.25 },
+  mostPraisedTitle: {
+    fontWeight: theme.typography.fontWeightBold,
+    fontSize: theme.typography.fontSize * 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 1,
+    color: theme.palette.text.primary,
+    marginBottom: 0.5,
+  },
+  ratingParagraph: {
+    fontSize: 'inherit',
+    marginBottom: 1,
+    color: theme.palette.text.primary
   },
   poweredBy: {
     fontSize: theme.typography.fontSize * 0.75,
