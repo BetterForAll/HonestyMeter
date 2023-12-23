@@ -60,6 +60,9 @@ const TEXTS = {
   noMatchesFound: 'No matches found',
   name: 'Name',
   searchName: 'Search Name',
+  clickForMethodology: 'Click for methodology details',
+  mostPraised: 'Most Praised',
+  mostCriticized: 'Most Criticized',
 };
 
 export default function PeoplePage({ people: peopleFromDb, rating }) {
@@ -124,44 +127,21 @@ export default function PeoplePage({ people: peopleFromDb, rating }) {
               </Box>
             </Fade>
           </Modal>
-          <Tooltip title={'Click for methodology details'}>
-            <Box sx={{
-              cursor: 'pointer',
-              fontSize: theme.typography.fontSize * 0.75,
-              textAlign: 'center',
-              color: theme.palette.warning.dark,
-              marginBottom: 2,
-            }}
+          <Tooltip title={TEXTS.clickForMethodology}>
+            <Box sx={STYLES.ratingContainer}
               onClick={handleRatingClick}>
               <Typography variant='body1'
-                sx={{
-                  fontWeight: theme.typography.fontWeightBold,
-                  fontSize: theme.typography.fontSize * 1,
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  gap: 1,
-                  marginBottom: 0.5,
-                }}>
-                Most Critisized <InfoIcon sx={{ fontSize: theme.typography.fontSize * 1.25 }} />
+                sx={STYLES.mostCritisizedTitle}>
+                {TEXTS.mostCriticized} <InfoIcon sx={STYLES.infoIcon} />
               </Typography>
               <Typography variant='body1' sx={{ fontSize: 'inherit', marginBottom: 1, color: theme.palette.text.primary, }}>
                 {mostCriticizedPeople}
               </Typography>
               <Typography
-                sx={{
-                  fontWeight: theme.typography.fontWeightBold,
-                  fontSize: theme.typography.fontSize * 1,
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  gap: 1,
-                  color: theme.palette.text.primary,
-                  marginBottom: 0.5,
-                }}>
-                Most Praised <InfoIcon sx={{ fontSize: theme.typography.fontSize * 1.25 }} />
+                sx={STYLES.mostPraisedTitle}>
+                {TEXTS.mostPraised} <InfoIcon sx={STYLES.infoIcon} />
               </Typography>
-              <Typography sx={{ fontSize: 'inherit', color: theme.palette.text.primary, }}>
+              <Typography sx={STYLES.ratingParagraph}>
                 {mostPraisedPeople}
               </Typography>
             </Box>
@@ -299,6 +279,38 @@ const STYLES = {
     color: theme.palette.text.secondary,
     margin: theme.spacing(1, 2, 0, 2),
     textAlign: 'center',
+  },
+  ratingContainer: {
+    cursor: 'pointer',
+    fontSize: theme.typography.fontSize * 0.75,
+    textAlign: 'center',
+    color: theme.palette.warning.dark,
+    marginBottom: 2,
+  },
+  mostCritisizedTitle: {
+    fontWeight: theme.typography.fontWeightBold,
+    fontSize: theme.typography.fontSize * 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 1,
+    marginBottom: 0.5,
+  },
+  infoIcon: { fontSize: theme.typography.fontSize * 1.25 },
+  mostPraisedTitle: {
+    fontWeight: theme.typography.fontWeightBold,
+    fontSize: theme.typography.fontSize * 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 1,
+    color: theme.palette.text.primary,
+    marginBottom: 0.5,
+  },
+  ratingParagraph: {
+    fontSize: 'inherit',
+    marginBottom: 1,
+    color: theme.palette.text.primary
   },
   poweredBy: {
     fontSize: theme.typography.fontSize * 0.75,

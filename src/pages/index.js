@@ -272,7 +272,7 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
           {
             isSearchShown &&
             <Box sx={{
-              display: { xs: 'flex', sm: 'flex' },
+              display: 'flex',
               flexWrap: 'wrap',
               width: '100%',
               justifyContent: 'center',
@@ -282,7 +282,7 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
               flexDirection: { xs: 'column', sm: 'row' }
             }}>
               <Box sx={{
-                display: { xs: 'flex', sm: 'flex' },
+                display: 'flex',
                 flexWrap: 'wrap',
                 justifyContent: 'center',
                 alignItems: 'center',
