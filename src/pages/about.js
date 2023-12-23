@@ -283,7 +283,9 @@ export default function About() {
             There is significant room for improvement in terms of the depth, accuracy, and consistency of the reports, for the following reasons:</p>
           <ul>
             <li>
-              The GPT-3.5-Turbo model is currently in production to minimize costs, as the tool is free and self-funded.
+              The GPT-3.5-Turbo model was used in production until the end of December 2023 to minimize costs,
+              as the tool is free and self-funded. At the end of December 2023, we switched to GPT-4,
+              reducing the daily report count as an experiment to prioritize quality over quantity.
             </li>
             <li>
               Large Language Models (LLMs) may face challenges in maintaining context in extended texts.
