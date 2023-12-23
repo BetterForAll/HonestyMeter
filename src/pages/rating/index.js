@@ -26,8 +26,8 @@ const TEXT = {
     praisedEntitiesDescription: `Our methodology for identifying praised entities is broader. 
                                   We consider articles regardless of the number of sides, again 
                                   focusing on those with an objectivity score below 80. This 
-                                  enables us to capture instances where an entity is positively 
-                                  highlighted or shown as the "Favored Side", reflecting 
+                                  enables us to capture instances where an entity is 
+                                   shown as the "Favored Side", reflecting 
                                   favorable media attention in less objective articles.`,
     dynamicThresholdHeader: 'Dynamic Threshold for Inclusion',
     dynamicThresholdDescription: `Entities are included in our analysis if they are mentioned 

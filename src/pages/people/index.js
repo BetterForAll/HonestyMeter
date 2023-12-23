@@ -286,6 +286,12 @@ const STYLES = {
     textAlign: 'center',
     color: theme.palette.warning.dark,
     marginBottom: 2,
+    WebkitTapHighlightColor: 'transparent',
+    WebkitTouchCallout: 'none',
+    WebkitUserSelect: 'none',
+    MozUserSelect: 'none',
+    msUserSelect: 'none',
+    userSelect: 'none',
   },
   mostCritisizedTitle: {
     fontWeight: theme.typography.fontWeightBold,
