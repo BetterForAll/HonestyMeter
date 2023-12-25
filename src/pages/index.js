@@ -37,7 +37,7 @@ import AutoComplete from '@/components/Autocomplete/Autocomplete';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import CloseIcon from '@mui/icons-material/Close';
 import { getLastRating } from './api/rating';
-import Rating from '@/components/RatingList/Rating';
+import { Rating } from '@/components/RatingList/Rating';
 import { MethodologySourcesRating } from '@/components/Methodology/Methodology';
 
 const LOGO_URL = 'https://honestymeter.com/favicon.png';
@@ -226,14 +226,13 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
           {/* <Typography variant='body1' sx={STYLES.subtitle}>
             {TEXTS.subtitle}
           </Typography> */}
-          <Rating {
-            ...{
-              createdAt: ratingCreatedAt,
-              items: mostObjectiveSourcesFormatted,
-              title: TEXTS.mostObjectiveSources,
-              titleColor: theme.palette.primary.main,
-              Methodology: MethodologySourcesRating
-            }} />
+          <Rating {...{
+            createdAt: ratingCreatedAt,
+            items: mostObjectiveSourcesFormatted,
+            title: TEXTS.mostObjectiveSources,
+            titleColor: theme.palette.primary.main,
+            Methodology: MethodologySourcesRating
+          }} />
           <Box sx={{
             display: 'flex',
             flexWrap: 'wrap',

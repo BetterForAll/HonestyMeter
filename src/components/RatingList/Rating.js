@@ -15,7 +15,7 @@ const TEXTS = {
 }
 
 
-export default function Rating({ createdAt, items, title, titleColor, Methodology }) {
+export function Rating({ createdAt, items, title, titleColor, Methodology }) {
     const [isMethodologyModalShown, setIsMethodologyModalShown] = useState(false);
 
     const handleRatingClick = () => {
@@ -44,6 +44,16 @@ export default function Rating({ createdAt, items, title, titleColor, Methodolog
                 </Box>
             </Tooltip>
         </>
+    )
+}
+
+export function RatingList({ ratings }) {
+    return (
+        <Box>
+            {ratings.map((rating) => (
+                <Rating key={rating.title} {...rating} />
+            ))}
+        </Box>
     )
 }
 
