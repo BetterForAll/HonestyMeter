@@ -69,8 +69,7 @@ const TEXT = {
                                     This specific threshold was determined based on our data at the time of rating creation:
                                      all leading sources in our system had more than 100 articles, with the exception of one source, for which we had exactly 96 articles.
                                      Importantly, as we accumulate more articles over time, we plan to increase this threshold. 
-                                     This gradual increase will enhance the reliability of our analysis, ensuring that our insights 
-                                     are based on entities with sustained and substantial media coverage.`,
+                                     This gradual increase will enhance the reliability of our analysis.`,
     dynamicThresholdDescription: `Entities are included in our analysis if they are mentioned 
                                      in at least 30 articles. This threshold ensures we focus on 
                                      entities with significant media presence. Importantly, as we 
