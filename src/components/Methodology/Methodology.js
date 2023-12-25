@@ -147,7 +147,7 @@ export const MethodologySourcesRating = ({ createdAt }) => {
         <Box sx={STYLES.container}>
             <CloseRoundedIcon sx={STYLES.closeIcon} />
             <Typography variant="h1" gutterBottom>
-                {TEXT.methodologySourcesRatingHeader}
+                {TEXT.methodologyPeopleHeader}
             </Typography>
             <Typography paragraph sx={{ color: theme.palette.text.secondary, fontSize: theme.typography.fontSize * 0.75 }}>
                 {`Date range: 23/08/2023 - ${createdAt}`}
