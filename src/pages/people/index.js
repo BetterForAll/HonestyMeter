@@ -18,7 +18,7 @@ import Link from 'next/link';
 import { getPeople } from '../api/people';
 import { getLastRating } from '../api/rating';
 import { MethodologyPeopleRating } from '@/components/Methodology/Methodology';
-import Rating from '@/components/RatingList/Rating';
+import { RatingList } from '@/components/RatingList/Rating';
 
 const LOGO_URL = './favicon.png';
 const OPEN_GRAPH_IMAGE_URL = './opengraph-logo.png';
@@ -74,6 +74,10 @@ export default function PeoplePage({ people: peopleFromDb, rating }) {
   const { createdAt } = rating || ''
   const mostCritisizedRatingTitle = TEXTS.mostCriticized
   const mostPraisedRatingTitle = TEXTS.mostPraised
+  const ratings = [
+    { createdAt, items: mostCriticizedPeople, title: mostCritisizedRatingTitle, titleColor: theme.palette.warning.dark, Methodology: MethodologyPeopleRating },
+    { createdAt, items: mostPraisedPeople, title: mostPraisedRatingTitle, Methodology: MethodologyPeopleRating },
+  ]
 
   const handleLocalSearch = (e) => {
     const searchValueRes = e.target.value;
@@ -115,8 +119,7 @@ export default function PeoplePage({ people: peopleFromDb, rating }) {
           <Typography variant='h1' sx={STYLES.title}>
             {TEXTS.title}
           </Typography>
-          <Rating {...{ createdAt, items: mostCriticizedPeople, title: mostCritisizedRatingTitle, titleColor: theme.palette.warning.dark, Methodology: MethodologyPeopleRating }} />
-          <Rating {...{ createdAt, items: mostPraisedPeople, title: mostPraisedRatingTitle, Methodology: MethodologyPeopleRating }} />
+          <RatingList ratings={ratings} />
           <Search
             value={searchValue}
             onChange={handleLocalSearch}

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Typography, Box } from '@mui/material';
 import theme from '@/theme';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+
 
 const TEXT = {
     pageTitle: 'Methodology',
@@ -92,6 +94,7 @@ const TEXT = {
 export const MethodologyPeopleRating = ({ createdAt }) => {
     return (
         <Box sx={STYLES.container}>
+            <CloseRoundedIcon sx={STYLES.closeIcon} />
             <Typography variant="h1" gutterBottom>
                 {TEXT.methodologyPeopleHeader}
             </Typography>
@@ -142,11 +145,12 @@ export const MethodologyPeopleRating = ({ createdAt }) => {
 export const MethodologySourcesRating = ({ createdAt }) => {
     return (
         <Box sx={STYLES.container}>
+            <CloseRoundedIcon sx={STYLES.closeIcon} />
             <Typography variant="h1" gutterBottom>
                 {TEXT.methodologySourcesRatingHeader}
             </Typography>
             <Typography paragraph sx={{ color: theme.palette.text.secondary, fontSize: theme.typography.fontSize * 0.75 }}>
-                {`Date Range: August 23, 2023 - December 25, 2023`}
+                {`Date range: 23/08/2023 - ${createdAt}`}
             </Typography>
             <Typography paragraph>
                 {TEXT.methodologySourcesRatingDescription}
@@ -218,5 +222,13 @@ const STYLES = {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
+    },
+    closeIcon: {
+        cursor: 'pointer',
+        fontSize: theme.spacing(3),
+        color: theme.palette.text.secondary,
+        position: 'absolute',
+        top: theme.spacing(1),
+        right: theme.spacing(1),
     },
 }
