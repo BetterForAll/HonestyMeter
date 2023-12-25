@@ -203,7 +203,7 @@ export default function About() {
           <li><p><b>News Integrity Feed</b> (New Release): Offers analysis of the latest news from leading sources.
             Users can search by keyword or filter by category and country.</p></li>
           <li><p><b>Personal News Integrity Feed for Popular People</b> (New Release): Analyzes the latest news about famous people. Users can search by name</p></li>
-          <li><p><b>Ratings</b> (New Release):  Ratings for the most praised and criticized people and for the most objective sources.</p></li>
+          <li><p><b>Ratings</b> (New Release): Features ratings for the most praised and criticized people, located on the &quot;People&quot; page, and ratings for the most objective sources, available on the homepage.</p></li>
           <li><p><b>Custom Content Analysis</b> (New Release - now with Link Support): Users can submit links or text to receive a comprehensive bias report.
             This feature enables analysis of content not featured on our website and allows authors to reduce bias in their original content.</p></li>
         </ul>
