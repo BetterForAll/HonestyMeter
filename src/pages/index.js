@@ -20,7 +20,7 @@ import SearchOffIcon from '@mui/icons-material/SearchOff';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import InfoIcon from '@mui/icons-material/Info';
-import { scrollToTop, scrollToBottom, capitalizeFirstLetterOfEachWord, getQueryStringByAsPath } from '../utils/utils';
+import { scrollToTop, scrollToBottom, capitalizeFirstLetterOfEachWord, getQueryStringByAsPath, convertUTCDateToUserTimeZone } from '../utils/utils';
 import Share from '@/components/Share';
 import AtricleInput from '@/components/ArticleInput';
 import Disclamer from '@/components/Disclamer';
@@ -36,6 +36,9 @@ import BackButton from '@/components/Layout/BackButton';
 import AutoComplete from '@/components/Autocomplete/Autocomplete';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import CloseIcon from '@mui/icons-material/Close';
+import { getLastRating } from './api/rating';
+import Rating from '@/components/RatingList/Rating';
+import { MethodologySourcesRating } from '@/components/Methodology/Methodology';
 
 const LOGO_URL = 'https://honestymeter.com/favicon.png';
 const OPEN_GRAPH_IMAGE_URL = 'https://honestymeter.com/opengraph-logo.png';
@@ -76,6 +79,7 @@ const TEXTS = {
   searchAndFilter: 'Search and Filter',
   cancelSearch: 'Cancel Search',
   clearSearch: 'Clear Search',
+  mostObjectiveSources: 'Most Objective Sources',
 };
 
 const COUNTIRES_LIST = COUNTRIES.map(c => c.country);
@@ -86,7 +90,7 @@ const FILTER_PARAMS = {
   category: 'category',
 }
 
-export default function Home({ homePageProps, reports, page, isFirstPage, isLastPage, date }) {
+export default function Home({ homePageProps, reports, page, isFirstPage, isLastPage, date, rating }) {
   const router = useRouter();
   const {
     [FILTER_PARAMS.searchTerm]: searchFromQuery = EMPTY_STRING,
@@ -119,6 +123,8 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
   const isReportListEmpty = reports.length === 0;
   const shouldShowBottomCTA = reports.length > MINIMUM_CARDS_COUNT_TO_SHOW_BOTTOM_CTA || !isReportListEmpty && isMobile;
   const searchIconTooltip = getSearchIconTooltipText(isSearchShown, isQueryParams);
+  const { createdAt: ratingCreatedAt, mostObjectiveSources } = rating || {};
+  const mostObjectiveSourcesFormatted = mostObjectiveSources.join(', ').toUpperCase();
 
   const onCardClick = (reportUrl) => () => {
     va.track(EVENT.reportCardClicked, { reportUrl });
@@ -220,7 +226,14 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
           {/* <Typography variant='body1' sx={STYLES.subtitle}>
             {TEXTS.subtitle}
           </Typography> */}
-
+          <Rating {
+            ...{
+              createdAt: ratingCreatedAt,
+              items: mostObjectiveSourcesFormatted,
+              title: TEXTS.mostObjectiveSources,
+              titleColor: theme.palette.primary.main,
+              Methodology: MethodologySourcesRating
+            }} />
           <Box sx={{
             display: 'flex',
             flexWrap: 'wrap',
@@ -483,10 +496,25 @@ export async function getServerSideProps(context) {
     const res = await fetch(url);
     const { data } = await res.json();
     const { reports, isLastPage } = data;
-
+    const rating = await getLastRating();
+    const { mostObjectiveSources, createdAt: createdAtDate } = rating || {};
+    const createdAtISOString = createdAtDate.toISOString();
+    const createdAt = convertUTCDateToUserTimeZone(createdAtISOString).split(',')[0].trim();
     const date = new Date().toLocaleString();
 
-    return { props: { reports, page, isFirstPage, isLastPage, date } };
+    return {
+      props: {
+        reports,
+        page,
+        isFirstPage,
+        isLastPage,
+        date,
+        rating: {
+          mostObjectiveSources,
+          createdAt
+        }
+      }
+    };
   } catch (error) {
     console.log({ error });
   }

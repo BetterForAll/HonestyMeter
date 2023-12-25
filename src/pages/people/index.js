@@ -7,11 +7,8 @@ import theme from '@/theme';
 import {
   Box,
   Chip,
-  Fade,
   List,
   ListItem,
-  Modal,
-  Tooltip,
   Typography,
 } from '@mui/material';
 import { EMPTY_FUNCTION, convertUTCDateToUserTimeZone } from '../../utils/utils';
@@ -19,9 +16,9 @@ import { API_URL, BASE_URL, EMPTY_STRING, EVENT } from '@/constants/constants';
 import Search from '@/components/Layout/Search';
 import Link from 'next/link';
 import { getPeople } from '../api/people';
-import { Methodology } from '../rating';
-import InfoIcon from '@mui/icons-material/Info';
 import { getLastRating } from '../api/rating';
+import { MethodologyPeopleRating } from '@/components/Methodology/Methodology';
+import Rating from '@/components/RatingList/Rating';
 
 const LOGO_URL = './favicon.png';
 const OPEN_GRAPH_IMAGE_URL = './opengraph-logo.png';
@@ -71,10 +68,12 @@ export default function PeoplePage({ people: peopleFromDb, rating }) {
   const personFromQuery = router.query.person || '';
   const [peopleLocal, setPeopleLocal] = useState(peopleFromDb);
   const [searchValue, setSearchValue] = useState('');
-  const [isMethodologyModalShown, setIsMethodologyModalShown] = useState(false);
   const isPeopleListEmpty = peopleLocal.length === 0;
   const mostCriticizedPeople = rating?.mostCriticizedPeople?.join(', ') || '';
   const mostPraisedPeople = rating?.mostPraisedPeople?.join(', ') || '';
+  const { createdAt } = rating || ''
+  const mostCritisizedRatingTitle = TEXTS.mostCriticized
+  const mostPraisedRatingTitle = TEXTS.mostPraised
 
   const handleLocalSearch = (e) => {
     const searchValueRes = e.target.value;
@@ -104,10 +103,6 @@ export default function PeoplePage({ people: peopleFromDb, rating }) {
   }
 
 
-  const handleRatingClick = () => {
-    setIsMethodologyModalShown(prevShown => !prevShown);
-  }
-
   useEffect(() => {
     va.track(EVENT.peoplePageLoaded);
   }, [pageFromQuery]);
@@ -120,32 +115,8 @@ export default function PeoplePage({ people: peopleFromDb, rating }) {
           <Typography variant='h1' sx={STYLES.title}>
             {TEXTS.title}
           </Typography>
-          <Modal open={isMethodologyModalShown} onClose={handleRatingClick}>
-            <Fade in={isMethodologyModalShown} timeout={{ enter: 300, exit: 400 }}>
-              <Box onClick={handleRatingClick}>
-                <Methodology createdAt={rating?.createdAt} />
-              </Box>
-            </Fade>
-          </Modal>
-          <Tooltip title={TEXTS.clickForMethodology}>
-            <Box sx={STYLES.ratingContainer}
-              onClick={handleRatingClick}>
-              <Typography variant='body1'
-                sx={STYLES.mostCritisizedTitle}>
-                {TEXTS.mostCriticized} <InfoIcon sx={STYLES.infoIcon} />
-              </Typography>
-              <Typography variant='body1' sx={{ fontSize: 'inherit', marginBottom: 1, color: theme.palette.text.primary, }}>
-                {mostCriticizedPeople}
-              </Typography>
-              <Typography
-                sx={STYLES.mostPraisedTitle}>
-                {TEXTS.mostPraised} <InfoIcon sx={STYLES.infoIcon} />
-              </Typography>
-              <Typography sx={STYLES.ratingParagraph}>
-                {mostPraisedPeople}
-              </Typography>
-            </Box>
-          </Tooltip>
+          <Rating {...{ createdAt, items: mostCriticizedPeople, title: mostCritisizedRatingTitle, titleColor: theme.palette.warning.dark, Methodology: MethodologyPeopleRating }} />
+          <Rating {...{ createdAt, items: mostPraisedPeople, title: mostPraisedRatingTitle, Methodology: MethodologyPeopleRating }} />
           <Search
             value={searchValue}
             onChange={handleLocalSearch}
@@ -284,7 +255,6 @@ const STYLES = {
     cursor: 'pointer',
     fontSize: theme.typography.fontSize * 0.75,
     textAlign: 'center',
-    color: theme.palette.warning.dark,
     marginBottom: 2,
     WebkitTapHighlightColor: 'transparent',
     WebkitTouchCallout: 'none',
@@ -293,15 +263,16 @@ const STYLES = {
     msUserSelect: 'none',
     userSelect: 'none',
   },
-  mostCritisizedTitle: {
+  mostCritisizedTitle: ({ titleColor }) => ({
     fontWeight: theme.typography.fontWeightBold,
     fontSize: theme.typography.fontSize * 1,
     display: 'flex',
+    color: titleColor || theme.palette.text.primary,
     justifyContent: 'center',
     alignItems: 'center',
     gap: 1,
     marginBottom: 0.5,
-  },
+  }),
   infoIcon: { fontSize: theme.typography.fontSize * 1.25 },
   mostPraisedTitle: {
     fontWeight: theme.typography.fontWeightBold,
