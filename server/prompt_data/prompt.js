@@ -1,4 +1,4 @@
-import {MANIPULATION_LIST} from './manipulation_list.js';
+import { MANIPULATION_LIST } from './manipulation_list.js';
 
 const MAX_TOKENS = 4096; //TODO: move to config
 
@@ -16,8 +16,8 @@ Based on found manipulations give an objectivity score 0-100
 to the whole article and also to presentation of each side presented in the article.
 The score should be counted based on comparison of statements amount made in the article
 and amount of statements with usage of manipulations.
-i.e. if there are 20 statements and among them 5 with usage of manipulations -
-it means that the score is 75 out of 100.
+i.e. if there are 100 statements and among them 23 with usage of manipulations -
+it means that the score is 77 out of 100.
 
 Conclude which sides are favored in the article ("sidesBalance" property in output). Present it in percent.
 For example 100% objective articles about sides A and B would have favored side representation:
@@ -73,9 +73,9 @@ OUTPUT FORMAT:
 EXAMPLE OUTPUT:
 
 { 
-"score" : 60,
+"score" : 57,
 "explanation" : …
-"sidesScore" :[ { "sideName" : "President", "score" : 90 }, { "sideName" : "Police", "score" : 40 } ],
+"sidesScore" :[ { "sideName" : "President", "score" : 88 }, { "sideName" : "Police", "score" : 42 } ],
 "sidesBalance" : {"President": 78, "Police" : 22} 
 "favoredSide": President,
 "manipulations" : [ // note: show all found manipulations. Not only the first one. if including all found manipulations makes the response exceed maximum length (${MAX_TOKENS} tokens) - show only manipulations that fit the limit and don't include the rest.
