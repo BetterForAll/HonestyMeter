@@ -2,6 +2,11 @@ import React from 'react';
 import Head from 'next/head';
 import { MethodologyPeopleRating } from '@/components/Methodology/Methodology';
 
+const TEXT = {
+    pageTitle: 'Methodology',
+    pageDescription: 'Methodology',
+}
+
 function MethodologyPage() {
     return (
         <>
