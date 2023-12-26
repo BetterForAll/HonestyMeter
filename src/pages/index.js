@@ -29,13 +29,12 @@ import ReportList from '@/components/ReportList/ReportList';
 import usePageLoadingFull from '@/hooks/usePageLoadingFull';
 import Pagination from '@/components/Layout/Pagination';
 import Search from '@/components/Layout/Search';
-
-
 import CreateReportButton from '@/components/Layout/CreateReportButton';
 import BackButton from '@/components/Layout/BackButton';
 import AutoComplete from '@/components/Autocomplete/Autocomplete';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import CloseIcon from '@mui/icons-material/Close';
+import Collapse from '@mui/material/Collapse';
 import { getLastRating } from './api/rating';
 import { Rating } from '@/components/RatingList/Rating';
 import { MethodologySourcesRating } from '@/components/Methodology/Methodology';
@@ -108,7 +107,8 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
     handleGetReport,
     isUrlProvidedAsInput,
   } = homePageProps;
-  const [isArticleInputShown, setIsArticleInputShown] = useState(false);
+  const [isTopArticleInputShown, setIsTopArticleInputShown] = useState(false);
+  const [isBottomArticleInputShown, setIsBottomArticleInputShown] = useState(false);
   const [isSearchShown, setIsSearchShown] = useState(false);
   const [isFilterShown, setIsFilterShown] = useState(false);
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
@@ -131,14 +131,14 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
   };
 
   const toggleArticleInput = (isTop) => () => {
-    const event = isArticleInputShown
+    const event = isTopArticleInputShown
       ? EVENT.cancelNewReportClicked
       : EVENT.generateNewReportClicked;
 
     va.track(event);
 
     clearArticleInput();
-    setIsArticleInputShown(!isArticleInputShown);
+    isTop ? setIsTopArticleInputShown(!isTopArticleInputShown) : setIsBottomArticleInputShown(!isBottomArticleInputShown);
     setIsSearchShown(false);
     setIsFilterShown(false);
 
@@ -170,7 +170,7 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
     const isSearchShownAfterChange = !isSearchShown;
 
     if (isSearchShownAfterChange) {
-      setIsArticleInputShown(false);
+      setIsTopArticleInputShown(false);
       setIsFilterShown(false);
     }
 
@@ -189,7 +189,7 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
 
   const toggleFilter = () => { //TODO: Decide if we want to use filter. Activate if we do
     if (!isFilterShown) {
-      setIsArticleInputShown(false);
+      setIsTopArticleInputShown(false);
       setIsSearchShown(false);
     }
 
@@ -244,7 +244,7 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
           }}>
             <CreateReportButton
               onClick={toggleArticleInput(true)}
-              isArticleInputShown={isArticleInputShown}
+              isTopArticleInputShown={isTopArticleInputShown}
             />
             <Box sx={{
               display: 'flex',
@@ -282,74 +282,77 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
             </Box>
           </Box>
           {
-            isSearchShown &&
-            <Box sx={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              width: '100%',
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: { sx: theme.spacing(3), sm: theme.spacing(4) },
-              margin: theme.spacing(0, 0, 2, 0),
-              flexDirection: { xs: 'column', sm: 'row' }
-            }}>
+            <Collapse in={isSearchShown}>
               <Box sx={{
                 display: 'flex',
                 flexWrap: 'wrap',
+                width: '100%',
                 justifyContent: 'center',
                 alignItems: 'center',
                 gap: { sx: theme.spacing(3), sm: theme.spacing(4) },
-                width: { xs: '100%', sm: 'auto' },
-                marginBottom: { xs: theme.spacing(0.5), sm: 0 },
+                margin: theme.spacing(0, 0, 2, 0),
+                flexDirection: { xs: 'column', sm: 'row' }
               }}>
-                <AutoComplete
-                  label="Category"
-                  list={CATEGORIES}
-                  onChange={hanldeFilterChange(FILTER_PARAMS.category)}
-                  value={category}
-                  onClearClick={hanldeFilterChange(FILTER_PARAMS.category)}
-                />
-                <AutoComplete
-                  label="Country"
-                  list={COUNTIRES_LIST}
-                  onChange={hanldeFilterChange(FILTER_PARAMS.country)}
-                  value={country}
-                  onClearClick={hanldeFilterChange(FILTER_PARAMS.country)}
+                <Box sx={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: { sx: theme.spacing(3), sm: theme.spacing(4) },
+                  width: { xs: '100%', sm: 'auto' },
+                  marginBottom: { xs: theme.spacing(0.5), sm: 0 },
+                }}>
+                  <AutoComplete
+                    label="Category"
+                    list={CATEGORIES}
+                    onChange={hanldeFilterChange(FILTER_PARAMS.category)}
+                    value={category}
+                    onClearClick={hanldeFilterChange(FILTER_PARAMS.category)}
+                  />
+                  <AutoComplete
+                    label="Country"
+                    list={COUNTIRES_LIST}
+                    onChange={hanldeFilterChange(FILTER_PARAMS.country)}
+                    value={country}
+                    onClearClick={hanldeFilterChange(FILTER_PARAMS.country)}
+                  />
+                </Box>
+                <Search
+                  id={SEARCH_FIELD_ID}
+                  onClick={handleSearchClick}
+                  onChange={handleSearchFieldChange}
+                  value={searchValue}
+                  variant='text'
+                  onClear={hanldeFilterChange(FILTER_PARAMS.searchTerm)}
                 />
               </Box>
-              <Search
-                id={SEARCH_FIELD_ID}
-                onClick={handleSearchClick}
-                onChange={handleSearchFieldChange}
-                value={searchValue}
-                variant='text'
-                onClear={hanldeFilterChange(FILTER_PARAMS.searchTerm)}
-              />
-            </Box>
+            </Collapse>
           }
 
-          {isArticleInputShown && (
-            <Box sx={STYLES.articleInputContainer}>
-              {isUrlProvidedAsInput && (
-                <Typography
-                  sx={STYLES.articleTextExtracted}
-                >
-                  {TEXTS.articleTextExtracted}
-                  &nbsp;
-                  <a href={WOLRD_NEWS_API_URL} target='_blank' rel='noreferrer'>
-                    {TEXTS.worldNewsApi}
-                  </a>
-                </Typography>
-              )}
+          {
+            <Collapse in={isTopArticleInputShown} sx={STYLES.articleInputContainer}>
+              <Box sx={STYLES.articleInputContainer}>
+                {isUrlProvidedAsInput && (
+                  <Typography
+                    sx={STYLES.articleTextExtracted}
+                  >
+                    {TEXTS.articleTextExtracted}
+                    &nbsp;
+                    <a href={WOLRD_NEWS_API_URL} target='_blank' rel='noreferrer'>
+                      {TEXTS.worldNewsApi}
+                    </a>
+                  </Typography>
+                )}
 
-              <AtricleInput
-                article={article}
-                onArticleChange={handleArticleChange}
-                onGetReport={handleGetReport}
-                isUrlProvidedAsInput={isUrlProvidedAsInput}
-              />
-            </Box>
-          )}
+                <AtricleInput
+                  article={article}
+                  onArticleChange={handleArticleChange}
+                  onGetReport={handleGetReport}
+                  isUrlProvidedAsInput={isUrlProvidedAsInput}
+                />
+              </Box>
+            </Collapse>
+          }
 
           {/*TODO: decide if we need the chips*/}
           {/* {
@@ -406,11 +409,11 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
             <Box sx={{ marginBottom: 2 }}>
               <CreateReportButton
                 onClick={toggleArticleInput(false)}
-                isArticleInputShown={isArticleInputShown}
+                isArticleInputShown={isBottomArticleInputShown}
               />
             </Box>
           }
-          {isArticleInputShown && (
+          <Collapse in={isBottomArticleInputShown} sx={STYLES.articleInputContainer}>
             <Box sx={STYLES.articleInputContainer}>
               <AtricleInput
                 article={article}
@@ -418,7 +421,7 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
                 onGetReport={handleGetReport}
               />
             </Box>
-          )}
+          </Collapse>
           <Box sx={{ marginTop: theme.spacing(2) }}>
             <Share
               title={TEXTS.shareTitle}
