@@ -67,8 +67,6 @@ export default function Badge({ size = 1, biasLevel = 0 }) {
     )
 }
 
-
-
 const STYLES = {
     container: (size, color) => ({
         height: '131px',

@@ -29,7 +29,7 @@ function ReportWrapper({ report = {}, shareLevel }) {
   const shareProps = getShareProps({ report, shareUrl });
   const { articleTitle, articleLink, score } = report;
   const router = useRouter();
-  const biasLevel = report?.score >= 80 ? 0 : report?.score >= 70 ? 1 : 2;
+  const biasLevel = getBiasLevel(report.score);
 
   const handleGoBack = () => {
     goBack(router);
@@ -121,6 +121,12 @@ CloseIconWithTooltip.propTypes = {
 const ReportDivider = () => <Divider sx={STYLES.divider} />;
 
 const EmptyElement = () => <Box />;
+
+const getBiasLevel = (score) => {
+  if (score >= 80) return 0;
+  if (score >= 70) return 1;
+  return 2;
+}
 
 const STYLES = {
   container: {
