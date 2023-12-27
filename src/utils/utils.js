@@ -133,7 +133,7 @@ export function convertUTCDateToUserTimeZone(dateString) {
     date = new Date(isoString);
   }
 
-  return date.toLocaleString();
+  return date.toLocaleString().split(',').join('');
 }
 
 export function checkIsUrl(text) {
