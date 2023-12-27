@@ -226,13 +226,15 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
           {/* <Typography variant='body1' sx={STYLES.subtitle}>
             {TEXTS.subtitle}
           </Typography> */}
-          <Rating {...{
-            createdAt: ratingCreatedAt,
-            items: mostObjectiveSourcesFormatted,
-            title: TEXTS.mostObjectiveSources,
-            titleColor: theme.palette.primary.main,
-            Methodology: MethodologySourcesRating
-          }} />
+          {
+            isFirstPage &&
+            <Rating {...{
+              createdAt: ratingCreatedAt,
+              items: mostObjectiveSourcesFormatted,
+              title: TEXTS.mostObjectiveSources,
+              titleColor: theme.palette.primary.main,
+              Methodology: MethodologySourcesRating
+            }} />}
           <Box sx={{
             display: 'flex',
             flexWrap: 'wrap',
@@ -541,7 +543,7 @@ const STYLES = {
   },
   title: {
     fontSize: theme.typography.fontSize * 2,
-    margin: theme.spacing(2, 0, 1),
+    margin: theme.spacing(3, 0, 3),
   },
   subtitle: {
     fontSize: theme.typography.fontSize * 0.875,

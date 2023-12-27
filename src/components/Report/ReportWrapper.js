@@ -16,6 +16,7 @@ import { createShareUrl, getShareProps } from './reportUtils';
 import { EVENT } from '@/constants/constants';
 import { useRouter } from 'next/router';
 import Disclamer from '../Disclamer';
+import Badge from '../Badge/Badge';
 
 const TEXTS = {
   title: 'Bias report',
@@ -28,6 +29,7 @@ function ReportWrapper({ report = {}, shareLevel }) {
   const shareProps = getShareProps({ report, shareUrl });
   const { articleTitle, articleLink, score } = report;
   const router = useRouter();
+  const biasLevel = getBiasLevel(report.score);
 
   const handleGoBack = () => {
     goBack(router);
@@ -43,8 +45,8 @@ function ReportWrapper({ report = {}, shareLevel }) {
 
   return (
     <Box sx={STYLES.container}>
-      <ReportWrapperHeader onCloseReportClick={handleGoBack} />
-      <Report report={report} />
+      <ReportWrapperHeader onCloseReportClick={handleGoBack} biasLevel={biasLevel} />
+      <Report report={report} biasLevel={biasLevel} />
       <Disclamer isShort />
       <Box sx={STYLES.copyToClipboardContainer}>
         <CopyToClipboard copyText={shareUrl} />
@@ -68,7 +70,7 @@ ReportWrapper.propTypes = {
   reportJson: string,
 };
 
-function ReportWrapperHeader({ onCloseReportClick = EMPTY_FUNCTION }) {
+function ReportWrapperHeader({ onCloseReportClick = EMPTY_FUNCTION, biasLevel }) {
   const closeIconTooltipTitle = TEXTS.closeReport;
 
   return (
@@ -79,6 +81,9 @@ function ReportWrapperHeader({ onCloseReportClick = EMPTY_FUNCTION }) {
           {TEXTS.title}
         </Typography>
         <Typography sx={STYLES.subtitle}>{TEXTS.subtitle}</Typography>
+        <Box sx={STYLES.badgeContainer}>
+          <Badge size={1} biasLevel={biasLevel} />
+        </Box>
       </Box>
       <CloseIconWithTooltip
         title={closeIconTooltipTitle}
@@ -117,6 +122,12 @@ const ReportDivider = () => <Divider sx={STYLES.divider} />;
 
 const EmptyElement = () => <Box />;
 
+const getBiasLevel = (score) => {
+  if (score >= 80) return 0;
+  if (score >= 70) return 1;
+  return 2;
+}
+
 const STYLES = {
   container: {
     maxWidth: '1000px',
@@ -135,10 +146,16 @@ const STYLES = {
     fontSize: theme.typography.fontSize * 1.125,
   },
   subtitle: {
-    marginBottom: theme.spacing(4),
+    marginBottom: theme.spacing(0),
     textAlign: 'center',
     fontSize: theme.typography.fontSize,
     color: theme.palette.text.secondary,
+  },
+  badgeContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: theme.spacing(1),
   },
   closeIcon: {
     cursor: 'pointer',

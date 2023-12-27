@@ -13,10 +13,10 @@ export default function Header() {
   return (
     <Box
       components="header"
-      style={STYLES.container}
+      sx={STYLES.container}
     >
       <Link href="/">
-        <Box style={STYLES.imageContainer}>
+        <Box sx={STYLES.imageContainer}>
           <Image
             src={logo}
             alt={TEXTS.imageAlt}
@@ -35,12 +35,18 @@ const STYLES = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: `4vw ${theme.spacing(3)}`,
+    padding: {
+      xs: `4vw ${theme.spacing(3)}`,
+      md: theme.spacing(4, 6, 5),
+    },
   },
   imageContainer: {
     width: '100%',
     maxWidth: '536px',
-    maxHeight: '107px',
+    height: {
+      xs: '91px',
+      md: '107px',
+    }
   },
   image: {
     width: '100%',

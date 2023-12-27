@@ -19,7 +19,7 @@ export default function ReportHeader({
   explanation,
   articleTitle,
   articleLink,
-  articleDate
+  articleDate,
 }) {
   const articleBaseUrl = articleLink ? getBaseUrlFromUrlString(articleLink) : '';
   const userTimeZoneArticleDate = convertUTCDateToUserTimeZone(articleDate);
