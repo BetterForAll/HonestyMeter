@@ -1,12 +1,18 @@
 import React, { memo } from 'react';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import ReportHeader from './ReportHeader';
 import Charts from './Charts/Charts';
 import ManipulationList from './ManipulationList/ManipulationList';
 import { getFormattedReportData } from './reportUtils';
 import reportPropType from './reportPropTypes';
+import TaskIcon from '@mui/icons-material/Task';
+import VerifiedIcon from '@mui/icons-material/Verified';
+import SpeedIcon from '@mui/icons-material/Speed';
+import theme from '@/theme';
+import Badge from '../Badge/Badge';
+import { number } from 'prop-types';
 
-function Report({ report }) {
+function Report({ report, biasLevel }) {
   const { sidesScoreData, sidesBalanceChartData } = getFormattedReportData(report);
   const isManipulationsFound = report?.score !== 100;
 
@@ -18,6 +24,7 @@ function Report({ report }) {
         articleTitle={report.articleTitle}
         articleLink={report.articleLink}
         articleDate={report.articleDate}
+        biasLevel={biasLevel}
       />
       {
         isManipulationsFound &&
@@ -34,7 +41,8 @@ function Report({ report }) {
 };
 
 Report.propTypes = {
-  report: reportPropType
+  report: reportPropType,
+  biasLevel: number
 }
 
 const STYLES = {

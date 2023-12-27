@@ -60,7 +60,7 @@ const STYLES = {
   visibilityBlockContainer: {
     display: {
       xs: 'none',
-      sm: 'block',
+      md: 'block',
     },
   },
   flexContainer: {
