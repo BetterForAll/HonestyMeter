@@ -16,12 +16,12 @@ const TEXTS = {
         },
         1: {
             title: 'MEDIUM BIAS',
-            subtitle: 'Cheked by HonestyMeter',
+            subtitle: 'Checked by HonestyMeter',
             comment: 'experimental'
         },
         2: {
             title: 'HIGH BIAS',
-            subtitle: 'Cheked by HonestyMeter',
+            subtitle: 'Checked by HonestyMeter',
             comment: 'experimental'
         },
     }
