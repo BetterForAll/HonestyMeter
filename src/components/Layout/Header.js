@@ -39,7 +39,6 @@ const STYLES = {
       xs: `4vw ${theme.spacing(3)}`,
       md: theme.spacing(4, 6, 5),
     },
-
   },
   imageContainer: {
     width: '100%',
