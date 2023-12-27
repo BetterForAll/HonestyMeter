@@ -5,8 +5,9 @@ import Charts from './Charts/Charts';
 import ManipulationList from './ManipulationList/ManipulationList';
 import { getFormattedReportData } from './reportUtils';
 import reportPropType from './reportPropTypes';
+import { number } from 'prop-types';
 
-function Report({ report }) {
+function Report({ report, biasLevel }) {
   const { sidesScoreData, sidesBalanceChartData } = getFormattedReportData(report);
   const isManipulationsFound = report?.score !== 100;
 
@@ -18,6 +19,7 @@ function Report({ report }) {
         articleTitle={report.articleTitle}
         articleLink={report.articleLink}
         articleDate={report.articleDate}
+        biasLevel={biasLevel}
       />
       {
         isManipulationsFound &&
@@ -34,7 +36,8 @@ function Report({ report }) {
 };
 
 Report.propTypes = {
-  report: reportPropType
+  report: reportPropType,
+  biasLevel: number
 }
 
 const STYLES = {

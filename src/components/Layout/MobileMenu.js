@@ -122,7 +122,7 @@ MobileMenu.propTypes = {
 
 const STYLES = {
   visibilityContainer: {
-    display: { xs: "block", sm: "none" },
+    display: { xs: "block", md: "none" },
   },
   flexContainer: {
     display: "flex",
