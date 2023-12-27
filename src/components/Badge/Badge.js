@@ -1,13 +1,7 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
-import TaskIcon from '@mui/icons-material/Task';
-import VerifiedIcon from '@mui/icons-material/Verified';
 import Fade from '@mui/material/Fade';
-// import BalanceIcon from '@mui/icons-material/Balance';
-import SpeedIcon from '@mui/icons-material/Speed';
 import theme from '@/theme';
-import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon';
-import balanceIcon from '../../assets/svg/Balance.svg';
 import badgeFair from '../../assets/svg/BadgeFair.svg';
 import badgeMedium from '../../assets/svg/BadgeMedium.svg';
 import badgeHigh from '../../assets/svg/BadgeHigh.svg';

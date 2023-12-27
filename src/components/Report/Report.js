@@ -1,15 +1,10 @@
 import React, { memo } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import ReportHeader from './ReportHeader';
 import Charts from './Charts/Charts';
 import ManipulationList from './ManipulationList/ManipulationList';
 import { getFormattedReportData } from './reportUtils';
 import reportPropType from './reportPropTypes';
-import TaskIcon from '@mui/icons-material/Task';
-import VerifiedIcon from '@mui/icons-material/Verified';
-import SpeedIcon from '@mui/icons-material/Speed';
-import theme from '@/theme';
-import Badge from '../Badge/Badge';
 import { number } from 'prop-types';
 
 function Report({ report, biasLevel }) {

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { string, func, bool } from 'prop-types';
+import { string, func } from 'prop-types';
 import theme from '@/theme';
 import va from '@vercel/analytics';
 import Report from './Report';
@@ -95,7 +95,6 @@ function ReportWrapperHeader({ onCloseReportClick = EMPTY_FUNCTION, biasLevel })
 
 ReportWrapperHeader.propTypes = {
   onCloseReportClick: func,
-  showBadge: bool
 };
 
 function CloseIconWithTooltip({ title, placement = 'top-start', onClick }) {
