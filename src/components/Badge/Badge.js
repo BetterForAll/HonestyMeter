@@ -7,7 +7,6 @@ import badgeMedium from '../../assets/svg/BadgeMedium.svg';
 import badgeHigh from '../../assets/svg/BadgeHigh.svg';
 import Image from 'next/image';
 
-
 const TEXTS = {
     biasLevel: {
         0: {
