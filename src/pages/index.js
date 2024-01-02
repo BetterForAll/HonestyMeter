@@ -89,7 +89,7 @@ const FILTER_PARAMS = {
   category: 'category',
 }
 
-export default function Home({ homePageProps, reports, page, isFirstPage, isLastPage, date }) { //TODO: add rating back to props
+export default function Home({ homePageProps, reports, page, isFirstPage, isLastPage, date, rating }) { //TODO: add rating back to props
   const router = useRouter();
   const {
     [FILTER_PARAMS.searchTerm]: searchFromQuery = EMPTY_STRING,
@@ -123,8 +123,8 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
   const isReportListEmpty = reports.length === 0;
   const shouldShowBottomCTA = reports.length > MINIMUM_CARDS_COUNT_TO_SHOW_BOTTOM_CTA || !isReportListEmpty && isMobile;
   const searchIconTooltip = getSearchIconTooltipText(isSearchShown, isQueryParams);
-  // const { createdAt: ratingCreatedAt, mostObjectiveSources } = rating || {};
-  // const mostObjectiveSourcesFormatted = mostObjectiveSources.join(', ').toUpperCase();
+  const { createdAt: ratingCreatedAt, mostObjectiveSources } = rating || {};
+  const mostObjectiveSourcesFormatted = mostObjectiveSources.join(', ').toUpperCase();
 
   const onCardClick = (reportUrl) => () => {
     va.track(EVENT.reportCardClicked, { reportUrl });
@@ -226,7 +226,7 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
           {/* <Typography variant='body1' sx={STYLES.subtitle}>
             {TEXTS.subtitle}
           </Typography> */}
-          {/* {
+          {
             isFirstPage &&
             <Rating {...{
               createdAt: ratingCreatedAt,
@@ -234,7 +234,7 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
               title: TEXTS.mostObjectiveSources,
               titleColor: theme.palette.primary.main,
               Methodology: MethodologySourcesRating
-            }} />} */}
+            }} />}
           <Box sx={{
             display: 'flex',
             flexWrap: 'wrap',
@@ -501,9 +501,9 @@ export async function getServerSideProps(context) {
     const { data } = await res.json();
     const { reports, isLastPage } = data;
     const rating = await getLastRating();
-    {/* const { mostObjectiveSources, createdAt: createdAtDate } = rating || {};
+    const { mostObjectiveSources, createdAt: createdAtDate } = rating || {};
     const createdAtISOString = createdAtDate.toISOString();
-    const createdAt = convertUTCDateToUserTimeZone(createdAtISOString).split(',')[0].trim(); */}
+    const createdAt = convertUTCDateToUserTimeZone(createdAtISOString).split(',')[0].trim();
     const date = new Date().toLocaleString();
 
     return {
@@ -513,10 +513,10 @@ export async function getServerSideProps(context) {
         isFirstPage,
         isLastPage,
         date,
-        //rating: {
-        // mostObjectiveSources,
-        // createdAt
-        //}
+        rating: {
+          mostObjectiveSources,
+          createdAt
+        }
       }
     };
   } catch (error) {
