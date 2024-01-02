@@ -10,6 +10,8 @@ import { number, func, arrayOf, string } from 'prop-types';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import { Link } from '@mui/material';
 import NextLink from 'next/link';
+import Badge from '../Badge/Badge';
+import BadgeIcon from '../Badge/BadgeIcon';
 
 
 export default function Menu({ currentPage, setCurrentPage, pageRoutes }) {
@@ -40,6 +42,7 @@ export default function Menu({ currentPage, setCurrentPage, pageRoutes }) {
 
           </Tabs>
         </Box>
+        <Badge biasLevel={3} width='85px' showBadgeName fadeTimeout={0} showFullTooltip />
         <Box sx={{ ...STYLES.iconsContainer, ...STYLES.flexCenter }}>
           <ContactIcon />
           <Link
@@ -64,7 +67,8 @@ const STYLES = {
     },
   },
   flexContainer: {
-    marginBottom: theme.spacing(3),
+    marginBottom: theme.spacing(0),
+    gap: theme.spacing(1),
   },
   tabsContainer: {
     maxWidth: { xs: 320, sm: 480 },
@@ -72,6 +76,7 @@ const STYLES = {
   },
   iconsContainer: {
     gap: theme.spacing(2),
+    marginLeft: theme.spacing(5),
   },
   flexCenter: {
     display: 'flex',

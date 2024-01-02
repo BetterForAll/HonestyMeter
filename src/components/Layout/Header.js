@@ -4,6 +4,7 @@ import logo from '../../../public/logo.png';
 import theme from '@/theme';
 import { Box } from '@mui/material';
 import Link from 'next/link';
+import Badge from '../Badge/Badge';
 
 const TEXTS = {
   imageAlt: 'Honesty Meter Logo',
@@ -15,15 +16,19 @@ export default function Header() {
       components="header"
       sx={STYLES.container}
     >
-      <Link href="/">
-        <Box sx={STYLES.imageContainer}>
+      <Box sx={STYLES.imageContainer}>
+        <Link href="/">
           <Image
             src={logo}
             alt={TEXTS.imageAlt}
             style={STYLES.image}
           />
-        </Box>
-      </Link>
+        </Link>
+      </Box>
+      {/* <Box
+        style={{ margin: theme.spacing(1), width: '100%', display: 'flex', justifyContent: 'flex-end', marginRight: '32px', position: 'absolute', top: '48px' }}>
+        <Badge width='80px' height='80px' biasLevel={3} showTitle={false} showSubtitle={false} showComment={false} showBadgeName={true} />
+      </Box> */}
     </Box>
   );
 }
@@ -46,7 +51,12 @@ const STYLES = {
     height: {
       xs: '91px',
       md: '107px',
-    }
+    },
+    display: 'flex',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+
+
   },
   image: {
     width: '100%',

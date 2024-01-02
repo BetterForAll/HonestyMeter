@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import Fade from '@mui/material/Fade';
 import theme from '@/theme';
@@ -7,83 +7,169 @@ import badgeMedium from '../../assets/svg/BadgeMedium.svg';
 import badgeHigh from '../../assets/svg/BadgeHigh.svg';
 import Tooltip from '@mui/material/Tooltip';
 import BadgeIcon from './BadgeIcon';
-
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import EastIcon from '@mui/icons-material/East';
 
 const TEXTS = {
+    common: {
+        subtitle: 'HonestyMeter',
+        comment: 'experimental',
+        tooltip: {
+            title: 'Share Honesty Badge',
+            subtitle: '- gain trust',
+            subtitle2: '- support truth',
+            subtitle3: '- grow engagement',
+            arrow: <EastIcon />, //arrow up icon: 
+        },
+    },
     biasLevel: {
         0: {
             title: 'FAIR CONTENT',
-            subtitle: 'HonestyMeter',
-            comment: 'experimental',
-            tooltip: 'Share Honesty Badge'
         },
         1: {
             title: 'MEDIUM BIAS',
-            subtitle: 'HonestyMeter',
-            comment: 'experimental',
-            tooltip: 'Share Honesty Badge'
         },
         2: {
             title: 'HIGH BIAS',
-            subtitle: 'HonestyMeter',
             // subtitle: 'Cheked by HonestyMeter',
-            comment: 'experimental',
-            tooltip: 'Share Honesty Badge'
         },
     }
+}
+
+const TooltipContent = ({ title, subtitle, subtitle2, subtitle3, arrow }) => {
+    return (
+        <Box sx={{ textAlign: 'center' }}>
+            {/* <BadgeIcon width="100px" height="100px" color='black' /> */}
+            <Box sx={{ display: 'flex', gap: theme.spacing(1) }}>
+                <Typography >
+                    {title}
+                </Typography>
+                <Typography >
+                    {arrow}
+                </Typography>
+            </Box>
+            {
+                subtitle &&
+                <>
+                    <Typography >
+                        {subtitle}
+                    </Typography>
+                    <Typography>
+                        {subtitle2}
+                    </Typography>
+                    <Typography >
+                        {subtitle3}
+                    </Typography>
+                </>
+            }
+        </Box >
+    )
 }
 
 const SETTINGS = {
     0: {
-        texts: TEXTS.biasLevel[0],
+        texts: { ...TEXTS.common, ...TEXTS.biasLevel[0] },
         color: theme.palette.success.main,
         secondaryColor: '#CFF09E',
-        icon: badgeFair,
+        // icon: badgeFair, // may be used in sharing page for authors and publishers
     },
     1: {
-        texts: TEXTS.biasLevel[1],
+        texts: { ...TEXTS.common, ...TEXTS.biasLevel[1] },
         color: theme.palette.warning.main,
         secondaryColor: '#fdd585',
-        icon: badgeMedium,
+        // icon: badgeMedium,
     },
     2: {
-        texts: TEXTS.biasLevel[2],
+        texts: { ...TEXTS.common, ...TEXTS.biasLevel[2] },
         color: theme.palette.error.main,
         secondaryColor: '#ffe5ea',
-        icon: badgeHigh,
+        // icon: badgeHigh,
+    },
+    3: {
+        texts: { ...TEXTS.common, ...TEXTS.biasLevel[2] },
+        color: theme.palette.primary.main,
+        secondaryColor: '#8f9bd76b',
     }
 }
 
-export default function Badge({ size = 1, biasLevel = 0, showTitle, showSubtitle, showComment, showBadgeName }) {
-    const { texts, color, secondaryColor, icon } = SETTINGS[biasLevel];
+export default function Badge({
+    size = 1,
+    biasLevel = 0,
+    showTitle,
+    showSubtitle,
+    showComment,
+    showBadgeName,
+    height = "100px",
+    width = "100px",
+    fadeTimeout = 1000,
+    showTooltipOnLoad = false,
+    showFullTooltip = false,
+}) {
+    const { color, secondaryColor, texts, icon } = SETTINGS[biasLevel];
+    const { title, subtitle, comment, tooltip } = texts;
+    const shownTooltip = showFullTooltip ? tooltip : { title: tooltip.title, arrow: tooltip.arrow };
+    const [isTooltipOpen, setTooltipOpen] = useState(showTooltipOnLoad);
+    const isTimeout = Boolean(fadeTimeout);
+
+
+
+    const openTooltip = () => {
+        setTooltipOpen(true);
+    }
+
+    const closeTooltip = () => {
+        setTooltipOpen(false);
+    }
+
+    useEffect(() => {
+        // Timer to hide tooltip after 3 seconds
+        // const timeOpen = setTimeout(() => {
+        //     setTooltipOpen(true);
+        // }, 3000);
+
+        const timerClose = setTimeout(() => {
+            setTooltipOpen(false);
+        }, 5000);
+
+        return () => {
+            // clearTimeout(timeOpen);
+            clearTimeout(timerClose);
+        }
+    }, []);
+
+    const badgeContent = <Tooltip title={< TooltipContent {...shownTooltip} />} placement='left' open={isTooltipOpen} onMouseEnter={openTooltip} onMouseLeave={closeTooltip}>
+        <Box sx={STYLES.container(size, color)}>
+            {/* <Image src={icon} alt="Balance Icon" style={STYLES.icon} /> */} {/* may be used in sharing page for authors and publishers */}
+            <BadgeIcon width={width} height={height} color={color} secondaryColor={secondaryColor} showBadgeName={showBadgeName} />
+            {
+                showTitle &&
+                <Typography sx={STYLES.title}>
+                    {title}
+                </Typography>
+            }
+            {
+                showSubtitle &&
+                <Typography sx={STYLES.subtitle}>
+                    {subtitle}
+                </Typography>
+            }
+            {
+                showComment &&
+                <Typography sx={STYLES.comment}>
+                    *{comment}
+                </Typography>
+            }
+        </Box>
+    </Tooltip >
 
     return (
-        <Fade in={true} timeout={1000} sx={STYLES.container(size, color)}>
-            <Tooltip title={texts.tooltip} placement="top">
-                <Box sx={STYLES.container(size, color)}>
-                    {/* <Image src={icon} alt="Balance Icon" style={STYLES.icon} /> */}
-                    <BadgeIcon width="100px" height="100px" color={color} secondaryColor={secondaryColor} showBadgeName={showBadgeName} />
-                    {
-                        showTitle &&
-                        <Typography sx={STYLES.title}>
-                            {texts.title}
-                        </Typography>
-                    }
-                    {
-                        showSubtitle &&
-                        <Typography sx={STYLES.subtitle}>
-                            {texts.subtitle}
-                        </Typography>
-                    }
-                    {
-                        showComment &&
-                        <Typography sx={STYLES.comment}>
-                            *{texts.comment}
-                        </Typography>
-                    }
-                </Box>
-            </Tooltip>
-        </Fade>
+        isTimeout ?
+            <Fade in={true} timeout={fadeTimeout} sx={STYLES.container(size, color)}>
+                {badgeContent}
+            </Fade >
+            :
+            badgeContent
     )
 }
 
@@ -95,14 +181,13 @@ const STYLES = {
         justifyContent: 'center',
         alignItems: 'center',
         transform: `scale(${size})`,
-        margin: theme.spacing(0, 0, 1),
-        padding: theme.spacing(0.5, 0, 0),
         color,
         cursor: 'pointer',
         '& svg': {
-            // boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.25)',
-            // border: '2px solid #fff'
-            // borderRadius: '50%',
+            boxShadow: '0px 0px 0px 0px rgba(0,0,0,0.0)',
+            border: '0px solid #fff',
+            borderRadius: '50%',
+            margin: theme.spacing(0, 0, 0.5, 0),
         },
         // padding: theme.spacing(0, 0.5),
         // borderRadius: '10px',
@@ -116,8 +201,8 @@ const STYLES = {
             color,
 
             '& svg': {
-                // boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.75)',
-                // transform: `scale(${size + 0.1})`,
+                // boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.75)',
+                // transform: `scale(${size + 0.02})`,
                 // transition: 'box-shadow 0.2s ease-in-out',
                 // transition: 'transform 0.2s ease-in-out',
             }

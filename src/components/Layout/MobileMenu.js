@@ -21,6 +21,7 @@ import { func, arrayOf, string } from "prop-types";
 import { Tooltip } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import Link from "next/link";
+import Badge from "../Badge/Badge";
 
 const MAIL_TO_PREFIX = "mailto:";
 const MAIL_TO = MAIL_TO_PREFIX + EMAIL_ADDRESS;
@@ -98,7 +99,16 @@ export default function MobileMenu({
 
   return (
     <Box sx={STYLES.visibilityContainer}>
-      <Box sx={STYLES.flexContainer}>
+      <Box sx={{ ...STYLES.flexContainer, position: 'relative' }}>
+        <Box sx={{
+          position: 'absolute',
+          bottom: '5px',
+          right: '68px',
+          width: '70px',
+          height: '70px',
+        }}>
+          <Badge biasLevel={3} width="70px" height="70px" showBadgeName showTooltipOnLoad fadeTimeout={0} />
+        </Box>
         <IconButton onClick={toggleDrawer(true)}>
           <MenuIcon />
         </IconButton>

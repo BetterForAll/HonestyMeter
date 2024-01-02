@@ -82,7 +82,7 @@ function ReportWrapperHeader({ onCloseReportClick = EMPTY_FUNCTION, biasLevel })
         </Typography>
         <Typography sx={STYLES.subtitle}>{TEXTS.subtitle}</Typography>
         <Box sx={STYLES.badgeContainer}>
-          <Badge biasLevel={biasLevel} showBadgeName showTitle showSubtitle showComment />
+          <Badge biasLevel={biasLevel} fadeTimeout={0} showBadgeName showTitle showSubtitle showComment showFullTooltip />
         </Box>
       </Box>
       <CloseIconWithTooltip

@@ -38,6 +38,7 @@ import Collapse from '@mui/material/Collapse';
 import { getLastRating } from './api/rating';
 import { Rating } from '@/components/RatingList/Rating';
 import { MethodologySourcesRating } from '@/components/Methodology/Methodology';
+import Badge from '../components/Badge/Badge';
 
 const LOGO_URL = 'https://honestymeter.com/favicon.png';
 const OPEN_GRAPH_IMAGE_URL = 'https://honestymeter.com/opengraph-logo.png';
@@ -218,9 +219,17 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
       {getHtmlHead(router.asPath)}
       {
         <Box sx={STYLES.container} key={reports}>
-          <Typography variant='h2' sx={STYLES.title}>
-            {TEXTS.title}
-          </Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: theme.spacing(3) }}>
+
+            {/* <Box></Box> */}
+            <Typography variant='h2' sx={STYLES.title}>
+              {TEXTS.title}
+            </Typography>
+            {/* <Box sx={{ position: 'relative', bottom: '0' }}>
+              <Badge width='80px' height='80px' showBadgeName biasLevel={3} />
+            </Box> */}
+          </Box>
+
           {/* TODO: Decide if we want to show the subtitle */}
 
           {/* <Typography variant='body1' sx={STYLES.subtitle}>
@@ -235,6 +244,7 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
               titleColor: theme.palette.primary.main,
               Methodology: MethodologySourcesRating
             }} />}
+
           <Box sx={{
             display: 'flex',
             flexWrap: 'wrap',
