@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -46,7 +46,17 @@ export default function MobileMenu({
   pageRoutes,
 }) {
   const router = useRouter();
+  const { pathname = '/' } = router || {};
+  const isBadgePage = pathname === '/badge';
   const [isOpen, setIsOpen] = useState(false);
+  const [isBadgeActive, setIsBadgeActive] = useState(isBadgePage);
+  const biasLevel = isBadgeActive ? 4 : 5; // indicates badge color
+
+
+  useEffect(() => {
+    setIsBadgeActive(isBadgePage);
+  }, [isBadgePage])
+
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -62,8 +72,14 @@ export default function MobileMenu({
   const onMenuItemClick = (index) => () => {
     if (index === 0) closeReport();
 
-    setCurrentPage(index);
+    setCurrentPage(5);
+    setIsBadgeActive(false);
   };
+
+  const goToBadgePage = () => {
+    setCurrentPage(null);
+    setIsBadgeActive(true);
+  }
 
   const menuItemsList = (anchor) => (
     <Box
@@ -99,17 +115,20 @@ export default function MobileMenu({
 
   return (
     <Box sx={STYLES.visibilityContainer}>
-      <Box sx={{ ...STYLES.flexContainer, position: 'relative' }}>
-        <Box sx={{
+      <Box sx={{ ...STYLES.flexContainer, position: 'relative', alignItems: 'center' }}>
+        <Link sx={{
           position: 'absolute',
           bottom: '5px',
           right: '68px',
           width: '70px',
           height: '70px',
-        }}>
-          <Badge biasLevel={3} width="70px" height="70px" showBadgeName showTooltipOnLoad fadeTimeout={0} />
-        </Box>
-        <IconButton onClick={toggleDrawer(true)}>
+        }}
+          href='/badge'
+          onClick={goToBadgePage}
+        >
+          <Badge biasLevel={biasLevel} width="70px" height="70px" showBadgeName fadeTimeout={0} />
+        </Link>
+        <IconButton onClick={toggleDrawer(true)} sx={{ height: '40px' }}>
           <MenuIcon />
         </IconButton>
         <Drawer

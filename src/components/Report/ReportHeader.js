@@ -2,9 +2,14 @@ import React from 'react';
 import va from '@vercel/analytics';
 import { Typography, Paper, Box } from '@mui/material';
 import theme from '@/theme';
-import { string, number } from 'prop-types';
+import { string, number, object } from 'prop-types';
 import { convertUTCDateToUserTimeZone, getBaseUrlFromUrlString } from '@/utils/utils';
 import { EVENT } from '@/constants/constants';
+import CircularProgressWithLabel from '../ReportList/CircularProgressWithLabel';
+import { getScoreStyle } from '../ReportList/ReportList';
+import Share from '../Share';
+import Badge from '../Badge/Badge';
+import Link from 'next/link';
 
 const TEXTS = {
   score: 'Objectivity Score',
@@ -20,9 +25,13 @@ export default function ReportHeader({
   articleTitle,
   articleLink,
   articleDate,
+  shareProps,
+  biasLevel
 }) {
   const articleBaseUrl = articleLink ? getBaseUrlFromUrlString(articleLink) : '';
   const userTimeZoneArticleDate = convertUTCDateToUserTimeZone(articleDate);
+  const { color, content } = getScoreStyle(score);
+
 
   const fireArticleLinkClickEvent = () => {
     va.track(EVENT.articleLinkClicked, { articleTitle, articleLink, score, articleDate })
@@ -30,16 +39,44 @@ export default function ReportHeader({
 
   return (
     <Paper elevation={2} sx={STYLES.paper}>
-      <Typography variant="h2" sx={STYLES.score}>
+      <Box sx={STYLES.objectivityScore}>
+        <Box sx={{ width: { xs: '100%', sm: '300px' }, display: 'flex', gap: theme.spacing(1), justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography sx={{
+            fontWeight: theme.typography.fontWeightMedium,
+          }}>{TEXTS.score}</Typography>
+          <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+            <CircularProgressWithLabel value={score} color={color} />
+          </Box>
+          <Typography sx={{ color, textAlign: 'right' }}>{content}</Typography>
+        </Box>
+        <Box sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: { xs: 'flex-start', sm: 'center' },
+          flex: { xs: 1, sm: 0.82 },
+          paddingBottom: theme.spacing(1),
+          gap: theme.spacing(2),
+        }}>
+          <Box sx={{ display: { xs: 'block', sm: 'block' } }}>
+            <Link href='/badge' style={{ textDecoration: 'none' }}>
+              <Badge biasLevel={biasLevel} showTitle showBadgeName showFullTooltip height='75px' />
+            </Link>
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingBottom: { xs: 0, sm: theme.spacing(1) } }} >
+            <Share {...shareProps} showCtaLine1={false} showCtaLine2={false} />
+          </Box>
+        </Box>
+      </Box>
+      {/* <Typography variant="h2" sx={STYLES.score}>
         {TEXTS.score}:&nbsp;&nbsp;{score}&nbsp;
         <Typography component='span' variant='h2' sx={STYLES.score}>
           {TEXTS.outOf100}
         </Typography>
-      </Typography>
+      </Typography> */}
       {
         articleTitle &&
         <Box variant="subtitle1" sx={STYLES.articleDetails}>
-          <Box>
+          <Box sx={{ marginBottom: theme.spacing(0.5) }}>
             <Typography component='span' sx={STYLES.articleTitle}>
               {TEXTS.articleTitle}:
               &nbsp;
@@ -87,6 +124,8 @@ ReportHeader.propTypes = {
   articleTitle: string,
   articleLink: string,
   articleDate: string,
+  shareProps: object,
+  biasLevel: number
 }
 
 const STYLES = {
@@ -95,7 +134,7 @@ const STYLES = {
     padding: theme.spacing(0, 2)
   },
   paper: {
-    padding: theme.spacing(3),
+    padding: theme.spacing(1, 3, 3),
     position: 'relative',
     marginBottom: theme.spacing(4)
   },
@@ -107,6 +146,18 @@ const STYLES = {
       color: theme.palette.text.secondary,
     }
   },
+  objectivityScore: {
+    color: theme.palette.text.secondary,
+    margin: 'auto',
+    marginBottom: theme.spacing(1),
+    display: 'flex',
+    flexDirection: { xs: 'row-reverse', sm: 'row' },
+    justifyContent: { xs: 'center', sm: 'space-between' },
+    alignItems: 'center',
+    gap: theme.spacing(0.5),
+    width: '100%',
+    flexWrap: 'wrap-reverse',
+  },
   articleDetails: {
     textAlign: 'left',
     marginBottom: theme.spacing(1),
@@ -116,7 +167,8 @@ const STYLES = {
     flexWrap: 'wrap',
   },
   articleTitle: {
-    fontWeight: theme.typography.fontWeightMedium
+    fontWeight: theme.typography.fontWeightMedium,
+    marginBottom: theme.spacing(3),
   },
   articleDate: {
     fontSize: theme.typography.fontSize,

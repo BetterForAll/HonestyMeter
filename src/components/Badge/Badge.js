@@ -20,7 +20,7 @@ const TEXTS = {
             subtitle: '- gain trust',
             subtitle2: '- support truth',
             subtitle3: '- grow engagement',
-            arrow: <EastIcon />, //arrow up icon: 
+            arrow: <ArrowUpwardIcon />, //arrow up icon: 
         },
     },
     biasLevel: {
@@ -41,12 +41,12 @@ const TooltipContent = ({ title, subtitle, subtitle2, subtitle3, arrow }) => {
     return (
         <Box sx={{ textAlign: 'center' }}>
             {/* <BadgeIcon width="100px" height="100px" color='black' /> */}
-            <Box sx={{ display: 'flex', gap: theme.spacing(1) }}>
-                <Typography >
-                    {title}
-                </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: theme.spacing(1) }}>
                 <Typography >
                     {arrow}
+                </Typography>
+                <Typography >
+                    {title}
                 </Typography>
             </Box>
             {
@@ -90,7 +90,17 @@ const SETTINGS = {
         texts: { ...TEXTS.common, ...TEXTS.biasLevel[2] },
         color: theme.palette.primary.main,
         secondaryColor: '#8f9bd76b',
-    }
+    },
+    4: {
+        texts: { ...TEXTS.common, ...TEXTS.biasLevel[2] },
+        color: theme.palette.secondary.main,
+        secondaryColor: '#c0d9d7',
+    },
+    5: {
+        texts: { ...TEXTS.common, ...TEXTS.biasLevel[2] },
+        color: '#888',
+        secondaryColor: 'white',
+    },
 }
 
 export default function Badge({
@@ -138,7 +148,7 @@ export default function Badge({
         }
     }, []);
 
-    const badgeContent = <Tooltip title={< TooltipContent {...shownTooltip} />} placement='left' open={isTooltipOpen} onMouseEnter={openTooltip} onMouseLeave={closeTooltip}>
+    const badgeContent = <Tooltip title={< TooltipContent {...shownTooltip} />} placement='bottom' open={isTooltipOpen} onMouseEnter={openTooltip} onMouseLeave={closeTooltip}>
         <Box sx={STYLES.container(size, color)}>
             {/* <Image src={icon} alt="Balance Icon" style={STYLES.icon} /> */} {/* may be used in sharing page for authors and publishers */}
             <BadgeIcon width={width} height={height} color={color} secondaryColor={secondaryColor} showBadgeName={showBadgeName} />
@@ -183,12 +193,15 @@ const STYLES = {
         transform: `scale(${size})`,
         color,
         cursor: 'pointer',
+        textDecoration: 'none',
         '& svg': {
             boxShadow: '0px 0px 0px 0px rgba(0,0,0,0.0)',
             border: '0px solid #fff',
             borderRadius: '50%',
             margin: theme.spacing(0, 0, 0.5, 0),
         },
+
+
         // padding: theme.spacing(0, 0.5),
         // borderRadius: '10px',
 

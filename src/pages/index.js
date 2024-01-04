@@ -258,6 +258,30 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
               onClick={toggleArticleInput(true)}
               isTopArticleInputShown={isTopArticleInputShown}
             />
+            {
+              <Collapse in={isTopArticleInputShown} sx={STYLES.articleInputContainer}>
+                <Box sx={STYLES.articleInputContainer}>
+                  {isUrlProvidedAsInput && (
+                    <Typography
+                      sx={STYLES.articleTextExtracted}
+                    >
+                      {TEXTS.articleTextExtracted}
+                      &nbsp;
+                      <a href={WOLRD_NEWS_API_URL} target='_blank' rel='noreferrer'>
+                        {TEXTS.worldNewsApi}
+                      </a>
+                    </Typography>
+                  )}
+
+                  <AtricleInput
+                    article={article}
+                    onArticleChange={handleArticleChange}
+                    onGetReport={handleGetReport}
+                    isUrlProvidedAsInput={isUrlProvidedAsInput}
+                  />
+                </Box>
+              </Collapse>
+            }
             <Box sx={{
               display: 'flex',
               gap: 1,
@@ -341,30 +365,7 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
             </Collapse>
           }
 
-          {
-            <Collapse in={isTopArticleInputShown} sx={STYLES.articleInputContainer}>
-              <Box sx={STYLES.articleInputContainer}>
-                {isUrlProvidedAsInput && (
-                  <Typography
-                    sx={STYLES.articleTextExtracted}
-                  >
-                    {TEXTS.articleTextExtracted}
-                    &nbsp;
-                    <a href={WOLRD_NEWS_API_URL} target='_blank' rel='noreferrer'>
-                      {TEXTS.worldNewsApi}
-                    </a>
-                  </Typography>
-                )}
 
-                <AtricleInput
-                  article={article}
-                  onArticleChange={handleArticleChange}
-                  onGetReport={handleGetReport}
-                  isUrlProvidedAsInput={isUrlProvidedAsInput}
-                />
-              </Box>
-            </Collapse>
-          }
 
           {/*TODO: decide if we need the chips*/}
           {/* {

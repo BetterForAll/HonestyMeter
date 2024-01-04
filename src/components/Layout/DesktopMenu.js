@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
@@ -16,12 +16,28 @@ import BadgeIcon from '../Badge/BadgeIcon';
 
 export default function Menu({ currentPage, setCurrentPage, pageRoutes }) {
   const router = useRouter();
+  const { pathname = '/' } = router || {};
+  const isBadgePage = pathname === '/badge';
+  const [isBadgeActive, setIsBadgeActive] = useState(false);
+  const biasLevel = isBadgeActive ? 4 : 5; // indicates badge color
+
+  useEffect(() => {
+    setIsBadgeActive(isBadgePage);
+  }, [isBadgePage])
+
 
   const handleChange = (_, pageIndex) => {
     setCurrentPage(pageIndex);
+    setIsBadgeActive(false);
   };
 
   const onTabClick = (index) => (e) => handleChange(e, index)
+
+  const goToBadgePage = () => {
+    setCurrentPage(null);
+    setIsBadgeActive(true);
+  }
+
 
   return (
     <Box sx={STYLES.visibilityBlockContainer}>
@@ -42,7 +58,9 @@ export default function Menu({ currentPage, setCurrentPage, pageRoutes }) {
 
           </Tabs>
         </Box>
-        <Badge biasLevel={3} width='85px' showBadgeName fadeTimeout={0} showFullTooltip />
+        <NextLink href='/badge' onClick={goToBadgePage}>
+          <Badge biasLevel={biasLevel} width='85px' showBadgeName fadeTimeout={0} showFullTooltip />
+        </NextLink>
         <Box sx={{ ...STYLES.iconsContainer, ...STYLES.flexCenter }}>
           <ContactIcon />
           <Link

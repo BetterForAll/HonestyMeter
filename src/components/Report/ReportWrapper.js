@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { string, func } from 'prop-types';
+import { string, func, object, number } from 'prop-types';
 import theme from '@/theme';
 import va from '@vercel/analytics';
 import Report from './Report';
@@ -17,6 +17,8 @@ import { EVENT } from '@/constants/constants';
 import { useRouter } from 'next/router';
 import Disclamer from '../Disclamer';
 import Badge from '../Badge/Badge';
+import Link from 'next/link';
+
 
 const TEXTS = {
   title: 'Bias report',
@@ -45,22 +47,24 @@ function ReportWrapper({ report = {}, shareLevel }) {
 
   return (
     <Box sx={STYLES.container}>
-      <ReportWrapperHeader onCloseReportClick={handleGoBack} biasLevel={biasLevel} />
-      <Report report={report} biasLevel={biasLevel} />
-      <Disclamer isShort />
+      <ReportWrapperHeader onCloseReportClick={handleGoBack} biasLevel={biasLevel} shareProps={shareProps} />
+      <Report report={report} biasLevel={biasLevel} shareProps={shareProps} />
+      <Share {...shareProps} />
       <Box sx={STYLES.copyToClipboardContainer}>
         <CopyToClipboard copyText={shareUrl} />
       </Box>
+      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+        <Button
+          variant='outlined'
+          size='large'
+          sx={STYLES.closeButton}
+          onClick={handleGoBack}
+        >
+          {TEXTS.closeReport}
+        </Button>
+      </Box>
       <ReportDivider />
-      <Share {...shareProps} />
-      <Button
-        variant='outlined'
-        size='large'
-        sx={STYLES.closeButton}
-        onClick={handleGoBack}
-      >
-        {TEXTS.closeReport}
-      </Button>
+      <Disclamer isShort />
     </Box>
   );
 }
@@ -70,31 +74,60 @@ ReportWrapper.propTypes = {
   reportJson: string,
 };
 
-function ReportWrapperHeader({ onCloseReportClick = EMPTY_FUNCTION, biasLevel }) {
+function ReportWrapperHeader({ onCloseReportClick = EMPTY_FUNCTION, biasLevel, shareProps }) {
   const closeIconTooltipTitle = TEXTS.closeReport;
 
   return (
-    <Box sx={STYLES.header}>
-      <EmptyElement />
-      <Box>
-        <Typography variant='h4' sx={STYLES.title}>
-          {TEXTS.title}
-        </Typography>
-        <Typography sx={STYLES.subtitle}>{TEXTS.subtitle}</Typography>
-        <Box sx={STYLES.badgeContainer}>
-          <Badge biasLevel={biasLevel} fadeTimeout={0} showBadgeName showTitle showSubtitle showComment showFullTooltip />
+    <Box>
+      <Box sx={STYLES.header}>
+        <EmptyElement sx={{ width: theme.spacing(3) }} />
+        {/* <Link style={STYLES.badgeContainer} href='/badge'>
+          <Badge width='100px' height='50px' biasLevel={biasLevel} fadeTimeout={0} showTitle showFullTooltip />
+        </Link> */}
+        <Box sx={{ width: '100%' }}>
+          <Typography variant='h4' sx={STYLES.title}>
+            {TEXTS.title}
+          </Typography>
+          <Typography sx={STYLES.subtitle}>{TEXTS.subtitle}</Typography>
         </Box>
+        <CloseIconWithTooltip
+          title={closeIconTooltipTitle}
+          onClick={onCloseReportClick}
+        />
       </Box>
-      <CloseIconWithTooltip
-        title={closeIconTooltipTitle}
-        onClick={onCloseReportClick}
-      />
+      <Box sx={{
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: theme.spacing(2),
+        margin: theme.spacing(1, 0)
+      }}>
+        {/* <EmptyElement sx={{
+          width: {
+            xs: '0',
+            sm: '128px',
+          },
+          display: {
+            xs: 'none',
+            sm: 'block',
+          }
+        }} /> */}
+        {/* <Link style={STYLES.badgeContainer} href='/badge'>
+          <Badge biasLevel={biasLevel} fadeTimeout={0} height='80px' showBadgeName showTitle showFullTooltip />
+        </Link> */}
+        {/* <Box>
+          <Share {...shareProps} />
+        </Box> */}
+      </Box>
     </Box>
   );
 }
 
 ReportWrapperHeader.propTypes = {
   onCloseReportClick: func,
+  biasLevel: number,
+  shareProps: object,
 };
 
 function CloseIconWithTooltip({ title, placement = 'top-start', onClick }) {
@@ -120,7 +153,7 @@ CloseIconWithTooltip.propTypes = {
 
 const ReportDivider = () => <Divider sx={STYLES.divider} />;
 
-const EmptyElement = () => <Box />;
+const EmptyElement = ({ sx }) => <Box sx={sx} />;
 
 const getBiasLevel = (score) => {
   if (score >= 80) return 0;
@@ -136,9 +169,9 @@ const STYLES = {
   },
   closeButton: {
     width: '200px',
-    marginLeft: 'calc(100% - 200px)',
+    // marginLeft: 'calc(100% - 200px)',
     marginBottom: theme.spacing(2),
-    marginTop: theme.spacing(2),
+    // marginTop: theme.spacing(2),
   },
   title: {
     marginBottom: theme.spacing(1),
@@ -156,6 +189,7 @@ const STYLES = {
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: theme.spacing(1),
+    textDecoration: 'none',
   },
   closeIcon: {
     cursor: 'pointer',
@@ -168,12 +202,14 @@ const STYLES = {
   header: {
     display: 'flex',
     justifyContent: 'space-between',
+    width: '100%',
+    position: 'relative'
   },
   copyToClipboardContainer: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: theme.spacing(0, 0, 4, 0),
+    margin: theme.spacing(2, 0, 4, 0),
   },
 };
 

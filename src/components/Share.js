@@ -26,8 +26,8 @@ const CONTEXT_OPTIONS = {
 
 const TEXTS = {
     title: 'HonestyMeter - A New Free AI powered tool for Evaluating the Objectivity and Bias of Media Content.',
-    ctaLineOne: 'Spread the Truth.',
-    getCtaLineTwo: (context) => `💡 Share ${CONTEXT_OPTIONS[context].title}! 💡`,
+    ctaLineOne: 'Spread the Truth',
+    getCtaLineTwo: (context) => `Share ${CONTEXT_OPTIONS[context].title}!`,
 }
 
 const DEFAULT_HASH_TAGS = ['HonestyMeter', 'MediaBias', 'FakeNews'];
@@ -38,10 +38,12 @@ export default function Share({
     description,
     hashTags,
     context = CONTEXT_OPTIONS.app.name,
+    showCtaLine1 = true,
+    showCtaLine2 = true
 }) {
     return (
         <Box sx={STYLES.shareCtaContainer}>
-            <CTA context={context} />
+            <CTA context={context} showCtaLine1={showCtaLine1} showCtaLine2={showCtaLine2} />
             <Box sx={STYLES.socialIconsContainer}>
                 <TwitterShareButton
                     url={url}
@@ -98,19 +100,27 @@ const STYLES = {
     },
     socialIconsContainer: {
         display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
         gap: theme.spacing(2)
     },
 }
 
-function CTA({ context }) {
+function CTA({ context, showCtaLine1, showCtaLine2 }) {
     return (
         <Box style={DEFAULT_CTA_STYLES.cta}>
-            <Typography component='h3' sx={DEFAULT_CTA_STYLES.lineOne}>
-                {TEXTS.ctaLineOne}
-            </Typography>
-            <Typography component='h3'>
-                {TEXTS.getCtaLineTwo(context)}
-            </Typography>
+            {
+                showCtaLine1 &&
+                <Typography component='h3' sx={DEFAULT_CTA_STYLES.lineOne}>
+                    {TEXTS.ctaLineOne}
+                </Typography>
+            }
+            {
+                showCtaLine2 &&
+                <Typography component='h3'>
+                    {TEXTS.getCtaLineTwo(context)}
+                </Typography>
+            }
         </Box>
     )
 }
