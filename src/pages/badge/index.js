@@ -167,7 +167,7 @@ function HonestyBadgeComponent() {
                 </Paper>
             </Box >
             <Divider sx={{ marginBottom: theme.spacing(3) }} />
-            <Typography sx={STYLES.sectionTitle}>
+            {/* <Typography sx={STYLES.sectionTitle}>
                 Understanding Bias in Content
             </Typography>
             <Typography sx={STYLES.paragraph}>
@@ -180,7 +180,8 @@ function HonestyBadgeComponent() {
                 Objective: Countering Media Manipulations
             </Typography>
             <Typography sx={STYLES.paragraph}>
-                Our objective is to counteract severe media manipulations that can significantly distort facts and lead the audience to a false perception of reality. These manipulations include misleading headlines, omission of key information, biased framing, among many others.
+                Our objective is to counteract severe media manipulations that can significantly distort facts and lead the audience to a false perception of reality.
+                 These manipulations include misleading headlines, omission of key information, biased framing, among many others.
             </Typography>
 
             <Typography sx={STYLES.sectionTitle}>
@@ -190,9 +191,34 @@ function HonestyBadgeComponent() {
                 The Honesty Badge doesn&apos;t mean that the content is free of bias.
                 It indicates that the content creator or publisher is openly inviting the audience
                 to evaluate and discuss the bias by clicking the badge and generating a full bias report about the content.
-                Therefore, it&apos;s highly unlikely that those who intentionally publish content with these kinds of manipulations
+                Therefore, it&apos;s highly unlikely that those who intentionally publish content with severe misleading manipulations
                 will share our Honesty Badge. While absolute guarantees are impossible, it is generally reasonable
                 to consider authors or platforms that actively share this badge and invite open discussion as more trustworthy than those who do not.
+            </Typography> */}
+            <Typography sx={STYLES.sectionTitle}>
+                Author&apos;s and Publisher&apos;s Transparency
+            </Typography>
+            <Typography sx={STYLES.paragraph}>
+                If this badge was shared by the author or publishing platform, it strongly indicates the publisher&apos;s commitment to transparency,
+                fairness, and openness to discussion and critical evaluation of the content. It&apos;s important to understand
+                that the presence of bias in the content does not mean that the bias was applied intentionally to manipulate the audience.
+                In many cases, biased content is created unknowingly with the best of intentions. Some level of bias is often inevitable,
+                especially in opinion pieces on controversial topics. Our main objective is to counteract severe media manipulations that can
+                significantly distort facts and lead the audience to a false perception of reality.
+                These manipulations include misleading headlines, omission of key information, biased framing, among many others.
+                It&apos;s highly unlikely that those who intentionally publish content with severe misleading manipulations will share our Honesty Badge.
+
+            </Typography>
+            <Typography sx={STYLES.sectionTitle}>
+                Commitment to Openness by Authors and Publishers
+            </Typography>
+            <Typography sx={STYLES.paragraph}>
+                We&apos;d like to emphasize that if this badge was shared by the author or publisher, it significantly increases the likelihood of their trustworthiness,
+                regardless of the bias level. This willingness to openly invite the audience to evaluate the content&apos;s bias level
+                demonstrates a commitment to honest communication and aligns with the vision of fair and transparent media.
+                Therefore, it&apos;s pretty reasonable to assume that an author or publisher who openly shares a badge
+                and invites the audience to engage in open discussion can be more likely trusted than those who don&apos;t.
+
             </Typography>
 
             {/* <Typography sx={STYLES.sectionTitle}>
@@ -205,7 +231,10 @@ function HonestyBadgeComponent() {
                 Disclaimer: Honesty Meter in Experimental Stage
             </Typography>
             <Typography sx={STYLES.paragraph}>
-                Honesty Meter, the technology behind the Honesty Badge, is in an experimental stage. We recommend critically evaluating the content and bias reports generated. While we are continuously working on improving the system, even in its current state, the bias reports often provide valuable insights that are hard for humans to detect.
+                Honesty Meter, the technology behind the Honesty Badge, is in an experimental stage.
+                We recommend critically evaluating the content and bias reports generated.
+                While we are continuously working on improving the system, even in its current state,
+                the bias reports often provide valuable insights that are hard for humans to detect.
             </Typography>
             <Typography sx={STYLES.sectionTitle}>
                 Support the Truth, Increase Trust and Engagement - Share Honesty Badge in Your Content
