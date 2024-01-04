@@ -11,7 +11,6 @@ export default function ReportId({ reportId, biasLevel }) {
     )
 }
 
-
 const Fair = () => {
     return (
         <h1>Fair</h1>
