@@ -13,7 +13,7 @@ import EastIcon from '@mui/icons-material/East';
 
 const TEXTS = {
     common: {
-        subtitle: 'HonestyMeter',
+        subtitle: 'Verified by HonestyMeter',
         comment: 'experimental',
         tooltip: {
             title: 'Share Honesty Badge',

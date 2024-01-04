@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Typography, Button, Paper, Divider } from '@mui/material';
-import theme from '@/theme'; // Ensure this imports your project's theme settings
+import theme from '@/theme';
 import Badge from '@/components/Badge/Badge';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import Link from 'next/link';
@@ -48,10 +48,10 @@ const STYLES = {
 };
 
 function HonestyBadgeComponent() {
-    const [showContent, setShowContent] = useState(false);
+    const [isSharingDetailsShown, setSharingDetailsShown] = useState(false);
 
     const toggleSharingDetails = () => {
-        setShowContent(!showContent);
+        setSharingDetailsShown(!isSharingDetailsShown);
     }
 
     return (
@@ -108,12 +108,14 @@ function HonestyBadgeComponent() {
                 <ArrowDownwardIcon sx={{ color: 'inherit' }} />
 
                 <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', color: 'inherit', marginBottom: theme.spacing(2) }}>
-                    <Button
-                        variant="contained"
-                        sx={STYLES.shareButton}
-                        onClick={toggleSharingDetails}>
-                        Share Honesty Badge in Your Content
-                    </Button>
+                    <Link href='/badge/details'>
+                        <Button
+                            variant="contained"
+                            sx={STYLES.shareButton}
+                            onClick={toggleSharingDetails}>
+                            Share Honesty Badge in Your Content
+                        </Button>
+                    </Link>
                 </Box>
             </Box>
             <Typography sx={{ ...STYLES.paragraph, marginBottom: theme.spacing(3) }}>
@@ -122,50 +124,6 @@ function HonestyBadgeComponent() {
                 It enhances trust and engagement with your content.
                 Every share promotes awareness of media transparency and makes the world a little fairer.
             </Typography>
-            <Box sx={showContent ? STYLES.visibleContent : STYLES.hiddenContent}>
-                <Paper elevation={3} sx={{ padding: theme.spacing(3), marginBottom: theme.spacing(3) }}>
-                    <Typography sx={STYLES.sectionTitle}>
-                        1. Embed on Your Website
-                    </Typography>
-                    <Typography sx={STYLES.paragraph}>
-                        Display the Honesty Badge on your website using this HTML code:
-                    </Typography>
-                    <Box sx={{ backgroundColor: 'gray', color: 'white', padding: theme.spacing(2), borderRadius: theme.spacing(1), wordBreak: 'break-all' }}>
-                        &lt;a href=&quot;https://www.honestymeter.com/badge&quot;
-                        target=&quot;
-                        _blank&quot;&gt;<br />
-                        &nbsp; &nbsp; &lt;img src=&quot;https://www.honestymeter.com/favicon.png&quot;
-                        alt=&quot;Honesty Badge&quot;&gt;
-                        <br />&lt;/a&gt;
-                    </Box>
-                    <Typography sx={STYLES.sectionTitle}>
-                        2. Direct URL
-                    </Typography>
-                    <Typography sx={STYLES.paragraph}>
-                        Share this direct link to the Honesty Badge page in your digital communications:
-                    </Typography>
-                    <Link href="https://www.honestymeter.com/badge" sx={STYLES.link}>HonestyBadge.com</Link>
-
-                    <Typography sx={STYLES.sectionTitle}>
-                        3. Text for Sharing on any platform or social network
-                    </Typography>
-                    <Typography sx={STYLES.paragraph}>
-                        Supporting honest content. View the Honesty Badge: HonestyBadge.com
-                    </Typography>
-                    <Typography sx={STYLES.paragraph}>
-                        Recommended hashtags: #HonestyBadge #HonestyMeter
-                    </Typography>
-                    <Typography sx={STYLES.sectionTitle}>
-                        4. Create API Integration
-                    </Typography>
-                    <Typography sx={STYLES.paragraph}>
-                        If you are interested in creating an API integration, please&nbsp;
-                        <Link href="mailto:info@honestymeter.com" sx={STYLES.link}>
-                            contact us
-                        </Link>
-                    </Typography>
-                </Paper>
-            </Box >
             <Divider sx={{ marginBottom: theme.spacing(3) }} />
             {/* <Typography sx={STYLES.sectionTitle}>
                 Understanding Bias in Content
@@ -262,12 +220,14 @@ function HonestyBadgeComponent() {
                 <ArrowDownwardIcon sx={{ color: 'inherit' }} />
 
                 <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', color: 'inherit', marginBottom: theme.spacing(2) }}>
-                    <Button
-                        variant="contained"
-                        sx={STYLES.shareButton}
-                        onClick={toggleSharingDetails}>
-                        Share Honesty Badge in Your Content
-                    </Button>
+                    <Link href='/badge/details'>
+                        <Button
+                            variant="contained"
+                            sx={STYLES.shareButton}
+                            onClick={toggleSharingDetails}>
+                            Share Honesty Badge in Your Content
+                        </Button>
+                    </Link>
                 </Box>
                 {/* <Typography sx={STYLES.paragraph}>
                     If you share our vision of transparent, unbiased media, demonstrate your support by sharing our badge with any content

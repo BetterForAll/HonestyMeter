@@ -1,7 +1,11 @@
+import Details from '@/components/Badge/Details'
 import React from 'react'
 
-export default function Details() {
+
+export default function DetailsPage() {
     return (
-        <h1>Details</h1>
+        <Details />
     )
 }
+
+
