@@ -8,27 +8,16 @@ export default function Details() {
     return (
         <Box sx={STYLES.container}>
             <Box elevation={3} sx={{ padding: theme.spacing(3), marginBottom: theme.spacing(3), width: '100%' }}>
-                <Typography sx={STYLES.sectionTitle}>
-                    1. Text for Sharing:
+                <Typography component='h1' sx={{ ...STYLES.sectionTitle, fontSize: theme.typography.fontSize * 1.5, marginBottom: 3 }}>
+                    Sharing Options
                 </Typography>
-                <Typography sx={STYLES.paragraph}>
-                    Supporting honest content. View the Honesty Badge: HonestyBadge.com
+
+                <Typography sx={{ ...STYLES.sectionTitle, marginBottom: 1 }}>
+                    1. Embed on Your Website
                 </Typography>
-                <Typography sx={STYLES.paragraph}>
-                    hashtags: #HonestyBadge #HonestyMeter
-                </Typography>
-                <Typography sx={STYLES.sectionTitle}>
-                    2. Direct URL
-                </Typography>
-                <Typography sx={STYLES.paragraph}>
-                    Share this direct link to the Honesty Badge page in your digital communications:
-                </Typography>
-                <Typography sx={STYLES.paragraph}>
-                    <Link href="https://www.honestymeter.com/badge" sx={STYLES.link}>HonestyBadge.com</Link>
-                </Typography>
-                <Typography sx={STYLES.sectionTitle}>
-                    3. Embed on Your Website
-                </Typography>
+                <Image src="/badge.svg" height={140} width={140} alt="Honesty Badge - Supporting Honest Content" title="Click to view the badge" style={{ cursor: 'pointer' }} />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <Image src="/badge_fair.svg" height={140} width={140} alt="Honesty Badge - Fair Content" title="Click to view the badge" style={{ cursor: 'pointer' }} />
                 <Typography sx={STYLES.paragraph}>
                     Display the Honesty Badge on your website using this HTML code:
                 </Typography>
@@ -43,10 +32,29 @@ export default function Details() {
                     target=&quot;
                     _blank&quot;&gt;<br />
                     &nbsp; &nbsp; &lt;img src=&quot;https://www.honestymeter.com/badge.svg&quot;
-                    alt=&quot;Honesty Badge&quot;&gt;
+                    alt=&quot;Honesty Badge&quot; title=&quot;Click to view the badge&quot; style=&quot;cursor:pointer;&quot;&gt;
                     <br />&lt;/a&gt;
                 </Box>
-                <Image src="localhost:3000//public/badge.svg" alt="BADGE SVG" height={100} width={100} />
+                <Typography sx={STYLES.sectionTitle}>
+                    2. Share as text:
+                </Typography>
+                <Typography sx={STYLES.paragraph}>
+                    Supporting honest content. View the Honesty Badge: HonestyBadge.com
+                </Typography>
+                <Typography sx={STYLES.paragraph}>
+                    hashtags: #HonestyBadge #HonestyMeter
+                </Typography>
+                <Typography sx={STYLES.sectionTitle}>
+                    3. Direct URL
+                </Typography>
+                <Typography sx={STYLES.paragraph}>
+                    Share this direct link to the Honesty Badge page in your digital communications:
+                </Typography>
+                <Typography sx={STYLES.paragraph}>
+                    <Link href="https://www.honestymeter.com/badge" sx={STYLES.link}>HonestyBadge.com</Link>
+                </Typography>
+
+
                 <Typography sx={STYLES.sectionTitle}>
                     4. Create API Integration
                 </Typography>
@@ -64,7 +72,7 @@ export default function Details() {
 const STYLES = {
     container: {
         width: '100%',
-        maxWidth: '720px',
+        maxWidth: '800px',
         margin: 'auto',
         padding: { xs: theme.spacing(2), sm: theme.spacing(4) },
         color: theme.palette.text.primary,
