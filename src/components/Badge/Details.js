@@ -57,7 +57,7 @@ export default function Details() {
                         <Typography sx={{ ...STYLES.sectionTitle, marginBottom: 1 }}>
                             Embed on Your Website
                         </Typography>
-                        <Image src="/badge.svg" height={140} width={140} alt="Honesty Badge - Supporting Honest Content" title="Click to view the badge" style={{ cursor: 'pointer', marginBottom: '1rem' }} />
+                        <Image src="/badge.svg" height={140} width={140} alt="Honesty Badge - Supporting Honest Content"  style={{  marginBottom: '1rem' }} />
 
                         <Typography sx={STYLES.paragraph}>
                             Display the Honesty Badge on your website using this HTML code:
@@ -147,9 +147,8 @@ export default function Details() {
 const STYLES = {
     container: {
         width: '100%',
-        maxWidth: '800px',
         margin: 'auto',
-        padding: { xs: theme.spacing(2), sm: theme.spacing(4) },
+        // padding: { xs: theme.spacing(2), sm: theme.spacing(4) },
         color: theme.palette.text.primary,
     },
     sectionTitle: {

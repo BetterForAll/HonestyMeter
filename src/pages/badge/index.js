@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Box, Typography, Button, Paper, Divider } from '@mui/material';
+import { Box, Typography, Button, Paper, Divider,Fade, Modal } from '@mui/material';
+import Details from '@/components/Badge/Details'
 import theme from '@/theme';
 import Badge from '@/components/Badge/Badge';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -45,7 +47,15 @@ const STYLES = {
     link: {
         textDecoration: 'none',
         color: theme.palette.primary.main,
-    }
+    },
+    closeIcon: {
+        cursor: 'pointer',
+        fontSize: theme.spacing(3),
+        color: theme.palette.text.secondary,
+        position: 'absolute',
+        top: theme.spacing(1),
+        right: theme.spacing(1),
+    },
 };
 
 function HonestyBadgeComponent() {
@@ -61,7 +71,7 @@ function HonestyBadgeComponent() {
             <Paper elevation={3} sx={{ padding: theme.spacing(3), marginBottom: theme.spacing(2) }}>
                 {/* <Badge biasLevel={4} showBadgeName /> */}
                 <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: theme.spacing(2) }}>
-                    <Image src="/badge.svg" height={160} width={160} alt="Honesty Badge - Supporting Honest Content" title="Click to view the badge" style={{ cursor: 'pointer' }} />
+                    <Image src="/badge.svg" height={160} width={160} alt="Honesty Badge - Supporting Honest Content" />
                 </Box>
                 <Typography variant="h4" sx={STYLES.title}>HONESTY BADGE</Typography>
                 <Typography variant="subtitle1" sx={{
@@ -112,15 +122,21 @@ function HonestyBadgeComponent() {
                 <ArrowDownwardIcon sx={{ color: 'inherit' }} />
 
                 <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', color: 'inherit', marginBottom: theme.spacing(2) }}>
-                    <Link href='/badge/details'>
-                        <Button
+                    <Button
                             variant="contained"
                             sx={STYLES.shareButton}
                             onClick={toggleSharingDetails}>
                             Share Honesty Badge in Your Content
-                        </Button>
-                    </Link>
+                    </Button>
                 </Box>
+            <Modal open={isSharingDetailsShown} onClose={toggleSharingDetails} sx={{display: 'flex', alignItems: 'center', justifyContent:'center'}}>
+                <Fade in={isSharingDetailsShown} timeout={{ enter: 300, exit: 400 }} >
+                    <Box sx={{position: 'relative', width: '100%', maxWidth:'1200px'}}>
+                        <CloseRoundedIcon sx={STYLES.closeIcon} onClick={toggleSharingDetails} />
+                        <Details  />
+                    </Box>
+                </Fade>
+            </Modal>
             </Box>
             <Typography sx={{ ...STYLES.paragraph, marginBottom: theme.spacing(3) }}>
                 If you share our vision of transparent, unbiased media, display our badge
