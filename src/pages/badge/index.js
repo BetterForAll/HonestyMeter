@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Typography, Button, Paper, Divider,Fade, Modal } from '@mui/material';
+import { Box, Typography, Button, Paper, Divider, Fade, Modal } from '@mui/material';
 import Details from '@/components/Badge/Details'
 import theme from '@/theme';
 import Badge from '@/components/Badge/Badge';
@@ -72,20 +72,20 @@ function HonestyBadgeComponent() {
 
                 <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', color: 'inherit', marginBottom: theme.spacing(2) }}>
                     <Button
-                            variant="contained"
-                            sx={STYLES.shareButton}
-                            onClick={toggleSharingDetails}>
-                            Share Honesty Badge in Your Content
+                        variant="contained"
+                        sx={STYLES.shareButton}
+                        onClick={toggleSharingDetails}>
+                        Share Honesty Badge in Your Content
                     </Button>
                 </Box>
-            <Modal open={isSharingDetailsShown} onClose={toggleSharingDetails} sx={{display: 'flex', alignItems: 'center', justifyContent:'center', paddingTop: 8}}>
-                <Fade in={isSharingDetailsShown} timeout={{ enter: 300, exit: 400 }} >
-                    <Box sx={{position: 'relative', width: '95%', maxWidth:'800px', maxHeight: '95vh' }}>
-                        <CloseRoundedIcon sx={STYLES.closeIcon} onClick={toggleSharingDetails} />
-                        <Details  />
-                    </Box>
-                </Fade>
-            </Modal>
+                <Modal open={isSharingDetailsShown} onClose={toggleSharingDetails} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 8 }}>
+                    <Fade in={isSharingDetailsShown} timeout={{ enter: 300, exit: 400 }} >
+                        <Box sx={{ position: 'relative', width: '95%', maxWidth: '800px', maxHeight: '95vh' }}>
+                            <CloseRoundedIcon sx={STYLES.closeIcon} onClick={toggleSharingDetails} />
+                            <Details />
+                        </Box>
+                    </Fade>
+                </Modal>
             </Box>
             <Typography sx={{ ...STYLES.paragraph, marginBottom: theme.spacing(3) }}>
                 If you share our vision of transparent, unbiased media, display our badge
@@ -188,12 +188,12 @@ function HonestyBadgeComponent() {
                 </Typography>
                 <ArrowDownwardIcon sx={{ color: 'inherit' }} />
                 <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', color: 'inherit', marginBottom: theme.spacing(2) }}>
-                        <Button
-                            variant="contained"
-                            sx={STYLES.shareButton}
-                            onClick={toggleSharingDetails}>
-                            Share Honesty Badge in Your Content
-                        </Button>
+                    <Button
+                        variant="contained"
+                        sx={STYLES.shareButton}
+                        onClick={toggleSharingDetails}>
+                        Share Honesty Badge in Your Content
+                    </Button>
                 </Box>
                 {/* <Typography sx={STYLES.paragraph}>
                     If you share our vision of transparent, unbiased media, demonstrate your support by sharing our badge with any content

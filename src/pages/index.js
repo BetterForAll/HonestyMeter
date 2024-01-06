@@ -259,7 +259,7 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
               onClick={toggleArticleInput(true)}
               isTopArticleInputShown={isTopArticleInputShown}
             />
-             <Box sx={{
+            <Box sx={{
               display: 'flex',
               gap: 1,
               justifyContent: 'center',
