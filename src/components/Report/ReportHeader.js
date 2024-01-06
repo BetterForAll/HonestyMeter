@@ -31,6 +31,7 @@ export default function ReportHeader({
   const articleBaseUrl = articleLink ? getBaseUrlFromUrlString(articleLink) : '';
   const userTimeZoneArticleDate = convertUTCDateToUserTimeZone(articleDate);
   const { color, content } = getScoreStyle(score);
+  const badgeUrl = score >= 80 ? '/badge/fair' : '/badge'
 
 
   const fireArticleLinkClickEvent = () => {
@@ -57,8 +58,8 @@ export default function ReportHeader({
           paddingBottom: theme.spacing(1),
           gap: theme.spacing(2),
         }}>
-          <Box sx={{ transform: {xs: 'translateX(0)',md: 'translateX(-34px)'} }}>
-            <Link href='/badge' style={{ textDecoration: 'none' }}>
+          <Box sx={{ transform: { xs: 'translateX(0)', md: 'translateX(-34px)' } }}>
+            <Link href={badgeUrl} style={{ textDecoration: 'none' }}>
               <Badge biasLevel={biasLevel} showBadgeName showTitle showSubtitle showFullTooltip height='100px' />
             </Link>
           </Box>

@@ -1,7 +1,8 @@
 import React from 'react'
+import BadgeFairPageComponent from '../../../components/Badge/BadgeFairPageComponent'
 
-export default function Fair() {
+export default function BadgeFairPage() {
     return (
-        <h1>Fair</h1>
+        <BadgeFairPageComponent />
     )
 }
