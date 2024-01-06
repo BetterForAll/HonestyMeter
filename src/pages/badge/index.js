@@ -8,56 +8,6 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Link from 'next/link';
 import Image from 'next/image';
 
-
-const STYLES = {
-    container: {
-        maxWidth: '1000px',
-        margin: 'auto',
-        padding: { xs: theme.spacing(2), sm: theme.spacing(4) },
-        color: theme.palette.text.primary,
-    },
-    title: {
-        marginBottom: theme.spacing(1),
-        fontWeight: 'bold',
-        fontSize: theme.typography.fontSize * 1.25,
-        textAlign: 'center',
-        color: theme.palette.secondary.main,
-    },
-    sectionTitle: {
-        margin: theme.spacing(0, 0, 1),
-        fontWeight: 'bold',
-        fontSize: theme.typography.fontSize * 1.125,
-    },
-    paragraph: {
-        fontSize: theme.typography.fontSize,
-        color: theme.palette.text.primary,
-        marginBottom: theme.spacing(2),
-    },
-    shareButton: {
-        margin: 'auto',
-        // marginTop: theme.spacing(2),
-        marginBottom: theme.spacing(2),
-    },
-    hiddenContent: {
-        display: 'none',
-    },
-    visibleContent: {
-        display: 'block',
-    },
-    link: {
-        textDecoration: 'none',
-        color: theme.palette.primary.main,
-    },
-    closeIcon: {
-        cursor: 'pointer',
-        fontSize: theme.spacing(3),
-        color: theme.palette.text.secondary,
-        position: 'absolute',
-        top: theme.spacing(1.5),
-        right: theme.spacing(1.5),
-    },
-};
-
 function HonestyBadgeComponent() {
     const [isSharingDetailsShown, setSharingDetailsShown] = useState(false);
 
@@ -67,7 +17,6 @@ function HonestyBadgeComponent() {
 
     return (
         <Box sx={STYLES.container}>
-
             <Paper elevation={3} sx={{ padding: theme.spacing(3), marginBottom: theme.spacing(2) }}>
                 {/* <Badge biasLevel={4} showBadgeName /> */}
                 <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: theme.spacing(2) }}>
@@ -131,7 +80,7 @@ function HonestyBadgeComponent() {
                 </Box>
             <Modal open={isSharingDetailsShown} onClose={toggleSharingDetails} sx={{display: 'flex', alignItems: 'center', justifyContent:'center', paddingTop: 8}}>
                 <Fade in={isSharingDetailsShown} timeout={{ enter: 300, exit: 400 }} >
-                    <Box sx={{position: 'relative', width: '95%', maxWidth:'1200px', maxHeight: '95vh' }}>
+                    <Box sx={{position: 'relative', width: '95%', maxWidth:'800px', maxHeight: '95vh' }}>
                         <CloseRoundedIcon sx={STYLES.closeIcon} onClick={toggleSharingDetails} />
                         <Details  />
                     </Box>
@@ -254,5 +203,54 @@ function HonestyBadgeComponent() {
         </Box >
     );
 }
+
+const STYLES = {
+    container: {
+        maxWidth: '1000px',
+        margin: 'auto',
+        padding: { xs: theme.spacing(2), sm: theme.spacing(4) },
+        color: theme.palette.text.primary,
+    },
+    title: {
+        marginBottom: theme.spacing(1),
+        fontWeight: 'bold',
+        fontSize: theme.typography.fontSize * 1.25,
+        textAlign: 'center',
+        color: theme.palette.secondary.main,
+    },
+    sectionTitle: {
+        margin: theme.spacing(0, 0, 1),
+        fontWeight: 'bold',
+        fontSize: theme.typography.fontSize * 1.125,
+    },
+    paragraph: {
+        fontSize: theme.typography.fontSize,
+        color: theme.palette.text.primary,
+        marginBottom: theme.spacing(2),
+    },
+    shareButton: {
+        margin: 'auto',
+        // marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(2),
+    },
+    hiddenContent: {
+        display: 'none',
+    },
+    visibleContent: {
+        display: 'block',
+    },
+    link: {
+        textDecoration: 'none',
+        color: theme.palette.primary.main,
+    },
+    closeIcon: {
+        cursor: 'pointer',
+        fontSize: theme.spacing(3),
+        color: theme.palette.text.secondary,
+        position: 'absolute',
+        top: theme.spacing(1.5),
+        right: theme.spacing(1.5),
+    },
+};
 
 export default HonestyBadgeComponent;

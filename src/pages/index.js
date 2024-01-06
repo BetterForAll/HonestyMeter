@@ -253,36 +253,13 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
             alignItems: 'center',
             marginBottom: 2,
             marginTop: 1,
+            width: '100%',
           }}>
             <CreateReportButton
               onClick={toggleArticleInput(true)}
               isTopArticleInputShown={isTopArticleInputShown}
             />
-            {
-              <Collapse in={isTopArticleInputShown} sx={STYLES.articleInputContainer}>
-                <Box sx={STYLES.articleInputContainer}>
-                  {isUrlProvidedAsInput && (
-                    <Typography
-                      sx={STYLES.articleTextExtracted}
-                    >
-                      {TEXTS.articleTextExtracted}
-                      &nbsp;
-                      <a href={WOLRD_NEWS_API_URL} target='_blank' rel='noreferrer'>
-                        {TEXTS.worldNewsApi}
-                      </a>
-                    </Typography>
-                  )}
-
-                  <AtricleInput
-                    article={article}
-                    onArticleChange={handleArticleChange}
-                    onGetReport={handleGetReport}
-                    isUrlProvidedAsInput={isUrlProvidedAsInput}
-                  />
-                </Box>
-              </Collapse>
-            }
-            <Box sx={{
+             <Box sx={{
               display: 'flex',
               gap: 1,
               justifyContent: 'center',
@@ -311,11 +288,33 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
                     }} />
                     :
                     <SearchIcon sx={{ color: theme.palette.text.secondary }} />
-
                   }
                 </Button>
               </Tooltip>
             </Box>
+            {
+              <Collapse in={isTopArticleInputShown} sx={STYLES.articleInputContainer}>
+                <Box sx={STYLES.articleInputContainer}>
+                  {isUrlProvidedAsInput && (
+                    <Typography
+                      sx={STYLES.articleTextExtracted}
+                    >
+                      {TEXTS.articleTextExtracted}
+                      &nbsp;
+                      <a href={WOLRD_NEWS_API_URL} target='_blank' rel='noreferrer'>
+                        {TEXTS.worldNewsApi}
+                      </a>
+                    </Typography>
+                  )}
+                  <AtricleInput
+                    article={article}
+                    onArticleChange={handleArticleChange}
+                    onGetReport={handleGetReport}
+                    isUrlProvidedAsInput={isUrlProvidedAsInput}
+                  />
+                </Box>
+              </Collapse>
+            }
           </Box>
           {
             <Collapse in={isSearchShown}>
@@ -417,15 +416,17 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
               <Pagination {...{ page, isFirstPage, isLastPage }} isScrollUpIconShown />
             </Box>
           )}
-          {
+          {/* TODO: fix scroll position when article input is open */}
+          {/* {
+
             shouldShowBottomCTA &&
+            <>
             <Box sx={{ marginBottom: 2 }}>
               <CreateReportButton
                 onClick={toggleArticleInput(false)}
                 isArticleInputShown={isBottomArticleInputShown}
               />
             </Box>
-          }
           <Collapse in={isBottomArticleInputShown} sx={STYLES.articleInputContainer}>
             <Box sx={STYLES.articleInputContainer}>
               <AtricleInput
@@ -435,6 +436,8 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
               />
             </Box>
           </Collapse>
+          </>
+          } */}
           <Box sx={{ marginTop: theme.spacing(2) }}>
             <Share
               title={TEXTS.shareTitle}
@@ -572,7 +575,7 @@ const STYLES = {
   },
   articleInputContainer: {
     width: '100%',
-    margin: '0 auto auto',
+    margin: `${theme.spacing(1)} auto auto`,
     padding: theme.spacing(0, 2, 2, 2),
   },
   articleTextExtracted: {
