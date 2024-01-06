@@ -53,8 +53,8 @@ const STYLES = {
         fontSize: theme.spacing(3),
         color: theme.palette.text.secondary,
         position: 'absolute',
-        top: theme.spacing(1),
-        right: theme.spacing(1),
+        top: theme.spacing(1.5),
+        right: theme.spacing(1.5),
     },
 };
 
@@ -129,9 +129,9 @@ function HonestyBadgeComponent() {
                             Share Honesty Badge in Your Content
                     </Button>
                 </Box>
-            <Modal open={isSharingDetailsShown} onClose={toggleSharingDetails} sx={{display: 'flex', alignItems: 'center', justifyContent:'center'}}>
+            <Modal open={isSharingDetailsShown} onClose={toggleSharingDetails} sx={{display: 'flex', alignItems: 'center', justifyContent:'center', paddingTop: 8}}>
                 <Fade in={isSharingDetailsShown} timeout={{ enter: 300, exit: 400 }} >
-                    <Box sx={{position: 'relative', width: '100%', maxWidth:'1200px'}}>
+                    <Box sx={{position: 'relative', width: '95%', maxWidth:'1200px', maxHeight: '95vh' }}>
                         <CloseRoundedIcon sx={STYLES.closeIcon} onClick={toggleSharingDetails} />
                         <Details  />
                     </Box>
@@ -238,16 +238,13 @@ function HonestyBadgeComponent() {
                     - Increase Trust and Engagement
                 </Typography>
                 <ArrowDownwardIcon sx={{ color: 'inherit' }} />
-
                 <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', color: 'inherit', marginBottom: theme.spacing(2) }}>
-                    <Link href='/badge/details'>
                         <Button
                             variant="contained"
                             sx={STYLES.shareButton}
                             onClick={toggleSharingDetails}>
                             Share Honesty Badge in Your Content
                         </Button>
-                    </Link>
                 </Box>
                 {/* <Typography sx={STYLES.paragraph}>
                     If you share our vision of transparent, unbiased media, demonstrate your support by sharing our badge with any content

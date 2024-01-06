@@ -48,7 +48,7 @@ export default function Details() {
 
     return (
         <Box sx={STYLES.container}>
-            <Paper elevation={3} sx={{ padding: theme.spacing(3), marginBottom: theme.spacing(3), width: '100%', }}>
+            <Paper elevation={3} sx={{ padding: theme.spacing(3),width: '100%', }}>
                 <Typography component='h1' sx={{ ...STYLES.sectionTitle, fontSize: theme.typography.fontSize * 1.5, marginBottom: 1, textAlign: 'center' }}>
                     Sharing Options
                 </Typography>
@@ -147,9 +147,13 @@ export default function Details() {
 const STYLES = {
     container: {
         width: '100%',
+        maxHeight: '85vh',
         margin: 'auto',
         // padding: { xs: theme.spacing(2), sm: theme.spacing(4) },
         color: theme.palette.text.primary,
+        overflowX: 'auto',
+        backgroundColor: theme.palette.background.paper,
+
     },
     sectionTitle: {
         margin: theme.spacing(0, 0, 1),
