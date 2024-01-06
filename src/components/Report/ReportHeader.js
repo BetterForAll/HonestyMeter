@@ -44,7 +44,7 @@ export default function ReportHeader({
           <Typography sx={{
             fontWeight: theme.typography.fontWeightMedium,
           }}>{TEXTS.score}</Typography>
-          <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+          <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center', }}>
             <CircularProgressWithLabel value={score} color={color} />
           </Box>
           <Typography sx={{ color, textAlign: 'right' }}>{content}</Typography>
@@ -57,7 +57,7 @@ export default function ReportHeader({
           paddingBottom: theme.spacing(1),
           gap: theme.spacing(2),
         }}>
-          <Box sx={{ display: { xs: 'block', sm: 'block' } }}>
+          <Box sx={{ transform: 'translateX(-34px)' }}>
             <Link href='/badge' style={{ textDecoration: 'none' }}>
               <Badge biasLevel={biasLevel} showBadgeName showTitle showSubtitle showFullTooltip height='100px' />
             </Link>

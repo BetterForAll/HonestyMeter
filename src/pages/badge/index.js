@@ -4,6 +4,7 @@ import theme from '@/theme';
 import Badge from '@/components/Badge/Badge';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import Link from 'next/link';
+import Image from 'next/image';
 
 
 const STYLES = {
@@ -59,6 +60,9 @@ function HonestyBadgeComponent() {
 
             <Paper elevation={3} sx={{ padding: theme.spacing(3), marginBottom: theme.spacing(2) }}>
                 {/* <Badge biasLevel={4} showBadgeName /> */}
+                <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: theme.spacing(2) }}>
+                    <Image src="/badge.svg" height={160} width={160} alt="Honesty Badge - Supporting Honest Content" title="Click to view the badge" style={{ cursor: 'pointer' }} />
+                </Box>
                 <Typography variant="h4" sx={STYLES.title}>HONESTY BADGE</Typography>
                 <Typography variant="subtitle1" sx={{
                     ...STYLES.paragraph,

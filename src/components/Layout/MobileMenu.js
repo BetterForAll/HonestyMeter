@@ -126,7 +126,7 @@ export default function MobileMenu({
           href='/badge'
           onClick={goToBadgePage}
         >
-          <Badge biasLevel={biasLevel} width="70px" height="70px" showBadgeName fadeTimeout={0} />
+          <Badge biasLevel={biasLevel} isMenu width="70px" height="70px" showBadgeName fadeTimeout={0} />
         </Link>
         <IconButton onClick={toggleDrawer(true)} sx={{ height: '40px' }}>
           <MenuIcon />

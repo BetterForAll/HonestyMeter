@@ -117,7 +117,6 @@ export default function Badge({
     fadeTimeout = 1000,
     showTooltipOnLoad = false,
     showFullTooltip = false,
-    isMenu = false,
 }) {
     const { color, secondaryColor, texts, icon } = SETTINGS[biasLevel];
     const { title, subtitle, comment, tooltip } = texts;
@@ -153,38 +152,27 @@ export default function Badge({
 
     const badgeContent = <Tooltip title={< TooltipContent {...shownTooltip} />} placement='bottom' open={isTooltipOpen} onMouseEnter={openTooltip} onMouseLeave={closeTooltip}>
         <Box sx={STYLES.container(size, color)}>
-
-            {
-                isMenu ?
-                    <BadgeIcon width={width} height={height} color={color} secondaryColor={secondaryColor} showBadgeName={showBadgeName} />
-                    :
-                    <Image src={icon} alt="Balance Icon" style={STYLES.icon} width={140} height={140} />
+            <Image src={icon} alt="Balance Icon" style={STYLES.icon} width={140} height={140} /> {/* may be used in sharing page for authors and publishers */}
+            {/* <BadgeIcon width={width} height={height} color={color} secondaryColor={secondaryColor} showBadgeName={showBadgeName} /> */}
+            {/* {
+                showTitle &&
+                <Typography sx={STYLES.title}>
+                    {title}
+                </Typography>
             }
-
-
             {
-                isMenu &&
-                <>
-                    {
-                        showTitle &&
-                        <Typography sx={STYLES.title}>
-                            {title}
-                        </Typography>
-                    }
-                    {
-                        showSubtitle &&
-                        <Typography sx={STYLES.subtitle}>
-                            {subtitle}
-                        </Typography>
-                    }
-                    {
-                        showComment &&
-                        <Typography sx={STYLES.comment}>
-                            *{comment}
-                        </Typography>
-                    }
-                </>
+                showSubtitle &&
+                <Typography sx={STYLES.subtitle}>
+                    {subtitle}
+                </Typography>
             }
+            {
+                showComment &&
+                <Typography sx={STYLES.comment}>
+                    *{comment}
+                </Typography>
+                </Typography>
+            } */}
         </Box>
     </Tooltip >
 
