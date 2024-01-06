@@ -1,84 +1,146 @@
-import React from 'react'
-import { Box, Typography, Button, Paper, Divider } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Typography, IconButton, Tooltip, Paper, Divider } from '@mui/material';
+import { ContentCopy as ContentCopyIcon } from '@mui/icons-material';
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
 import Link from 'next/link';
 import theme from '@/theme';
 import Image from 'next/image';
 
+const TEXTS = {
+    sharingOptions: {
+        html: `
+        <a href="https://www.honestymeter.com/badge" target="_blank">
+            <img src="/badge.svg" width="140" height="140" alt="Honesty Badge" title="Click to view the badge" style="cursor:pointer;">
+        </a>
+        `,
+        shareAsText: 'Supporting honest content. View the Honesty Badge: HonestyBadge.com',
+        hashtags: '#HonestyBadge #HonestyMeter',
+        directUrl: 'HonestyBadge.com',
+    }
+}
+
 export default function Details() {
+    // State to manage the display of the copied indicator
+    const [copied, setCopied] = useState(false);
+    const [option, setOption] = useState(0);
+    const getTitle = (clickedOption) => {
+        if (clickedOption === option) {
+            return copied ? "Copied!" : "Copy"
+        }
+
+        return "Copy"
+    }
 
     const badgeHtml = `
-    <a href="https://www.honestymeter.com/badge" target=" _blank">
-    <img src="/badge.svg" width="140" height="140" alt="Honesty Badge" title="Click to view the badge" style="cursor:pointer;">
+    <a href="https://www.honestymeter.com/badge" target="_blank">
+        <img src="/badge.svg" width="140" height="140" alt="Honesty Badge" title="Click to view the badge" style="cursor:pointer;">
     </a>
-    `
+    `;
 
-
+    // Function to copy text to clipboard
+    const copyToClipboard = (text, option) => {
+        navigator.clipboard.writeText(text);
+        setOption(option);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000); // Reset the copied state after 2 seconds
+    };
 
     return (
         <Box sx={STYLES.container}>
-            <Box elevation={3} sx={{ padding: theme.spacing(3), marginBottom: theme.spacing(3), width: '100%' }}>
-                <Typography component='h1' sx={{ ...STYLES.sectionTitle, fontSize: theme.typography.fontSize * 1.5, marginBottom: 3 }}>
+            <Paper elevation={3} sx={{ padding: theme.spacing(3), marginBottom: theme.spacing(3), width: '100%', }}>
+                <Typography component='h1' sx={{ ...STYLES.sectionTitle, fontSize: theme.typography.fontSize * 1.5, marginBottom: 1, textAlign: 'center' }}>
                     Sharing Options
                 </Typography>
+                <List sx={{ width: '100%' }}>
+                    <ListItem sx={STYLES.listItem}>
+                        <Typography sx={{ ...STYLES.sectionTitle, marginBottom: 1 }}>
+                            Embed on Your Website
+                        </Typography>
+                        <Image src="/badge.svg" height={140} width={140} alt="Honesty Badge - Supporting Honest Content" title="Click to view the badge" style={{ cursor: 'pointer', marginBottom: '1rem' }} />
 
-                <Typography sx={{ ...STYLES.sectionTitle, marginBottom: 1 }}>
-                    1. Embed on Your Website
-                </Typography>
-                <Image src="/badge.svg" height={140} width={140} alt="Honesty Badge - Supporting Honest Content" title="Click to view the badge" style={{ cursor: 'pointer' }} />
-                {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <Image src="/badge_fair2.svg" height={140} width={140} alt="Honesty Badge - Fair Content" title="Click to view the badge" style={{ cursor: 'pointer' }} />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <Image src="/badge_medium.svg" height={140} width={140} alt="Honesty Badge - Fair Content" title="Click to view the badge" style={{ cursor: 'pointer' }} />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <Image src="/badge_high.svg" height={140} width={140} alt="Honesty Badge - Fair Content" title="Click to view the badge" style={{ cursor: 'pointer' }} /> */}
-                <Typography sx={STYLES.paragraph}>
-                    Display the Honesty Badge on your website using this HTML code:
-                </Typography>
-                <Box sx={{
-                    backgroundColor: 'gray',
-                    color: 'white', padding: theme.spacing(2),
-                    borderRadius: theme.spacing(1),
-                    wordBreak: 'break-all',
-                    marginBottom: theme.spacing(2),
-                }}>
-                    &lt;a href=&quot;https://www.honestymeter.com/badge&quot;
-                    target=&quot;
-                    _blank&quot;&gt;<br />
-                    &nbsp; &nbsp; &lt;img src=&quot;https://www.honestymeter.com/badge.svg&quot; width=&quot;140&quot; height=&quot;140&quot;
-                    alt=&quot;Honesty Badge&quot; title=&quot;Click to view the badge&quot; style=&quot;cursor:pointer;&quot;&gt;
-                    <br />&lt;/a&gt;
-                </Box>
-                <Typography sx={STYLES.sectionTitle}>
-                    2. Share as text:
-                </Typography>
-                <Typography sx={STYLES.paragraph}>
-                    Supporting honest content. View the Honesty Badge: HonestyBadge.com
-                </Typography>
-                <Typography sx={STYLES.paragraph}>
-                    hashtags: #HonestyBadge #HonestyMeter
-                </Typography>
-                <Typography sx={STYLES.sectionTitle}>
-                    3. Direct URL
-                </Typography>
-                <Typography sx={STYLES.paragraph}>
-                    Share this direct link to the Honesty Badge page:
-                </Typography>
-                <Typography sx={STYLES.paragraph}>
-                    <Link href="https://www.honestymeter.com/badge" sx={STYLES.link}>HonestyBadge.com</Link>
-                </Typography>
+                        <Typography sx={STYLES.paragraph}>
+                            Display the Honesty Badge on your website using this HTML code:
+                        </Typography>
+                        <Box sx={{
+                            position: 'relative',
+                            backgroundColor: 'gray',
+                            color: 'white', padding: theme.spacing(2),
+                            borderRadius: theme.spacing(1),
+                            wordBreak: 'break-all',
+                            marginBottom: theme.spacing(2),
+                        }}>
+                            <Tooltip title={getTitle(1)} >
+                                <IconButton
+                                    onClick={() => copyToClipboard(TEXTS.sharingOptions.html, 1)}
+                                    sx={{ position: 'absolute', top: 0, right: 0 }}
+                                    size="small"
+                                >
+                                    <ContentCopyIcon fontSize="small" />
+                                </IconButton>
+                            </Tooltip>
+                            <Typography sx={{ fontFamily: 'monospace', whiteSpace: 'pre-line' }}>
+                                {TEXTS.sharingOptions.html}
+                            </Typography>
+                        </Box>
+                    </ListItem>
 
+                    <ListItem sx={STYLES.listItem}>
+                        <Typography sx={STYLES.sectionTitle}>
+                            Share as text:
+                        </Typography>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Typography sx={STYLES.paragraph}>
+                                {TEXTS.sharingOptions.shareAsText}
+                            </Typography>
+                            <Tooltip title={getTitle(2)}>
+                                <IconButton onClick={() => copyToClipboard(TEXTS.sharingOptions.shareAsText, 2)}>
+                                    <ContentCopyIcon />
+                                </IconButton>
+                            </Tooltip>
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Typography sx={STYLES.paragraph}>
+                                hashtags: {TEXTS.sharingOptions.hashtags}
+                            </Typography>
+                            <Tooltip title={getTitle(3)}>
+                                <IconButton onClick={() => copyToClipboard(TEXTS.sharingOptions.hashtags, 3)}>
+                                    <ContentCopyIcon />
+                                </IconButton>
+                            </Tooltip>
+                        </Box>
+                    </ListItem>
 
-                <Typography sx={STYLES.sectionTitle}>
-                    4. Create API Integration
-                </Typography>
-                <Typography sx={STYLES.paragraph}>
-                    If you are interested in creating an API integration, please&nbsp;
-                    <Link href="mailto:info@honestymeter.com" sx={STYLES.link}>
-                        contact us
-                    </Link>
-                </Typography>
-            </Box>
-        </Box >
+                    <ListItem sx={STYLES.listItem}>
+                        <Typography sx={STYLES.sectionTitle}>
+                            Direct URL
+                        </Typography>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Typography sx={STYLES.paragraph}>
+                                Share this direct link to the Honesty Badge page: &nbsp;
+                                {TEXTS.sharingOptions.directUrl}
+                            </Typography>
+                            <Tooltip title={getTitle(4)}>
+                                <IconButton onClick={() => copyToClipboard(TEXTS.sharingOptions.directUrl, 4)}>
+                                    <ContentCopyIcon />
+                                </IconButton>
+                            </Tooltip>
+                        </Box>
+                    </ListItem>
+                    <ListItem sx={STYLES.listItem}>
+                        <Typography sx={STYLES.sectionTitle}>
+                            Create API Integration
+                        </Typography>
+                        <Typography sx={STYLES.paragraph}>
+                            If you are interested in creating an API integration, please&nbsp;
+                            <Link href="mailto:info@honestymeter.com" sx={STYLES.link}>
+                                contact us
+                            </Link>
+                        </Typography>
+                    </ListItem>
+                </List>
+            </Paper>
+        </Box>
     )
 }
 
@@ -90,13 +152,6 @@ const STYLES = {
         padding: { xs: theme.spacing(2), sm: theme.spacing(4) },
         color: theme.palette.text.primary,
     },
-    title: {
-        marginBottom: theme.spacing(1),
-        fontWeight: 'bold',
-        fontSize: theme.typography.fontSize * 1.25,
-        textAlign: 'center',
-        color: theme.palette.secondary.main,
-    },
     sectionTitle: {
         margin: theme.spacing(0, 0, 1),
         fontWeight: 'bold',
@@ -106,20 +161,16 @@ const STYLES = {
         fontSize: theme.typography.fontSize,
         color: theme.palette.text.primary,
         marginBottom: theme.spacing(1),
-    },
-    shareButton: {
-        margin: 'auto',
-        // marginTop: theme.spacing(2),
-        marginBottom: theme.spacing(2),
-    },
-    hiddenContent: {
-        display: 'none',
-    },
-    visibleContent: {
-        display: 'block',
+        marginRight: theme.spacing(2), // Added for alignment with the button
     },
     link: {
         textDecoration: 'none',
         color: theme.palette.primary.main,
-    }
+    },
+    listItem: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 };
