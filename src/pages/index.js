@@ -505,16 +505,21 @@ export async function getServerSideProps(context) {
   const host = req?.headers?.host;
   console.error('HOST', host)
   const { page = 1, searchTerm = '', country = '', category = '' } = context.query || {};
-  console.error('PARAMS***', { page, searchTerm, country, category })
   const isFirstPage = page == 1;
   const categoryParam = category ? `&category=${category}` : EMPTY_STRING;
   const countryParam = country ? `&country=${country}` : EMPTY_STRING;
   const searchTermParam = `&searchTerm=${searchTerm}`;
   const url = `http://${host}/api/saved_report?page=${page}${searchTermParam}${categoryParam}${countryParam}`;
 
+  console.error('PARAMS***', { page, searchTerm, country, category, url })
+
+
   try {
     const res = await fetch(url) || {};
-    const { data } = await res.json();
+    console.log('RES&&&', res)
+    const { data } = await res.json() | {};
+    console.log('DATA&&&', res)
+
     const { reports, isLastPage } = data || {};
     const rating = await getLastRating() || {};
     const { mostObjectiveSources, createdAt: createdAtDate } = rating || {};
@@ -525,10 +530,10 @@ export async function getServerSideProps(context) {
     console.error('DATA$$$', { data, reports, isLastPage })
 
     const props = {
-      reports,
+      reports: [],
       page,
       isFirstPage,
-      isLastPage,
+      isLastPage: false,
       date,
       rating: {
         mostObjectiveSources,
