@@ -516,11 +516,8 @@ export async function getServerSideProps(context) {
 
   try {
     const res = await fetch(url) || {};
-    console.log('RES&&&', res)
-    const { data } = await res.json() | {};
-    console.log('DATA&&&', res)
-
-    const { reports, isLastPage } = data || {};
+    const { data } = await res.json()
+    const { reports = [], isLastPage } = data || {};
     const rating = await getLastRating() || {};
     const { mostObjectiveSources, createdAt: createdAtDate } = rating || {};
     const createdAtISOString = createdAtDate.toISOString();
@@ -530,7 +527,7 @@ export async function getServerSideProps(context) {
     console.error('DATA$$$', { data, reports, isLastPage })
 
     const props = {
-      reports: [],
+      reports,
       page,
       isFirstPage,
       isLastPage: false,
