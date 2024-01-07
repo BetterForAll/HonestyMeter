@@ -206,6 +206,33 @@ export default function About() {
           <li><p><b>Ratings</b> (New Release): Features ratings for the most praised and criticized people, located on the &quot;People&quot; page, and ratings for the most objective sources, available on the homepage.</p></li>
           <li><p><b>Custom Content Analysis</b> (New Release - now with Link Support): Users can submit links or text to receive a comprehensive bias report.
             This feature enables analysis of content not featured on our website and allows authors to reduce bias in their original content.</p></li>
+          <li><p><b>Honesty Badge</b> (New Release): Users who share our vision of transparent, unbiased media can display our badge
+            alongside any content they post on platforms or social networks they manage or use.
+            This enhances trust and engagement with the content. Each share promotes media transparency awareness, contributing to a fairer world.
+          </p>
+            <p>
+              There are three types of badges:
+            </p>
+            <ul>
+              <li>
+                <p>
+                  General Badge - Demonstrates support for transparent, unbiased media. Can be used with any content, anywhere.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Fair Content Badge - For authors or publishers of content that has achieved a high objectivity score
+                  and wish to highlight the objectivity of their content.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Medium and High Bias Badges - For publishers who wish to openly indicate the bias level of their content, demonstrating full transparency.
+                  These badges are used in combination with the Fair Content Badge.
+                </p>
+              </li>
+            </ul>
+          </li>
         </ul>
 
         <h3>Current State and Updates:</h3>
