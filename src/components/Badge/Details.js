@@ -11,7 +11,7 @@ const TEXTS = {
     sharingOptions: {
         html: `
         <a href="https://www.honestymeter.com/badge" target="_blank">
-            <img src="/badge.svg" width="140" height="140" alt="Honesty Badge" title="Click to view the badge" style="cursor:pointer;">
+            <img src="https://www.honestymeter.com/badge.svg" width="140" height="140" alt="Honesty Badge" title="Click to view the badge" style="cursor:pointer;">
         </a>
         `,
         shareAsText: 'Supporting honest content. View the Honesty Badge: HonestyBadge.com',

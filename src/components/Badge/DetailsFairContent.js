@@ -11,10 +11,10 @@ const TEXTS = {
     sharingOptions: {
         html: `
         <a href="https://www.honestymeter.com/badge/fair" target="_blank">
-            <img src="/badge_fair.svg" width="140" height="140" alt="Honesty Badge" title="Click to view the badge" style="cursor:pointer;">
+            <img src="https://www.honestymeter.com/badge_fair.svg" width="140" height="140" alt="Honesty Badge" title="Click to view the badge" style="cursor:pointer;">
         </a>
         `,
-        shareAsText: 'Recognized for objectivity with the Honesty Badge by HonestyMeter. View the badge at',
+        shareAsText: 'Recognized for objectivity with the Honesty Badge by HonestyMeter. View the badge at HonestyBadge.com',
         hashtags: '#HonestyBadge #HonestyMeter',
         directUrl: 'HonestyBadge.com/fair',
     }
@@ -97,7 +97,7 @@ export default function DetailsFairContent() {
                             Share as text
                         </Typography>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <Typography sx={STYLES.paragraph}>
+                            <Typography sx={{ ...STYLES.paragraph, textAlign: 'center' }}>
                                 {TEXTS.sharingOptions.shareAsText}
                             </Typography>
                             <Tooltip title={getTitle(2)}>

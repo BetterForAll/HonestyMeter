@@ -54,7 +54,9 @@ function BadgePageComponent({ biasLevel = 1 }) {
                     <Typography component='span' sx={{ fontSize: 'inherit', marginBottom: 2, fontSize: { xs: theme.typography.fontSize * 1, sm: theme.typography.fontSize * 1.125 }, }} >
                         {`Assigned to content with ${TEXTS.biasLevel[biasLevel]} bias level.`}
                     </Typography>
-                    <Typography sx={{ fontWeight: theme.typography.fontWeightBold, fontSize: { xs: theme.typography.fontSize * 1.25, sm: theme.typography.fontSize * 1.5 } }}>Shared by publishers <br /> committed to full transparency. </Typography>
+                    <Typography sx={{ fontWeight: theme.typography.fontWeightBold, fontSize: { xs: theme.typography.fontSize * 1.25, sm: theme.typography.fontSize * 1.5 } }}>
+                        Shared by rare publishers <br /> demonstrating extreme transparency.
+                    </Typography>
                 </Box>
                 {/* <Typography sx={{ ...STYLES.paragraph, marginBottom: 0, color: theme.palette.secondary.main }}>
                     This content has been awarded our Honesty Badge for its adherence to our standards of objectivity.
@@ -98,10 +100,10 @@ function BadgePageComponent({ biasLevel = 1 }) {
             </Box>
             <Typography sx={STYLES.sectionTitle}>
                 <span>
-                    Marking every piece of content with its bias level may not be suitable for all content platforms! &nbsp;
+                    Marking every piece of content with its bias level is not suitable for most content platforms! &nbsp;
                 </span>
                 <Typography component='span' sx={{ fontWeight: theme.typography.fontWeightRegular }}>
-                    In those cases, we highly recommend displaying the&nbsp;
+                    Under these circumstances, we highly recommend displaying the&nbsp;
                     <Link href="/badge" sx={STYLES.link}>
                         general Honesty Badge
                     </Link>
@@ -111,7 +113,7 @@ function BadgePageComponent({ biasLevel = 1 }) {
                     <Link href="/badge" sx={STYLES.link}>
                         general Honesty Badge
                     </Link>
-                    &nbsp;is also highly valued. It and reflects the publisher&apos;s commitment to fair content
+                    &nbsp;is highly valued. It reflects the publisher&apos;s commitment to fair content and
                     helps greatly in promoting transparency.
                     To share the general Honesty Badge, please&nbsp;
                     <Link href="/badge" sx={STYLES.link}>

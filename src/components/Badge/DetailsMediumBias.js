@@ -16,7 +16,7 @@ const TEXTS = {
 
             return `
         <a href="https://www.honestymeter.com/badge/${biasLevel}" target="_blank">
-            <img src="/badge${suffix}.svg" width="140" height="140" alt="Honesty Badge" title="Click to view the badge" style="cursor:pointer;">
+            <img src="https://www.honestymeter.com/badge${suffix}.svg" width="140" height="140" alt="Honesty Badge" title="Click to view the badge" style="cursor:pointer;">
         </a>
         `
         },

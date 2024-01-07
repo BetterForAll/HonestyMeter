@@ -19,8 +19,11 @@ function BadgePageComponent() {
         <Box sx={STYLES.container}>
             <Paper elevation={3} sx={{ padding: theme.spacing(3), marginBottom: theme.spacing(2) }}>
                 {/* <Badge biasLevel={4} showBadgeName /> */}
-                <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: theme.spacing(2) }}>
-                    <Image src="/badge.svg" height={160} width={160} alt="Honesty Badge - Supporting Honest Content" />
+                <Box
+                    sx={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: theme.spacing(2) }}
+                    onClick={toggleSharingDetails}
+                >
+                    <Badge biasLevel={3} showFullTooltip height='140px' width='140px' />
                 </Box>
                 <Typography variant="h4" sx={STYLES.title}>HONESTY BADGE</Typography>
                 <Typography variant="subtitle1" sx={{
