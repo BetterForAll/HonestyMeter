@@ -524,7 +524,7 @@ export async function getServerSideProps(context) {
       reports: [],
       page,
       isFirstPage: true,
-      isLastPage,
+      isLastPage: false,
       date,
       rating: {
         mostObjectiveSources,
@@ -535,17 +535,7 @@ export async function getServerSideProps(context) {
     console.error('HOMEPAGE SERVER SIDE PROPS######', props)
 
     return {
-      props: {
-        reports,
-        page,
-        isFirstPage,
-        isLastPage,
-        date,
-        rating: {
-          mostObjectiveSources,
-          createdAt
-        }
-      }
+      props
     };
   } catch (error) {
     console.error({ error });
