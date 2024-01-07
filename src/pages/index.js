@@ -520,6 +520,20 @@ export async function getServerSideProps(context) {
     const createdAt = convertUTCDateToUserTimeZone(createdAtISOString).split(',')[0].trim();
     const date = new Date().toLocaleString();
 
+    const props = {
+      reports,
+      page,
+      isFirstPage,
+      isLastPage,
+      date,
+      rating: {
+        mostObjectiveSources,
+        createdAt
+      }
+    }
+
+    console.log('HOMEPAGE SERVER SIDE PROPS######', props)
+
     return {
       props: {
         reports,
