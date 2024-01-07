@@ -11,7 +11,6 @@
     }
 
 
-
     // Function to close the badge and store the preference
     window.honestymeterCloseBadge = function () {
         sessionStorage.setItem('honestymeterBadgeClosed', 'true');
