@@ -20,7 +20,7 @@
 //         if (badgeIcon) {
 //             badgeIcon.style.display = 'none';
 //             //check if production or development
-//             if (window.location.href.includes('localhost')) {
+//             if (window?.location?.href?.includes('localhost')) {
 //                 window.location.reload()
 //             }
 //         }

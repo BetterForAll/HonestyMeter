@@ -532,7 +532,7 @@ export async function getServerSideProps(context) {
       }
     }
 
-    console.log('HOMEPAGE SERVER SIDE PROPS######', props)
+    console.error('HOMEPAGE SERVER SIDE PROPS######', props)
 
     return {
       props: {
