@@ -503,28 +503,32 @@ function getNotFoundText(countryFromQuery, categoryFromQuery, searchFromQuery) {
 export async function getServerSideProps(context) {
   const { req } = context;
   const host = req?.headers?.host;
+  console.error('HOST', host)
   const { page = 1, searchTerm = '', country = '', category = '' } = context.query || {};
+  console.error('PARAMS***', { page, searchTerm, country, category })
   const isFirstPage = page == 1;
-  {/* const categoryParam = category ? `&category=${category}` : EMPTY_STRING;
+  const categoryParam = category ? `&category=${category}` : EMPTY_STRING;
   const countryParam = country ? `&country=${country}` : EMPTY_STRING;
   const searchTermParam = `&searchTerm=${searchTerm}`;
-  const url = `http://${host}/${API_URL.SAVED_REPORT}?page=${page}${searchTermParam}${categoryParam}${countryParam}`; */}
+  const url = `http://${host}/api/saved_report?page=${page}${searchTermParam}${categoryParam}${countryParam}`;
 
   try {
-    {/* const res = await fetch(url);
+    const res = await fetch(url) || {};
     const { data } = await res.json();
-    const { reports, isLastPage } = data; */}
-    const rating = await getLastRating();
+    const { reports, isLastPage } = data || {};
+    const rating = await getLastRating() || {};
     const { mostObjectiveSources, createdAt: createdAtDate } = rating || {};
     const createdAtISOString = createdAtDate.toISOString();
     const createdAt = convertUTCDateToUserTimeZone(createdAtISOString).split(',')[0].trim();
     const date = new Date().toLocaleString();
 
+    console.error('DATA$$$', { data, reports, isLastPage })
+
     const props = {
-      reports: [],
+      reports,
       page,
-      isFirstPage: true,
-      isLastPage: false,
+      isFirstPage,
+      isLastPage,
       date,
       rating: {
         mostObjectiveSources,
