@@ -5,9 +5,16 @@ import Badge from '@/components/Badge/Badge';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Link from 'next/link';
-import DetailsFairContent from './DetailsFairContent';
+import DetailsMediumBias from './DetailsMediumBias';
 
-function BadgePageComponent() {
+const TEXTS = {
+    biasLevel: {
+        1: 'medium',
+        2: 'high',
+    }
+}
+
+function BadgePageComponent({ biasLevel = 1 }) {
     const [isSharingDetailsShown, setSharingDetailsShown] = useState(false);
 
     const toggleSharingDetails = () => {
@@ -18,7 +25,7 @@ function BadgePageComponent() {
         <Box sx={STYLES.container}>
             <Paper elevation={3} sx={{ padding: theme.spacing(3), marginBottom: theme.spacing(2) }}>
                 <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: theme.spacing(2) }} onClick={toggleSharingDetails}>
-                    <Badge biasLevel={0} showFullTooltip />
+                    <Badge biasLevel={biasLevel} showFullTooltip />
                 </Box>
                 {/* <Typography variant="h4" sx={STYLES.title}>HONESTY BADGE</Typography> */}
                 <Typography variant="subtitle1" sx={{
@@ -37,13 +44,13 @@ function BadgePageComponent() {
                 </Typography>
                 <Box sx={{
                     ...STYLES.sectionTitle,
-                    color: theme.palette.success.main,
+                    color: theme.palette.text.primary,
                     textAlign: 'center', display: 'flex',
                     width: '100%', flexWrap: 'wrap',
                     justifyContent: 'center'
                 }}>
                     <Typography component='span' sx={{ fontWeight: theme.typography.fontWeightBold }}>
-                        Awarded to relatively highly balanced content
+                        {`Assigned to content with ${TEXTS.biasLevel[biasLevel]} bias level.`}
                     </Typography>
                 </Box>
                 {/* <Typography sx={{ ...STYLES.paragraph, marginBottom: 0, color: theme.palette.secondary.main }}>
@@ -81,18 +88,54 @@ function BadgePageComponent() {
                     <Fade in={isSharingDetailsShown} timeout={{ enter: 300, exit: 400 }} >
                         <Box sx={{ position: 'relative', width: '95%', maxWidth: '800px', maxHeight: '95vh' }}>
                             <CloseRoundedIcon sx={STYLES.closeIcon} onClick={toggleSharingDetails} />
-                            <DetailsFairContent />
+                            <DetailsMediumBias biasLevel={biasLevel} />
                         </Box>
                     </Fade>
                 </Modal>
             </Box>
-            {/* <Typography sx={{ ...STYLES.paragraph, marginBottom: theme.spacing(3) }}>
-                If you share our vision of transparent, unbiased media, display our badge
-                with any content you post on platforms or social networks that you use or manage.
-                It enhances trust and engagement with your content.
-                Every share promotes awareness of media transparency and makes the world a little fairer.
-            </Typography> */}
+            <Typography sx={{ ...STYLES.paragraph, marginBottom: theme.spacing(3) }}>
+                If you are an author or publisher who shares our vision of transparent,
+                unbiased media, you can display our badge alongside your content.
+                This enhances trust and engagement with your audience.
+                <span>&nbsp;
+                    <b>
+                        Note: If you prefer to share a general badge that demonstrates
+                        your support for fair content, without specifying the level of bias, please
+
+
+                        &nbsp;
+                        <Link href="/badge" sx={STYLES.link}>
+                            click here
+                        </Link>.
+                    </b>
+                </span>
+            </Typography>
             <Divider sx={{ marginBottom: theme.spacing(3) }} />
+            <Typography sx={STYLES.sectionTitle}>
+                Author&apos;s and Publisher&apos;s Transparency
+            </Typography>
+            <Typography sx={STYLES.paragraph}>
+                If this badge was shared by the author or publishing platform, it strongly indicates the publisher&apos;s commitment to transparency,
+                fairness, and openness to discussion and critical evaluation of the content. It&apos;s important to understand
+                that the presence of bias in the content does not mean that the bias was applied intentionally to manipulate the audience.
+                In many cases, biased content is created unknowingly with the best of intentions. Some level of bias is often inevitable,
+                especially in opinion pieces on controversial topics. Our main objective is to counteract severe media manipulations that can
+                significantly distort facts and lead the audience to a false perception of reality.
+                These manipulations include misleading headlines, omission of key information, biased framing, among many others.
+                It&apos;s highly unlikely that those who intentionally publish content with severe misleading manipulations will share our Honesty Badge.
+
+            </Typography>
+            <Typography sx={STYLES.sectionTitle}>
+                Commitment to Openness by Authors and Publishers
+            </Typography>
+            <Typography sx={STYLES.paragraph}>
+                We&apos;d like to emphasize that if this badge was shared by the author or publisher, it significantly increases the likelihood of their trustworthiness,
+                regardless of the bias level. This willingness to openly invite the audience to evaluate the content&apos;s bias level
+                demonstrates a commitment to honest communication and aligns with the vision of fair and transparent media.
+                Therefore, it&apos;s pretty reasonable to assume that an author or publisher who openly shares a badge
+                and invites the audience to engage in open discussion can be more likely trusted than those who don&apos;t.
+
+            </Typography>
             <Typography sx={STYLES.sectionTitle}>
                 Disclaimer: Honesty Meter in Experimental Stage
             </Typography>

@@ -6,24 +6,40 @@ import ListItem from "@mui/material/ListItem";
 import Link from 'next/link';
 import theme from '@/theme';
 import Image from 'next/image';
+import { capitalizeFirstLetter } from '@/utils/utils';
 
 const TEXTS = {
     sharingOptions: {
-        html: `
-        <a href="https://www.honestymeter.com/badge" target="_blank">
-            <img src="/badge.svg" width="140" height="140" alt="Honesty Badge" title="Click to view the badge" style="cursor:pointer;">
+        getHtml: (biasLevel) => {
+            const suffix = biasLevel === 1 ? '' : `_${biasLevel}`;
+
+            return `
+        <a href="https://www.honestymeter.com/badge/${biasLevel}" target="_blank">
+            <img src="/badge${suffix}.svg" width="140" height="140" alt="Honesty Badge" title="Click to view the badge" style="cursor:pointer;">
         </a>
-        `,
-        shareAsText: 'Supporting honest content. View the Honesty Badge: HonestyBadge.com',
+        `
+        },
+        shareAsText: 'Honesty Badge by HonestyMeter. View the badge at',
         hashtags: '#HonestyBadge #HonestyMeter',
-        directUrl: 'HonestyBadge.com',
+        getDirectUrl: (biasLevel) => {
+            const suffix = biasLevel === 1 ? '' : `/${biasLevel}`;
+            return `HonestyBadge.com${suffix}`
+        },
+    },
+    biasLevel: {
+        1: 'medium',
+        2: 'high',
     }
 }
 
-export default function Details() {
+export default function DetailsBias({ biasLevel = 1 }) {
     // State to manage the display of the copied indicator
     const [copied, setCopied] = useState(false);
     const [option, setOption] = useState(0);
+    const biasLevelText = TEXTS.biasLevel[biasLevel];
+    const html = TEXTS.sharingOptions.getHtml(biasLevelText)
+    const badgeUrl = TEXTS.sharingOptions.getDirectUrl(biasLevelText)
+
     const getTitle = (clickedOption) => {
         if (clickedOption === option) {
             return copied ? "Copied!" : "Copy"
@@ -32,53 +48,43 @@ export default function Details() {
         return "Copy"
     }
 
-    const badgeHtml = `
-    <a href="https://www.honestymeter.com/badge" target="_blank">
-        <img src="/badge.svg" width="140" height="140" alt="Honesty Badge" title="Click to view the badge" style="cursor:pointer;">
-    </a>
-    `;
-
-    // Function to copy text to clipboard
     const copyToClipboard = (text, option) => {
         navigator.clipboard.writeText(text);
         setOption(option);
         setCopied(true);
-        setTimeout(() => setCopied(false), 2000); // Reset the copied state after 2 seconds
+        setTimeout(() => setCopied(false), 2000);
     };
+
 
     return (
         <Box sx={STYLES.container}>
             <Paper elevation={3} sx={{ padding: theme.spacing(3), width: '100%', }}>
                 <ListItem sx={STYLES.listItem}>
                     <Typography sx={{ ...STYLES.paragraph }}>
-                        Note: If you are an author or publisher who prefers to display a badge indicating the level of bias detected in your content,
-                        you can choose from one of the following badges instead:&nbsp;
+                        Note: If you prefer to share a general badge that shows your support for fair content, without specifying the level of bias, please
                         &nbsp;
-                        <Link href="/badge/fair" sx={STYLES.link}>
-                            fair content badge,
-                        </Link>
-                        &nbsp;
-                        <Link href="/badge/medium" sx={STYLES.link}>
-                            medium bias badge,
-                        </Link>
-                        &nbsp;
-                        <Link href="/badge/high" sx={STYLES.link}>
-                            high bias badge,
+                        <Link href="/badge" sx={STYLES.link}>
+                            click here
                         </Link>
                     </Typography>
                 </ListItem>
-                <Typography component='h1' sx={{ ...STYLES.sectionTitle, fontSize: theme.typography.fontSize * 1.5, marginBottom: 1, textAlign: 'center' }}>
+                <Typography component='h1' sx={{ ...STYLES.sectionTitle, fontSize: theme.typography.fontSize * 1.125, marginBottom: 1, textAlign: 'center' }}>
+                    {`${capitalizeFirstLetter(biasLevelText)} Bias Honesty Badge`}
+                </Typography>
+                <Typography component='h1' sx={{ ...STYLES.sectionTitle, fontSize: theme.typography.fontSize * 1, marginBottom: 1, textAlign: 'center' }}>
                     Sharing Options
                 </Typography>
                 <List sx={{ width: '100%' }}>
+
                     <ListItem sx={STYLES.listItem}>
                         <Typography sx={{ ...STYLES.sectionTitle, marginBottom: 1 }}>
                             Embed on Your Website
                         </Typography>
-                        <Image src="/badge.svg" height={140} width={140} alt="Honesty Badge - Supporting Honest Content" style={{ marginBottom: '1rem' }} />
+                        <Image src="/badge_medium.svg" height={140} width={140} alt="Honesty Badge - Supporting Honest Content" style={{ marginBottom: '1rem' }} />
 
-                        <Typography sx={STYLES.paragraph}>
-                            Display the Honesty Badge on your website using this HTML code:
+                        <Typography sx={{ ...STYLES.paragraph, textAlign: 'center' }}>
+                            {`If you are an author or publisher of content that has received a ${biasLevelText} objectivity score,
+                            you can display the Honesty Badge on your website using the following HTML code:`}
                         </Typography>
                         <Box sx={{
                             position: 'relative',
@@ -90,7 +96,7 @@ export default function Details() {
                         }}>
                             <Tooltip title={getTitle(1)} >
                                 <IconButton
-                                    onClick={() => copyToClipboard(TEXTS.sharingOptions.html, 1)}
+                                    onClick={() => copyToClipboard(html, 1)}
                                     sx={{ position: 'absolute', top: 0, right: 0 }}
                                     size="small"
                                 >
@@ -98,18 +104,18 @@ export default function Details() {
                                 </IconButton>
                             </Tooltip>
                             <Typography sx={{ fontFamily: 'monospace', whiteSpace: 'pre-line' }}>
-                                {TEXTS.sharingOptions.html}
+                                {html}
                             </Typography>
                         </Box>
                     </ListItem>
 
                     <ListItem sx={STYLES.listItem}>
                         <Typography sx={STYLES.sectionTitle}>
-                            Share as text:
+                            Share as text
                         </Typography>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                             <Typography sx={STYLES.paragraph}>
-                                {TEXTS.sharingOptions.shareAsText}
+                                {TEXTS.sharingOptions.shareAsText}&nbsp;{badgeUrl}
                             </Typography>
                             <Tooltip title={getTitle(2)}>
                                 <IconButton onClick={() => copyToClipboard(TEXTS.sharingOptions.shareAsText, 2)}>
@@ -136,10 +142,10 @@ export default function Details() {
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                             <Typography sx={STYLES.paragraph}>
                                 Share this direct link to the Honesty Badge page: &nbsp;
-                                {TEXTS.sharingOptions.directUrl}
+                                {badgeUrl}
                             </Typography>
                             <Tooltip title={getTitle(4)}>
-                                <IconButton onClick={() => copyToClipboard(TEXTS.sharingOptions.directUrl, 4)}>
+                                <IconButton onClick={() => copyToClipboard(TEXTS.sharingOptions.getDirectUrl, 4)}>
                                     <ContentCopyIcon />
                                 </IconButton>
                             </Tooltip>
@@ -158,7 +164,7 @@ export default function Details() {
                     </ListItem>
                 </List>
             </Paper>
-        </Box>
+        </Box >
     )
 }
 

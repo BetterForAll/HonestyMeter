@@ -1,7 +1,8 @@
 import React from 'react'
+import BadgeMediumPageComponent from '@/components/Badge/BadgeMediumPageComponent'
 
 export default function Medium() {
     return (
-        <h1>Medium</h1>
+        <BadgeMediumPageComponent />
     )
 }

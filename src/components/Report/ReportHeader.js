@@ -31,7 +31,7 @@ export default function ReportHeader({
   const articleBaseUrl = articleLink ? getBaseUrlFromUrlString(articleLink) : '';
   const userTimeZoneArticleDate = convertUTCDateToUserTimeZone(articleDate);
   const { color, content } = getScoreStyle(score);
-  const badgeUrl = score >= 80 ? '/badge/fair' : '/badge'
+  const badgeUrl = score >= 80 ? `/badge/fair` : score >= 70 ? `/badge/medium` : `/badge/high`;
 
 
   const fireArticleLinkClickEvent = () => {
