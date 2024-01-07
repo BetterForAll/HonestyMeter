@@ -51,10 +51,10 @@ function BadgePageComponent({ biasLevel = 1 }) {
                     alignItems: 'center',
                     flexDirection: 'column',
                 }}>
-                    <Typography component='span' >
+                    <Typography component='span' sx={{ fontSize: 'inherit', marginBottom: 2, fontSize: { xs: theme.typography.fontSize * 1, sm: theme.typography.fontSize * 1.125 }, }} >
                         {`Assigned to content with ${TEXTS.biasLevel[biasLevel]} bias level.`}
                     </Typography>
-                    <Typography sx={{ fontWeight: theme.typography.fontWeightBold }}>Shared by publishers committed to full transparency. </Typography>
+                    <Typography sx={{ fontWeight: theme.typography.fontWeightBold, fontSize: { xs: theme.typography.fontSize * 1.25, sm: theme.typography.fontSize * 1.5 } }}>Shared by publishers <br /> committed to full transparency. </Typography>
                 </Box>
                 {/* <Typography sx={{ ...STYLES.paragraph, marginBottom: 0, color: theme.palette.secondary.main }}>
                     This content has been awarded our Honesty Badge for its adherence to our standards of objectivity.
@@ -98,21 +98,33 @@ function BadgePageComponent({ biasLevel = 1 }) {
             </Box>
             <Typography sx={STYLES.sectionTitle}>
                 <span>
-                    <b>
-                        Note: If you prefer to share a general badge that demonstrates
-                        your support for fair content, without specifying the level of bias, please
-                        &nbsp;
-                        <Link href="/badge" sx={STYLES.link}>
-                            click here
-                        </Link>.
-                    </b>
-                </span>&nbsp;
+                    Marking every piece of content with its bias level may not be suitable for all content platforms! &nbsp;
+                </span>
+                <Typography component='span' sx={{ fontWeight: theme.typography.fontWeightRegular }}>
+                    In those cases, we highly recommend displaying the&nbsp;
+                    <Link href="/badge" sx={STYLES.link}>
+                        general Honesty Badge
+                    </Link>
+                    , which demonstrates support for fair content without specifying the level of bias.
+                    Users who click on the badge will have the opportunity to generate a bias report on our homepage, should they choose to do so.
+                    Thus, using a&nbsp;
+                    <Link href="/badge" sx={STYLES.link}>
+                        general Honesty Badge
+                    </Link>
+                    &nbsp;is also highly valued. It and reflects the publisher&apos;s commitment to fair content
+                    helps greatly in promoting transparency.
+                    To share the general Honesty Badge, please&nbsp;
+                    <Link href="/badge" sx={STYLES.link}>
+                        click here
+                    </Link>.
+                    &nbsp;
+                </Typography>
             </Typography>
-            <Typography sx={STYLES.paragraph}>
+            {/* <Typography sx={STYLES.paragraph}>
                 If you are an author or publisher who shares our vision of transparent,
                 unbiased media, you can display our badge alongside your content.
                 This enhances trust and engagement with your audience.
-            </Typography>
+            </Typography> */}
             <Divider sx={{ marginBottom: theme.spacing(3) }} />
             <Typography sx={STYLES.sectionTitle}>
                 Author&apos;s and Publisher&apos;s Transparency
