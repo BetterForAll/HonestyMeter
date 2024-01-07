@@ -504,11 +504,11 @@ export async function getServerSideProps(context) {
   const { req } = context;
   const host = req?.headers?.host;
   console.error('HOST', host)
-  const { page = 1, searchTerm = '', country = '', category = '' } = context.query || {};
+  const { page = '1', searchTerm = '', country = '', category = '' } = context.query || {};
   const isFirstPage = page == 1;
   const categoryParam = category ? `&category=${category}` : EMPTY_STRING;
   const countryParam = country ? `&country=${country}` : EMPTY_STRING;
-  const searchTermParam = `&searchTerm=${searchTerm}`;
+  const searchTermParam = searchTerm ? `&searchTerm=${searchTerm}` : EMPTY_STRING;
   const url = `http://${host}/api/saved_report?page=${page}${searchTermParam}${categoryParam}${countryParam}`;
 
   console.error('PARAMS***', { page, searchTerm, country, category, url })
