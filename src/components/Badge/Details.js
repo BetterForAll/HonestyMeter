@@ -51,19 +51,18 @@ export default function Details() {
             <Paper elevation={3} sx={{ padding: theme.spacing(3), width: '100%', }}>
                 <ListItem sx={STYLES.listItem}>
                     <Typography sx={{ ...STYLES.paragraph }}>
-                        Note: If you are an author or publisher who prefers to display a badge indicating the level of bias detected in your content,
+                        Note: If you are an author or publisher who prefers to display a badge indicating the level of bias detected in content,
                         you can choose from one of the following badges instead:&nbsp;
-                        &nbsp;
                         <Link href="/badge/fair" sx={STYLES.link}>
-                            fair content badge,
+                            Fair Content Badge,
                         </Link>
                         &nbsp;
                         <Link href="/badge/medium" sx={STYLES.link}>
-                            medium bias badge,
+                            Medium Bias Badge,
                         </Link>
                         &nbsp;
                         <Link href="/badge/high" sx={STYLES.link}>
-                            high bias badge,
+                            High Bias Badge,
                         </Link>
                     </Typography>
                 </ListItem>
