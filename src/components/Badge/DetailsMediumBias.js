@@ -7,6 +7,7 @@ import Link from 'next/link';
 import theme from '@/theme';
 import Image from 'next/image';
 import { capitalizeFirstLetter } from '@/utils/utils';
+import Badge from './Badge copy';
 
 const TEXTS = {
     sharingOptions: {
@@ -80,10 +81,10 @@ export default function DetailsBias({ biasLevel = 1 }) {
                         <Typography sx={{ ...STYLES.sectionTitle, marginBottom: 1 }}>
                             Embed on Your Website
                         </Typography>
-                        <Image src="/badge_medium.svg" height={140} width={140} alt="Honesty Badge - Supporting Honest Content" style={{ marginBottom: '1rem' }} />
+                        <Badge biasLevel={biasLevel} />
 
                         <Typography sx={{ ...STYLES.paragraph, textAlign: 'center' }}>
-                            {`If you are an author or publisher of content that has received a ${biasLevelText} objectivity score,
+                            {`If you are an author or publisher of content that was assigned a ${biasLevelText} level of bias,
                             you can display the Honesty Badge on your website using the following HTML code:`}
                         </Typography>
                         <Box sx={{

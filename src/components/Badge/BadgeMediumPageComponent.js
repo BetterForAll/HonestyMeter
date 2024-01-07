@@ -44,14 +44,17 @@ function BadgePageComponent({ biasLevel = 1 }) {
                 </Typography>
                 <Box sx={{
                     ...STYLES.sectionTitle,
-                    color: theme.palette.text.primary,
+                    color: theme.palette.text.secondary,
                     textAlign: 'center', display: 'flex',
                     width: '100%', flexWrap: 'wrap',
-                    justifyContent: 'center'
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flexDirection: 'column',
                 }}>
-                    <Typography component='span' sx={{ fontWeight: theme.typography.fontWeightBold }}>
+                    <Typography component='span' >
                         {`Assigned to content with ${TEXTS.biasLevel[biasLevel]} bias level.`}
                     </Typography>
+                    <Typography sx={{ fontWeight: theme.typography.fontWeightBold }}>Shared by publishers committed to full transparency. </Typography>
                 </Box>
                 {/* <Typography sx={{ ...STYLES.paragraph, marginBottom: 0, color: theme.palette.secondary.main }}>
                     This content has been awarded our Honesty Badge for its adherence to our standards of objectivity.
@@ -93,22 +96,22 @@ function BadgePageComponent({ biasLevel = 1 }) {
                     </Fade>
                 </Modal>
             </Box>
-            <Typography sx={{ ...STYLES.paragraph, marginBottom: theme.spacing(3) }}>
-                If you are an author or publisher who shares our vision of transparent,
-                unbiased media, you can display our badge alongside your content.
-                This enhances trust and engagement with your audience.
-                <span>&nbsp;
+            <Typography sx={STYLES.sectionTitle}>
+                <span>
                     <b>
                         Note: If you prefer to share a general badge that demonstrates
                         your support for fair content, without specifying the level of bias, please
-
-
                         &nbsp;
                         <Link href="/badge" sx={STYLES.link}>
                             click here
                         </Link>.
                     </b>
-                </span>
+                </span>&nbsp;
+            </Typography>
+            <Typography sx={STYLES.paragraph}>
+                If you are an author or publisher who shares our vision of transparent,
+                unbiased media, you can display our badge alongside your content.
+                This enhances trust and engagement with your audience.
             </Typography>
             <Divider sx={{ marginBottom: theme.spacing(3) }} />
             <Typography sx={STYLES.sectionTitle}>
