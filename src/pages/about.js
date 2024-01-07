@@ -227,7 +227,7 @@ export default function About() {
               </li>
               <li>
                 <p>
-                  For publishers who wish to openly indicate the bias level in their content,
+                  Medium and High Bias Badges - For publishers who wish to openly indicate the bias level in their content,
                   thereby demonstrating extreme transparency. These badges are used in conjunction with the Fair Content Badge.
                 </p>
               </li>
