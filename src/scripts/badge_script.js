@@ -15,11 +15,11 @@
     var honestyBadgeSize = honestyBadgeIsMobile ? '100px' : '140px'
 
     function createBadge() {
-        var honestyBadgeHtml = '<div id="honestymeterBadgeIcon" style="position: fixed; bottom: 10px; right: 10px; cursor: pointer; background-color:#ffffffc4; border: solid 1px #19857b6b;  padding:8px 8px 0; border-radius: 4px;">' +
+        var honestyBadgeHtml = '<div id="honestymeterBadgeIcon" style="position: fixed; bottom: 10px; right: 10px; cursor: pointer; background-color:#ffffffc4; border: solid 1px #19857b6b;  padding: 16px 8px 0; border-radius: 4px;">' +
             '<a href="https://honestymeter.com/badge" target="_blank" style="text-decoration: none; color: black;">' +
             `<img src="https://honesty-meter-plus.vercel.app/badge.svg" width=${honestyBadgeSize} height=${honestyBadgeSize} alt="Honesty Badge" title="Click for detials" />` +
             '</a>' +
-            '<button id="honestymeterCloseButton" style="position: absolute; top: 8px; right: 8px; cursor: pointer; background-color: #19857B; color: white; width: 20px; height: 16px; border: none;" onclick="window.honestymeterCloseBadge()">X</button>' +
+            '<button id="honestymeterCloseButton" style="position: absolute; top: 8px; right: 8px; cursor: pointer; background-color: #19857B; color: white; width: 20px; height: 16px; text-align: center; border: none;" onclick="window.honestymeterCloseBadge()">X</button>' +
             '</div>';
 
         document.body.insertAdjacentHTML('beforeend', honestyBadgeHtml);
