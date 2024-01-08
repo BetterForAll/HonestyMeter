@@ -18,7 +18,7 @@ function BadgePageComponent() {
         <Box sx={STYLES.container}>
             <Paper elevation={3} sx={{ padding: theme.spacing(3), marginBottom: theme.spacing(2) }}>
                 <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: theme.spacing(2) }} onClick={toggleSharingDetails}>
-                    <Badge biasLevel={0} showFullTooltip tooltipPlacement='top' />
+                    <Badge biasLevel={0} showFullTooltip tooltipPlacement='top' showComment />
                 </Box>
                 {/* <Typography variant="h4" sx={STYLES.title}>HONESTY BADGE</Typography> */}
                 <Typography variant="subtitle1" sx={{
@@ -43,7 +43,7 @@ function BadgePageComponent() {
                     justifyContent: 'center'
                 }}>
                     <Typography component='span' sx={{ fontWeight: theme.typography.fontWeightBold }}>
-                        Awarded to relatively highly balanced content
+                        Awarded to content for its adherence to our standards of objectivity.
                     </Typography>
                 </Box>
                 {/* <Typography sx={{ ...STYLES.paragraph, marginBottom: 0, color: theme.palette.secondary.main }}>

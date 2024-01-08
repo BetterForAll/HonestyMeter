@@ -25,7 +25,7 @@ function BadgePageComponent({ biasLevel = 1 }) {
         <Box sx={STYLES.container}>
             <Paper elevation={3} sx={{ padding: theme.spacing(3), marginBottom: theme.spacing(2) }}>
                 <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: theme.spacing(2) }} onClick={toggleSharingDetails}>
-                    <Badge biasLevel={biasLevel} showFullTooltip />
+                    <Badge biasLevel={biasLevel} showFullTooltip showComment />
                 </Box>
                 {/* <Typography variant="h4" sx={STYLES.title}>HONESTY BADGE</Typography> */}
                 <Typography variant="subtitle1" sx={{
@@ -55,7 +55,7 @@ function BadgePageComponent({ biasLevel = 1 }) {
                         {`Assigned to content with ${TEXTS.biasLevel[biasLevel]} bias level.`}
                     </Typography>
                     <Typography sx={{ fontWeight: theme.typography.fontWeightBold, fontSize: { xs: theme.typography.fontSize * 1.25, sm: theme.typography.fontSize * 1.5 } }}>
-                        Shared by rare publishers <br /> demonstrating extreme transparency.
+                        Shared by publishers <br /> championing full transparency.
                     </Typography>
                 </Box>
                 {/* <Typography sx={{ ...STYLES.paragraph, marginBottom: 0, color: theme.palette.secondary.main }}>

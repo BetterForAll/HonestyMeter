@@ -47,10 +47,10 @@ function BadgePageComponent() {
                     width: '100%', flexWrap: 'wrap',
                     justifyContent: 'center'
                 }}>
-                    <Typography component='span' sx={{ fontWeight: theme.typography.fontWeightBold }}>Commitment to</Typography>&nbsp;<Typography sx={{ fontWeight: theme.typography.fontWeightBold }}>Transparency and Fairness</Typography>
+                    <Typography component='span' sx={{ fontWeight: theme.typography.fontWeightBold }}>Endorsement of</Typography>&nbsp;<Typography sx={{ fontWeight: theme.typography.fontWeightBold }}>Transparency and Fairness</Typography>
                 </Box>
                 <Typography sx={{ ...STYLES.paragraph, marginBottom: 0, color: theme.palette.secondary.main }}>
-                    By displaying this badge, individuals and platforms signify their commitment to transparency,
+                    By displaying this badge, individuals and platforms express their endorsement of transparency,
                     fairness, and the encouragement of open discussion and critical evaluation of bias in their content,
                     whether the content is absolutely neutral or highly biased.
                 </Typography>
