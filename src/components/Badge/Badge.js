@@ -11,6 +11,7 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import EastIcon from '@mui/icons-material/East';
 import Image from 'next/image';
+import useIsMobileClient from '@/hooks/useIsMobileClient';
 
 const TEXTS = {
     common: {
@@ -21,7 +22,8 @@ const TEXTS = {
             subtitle: '- gain trust',
             subtitle2: '- support truth',
             subtitle3: '- grow engagement',
-            arrow: <ArrowUpwardIcon />, //arrow up icon: 
+            arrowUp: <ArrowUpwardIcon />,
+            arrowDown: <ArrowDownwardIcon />,
         },
     },
     biasLevel: {
@@ -38,14 +40,21 @@ const TEXTS = {
     }
 }
 
-const TooltipContent = ({ title, subtitle, subtitle2, subtitle3, arrow }) => {
+const TooltipContent = ({ title, subtitle, subtitle2, subtitle3, arrow, isMobile, tooltipPlacement }) => {
+    if (isMobile) {
+        return null;
+    }
+
     return (
         <Box sx={{ textAlign: 'center' }}>
             {/* <BadgeIcon width="100px" height="100px" color='black' /> */}
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: theme.spacing(1) }}>
-                <Typography >
-                    {arrow}
-                </Typography>
+                {
+                    tooltipPlacement === 'bottom' &&
+                    <Typography >
+                        {arrow}
+                    </Typography>
+                }
                 <Typography >
                     {title}
                 </Typography>
@@ -62,6 +71,12 @@ const TooltipContent = ({ title, subtitle, subtitle2, subtitle3, arrow }) => {
                     <Typography >
                         {subtitle3}
                     </Typography>
+                    {
+                        tooltipPlacement === 'top' &&
+                        <Typography >
+                            {arrow}
+                        </Typography>
+                    }
                 </>
             }
         </Box >
@@ -118,16 +133,23 @@ export default function Badge({
     showTooltipOnLoad = false,
     showFullTooltip = false,
     isMenu = false,
+    isTooltipShownOnDesktop = false,
+    tooltipPlacement = 'bottom',
 }) {
     const { color, secondaryColor, texts, icon } = SETTINGS[biasLevel];
     const { title, subtitle, comment, tooltip } = texts;
-    const shownTooltip = showFullTooltip ? tooltip : { title: tooltip.title, arrow: tooltip.arrow };
+    const isMobile = useIsMobileClient();
+    const hideTooltip = !isTooltipShownOnDesktop || isMobile;
+    const shownTooltipProps = getToolTipContent(showFullTooltip, tooltip, isMobile, tooltipPlacement);
+    const tooltipTitle = isMobile ? null : < TooltipContent {...shownTooltipProps} isMobile={isMobile} tooltipPlacement={tooltipPlacement} />;
     const [isTooltipOpen, setTooltipOpen] = useState(showTooltipOnLoad);
     const isTimeout = Boolean(fadeTimeout);
 
 
 
     const openTooltip = () => {
+        if (hideTooltip) return;
+
         setTooltipOpen(true);
     }
 
@@ -151,7 +173,11 @@ export default function Badge({
         }
     }, []);
 
-    const badgeContent = <Tooltip title={< TooltipContent {...shownTooltip} />} placement='bottom' open={isTooltipOpen} onMouseEnter={openTooltip} onMouseLeave={closeTooltip}>
+    const badgeContent = <Tooltip
+        title={tooltipTitle}
+        placement={tooltipPlacement}
+        open={isTooltipOpen}
+        onMouseEnter={openTooltip} onMouseLeave={closeTooltip}>
         <Box sx={STYLES.container(size, color)}>
 
             {
@@ -253,4 +279,14 @@ const STYLES = {
         fontSize: theme.typography.fontSize * 0.75,
         fontStyle: 'italic'
     }
+}
+
+function getToolTipContent(showFullTooltip, tooltip, isMobile, tooltipPlacement) {
+    const arrow = tooltipPlacement === 'bottom' ? tooltip.arrowUp : tooltip.arrowDown;
+
+    if (isMobile) {
+        return null;
+    }
+
+    return showFullTooltip ? { ...tooltip, arrow } : { title: tooltip.title, arrow };
 }

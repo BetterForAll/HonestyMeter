@@ -60,7 +60,7 @@ export default function ReportHeader({
         }}>
           <Box sx={{ transform: { xs: 'translateX(0)', md: 'translateX(-34px)' } }}>
             <Link href={badgeUrl} style={{ textDecoration: 'none' }}>
-              <Badge biasLevel={biasLevel} showBadgeName showTitle showSubtitle showFullTooltip height='100px' />
+              <Badge biasLevel={biasLevel} showBadgeName showTitle showSubtitle isTooltipShownOnDesktop showFullTooltip height='100px' />
             </Link>
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingBottom: { xs: 0, sm: theme.spacing(1) } }} >

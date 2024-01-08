@@ -18,7 +18,7 @@ function BadgePageComponent() {
         <Box sx={STYLES.container}>
             <Paper elevation={3} sx={{ padding: theme.spacing(3), marginBottom: theme.spacing(2) }}>
                 <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: theme.spacing(2) }} onClick={toggleSharingDetails}>
-                    <Badge biasLevel={0} showFullTooltip />
+                    <Badge biasLevel={0} showFullTooltip tooltipPlacement='top' />
                 </Box>
                 {/* <Typography variant="h4" sx={STYLES.title}>HONESTY BADGE</Typography> */}
                 <Typography variant="subtitle1" sx={{

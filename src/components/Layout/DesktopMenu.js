@@ -59,7 +59,7 @@ export default function Menu({ currentPage, setCurrentPage, pageRoutes }) {
           </Tabs>
         </Box>
         <NextLink href='/badge' onClick={goToBadgePage}>
-          <Badge biasLevel={biasLevel} isMenu width='85px' showBadgeName fadeTimeout={0} showFullTooltip />
+          <Badge biasLevel={biasLevel} isMenu isTooltipShownOnDesktop width='85px' showBadgeName fadeTimeout={0} showFullTooltip />
         </NextLink>
         <Box sx={{ ...STYLES.iconsContainer, ...STYLES.flexCenter }}>
           <ContactIcon />

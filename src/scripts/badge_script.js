@@ -15,7 +15,7 @@
     var honestyBadgeSize = honestyBadgeIsMobile ? '100px' : '140px'
 
     function createBadge() {
-        var honestyBadgeHtml = '<div id="honestymeterBadgeIcon" style="position: fixed; bottom: 10px; right: 10px; cursor: pointer; background-color:#ffffff99; border: solid 1px #19857b6b;  padding:8px 8px 0; border-radius: 4px;">' +
+        var honestyBadgeHtml = '<div id="honestymeterBadgeIcon" style="position: fixed; bottom: 10px; right: 10px; cursor: pointer; background-color:#ffffffc4; border: solid 1px #19857b6b;  padding:8px 8px 0; border-radius: 4px;">' +
             '<a href="https://honestymeter.com/badge" target="_blank" style="text-decoration: none; color: black;">' +
             `<img src="https://honesty-meter-plus.vercel.app/badge.svg" width=${honestyBadgeSize} height=${honestyBadgeSize} alt="Honesty Badge" title="Click for detials" />` +
             '</a>' +
