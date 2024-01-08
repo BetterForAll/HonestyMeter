@@ -75,6 +75,7 @@ export default function MyApp(props) {
     <CacheProvider value={emotionCache}>
       <Head>
         <meta name='viewport' content='initial-scale=1, width=device-width' />
+        <meta name="robots" content="noindex, nofollow" />
         <script src="/badgeScript.js" defer></script>
       </Head>
       <ThemeProvider theme={theme}>
