@@ -76,7 +76,7 @@ export default function MyApp(props) {
       <Head>
         <meta name='viewport' content='initial-scale=1, width=device-width' />
         <meta name="robots" content="noindex, nofollow" />
-        <script src="/badgeScript.js" defer></script>
+        <script src="/badge_script.js" defer></script>
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
