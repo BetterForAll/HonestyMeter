@@ -64,7 +64,7 @@ function FormDialog({ isDialogOpen, onClose, report }) {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
         <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%', textAlign: 'center' }}>
-          Feedback submitted successfully!
+          Feedback submitted successfully! If your feedback is accepted, the report will be updated.
         </Alert>
       </Snackbar>
       <Dialog open={isDialogOpen} onClose={onClose}>
