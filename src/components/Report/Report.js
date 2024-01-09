@@ -70,10 +70,10 @@ function FormDialog({ isDialogOpen, onClose, report }) {
       <Dialog open={isDialogOpen} onClose={onClose}>
         <DialogTitle>Give Feedback, Improve the report, Shape a fairer world!</DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          {/* <DialogContentText>
             Your feedback will be reviewed by our AI bias &apos;experts&apos;.
             If they accept your input, the report will be updated.
-          </DialogContentText>
+          </DialogContentText> */}
           <TextField
             autoFocus
             margin="dense"
