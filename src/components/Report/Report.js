@@ -73,8 +73,6 @@ function FormDialog({ isDialogOpen, onClose, report }) {
           <DialogContentText>
             Your feedback will be reviewed by our AI bias &apos;experts&apos;.
             If they accept your input, the report will be updated.
-            Your feedback improves our evaluation system and increases media integrity.
-            Thank you for your contribution!🙏
           </DialogContentText>
           <TextField
             autoFocus
