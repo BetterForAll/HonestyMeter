@@ -233,6 +233,17 @@ export default function About() {
               </li>
             </ul>
           </li>
+          <li>
+            <p><b>Auto-Optimization Based on User Feedback</b> (New Release):
+              This feature transforms HonetyMeter into a <b>self-optimizing system</b>,
+              utilizing a blend of AI bias &apos;experts&apos; and user feedback.
+              Users have the ability to click on any section of the bias report and submit their feedback.
+              This feedback is then reviewed by the AI. If the feedback is accepted,
+              the report is updated accordingly, and the data is utilized for training and enhancing the model,
+              thereby enabling continuous improvement in the accuracy of the reports.
+            </p>
+            <p></p>
+          </li>
         </ul>
 
         <h3>Current State and Updates:</h3>
