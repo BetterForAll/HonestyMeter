@@ -10,6 +10,9 @@ import { getScoreStyle } from '../ReportList/ReportList';
 import Share from '../Share';
 import Badge from '../Badge/Badge';
 import Link from 'next/link';
+import RateReviewIcon from '@mui/icons-material/RateReview';
+import EditIcon from '@mui/icons-material/Edit';
+import AdsClickIcon from '@mui/icons-material/AdsClick';
 
 const TEXTS = {
   score: 'Objectivity Score',
@@ -58,7 +61,7 @@ export default function ReportHeader({
           paddingBottom: theme.spacing(1),
           gap: theme.spacing(2),
         }}>
-          <Box sx={{ transform: { xs: 'translateX(0)', md: 'translateX(-34px)' } }}>
+          <Box sx={{ transform: { xs: 'translateX(0)', md: 'translateX(-34px)' } }} onClick={(e) => e.stopPropagation()}>
             <Link href={badgeUrl} style={{ textDecoration: 'none' }}>
               <Badge biasLevel={biasLevel} showBadgeName showTitle showSubtitle isTooltipShownOnDesktop showFullTooltip height='100px' />
             </Link>

@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import logo from '../../../public/logo.png';
 import theme from '@/theme';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
 import Badge from '../Badge/Badge';
 
@@ -25,11 +25,15 @@ export default function Header() {
           />
         </Link>
       </Box>
+      <Box sx={STYLES.subtitleContainer} >
+        <Typography variant='body2' sx={STYLES.subtitle}>Auto-Optimizing Bias Detection Framework</Typography>
+        <Typography variant='body2' sx={STYLES.subtitle}>Powered by AI and User Feedback</Typography>
+      </Box>
       {/* <Box
         style={{ margin: theme.spacing(1), width: '100%', display: 'flex', justifyContent: 'flex-end', marginRight: '32px', position: 'absolute', top: '48px' }}>
         <Badge width='80px' height='80px' biasLevel={3} showTitle={false} showSubtitle={false} showComment={false} showBadgeName={true} />
       </Box> */}
-    </Box>
+    </Box >
   );
 }
 
@@ -55,11 +59,30 @@ const STYLES = {
     display: 'flex',
     justifyContent: 'space-around',
     alignItems: 'center',
-
-
+    marginBottom: { xs: theme.spacing(1), sm: theme.spacing(2) },
   },
   image: {
     width: '100%',
     height: 'auto'
   },
+  subtitleContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    marginBottom: {
+      xs: theme.spacing(2),
+      sm: 0,
+    },
+    marginTop: {
+      xs: 0,
+      sm: 1
+    }
+  },
+  subtitle: {
+    fontSize: theme.typography.fontSize * 0.875,
+    color: theme.palette.text.secondary,
+    textAlign: 'center',
+    fontStyle: 'italic',
+  },
+
 }
