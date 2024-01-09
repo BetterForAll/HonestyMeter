@@ -89,7 +89,7 @@ function ReportWrapperHeader({ onCloseReportClick = EMPTY_FUNCTION, biasLevel, s
             {TEXTS.title}
           </Typography>
           <Typography sx={STYLES.subtitle}>{TEXTS.subtitle}</Typography>
-          <Typography sx={{ ...STYLES.subtitle, marginTop: theme.spacing(1), color: theme.palette.text.primary, fontSize: theme.typography.fontSize * 0.875, fontWeight: theme.typography.fontWeightMedium }}>
+          <Typography sx={{ ...STYLES.subtitle, marginTop: theme.spacing(1), color: theme.palette.text.primary, fontSize: theme.typography.fontSize * 0.75, fontWeight: theme.typography.fontWeightMedium }}>
             CLICK ANY SECTION TO GIVE FEEDBACK, IMPROVE THE REPORT, SHAPE A FAIRER WORLD!
           </Typography>
         </Box>

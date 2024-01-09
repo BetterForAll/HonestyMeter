@@ -13,26 +13,16 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import theme from '@/theme';
 import PropTypes from 'prop-types';
 import { EMPTY_STRING } from '@/constants/constants';
 
-const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
 async function submitFeedback(feedback, report) {
-  try {
-    const result = await fetch('/api/feedback', {
-      method: 'POST',
-      body: JSON.stringify({ feedback, reportId: report._id })
-    });
+  const result = await fetch('/api/feedback', {
+    method: 'POST',
+    body: JSON.stringify({ feedback, reportId: report._id })
+  });
 
-    const parsedRes = await result.json();
-
-    console.log({ parsedRes });
-
-  } catch (err) {
-    console.log(err);
-  }
+  const parsedRes = await result.json();
 }
 
 function FormDialog({ isDialogOpen, onClose, report }) {
@@ -46,9 +36,14 @@ function FormDialog({ isDialogOpen, onClose, report }) {
 
   const handleSubmit = async (e) => {
     onClose(e);
-    setFeedback(EMPTY_STRING);
-    await submitFeedback(feedback, report);
-    setSnackbarOpen(true);
+    try {
+      await submitFeedback(feedback, report);
+      setSnackbarOpen(true);
+      setFeedback(EMPTY_STRING);
+    } catch (err) {
+      console.log(err);
+      alert('Something went wrong, please try again later');
+    }
   };
 
   const handleCloseSnackbar = (event, reason) => {

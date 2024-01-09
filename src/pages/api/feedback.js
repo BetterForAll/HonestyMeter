@@ -10,10 +10,8 @@ export default async function handler(req, res) {
         const client = await clientPromise;
         const db = client.db(dbName);
         const collection = db.collection(FEEDBACK_COLLECTION_NAME);
-
-        const { feedback } = req.body;
-
-        const result = await collection.insertOne({ feedback });
+        const objectToSave = JSON.parse(req.body);
+        const result = await collection.insertOne(objectToSave);
         const savedFeedbackId = result.insertedId;
 
         res.status(200).json({ status: 'SUCCESS', savedFeedbackId });
