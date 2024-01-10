@@ -41,10 +41,15 @@ export default function Share({
     showCtaLine1 = true,
     showCtaLine2 = true
 }) {
+
+    const handleClick = (e) => {
+        e.stopPropagation();
+    }
+
     return (
         <Box sx={STYLES.shareCtaContainer}>
             <CTA context={context} showCtaLine1={showCtaLine1} showCtaLine2={showCtaLine2} />
-            <Box sx={STYLES.socialIconsContainer}>
+            <Box sx={STYLES.socialIconsContainer} onClick={handleClick}>
                 <TwitterShareButton
                     url={url}
                     title={title}
