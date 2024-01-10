@@ -41,6 +41,11 @@ export default function ReportHeader({
     va.track(EVENT.articleLinkClicked, { articleTitle, articleLink, score, articleDate })
   }
 
+  const handleArticleLinkClick = (e) => {
+    e.stopPropagation();
+    fireArticleLinkClickEvent();
+  }
+
   return (
     <Paper elevation={2} sx={STYLES.paper}>
       <Box sx={STYLES.objectivityScore}>
@@ -100,7 +105,7 @@ export default function ReportHeader({
             <Typography component='span'
               sx={STYLES.articleLink}
             >
-              <a href={articleLink} target="_blank" onClick={fireArticleLinkClickEvent}>
+              <a href={articleLink} target="_blank" onClick={handleArticleLinkClick}>
                 {TEXTS.readOn}
                 &nbsp;
                 {articleBaseUrl}
