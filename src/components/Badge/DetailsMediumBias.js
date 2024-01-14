@@ -7,7 +7,7 @@ import Link from 'next/link';
 import theme from '@/theme';
 import Image from 'next/image';
 import { capitalizeFirstLetter } from '@/utils/utils';
-import Badge from './Badge copy';
+import Badge from './Badge';
 
 const TEXTS = {
     sharingOptions: {
