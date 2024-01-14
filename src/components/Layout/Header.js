@@ -26,8 +26,8 @@ export default function Header() {
         </Link>
       </Box>
       <Box sx={STYLES.subtitleContainer} >
-        <Typography variant='body2' sx={STYLES.subtitle}>Auto-Optimizing Bias Detection Framework</Typography>
-        <Typography variant='body2' sx={STYLES.subtitle}>Powered by AI and User Feedback</Typography>
+        <Typography variant='body2' sx={STYLES.subtitle}>Media Manipulation and Bias Detection</Typography>
+        <Typography variant='body2' sx={STYLES.subtitle}>Auto-Improving with AI and User Feedback</Typography>
       </Box>
       {/* <Box
         style={{ margin: theme.spacing(1), width: '100%', display: 'flex', justifyContent: 'flex-end', marginRight: '32px', position: 'absolute', top: '48px' }}>
