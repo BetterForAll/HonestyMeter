@@ -2,14 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import Fade from '@mui/material/Fade';
 import theme from '@/theme';
-import badgeFair from '../../assets/svg/BadgeFair.svg';
-import badgeMedium from '../../assets/svg/BadgeMedium.svg';
-import badgeHigh from '../../assets/svg/BadgeHigh.svg';
 import Tooltip from '@mui/material/Tooltip';
 import BadgeIcon from './BadgeIcon';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import EastIcon from '@mui/icons-material/East';
 import Image from 'next/image';
 import useIsMobileClient from '@/hooks/useIsMobileClient';
 
