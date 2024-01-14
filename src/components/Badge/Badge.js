@@ -9,31 +9,102 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import Image from 'next/image';
 import useIsMobileClient from '@/hooks/useIsMobileClient';
 
-const TEXTS = {
-    common: {
-        subtitle: 'Verified by HonestyMeter',
-        comment: 'experimental',
-        tooltip: {
-            title: 'Share Honesty Badge',
-            subtitle: '- gain trust',
-            subtitle2: '- support truth',
-            subtitle3: '- grow engagement',
-            arrowUp: <ArrowUpwardIcon />,
-            arrowDown: <ArrowDownwardIcon />,
-        },
-    },
-    biasLevel: {
-        0: {
-            title: 'FAIR CONTENT',
-        },
-        1: {
-            title: 'MEDIUM BIAS',
-        },
-        2: {
-            title: 'HIGH BIAS',
-            // subtitle: 'Cheked by HonestyMeter',
-        },
+export default function Badge({
+    size = 1,
+    biasLevel = 0,
+    showTitle,
+    showSubtitle,
+    showComment,
+    showBadgeName,
+    height = "100px",
+    width = "100px",
+    fadeTimeout = 1000,
+    showTooltipOnLoad = false,
+    showFullTooltip = false,
+    isMenu = false,
+    isTooltipShownOnDesktop = false,
+    tooltipPlacement = 'bottom',
+}) {
+    const { color, secondaryColor, texts, icon } = SETTINGS[biasLevel];
+    const { title, subtitle, comment, tooltip } = texts;
+    const isMobile = useIsMobileClient();
+    const hideTooltip = !isTooltipShownOnDesktop || isMobile;
+    const toolTipContentProps = getToolTipContentProps(showFullTooltip, tooltip, isMobile, tooltipPlacement);
+    const tooltipTitle = isMobile ? null : < TooltipContent {...toolTipContentProps} isMobile={isMobile} tooltipPlacement={tooltipPlacement} />;
+    const [isTooltipOpen, setTooltipOpen] = useState(showTooltipOnLoad);
+    const isTimeout = Boolean(fadeTimeout);
+
+    const openTooltip = () => {
+        if (hideTooltip) return;
+
+        setTooltipOpen(true);
     }
+
+    const closeTooltip = () => {
+        setTooltipOpen(false);
+    }
+
+    useEffect(() => {
+        const timerClose = setTimeout(() => {
+            setTooltipOpen(false);
+        }, 5000);
+
+        return () => {
+            clearTimeout(timerClose);
+        }
+    }, []);
+
+    const badgeContent = (
+        <Tooltip
+            title={tooltipTitle}
+            placement={tooltipPlacement}
+            open={isTooltipOpen}
+            onMouseEnter={openTooltip} onMouseLeave={closeTooltip}>
+            <Box sx={STYLES.container(size, color)}>
+
+                {
+                    isMenu ?
+                        <BadgeIcon width={width} height={height} color={color} secondaryColor={secondaryColor} showBadgeName={showBadgeName} />
+                        :
+                        <Image src={icon} alt="Balance Icon" style={STYLES.icon} width={140} height={140} />
+                }
+
+
+                {
+                    isMenu &&
+                    <>
+                        {
+                            showTitle &&
+                            <Typography sx={STYLES.title}>
+                                {title}
+                            </Typography>
+                        }
+                        {
+                            showSubtitle &&
+                            <Typography sx={STYLES.subtitle}>
+                                {subtitle}
+                            </Typography>
+                        }
+                        {
+                            showComment &&
+                            <Typography sx={STYLES.comment}>
+                                *{comment}
+                            </Typography>
+                        }
+                    </>
+                }
+            </Box>
+        </Tooltip >
+    )
+
+    return (
+        isTimeout ?
+            <Fade in={true} timeout={fadeTimeout} sx={STYLES.container(size, color)}>
+                {badgeContent}
+            </Fade >
+            :
+            badgeContent
+    )
 }
 
 const TooltipContent = ({ title, subtitle, subtitle2, subtitle3, arrow, isMobile, tooltipPlacement }) => {
@@ -43,7 +114,6 @@ const TooltipContent = ({ title, subtitle, subtitle2, subtitle3, arrow, isMobile
 
     return (
         <Box sx={{ textAlign: 'center' }}>
-            {/* <BadgeIcon width="100px" height="100px" color='black' /> */}
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: theme.spacing(1) }}>
                 {
                     tooltipPlacement === 'bottom' &&
@@ -77,6 +147,32 @@ const TooltipContent = ({ title, subtitle, subtitle2, subtitle3, arrow, isMobile
             }
         </Box >
     )
+}
+
+const TEXTS = {
+    common: {
+        subtitle: 'Verified by HonestyMeter',
+        comment: 'experimental',
+        tooltip: {
+            title: 'Share Honesty Badge',
+            subtitle: '- gain trust',
+            subtitle2: '- support truth',
+            subtitle3: '- grow engagement',
+            arrowUp: <ArrowUpwardIcon />,
+            arrowDown: <ArrowDownwardIcon />,
+        },
+    },
+    biasLevel: {
+        0: {
+            title: 'FAIR CONTENT',
+        },
+        1: {
+            title: 'MEDIUM BIAS',
+        },
+        2: {
+            title: 'HIGH BIAS',
+        },
+    }
 }
 
 const SETTINGS = {
@@ -116,113 +212,8 @@ const SETTINGS = {
     },
 }
 
-export default function Badge({
-    size = 1,
-    biasLevel = 0,
-    showTitle,
-    showSubtitle,
-    showComment,
-    showBadgeName,
-    height = "100px",
-    width = "100px",
-    fadeTimeout = 1000,
-    showTooltipOnLoad = false,
-    showFullTooltip = false,
-    isMenu = false,
-    isTooltipShownOnDesktop = false,
-    tooltipPlacement = 'bottom',
-}) {
-    const { color, secondaryColor, texts, icon } = SETTINGS[biasLevel];
-    const { title, subtitle, comment, tooltip } = texts;
-    const isMobile = useIsMobileClient();
-    const hideTooltip = !isTooltipShownOnDesktop || isMobile;
-    const shownTooltipProps = getToolTipContent(showFullTooltip, tooltip, isMobile, tooltipPlacement);
-    const tooltipTitle = isMobile ? null : < TooltipContent {...shownTooltipProps} isMobile={isMobile} tooltipPlacement={tooltipPlacement} />;
-    const [isTooltipOpen, setTooltipOpen] = useState(showTooltipOnLoad);
-    const isTimeout = Boolean(fadeTimeout);
-
-
-
-    const openTooltip = () => {
-        if (hideTooltip) return;
-
-        setTooltipOpen(true);
-    }
-
-    const closeTooltip = () => {
-        setTooltipOpen(false);
-    }
-
-    useEffect(() => {
-        // Timer to hide tooltip after 3 seconds
-        // const timeOpen = setTimeout(() => {
-        //     setTooltipOpen(true);
-        // }, 3000);
-
-        const timerClose = setTimeout(() => {
-            setTooltipOpen(false);
-        }, 5000);
-
-        return () => {
-            // clearTimeout(timeOpen);
-            clearTimeout(timerClose);
-        }
-    }, []);
-
-    const badgeContent = <Tooltip
-        title={tooltipTitle}
-        placement={tooltipPlacement}
-        open={isTooltipOpen}
-        onMouseEnter={openTooltip} onMouseLeave={closeTooltip}>
-        <Box sx={STYLES.container(size, color)}>
-
-            {
-                isMenu ?
-                    <BadgeIcon width={width} height={height} color={color} secondaryColor={secondaryColor} showBadgeName={showBadgeName} />
-                    :
-                    <Image src={icon} alt="Balance Icon" style={STYLES.icon} width={140} height={140} />
-            }
-
-
-            {
-                isMenu &&
-                <>
-                    {
-                        showTitle &&
-                        <Typography sx={STYLES.title}>
-                            {title}
-                        </Typography>
-                    }
-                    {
-                        showSubtitle &&
-                        <Typography sx={STYLES.subtitle}>
-                            {subtitle}
-                        </Typography>
-                    }
-                    {
-                        showComment &&
-                        <Typography sx={STYLES.comment}>
-                            *{comment}
-                        </Typography>
-                    }
-                </>
-            }
-        </Box>
-    </Tooltip >
-
-    return (
-        isTimeout ?
-            <Fade in={true} timeout={fadeTimeout} sx={STYLES.container(size, color)}>
-                {badgeContent}
-            </Fade >
-            :
-            badgeContent
-    )
-}
-
 const STYLES = {
     container: (size, color) => ({
-        // height: '131px',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -231,32 +222,6 @@ const STYLES = {
         color,
         cursor: 'pointer',
         textDecoration: 'none',
-        '& svg': {
-            boxShadow: '0px 0px 0px 0px rgba(0,0,0,0.0)',
-            border: '0px solid #fff',
-            borderRadius: '50%',
-            margin: theme.spacing(0, 0, 0.5, 0),
-        },
-
-
-        // padding: theme.spacing(0, 0.5),
-        // borderRadius: '10px',
-
-        '&:hover': {
-            // transform: `scale(${size + 0.1})`,
-            // transition: 'transform 0.3s ease-in-out',
-            // border: '2px solid #fff',
-            // boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.75)',
-            // transition: 'box-shadow 0.2s ease-in-out',
-            color,
-
-            '& svg': {
-                // boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.75)',
-                // transform: `scale(${size + 0.02})`,
-                // transition: 'box-shadow 0.2s ease-in-out',
-                // transition: 'transform 0.2s ease-in-out',
-            }
-        }
     }),
     iconContainer: {
         height: '110px',
@@ -277,7 +242,7 @@ const STYLES = {
     }
 }
 
-function getToolTipContent(showFullTooltip, tooltip, isMobile, tooltipPlacement) {
+function getToolTipContentProps(showFullTooltip, tooltip, isMobile, tooltipPlacement) {
     const arrow = tooltipPlacement === 'bottom' ? tooltip.arrowUp : tooltip.arrowDown;
 
     if (isMobile) {
