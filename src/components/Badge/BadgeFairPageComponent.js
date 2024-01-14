@@ -164,7 +164,7 @@ const STYLES = {
         color: theme.palette.text.secondary,
         position: 'absolute',
         top: theme.spacing(1.5),
-        right: theme.spacing(1.5),
+        right: theme.spacing(3),
     },
 };
 
