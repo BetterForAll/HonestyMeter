@@ -687,7 +687,6 @@ const STYLES = {
     margin: 0,
   },
   list: {
-
     paddingLeft: 0,
   }
 }

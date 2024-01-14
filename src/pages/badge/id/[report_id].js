@@ -1,5 +1,7 @@
 import React from 'react'
 
+//TODO: implement 
+
 export default function ReportId({ reportId, biasLevel }) {
     const Badge = BADGE_TYPES[biasLevel]
 

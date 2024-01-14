@@ -67,8 +67,6 @@ async function getReportsPage(req, db) {
   const skip = (page - 1) * ITEMS_PER_PAGE;
   const queryConditions = getQueryConditions(inputs);
 
-  console.log({ queryConditions, inputs, page, skip })
-
   const reports = await db
     .collection(collectionName)
     .find(queryConditions, {
@@ -86,8 +84,6 @@ async function getReportsPage(req, db) {
 
   const reportsCount = await db.collection(collectionName).countDocuments(queryConditions);
   const isLastPage = skip + ITEMS_PER_PAGE >= reportsCount;
-
-  console.log('REPORTS getReportsPage: ', reports)
 
   return { reports, isLastPage };
 }
