@@ -78,13 +78,7 @@ function BadgePageComponent({ biasLevel = 1 }) {
                     }
                 </Box>
             </Paper>
-            <Typography sx={[STYLES.paragraph, STYLES.verify]}>
-                To verify the badge, you can generate a bias report on our&nbsp;
-                <Link href="/" style={STYLES.link}>
-                    homepage
-                </Link>&nbsp;
-                if you haven&apos;t already done so.
-            </Typography>
+            {verifyBadge(biasLevel)}
             <CTAWithProps />
 
             {
@@ -182,6 +176,60 @@ function BadgePageComponent({ biasLevel = 1 }) {
             }
         </Box >
     );
+}
+
+function CTA({ toggleSharingDetails, isSharingDetailsShown, biasLevel }) {
+    return (<Box sx={{ textAlign: 'center', color: theme.palette.primary.main }}>
+        <Typography sx={{ ...STYLES.sectionTitle, marginBottom: theme.spacing(0.5), color: 'inherit' }}>
+            - Support the Truth
+        </Typography>
+        <Typography sx={{ ...STYLES.sectionTitle, }}>
+            - Increase Trust and Engagement
+        </Typography>
+        <ArrowDownwardIcon sx={{ color: 'inherit' }} />
+        <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: 'inherit', marginBottom: theme.spacing(2) }}>
+            <Button
+                variant="contained"
+                sx={STYLES.shareButton}
+                onClick={toggleSharingDetails}>
+                Share Honesty Badge
+            </Button>
+        </Box>
+        <Modal open={isSharingDetailsShown} onClose={toggleSharingDetails} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 8 }}>
+            <Fade in={isSharingDetailsShown} timeout={{ enter: 300, exit: 400 }}>
+                <Box sx={{ position: 'relative', width: '95%', maxWidth: '800px', maxHeight: '95vh' }}>
+                    <CloseRoundedIcon sx={STYLES.closeIcon} onClick={toggleSharingDetails} />
+                    <Details biasLevel={biasLevel} />
+                </Box>
+            </Fade>
+        </Modal>
+    </Box>)
+}
+
+function verifyBadge(biasLevel) {
+    const isGeneralBadge = biasLevel === 3;
+
+    return (
+        <Typography sx={[STYLES.paragraph, STYLES.verify]}>
+            {
+                isGeneralBadge ?
+                    <>
+                        To generate a bias report, please visit our&nbsp;
+                        <Link href="/" style={STYLES.link}>
+                            homepage
+                        </Link>&nbsp;
+                    </>
+                    :
+                    <>
+                        To verify the badge, you can generate a bias report on our&nbsp;
+                        <Link href="/" style={STYLES.link}>
+                            homepage
+                        </Link>&nbsp;
+                        if you haven&apos;t already done so.
+                    </>
+            }
+        </Typography>
+    )
 }
 
 const STYLES = {
@@ -284,34 +332,6 @@ const STYLES = {
         right: theme.spacing(3),
     },
 };
-
-function CTA({ toggleSharingDetails, isSharingDetailsShown, biasLevel }) {
-    return (<Box sx={{ textAlign: 'center', color: theme.palette.primary.main }}>
-        <Typography sx={{ ...STYLES.sectionTitle, marginBottom: theme.spacing(0.5), color: 'inherit' }}>
-            - Support the Truth
-        </Typography>
-        <Typography sx={{ ...STYLES.sectionTitle, }}>
-            - Increase Trust and Engagement
-        </Typography>
-        <ArrowDownwardIcon sx={{ color: 'inherit' }} />
-        <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: 'inherit', marginBottom: theme.spacing(2) }}>
-            <Button
-                variant="contained"
-                sx={STYLES.shareButton}
-                onClick={toggleSharingDetails}>
-                Share Honesty Badge
-            </Button>
-        </Box>
-        <Modal open={isSharingDetailsShown} onClose={toggleSharingDetails} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 8 }}>
-            <Fade in={isSharingDetailsShown} timeout={{ enter: 300, exit: 400 }}>
-                <Box sx={{ position: 'relative', width: '95%', maxWidth: '800px', maxHeight: '95vh' }}>
-                    <CloseRoundedIcon sx={STYLES.closeIcon} onClick={toggleSharingDetails} />
-                    <Details biasLevel={biasLevel} />
-                </Box>
-            </Fade>
-        </Modal>
-    </Box>)
-}
 
 export default BadgePageComponent;
 

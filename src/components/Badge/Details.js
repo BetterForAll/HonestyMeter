@@ -3,18 +3,20 @@ import { Box, Typography, IconButton, Tooltip, Paper, Divider, Button } from '@m
 import { ContentCopy as ContentCopyIcon } from '@mui/icons-material';
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
+import CloseIcon from '@mui/icons-material/Close';
 import Link from 'next/link';
 import theme from '@/theme';
 import Image from 'next/image';
 import Badge from './Badge';
+import { EMPTY_STRING } from '@/constants/constants';
 
 const TEXTS = {
     sharingOptions: {
         getHtml: (biasLevel, biasLevelText) => {
             const isGeneralBadge = biasLevel === 3;
             const isMediumOrGeneral = biasLevel === 1 || isGeneralBadge;
-            const imageSrcSuffix = isMediumOrGeneral ? '' : `_${biasLevelText}`;
-            const linkSuffix = isGeneralBadge ? '' : `/${biasLevelText}`;
+            const imageSrcSuffix = isMediumOrGeneral ? EMPTY_STRING : `_${biasLevelText}`;
+            const linkSuffix = isGeneralBadge ? EMPTY_STRING : `/${biasLevelText}`;
 
             return `
         <a href="https://www.honestymeter.com/badge${linkSuffix}" target="_blank">
@@ -25,7 +27,7 @@ const TEXTS = {
         shareAsText: 'Honesty Badge by HonestyMeter. View the badge at',
         hashtags: '#HonestyBadge #HonestyMeter',
         getDirectUrl: (biasLevel, biasLevelText) => {
-            const suffix = biasLevel === 3 ? '' : `/${biasLevelText}`;
+            const suffix = biasLevel === 3 ? EMPTY_STRING : `/${biasLevelText}`;
             return `HonestyBadge.com${suffix}`
         },
         script: '<script src="https://honestymeter.com/badge_script.js" defer></script>'
@@ -34,12 +36,14 @@ const TEXTS = {
         0: 'fair',
         1: 'medium',
         2: 'high',
-        3: ''
-    }
+        3: EMPTY_STRING
+    },
+    copied: 'Copied!',
+    copy: 'Copy',
 }
 
 export default function DetailsBias({ biasLevel = 1 }) {
-    const [copied, setCopied] = useState(false);
+    const [isCopied, setCopied] = useState(false);
     const [option, setOption] = useState(0);
     const biasLevelText = TEXTS.biasLevel[biasLevel];
     const html = TEXTS.sharingOptions.getHtml(biasLevel, biasLevelText)
@@ -49,11 +53,10 @@ export default function DetailsBias({ biasLevel = 1 }) {
     const isFairContentBadge = biasLevel === 0;
 
     const getTitle = (clickedOption) => {
-        if (clickedOption === option) {
-            return copied ? "Copied!" : "Copy"
-        }
+        const isClickedOption = clickedOption === option;
+        const isOptionCopied = isClickedOption && isCopied;
 
-        return "Copy"
+        return isOptionCopied ? TEXTS.copied : TEXTS.copy
     }
 
     const copyToClipboard = (text, option) => {
@@ -62,7 +65,6 @@ export default function DetailsBias({ biasLevel = 1 }) {
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };
-
 
     return (
         <Box sx={STYLES.container}>
@@ -102,7 +104,6 @@ export default function DetailsBias({ biasLevel = 1 }) {
                         </ListItem>
                         <Divider />
                     </>
-
                 }
                 <List sx={{ width: '100%' }}>
                     <ListItem sx={STYLES.listItem}>
@@ -165,16 +166,7 @@ export default function DetailsBias({ biasLevel = 1 }) {
                                 <Typography sx={STYLES.paragraph}>
                                     Add this line to the head section of your website:
                                 </Typography>
-                                <Box sx={{
-                                    position: 'relative',
-                                    backgroundColor: 'gray',
-                                    color: 'white', padding: theme.spacing(2),
-                                    borderRadius: theme.spacing(1),
-                                    wordBreak: 'break-all',
-                                    marginBottom: theme.spacing(2),
-                                    padding: theme.spacing(4),
-                                    width: '100%',
-                                }}>
+                                <Box sx={STYLES.code}>
                                     <Tooltip title={getTitle(0)} >
                                         <IconButton
                                             onClick={() => copyToClipboard(TEXTS.sharingOptions.script, 0)}
@@ -210,14 +202,7 @@ export default function DetailsBias({ biasLevel = 1 }) {
                         <Typography sx={{ ...STYLES.paragraph, textAlign: 'center' }}>
                             {`To embedd in specific places on your website, copy the following HTML`}
                         </Typography>
-                        <Box sx={{
-                            position: 'relative',
-                            backgroundColor: 'gray',
-                            color: 'white', padding: theme.spacing(2),
-                            borderRadius: theme.spacing(1),
-                            wordBreak: 'break-all',
-                            marginBottom: theme.spacing(2),
-                        }}>
+                        <Box sx={{ ...STYLES.code, padding: 2 }}>
                             <Tooltip title={getTitle(1)} >
                                 <IconButton
                                     onClick={() => copyToClipboard(html, 1)}
@@ -282,14 +267,11 @@ function FloatingBadge() {
                     backgroundColor: '#106b5b',
                 },
             }}>
-                <Typography sx={{ fontSize: 12, fontWeight: 'bold' }}>
-                    X
-                </Typography>
+               <CloseIcon/>
             </Button>
         </Box>
     );
 }
-
 
 const STYLES = {
     container: {
@@ -321,5 +303,15 @@ const STYLES = {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    code: {
+        position: 'relative',
+        backgroundColor: 'gray',
+        color: 'white',
+        borderRadius: theme.spacing(1),
+        wordBreak: 'break-all',
+        marginBottom: theme.spacing(2),
+        padding: theme.spacing(4),
+        width: '100%',
     },
 };
