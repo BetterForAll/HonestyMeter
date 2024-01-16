@@ -60,13 +60,13 @@ export default function Badge({
             placement={tooltipPlacement}
             open={isTooltipOpen}
             onMouseEnter={openTooltip} onMouseLeave={closeTooltip}>
-            <Box sx={STYLES.container(size, color)}>
+            <Box sx={BADGE_STYLES.container(size, color)}>
 
                 {
                     isMenu ?
                         <BadgeIcon width={width} height={height} color={color} secondaryColor={secondaryColor} showBadgeName={showBadgeName} />
                         :
-                        <Image src={icon} alt="Balance Icon" style={STYLES.icon} width={140} height={140} />
+                        <Image src={icon} alt="Balance Icon" style={BADGE_STYLES.icon} width={140} height={140} />
                 }
 
 
@@ -75,19 +75,19 @@ export default function Badge({
                     <>
                         {
                             showTitle &&
-                            <Typography sx={STYLES.title}>
+                            <Typography sx={BADGE_STYLES.title}>
                                 {title}
                             </Typography>
                         }
                         {
                             showSubtitle &&
-                            <Typography sx={STYLES.subtitle}>
+                            <Typography sx={BADGE_STYLES.subtitle}>
                                 {subtitle}
                             </Typography>
                         }
                         {
                             showComment &&
-                            <Typography sx={STYLES.comment}>
+                            <Typography sx={BADGE_STYLES.comment}>
                                 *{comment}
                             </Typography>
                         }
@@ -99,12 +99,42 @@ export default function Badge({
 
     return (
         isTimeout ?
-            <Fade in={true} timeout={fadeTimeout} sx={STYLES.container(size, color)}>
+            <Fade in={true} timeout={fadeTimeout} sx={BADGE_STYLES.container(size, color)}>
                 {badgeContent}
             </Fade >
             :
             badgeContent
     )
+}
+
+const BADGE_STYLES = {
+    container: (size, color) => ({
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        transform: `scale(${size})`,
+        color,
+        cursor: 'pointer',
+        textDecoration: 'none',
+    }),
+    iconContainer: {
+        height: '110px',
+    },
+    icon: {
+
+    },
+    title: {
+        fontSize: theme.typography.fontSize * 0.875,
+        fontWeight: theme.typography.fontWeightBold
+    },
+    subtitle: {
+        fontSize: theme.typography.fontSize * 0.75
+    },
+    comment: {
+        fontSize: theme.typography.fontSize * 0.75,
+        fontStyle: 'italic'
+    }
 }
 
 const TooltipContent = ({ title, subtitle, subtitle2, subtitle3, arrow, isMobile, tooltipPlacement }) => {
@@ -113,8 +143,8 @@ const TooltipContent = ({ title, subtitle, subtitle2, subtitle3, arrow, isMobile
     }
 
     return (
-        <Box sx={{ textAlign: 'center' }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: theme.spacing(1) }}>
+        <Box sx={TOOLTIP_CONTENT_STYLES.container}>
+            <Box sx={TOOLTIP_CONTENT_STYLES.titleContainer}>
                 {
                     tooltipPlacement === 'bottom' &&
                     <Typography >
@@ -147,6 +177,17 @@ const TooltipContent = ({ title, subtitle, subtitle2, subtitle3, arrow, isMobile
             }
         </Box >
     )
+}
+
+const TOOLTIP_CONTENT_STYLES = {
+    container: {
+        textAlign: 'center'
+    },
+    titleContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: theme.spacing(1)
+    },
 }
 
 const TEXTS = {
@@ -212,35 +253,6 @@ const SETTINGS = {
     },
 }
 
-const STYLES = {
-    container: (size, color) => ({
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        transform: `scale(${size})`,
-        color,
-        cursor: 'pointer',
-        textDecoration: 'none',
-    }),
-    iconContainer: {
-        height: '110px',
-    },
-    icon: {
-
-    },
-    title: {
-        fontSize: theme.typography.fontSize * 0.875,
-        fontWeight: theme.typography.fontWeightBold
-    },
-    subtitle: {
-        fontSize: theme.typography.fontSize * 0.75
-    },
-    comment: {
-        fontSize: theme.typography.fontSize * 0.75,
-        fontStyle: 'italic'
-    }
-}
 
 function getToolTipContentProps(showFullTooltip, tooltip, isMobile, tooltipPlacement) {
     const arrow = tooltipPlacement === 'bottom' ? tooltip.arrowUp : tooltip.arrowDown;

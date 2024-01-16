@@ -1,8 +1,8 @@
 import React from 'react'
-import BadgeMediumPageComponent from '@/components/Badge/BadgeMediumPageComponent'
+import BadgePageComponent from '@/components/Badge/BadgePageComponent'
 
 export default function High() {
     return (
-        <BadgeMediumPageComponent biasLevel={2} />
+        <BadgePageComponent biasLevel={2} />
     )
 }

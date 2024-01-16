@@ -1,8 +1,8 @@
 import React from 'react'
-import BadgeFairPageComponent from '../../../components/Badge/BadgeFairPageComponent'
+import BadgePageComponent from '../../../components/Badge/BadgePageComponent'
 
 export default function BadgeFairPage() {
     return (
-        <BadgeFairPageComponent />
+        <BadgePageComponent biasLevel={0} />
     )
 }

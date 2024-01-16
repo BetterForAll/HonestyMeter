@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import theme from '@/theme';
+import React from 'react';
 import BadgePageComponent from '../../components/Badge/BadgePageComponent';
 
 
 function HonestyBadgePage() {
     return (
-        <BadgePageComponent />
+        <BadgePageComponent biasLevel={3} />
     );
 }
 
