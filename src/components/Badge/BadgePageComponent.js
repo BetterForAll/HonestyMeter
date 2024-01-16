@@ -5,7 +5,7 @@ import Badge from '@/components/Badge/Badge';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Link from 'next/link';
-import DetailsMediumBias from './DetailsMediumBias';
+import Details from './Details';
 
 const TEXTS = {
     biasLevel: {
@@ -306,7 +306,7 @@ function CTA({ toggleSharingDetails, isSharingDetailsShown, biasLevel }) {
             <Fade in={isSharingDetailsShown} timeout={{ enter: 300, exit: 400 }}>
                 <Box sx={{ position: 'relative', width: '95%', maxWidth: '800px', maxHeight: '95vh' }}>
                     <CloseRoundedIcon sx={STYLES.closeIcon} onClick={toggleSharingDetails} />
-                    <DetailsMediumBias biasLevel={biasLevel} />
+                    <Details biasLevel={biasLevel} />
                 </Box>
             </Fade>
         </Modal>
