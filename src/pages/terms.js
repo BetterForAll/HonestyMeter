@@ -1,4 +1,5 @@
 import React from "react";
+import Disclamer from "@/components/Disclamer";
 
 //TODO: move texts to constants, replace html tags with MUI components, move styles to STYLES object (use sx & MUI theme)
 
@@ -204,6 +205,9 @@ export default function Terms() {
     <p>
       HonestyMeter. Address:  10685-B Hazelhurst Dr. # 35149 Houston, TX 77043 USA
     </p>
-
+    <h2 style={{width: '100%', textAlign: 'center', margin: 0}}>
+      Disclamer
+    </h2>
+    <Disclamer />
   </main >
 }

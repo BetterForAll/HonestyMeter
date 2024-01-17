@@ -90,7 +90,7 @@ const FILTER_PARAMS = {
   category: 'category',
 }
 
-export default function Home({ homePageProps, reports, page, isFirstPage, isLastPage, date, rating }) { //TODO: add rating back to props
+export default function Home({ homePageProps, reports, page, isFirstPage, isLastPage, date, rating }) { 
   const router = useRouter();
   const {
     [FILTER_PARAMS.searchTerm]: searchFromQuery = EMPTY_STRING,
