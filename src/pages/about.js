@@ -3,7 +3,7 @@ import Image from 'next/image';
 import flowchart from '../../public/flowchart.jpg';
 import exampleReport from '../../public/example_report.png';
 import theme from '@/theme';
-import { Box } from '@mui/material';
+import { Box, Divider } from '@mui/material';
 import Share from '@/components/Share';
 import Head from 'next/head';
 import { PAGE_ABSOLUTE_URL } from '@/constants/constants';
@@ -15,7 +15,7 @@ const VIDEO_URL = 'https://player.vimeo.com/video/820300228';
 
 const TEXTS = {
   pageTitle: 'HonestyMeter (Honesty Meter)',
-  title: 'HonestyMeter - A Free Open Source Framework for Evaluating the Objectivity of Media Content',
+  title: 'HonestyMeter - A Free Framework for Bias and Manipulation Detection in Media Content',
   article: {
     quote: `"By embracing HonestyMeter, you can join the vanguard of a movement that
     champions media objectivity and transparency. The more people who adopt this tool,
@@ -34,7 +34,7 @@ const TEXTS = {
     Although the facts presented are 100% true, the way they are reported is 100% misleading.
     Even if the article provides full context, most readers read only headlines and will never know the truth.`,
 
-    problem: `In today's world, media plays a crucial role in shaping public opinion and influencing decision-making processes.
+    problem: `In today's world, media plays a crucial role in shaping public opinion and influencing decision-making es.
      However, the proliferation of fake news and misinformation has significantly blurred the lines between fact and fiction, 
      and between objective and biased reporting. This challenge is intensified by the use of sophisticated, yet subtle,
       manipulative techniques. Techniques such as sensationalism, framing, and selective reporting, among multiple others,
@@ -62,7 +62,7 @@ const TEXTS = {
        empowering authors to craft more objective content and enabling audiences to make better-informed decisions.`,
   },
   process: {
-    title: 'Process:',
+    title: 'Evaluation Process:',
     description: `The HonestyMeter framework uses a multi-step process to evaluate
      the objectivity and bias of media content:`,
 
@@ -93,13 +93,13 @@ and use it to improve the objectivity of the content.`,
   aiGeneratedArticle: 'GPT-4 Generated Article Explores Imaginary Debates Between Fictional Candidates in a Hypothetical Country',
   futurePlans: {
     title: 'Future Plans:',
-    supportVideoandAudio: `In our ideal future vision, we aspire to create a comprehensive media objectivity analysis tool that supports images,
+    supportVideoandAudio: `In our ideal future vision, we aspire to create a comprehensive media manipulations detection tool that supports images,
      video and audio content analysis, evaluating combinations of text and images in articles, 
      voice tonality in audio and video content, background images and video footage, 
      as well as body language and facial expressions in video content.
       This represents the challenging goal of creating a process that considers all possible modalities
        and analyzes how they are integrated with each other in any piece of content,
-        be it an article, book, podcast, or video. Further, we consider to connect to fact-checking sources and compare multiple sources to ensure a robust and reliable analysis.`,
+        be it an article, book, podcast, or video.`,
     connectFactChecking: 'Connect to fact checking sources.',
     compareMultipleSources: 'Compare multiple sources'
   },
@@ -199,20 +199,57 @@ export default function About() {
           Our initial release focused on a singular feature, allowing users to copy text and receive a bias report.
           Below are the newly added features we have released in the past few months:
         </p>
-        <ul>
+        <ul style={STYLES.list}>
           <li><p><b>News Integrity Feed</b> (New Release): Offers analysis of the latest news from leading sources.
             Users can search by keyword or filter by category and country.</p></li>
           <li><p><b>Personal News Integrity Feed for Popular People</b> (New Release): Analyzes the latest news about famous people. Users can search by name</p></li>
           <li><p><b>Ratings</b> (New Release): Features ratings for the most praised and criticized people, located on the &quot;People&quot; page, and ratings for the most objective sources, available on the homepage.</p></li>
           <li><p><b>Custom Content Analysis</b> (New Release - now with Link Support): Users can submit links or text to receive a comprehensive bias report.
             This feature enables analysis of content not featured on our website and allows authors to reduce bias in their original content.</p></li>
+          <li><p><b>Honesty Badge</b> (New Release): Users who share our vision of transparent, unbiased media can display our badge
+            alongside any content they post on platforms or social networks they manage or use.
+            This enhances trust and engagement with the content. Each share promotes media transparency awareness, contributing to a fairer world.
+          </p>
+            <p>
+              There are three types of badges:
+            </p>
+            <ul style={STYLES.list}>
+              <li>
+                <p>
+                  General Badge - Demonstrates support for transparent, unbiased media. Can be used with any content, anywhere.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Fair Content Badge - For authors or publishers of content that has achieved a high objectivity score
+                  and wish to highlight the objectivity of their content.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Medium and High Bias Badges - For publishers who wish to openly indicate the bias level in their content,
+                  thereby demonstrating extreme transparency. These badges are used in conjunction with the Fair Content Badge.
+                </p>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p><b>Auto-Optimization Based on User Feedback</b> (New Release):
+              This feature transforms HonetyMeter into a <b>self-optimizing system</b>,
+              utilizing a blend of AI bias &apos;experts&apos; and user feedback.
+              Users have the ability to click on any section of the bias report and submit their feedback.
+              This feedback is then reviewed by the AI. If the feedback is accepted,
+              the report is updated accordingly, and the data is utilized for training and enhancing the model,
+              thereby enabling continuous improvement in the accuracy of the reports.
+            </p>
+          </li>
         </ul>
 
         <h3>Current State and Updates:</h3>
-        <ul>
-          <li><p>Over 16,000 reports generated.</p></li>
+        <ul style={STYLES.list}>
+          <li><p>Over 18,000 reports generated.</p></li>
           <li><p>Hundreds of new reports added daily.</p></li>
-          <li><p>Extensive coverage for each of the most popular people, e.g., over 500 reports on Elon Musk, Donald Trump and Tylor Swift among others.</p></li>
+          <li><p>Extensive coverage for each of the most popular people, e.g., over 500 reports on Elon Musk, Donald Trump and Taylor Swift among others.</p></li>
           <li><p>Over 140 links from multiple websites in various languages, including listings and upvotes in leading AI tool indexes.</p></li>
           <li><p>Surprisingly, HonestyMeter is used in multiple languages, despite being primarily English-focused.</p></li>
           <li>
@@ -221,8 +258,9 @@ export default function About() {
             </p>
           </li>
         </ul>
+        <h2>Technical Details</h2>
 
-        <h2 id="process">{TEXTS.process.title}</h2>
+        <h3 id="process">{TEXTS.process.title}</h3>
         <p>
           {TEXTS.process.description}
         </p>
@@ -280,7 +318,7 @@ export default function About() {
           <h2>Technical Challenges and Solutions</h2>
           <p>The current version of HonestyMeter is an experimental demo.
             There is significant room for improvement in terms of the depth, accuracy, and consistency of the reports, for the following reasons:</p>
-          <ul>
+          <ul style={STYLES.list}>
             <li>
               The GPT-3.5-Turbo model was used in production until the end of December 2023 to minimize costs,
               as the tool is free and self-funded. At the end of December 2023, we switched to GPT-4,
@@ -298,7 +336,7 @@ export default function About() {
 
           <p><strong>To enhance the results, we are undertaking the following steps,
             which are part of ongoing research and have not yet been implemented in production.</strong></p>
-          <ul>
+          <ul style={STYLES.list}>
             <li>We conducted in-depth research on manipulation techniques, gaining a
               comprehensive understanding of manipulation categories. We revised the list
               of manipulations and created a more concise and well-structured list that covers
@@ -335,6 +373,12 @@ export default function About() {
               gradually adding more complex techniques for detection. The last three versions focus on the most
               advanced and complex techniques, offering the most detailed and thorough analysis of bias.
             </li>
+            <br></br>
+            <li>
+              We have added a user feedback feature. Unlike all the features listed above, this one is already released.
+              User feedback is utilized to enhance our bias reports and to train our future models,
+              turning our system into a continuously self-improving entity, even in its current state, without any additional changes.
+            </li>
           </ul>
           <p><span class="bold"><b>Accuracy, consistency, and deterministic outputs.</b></span></p>
           <p>
@@ -355,6 +399,177 @@ export default function About() {
             HonestyMeter frequently provides insights that are difficult for humans to discern.
           </p>
         </div>
+        <Divider style={{ marginBottom: theme.spacing(2) }} />
+        <h2>Monetization in Harmony with Free and Transparent Media Integrity</h2>
+        <p>
+          Our main goal is to provide free, objective analysis based on a publicly open and transparent methodology.
+          Currently, we self-fund the project by investing our own time and money, while offering it completely free of charge.
+          We have received reasonable feedback from some users who noted that attracting
+          additional funds could significantly aid in advancing the development and creating mass adoption.
+          However, attracting substantial funds for a free service, based solely on social impact,
+          without monetizing it and without offering any profit potential to investors, may prove challenging.
+        </p>
+        <p>
+          Therefore, we have created a list of possible monetization strategies that
+          can work while fully retaining our vision of a free, open framework that
+          makes the media more truthful and transparent.
+          Implementing these strategies may help us in two ways:
+          funding the project independently and attracting additional investments.
+        </p>
+        <p>
+          This list includes innovative products with unique commercial value,
+          capitalizing on our core functionality. These products are targeting
+          rapidly growing multi-billion-dollar markets, where even a minuscule
+          market share could yield multimillion-dollar revenues.
+        </p>
+        <ul style={{ paddingLeft: 0, listStyleType: 'none' }} >
+          <li>
+            <b>Honesty Badge and Commercial Content Analysis (unique value)</b><br /><br />
+            Honesty Badge Certification (currently available for free): A service that
+            awards the &apos;Honesty Badge&apos; to any content that meets high standards of
+            objectivity and a low level of bias and manipulation. Optionally, every piece
+            of content can be marked with an Honesty Badge showing its bias level: high,
+            medium, or low to demonstrate full transparency. <br /><br />
+            Note: The high-end tier of this service may be provided in combination with
+            human bias detectors and industry experts in niche relevant to the promoted
+            content.<br /><br />
+            Target Audience: Any commercial company with a product or service, news
+            portals, social networks, niche content blogs, and channels.<br /><br />
+
+            <b>Honest eCommerce</b> (in development): A content portal with highly objective
+            commercial content.<br /><br />
+            <b> Market Projections</b>
+            <br /><br />
+            The global content marketing market was valued at $407 billion in 2022 and
+            is projected to reach $1.3 trillion by 2031, growing at a CAGR of 13.17%.
+            (Source: <a href='https://www.businessresearchinsights.com/market-reports/content-marketing-market-103375' target='_blank'>Business Research Insights</a>)
+            <br /><br />
+            <table style={STYLES.table}>
+              <tr>
+                <th style={STYLES.tableCell}>Market Share</th>
+                <th style={STYLES.tableCell}>2023 Revenue Projection</th>
+                <th style={STYLES.tableCellLast}>2031 Revenue Projection</th>
+              </tr>
+              <tr>
+                <td style={STYLES.tableCell}>1%</td>
+                <td style={STYLES.tableCell}>$4.5 billion</td>
+                <td style={STYLES.tableCellLast}>$13 billion</td>
+              </tr>
+              <tr>
+                <td style={STYLES.tableCell}>0.1%</td>
+                <td style={STYLES.tableCell}>$450 million</td>
+                <td style={STYLES.tableCellLast}>$1.3 billion</td>
+              </tr>
+              <tr>
+                <td style={STYLES.tableCell}>0.01%</td>
+                <td style={STYLES.tableCell}>$45 million</td>
+                <td style={STYLES.tableCellLast}>$130 million</td>
+              </tr>
+              <tr>
+                <td style={STYLES.tableCell}>0.001%</td>
+                <td style={STYLES.tableCell}>$4.5 million</td>
+                <td style={STYLES.tableCellLast}>$13 million</td>
+              </tr>
+            </table>
+          </li>
+          <br />
+          <p>
+            As shown in the table above, securing even 0.001% of the market, which currently amounts to $4.5 million,
+            would be sufficient to sustain HonestyMeter&apos;s operations. By 2031, the market size is expected to grow,
+            making 0.001% of the market worth an estimated $13 million.
+          </p>
+          <Divider style={{ marginBottom: theme.spacing(2) }} />
+          <h2>
+            Additional Monetization Options
+          </h2>
+          <li>
+            <b>Ads and Affiliate Links</b><br /><br />
+            <u>Ads on Website:</u> Revenue from website advertisements.<br /><br />
+            <u>Affiliate Links:</u> Placement of affiliate links within bias reports linking to news websites.
+            Many news websites offer premium subscriptions and other products,
+            which could potentially generate referral income.
+            Currently, all links are regular, and even if a user coming from our link
+            purchases a service, we don&apos;t get any commission.
+            It can be easily changed if we decide to use this monetization method.<br /><br />
+            <u>Market Size:</u> Multimillion-dollar market with significant affiliate revenue.
+          </li>
+          <br /><br />
+          <li>
+            <h2>API Services</h2>
+            <p>
+              Analysis and Data Services: Suitable for publishers, news API providers, and
+              researchers.<br /><br />
+              API marketplace market size: was estimated at USD 13.74 billion in 2022 and is
+              expected to grow at a compound annual growth (CAGR) of 17.8% from 2023 to 2030.
+              (
+              Source: &nbsp;
+              <a href="https://www.grandviewresearch.com/industry-analysis/api-marketplace-market-report" target="_blank">
+                Grand View Research
+              </a>
+              )
+            </p>
+
+            <h3>
+              Core Project and Data Service Details
+            </h3>
+
+            <p>
+              Currently, the system is divided into two main parts:
+            </p>
+            <p>
+              1. The Core Project: This is a free tool that enables anyone to evaluate content for bias.
+              It is self-funded, self-maintained, and open-source, designed to make unbiased content analysis accessible to everyone.
+            </p>
+            <p>
+              2. Data Collection Service (Separate Private Entity): This service includes tools that scan news, create,
+              and save reports to our databases using our core report creation mechanism.
+              These reports enhance the general news integrity feed on the homepage and contribute to
+              a popular people integrity feed on the people page. In addition, these services generate
+              periodic ratings for the most praised and criticized individuals, as well as for the most
+              objective sources, using openly explained methodology.
+            </p>
+
+            <p>
+              Initially, we populated the database by manually using our main app, just as anyone else could.
+              However, we later developed an automated service for this task that uses the same evaluation logic.
+              It required purely backend logic that didn&apos;t fit into the serverless environment on which our app is currently running.
+              Therefore we deployed it as a separate service.
+              Recently, we realized that having a separate service capable of gathering large amounts of data,
+              enabling complex aggregations and data analysis, is not only convenient for updating our website
+              but also opens up potential avenues for future monetization opportunities.
+            </p>
+          </li>
+          <br />
+          <li>
+            <b>Other services and products based on HonestyMeter core technology</b><br /><br />
+            Honest News Portal: A subscription-based objective news service where the news is
+            rewritten to present only neutral facts without bias or opinions.<br /><br />
+            Premium Features: Custom report and advanced database search for commercial use.<br /><br />
+            Additional Services: Including Email and Chat Analysis, Rewriting Service for
+            Enhanced Objectivity, Video and Voice Meeting Analysis, and Chrome Extension
+            as a Freemium bias analysis report generator.<br /><br />
+            Market Potential: Multi-billion dollar potential in fields like digital
+            marketing, journalism, academic research, corporate communications, and
+            content verification.
+          </li>
+        </ul>
+        <h2>Monetization Strategies Summary</h2>
+        <p>
+          The brief overview of monetization options illustrates the
+          feasibility of combining free bias detection and a transparent methodology
+          with various monetization options that hold significant potential. This
+          combination enhances both the utility and financial viability of the project.
+        </p>
+        <p>
+          We want to emphasize that all potential monetization strategies listed above
+          are meant to increase the chances of sustaining and expanding
+          the system. Despite that, our main objective remains a FREE and OPEN framework.
+          If it&apos;s possible to sustain the project and provide all services listed above completely for FREE FOREVER,
+          we definitely prefer to keep it this way. If you have any ideas on how this can be achieved,
+          we&apos;d be thankful for you sharing them with us.
+          Your opinion is important to us. If you have any feedback on this matter, feel free to contact us and share your thoughts.
+        </p>
+        <Divider style={{ marginBottom: theme.spacing(2) }} />
         <h2 id="future-plans">{TEXTS.futurePlans.title}</h2>
         <p>
           {TEXTS.futurePlans.supportVideoandAudio}
@@ -465,6 +680,28 @@ const STYLES = {
     width: '100%',
     height: '100%'
   },
+  table: {
+    border: `solid 1px ${theme.palette.divider}`,
+    padding: theme.spacing(1),
+    borderRadius: theme.spacing(0.5),
+  },
+  tableHead: {
+    borderBottom: `solid 1px ${theme.palette.divider}`,
+  },
+  tableCell: {
+    borderRight: `solid 1px ${theme.palette.divider}`,
+    padding: theme.spacing(1),
+    margin: 0,
+  },
+  tableCellLast: {
+    padding: theme.spacing(1),
+    margin: 0,
+  },
+  list: {
+    paddingLeft: 0,
+  }
 }
+
+
 
 
