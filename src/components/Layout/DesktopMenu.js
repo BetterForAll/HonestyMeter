@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
@@ -10,16 +10,34 @@ import { number, func, arrayOf, string } from 'prop-types';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import { Link } from '@mui/material';
 import NextLink from 'next/link';
+import Badge from '../Badge/Badge';
+import BadgeIcon from '../Badge/BadgeIcon';
 
 
 export default function Menu({ currentPage, setCurrentPage, pageRoutes }) {
   const router = useRouter();
+  const { pathname = '/' } = router || {};
+  const isBadgePage = pathname === '/badge';
+  const [isBadgeActive, setIsBadgeActive] = useState(false);
+  const biasLevel = isBadgeActive ? 4 : 5; // indicates badge color
+
+  useEffect(() => {
+    setIsBadgeActive(isBadgePage);
+  }, [isBadgePage])
+
 
   const handleChange = (_, pageIndex) => {
     setCurrentPage(pageIndex);
+    setIsBadgeActive(false);
   };
 
   const onTabClick = (index) => (e) => handleChange(e, index)
+
+  const goToBadgePage = () => {
+    setCurrentPage(null);
+    setIsBadgeActive(true);
+  }
+
 
   return (
     <Box sx={STYLES.visibilityBlockContainer}>
@@ -40,6 +58,9 @@ export default function Menu({ currentPage, setCurrentPage, pageRoutes }) {
 
           </Tabs>
         </Box>
+        <NextLink href='/badge' onClick={goToBadgePage}>
+          <Badge biasLevel={biasLevel} isMenu isTooltipShownOnDesktop width='85px' showBadgeName fadeTimeout={0} showFullTooltip />
+        </NextLink>
         <Box sx={{ ...STYLES.iconsContainer, ...STYLES.flexCenter }}>
           <ContactIcon />
           <Link
@@ -64,7 +85,8 @@ const STYLES = {
     },
   },
   flexContainer: {
-    marginBottom: theme.spacing(3),
+    marginBottom: theme.spacing(0),
+    gap: theme.spacing(1),
   },
   tabsContainer: {
     maxWidth: { xs: 320, sm: 480 },
@@ -72,6 +94,7 @@ const STYLES = {
   },
   iconsContainer: {
     gap: theme.spacing(2),
+    marginLeft: theme.spacing(5),
   },
   flexCenter: {
     display: 'flex',
