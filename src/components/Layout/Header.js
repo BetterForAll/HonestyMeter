@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import logo from '../../../public/logo.png';
+import logo from '../../../public/logo2.png';
 import theme from '@/theme';
 import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
