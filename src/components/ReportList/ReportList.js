@@ -199,7 +199,7 @@ function ReportCard({
       <Box sx={REPORT_CARD_STYLES.image}>
         <img src={randomImageUrl} alt={TEXTS.imageAlt} loading='lazy' />
       </Box>
-      <Box sx={[REPORT_CARD_STYLES.objectivityScore]}>
+      <Box sx={REPORT_CARD_STYLES.objectivityScore}>
         <Typography>{TEXTS.objectivityScore}</Typography>
         <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
           <CircularProgressWithLabel value={objectivityScore} color={color} />
@@ -347,7 +347,7 @@ const REPORT_CARD_STYLES = {
   },
 };
 
-const getScoreStyle = (score) => {
+export const getScoreStyle = (score) => {
   let color;
   let content;
 

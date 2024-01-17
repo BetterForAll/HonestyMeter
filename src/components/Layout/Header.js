@@ -1,9 +1,10 @@
 import React from 'react';
 import Image from 'next/image';
-import logo from '../../../public/logo.png';
+import logo from '../../../public/logo2.png';
 import theme from '@/theme';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
+import Badge from '../Badge/Badge';
 
 const TEXTS = {
   imageAlt: 'Honesty Meter Logo',
@@ -15,16 +16,20 @@ export default function Header() {
       components="header"
       sx={STYLES.container}
     >
-      <Link href="/">
-        <Box sx={STYLES.imageContainer}>
+      <Box sx={STYLES.imageContainer}>
+        <Link href="/">
           <Image
             src={logo}
             alt={TEXTS.imageAlt}
             style={STYLES.image}
           />
-        </Box>
-      </Link>
-    </Box>
+        </Link>
+      </Box>
+      <Box sx={STYLES.subtitleContainer} >
+        <Typography variant='body2' sx={STYLES.subtitle}>Media Manipulation and Bias Detection</Typography>
+        <Typography variant='body2' sx={STYLES.subtitle}>Auto-Improving with AI and User Feedback</Typography>
+      </Box>
+    </Box >
   );
 }
 
@@ -46,10 +51,34 @@ const STYLES = {
     height: {
       xs: '91px',
       md: '107px',
-    }
+    },
+    display: 'flex',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    marginBottom: { xs: theme.spacing(1), sm: theme.spacing(2) },
   },
   image: {
     width: '100%',
     height: 'auto'
   },
+  subtitleContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    marginBottom: {
+      xs: theme.spacing(2),
+      sm: 0,
+    },
+    marginTop: {
+      xs: 0,
+      sm: 1
+    }
+  },
+  subtitle: {
+    fontSize: theme.typography.fontSize * 0.875,
+    color: theme.palette.text.secondary,
+    textAlign: 'center',
+    fontStyle: 'italic',
+  },
+
 }

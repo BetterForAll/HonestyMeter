@@ -58,7 +58,8 @@ const STYLES = {
     gap: theme.spacing(4),
     flexWrap: 'wrap',
     width: '100%',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    pointerEvents: 'none',
   }
 }
 

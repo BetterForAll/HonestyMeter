@@ -30,33 +30,47 @@ export default function Pagination({
   isScrollUpIconShown,
 }) {
   const router = useRouter();
-  const pageParams = getPageParams(page, router);
+  const pageParams = getPageParams(page, router, isFirstPage, isLastPage);
 
-  const onStartClick = () => {
+  const onStartClick = (e) => {
+    if (isFirstPage) {
+      e.preventDefault();
+
+      return;
+    }
+
     va.track(EVENT.skipToFirstPageClicked, { page });
     onClick && onClick();
   };
 
-  const handlePageChange = (direction) => () => {
-    const event = EVENT.pageChanged(direction)
+  const handlePageChange = (directionText, directionNumber) => (e) => {
+    const shouldIgnore = (directionNumber === -1 && isFirstPage) || (directionNumber === 1 && isLastPage);
+
+    if (shouldIgnore) {
+
+      e.preventDefault();
+      return;
+    }
+
+    const event = EVENT.pageChanged(directionText)
     va.track(event, { page });
     onChange && onChange();
   };
 
   return (
     <Box sx={STYLES.pagination}>
-      <Link href={pageParams.first} aria-label={TEXTS.skipToFirstPage} rel="start">
-        <Button disabled={isFirstPage} onClick={onStartClick}>
+      <Link href={pageParams.first} aria-label={TEXTS.skipToFirstPage} rel="start" disabled={isFirstPage} onClick={onStartClick} style={STYLES.link(isFirstPage)}>
+        <Button disabled={isFirstPage}>
           <SkipPreviousIcon fontSize='large' sx={STYLES.skipIcon} />
         </Button>
       </Link>
-      <Link href={pageParams.prev} aria-label={TEXTS.previousPage} rel="prev">
-        <Button disabled={isFirstPage} onClick={handlePageChange(TEXTS.nextPage)}>
+      <Link href={pageParams.prev} aria-label={TEXTS.previousPage} rel="prev" disabled={isFirstPage} onClick={handlePageChange(TEXTS.previousPage, -1)} style={STYLES.link(isFirstPage)}>
+        <Button disabled={isFirstPage} >
           <ArrowLeftIcon fontSize='large' />
         </Button>
       </Link>
-      <Link href={pageParams.next} aria-label={TEXTS.nextPage} rel="next">
-        <Button disabled={isLastPage} onClick={handlePageChange(TEXTS.previousPage)}>
+      <Link href={pageParams.next} aria-label={TEXTS.nextPage} rel="next" disabled={isLastPage} onClick={handlePageChange(TEXTS.nextPage, +1)} style={STYLES.link(isLastPage)}>
+        <Button disabled={isLastPage} >
           <ArrowRightIcon fontSize='large' />
         </Button>
       </Link>
@@ -87,15 +101,15 @@ function GenerateLinkWithUpdatedQueryParam(key, value, router) {
 };
 
 
-function getPageParams(page, router) {
+function getPageParams(page, router, isFirstPage, isLastPage) {
   const nextPage = parseInt(page) + 1;
   const prevPage = parseInt(page) - 1;
   const nextPageParamsString = GenerateLinkWithUpdatedQueryParam(PAGE_QUERY_PARAM_KEY, nextPage, router);
   const prevPageParamsString = GenerateLinkWithUpdatedQueryParam(PAGE_QUERY_PARAM_KEY, prevPage, router);
   const firstPageParamsString = GenerateLinkWithUpdatedQueryParam(PAGE_QUERY_PARAM_KEY, 1, router);
-  const nextPageLink = `${router.pathname}${nextPageParamsString}`;
-  const prevPageLink = `${router.pathname}${prevPageParamsString}`;
-  const firstPageLink = `${router.pathname}${firstPageParamsString}`;
+  const nextPageLink = isLastPage ? EMPTY_STRING : `${router.pathname}${nextPageParamsString}`;
+  const prevPageLink = isFirstPage ? EMPTY_STRING : `${router.pathname}${prevPageParamsString}`;
+  const firstPageLink = isFirstPage ? EMPTY_STRING : `${router.pathname}${firstPageParamsString}`;
 
   return {
     prev: prevPageLink,
@@ -116,5 +130,8 @@ const STYLES = {
   },
   ejectIcon: {
     transform: 'scale(0.60)'
-  }
+  },
+  link: (isEdgePage) => ({
+    cursor: isEdgePage && 'default'
+  })
 };

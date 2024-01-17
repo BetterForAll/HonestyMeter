@@ -38,6 +38,7 @@ import Collapse from '@mui/material/Collapse';
 import { getLastRating } from './api/rating';
 import { Rating } from '@/components/RatingList/Rating';
 import { MethodologySourcesRating } from '@/components/Methodology/Methodology';
+import Badge from '../components/Badge/Badge';
 
 const LOGO_URL = 'https://honestymeter.com/favicon.png';
 const OPEN_GRAPH_IMAGE_URL = 'https://honestymeter.com/opengraph-logo.png';
@@ -89,7 +90,7 @@ const FILTER_PARAMS = {
   category: 'category',
 }
 
-export default function Home({ homePageProps, reports, page, isFirstPage, isLastPage, date, rating }) { //TODO: add rating back to props
+export default function Home({ homePageProps, reports, page, isFirstPage, isLastPage, date, rating }) { 
   const router = useRouter();
   const {
     [FILTER_PARAMS.searchTerm]: searchFromQuery = EMPTY_STRING,
@@ -218,14 +219,11 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
       {getHtmlHead(router.asPath)}
       {
         <Box sx={STYLES.container} key={reports}>
-          <Typography variant='h2' sx={STYLES.title}>
-            {TEXTS.title}
-          </Typography>
-          {/* TODO: Decide if we want to show the subtitle */}
-
-          {/* <Typography variant='body1' sx={STYLES.subtitle}>
-            {TEXTS.subtitle}
-          </Typography> */}
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: theme.spacing(3) }}>
+            <Typography variant='h2' sx={STYLES.title}>
+              {TEXTS.title}
+            </Typography>
+          </Box>
           {
             isFirstPage &&
             <Rating {...{
@@ -235,6 +233,7 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
               titleColor: theme.palette.primary.main,
               Methodology: MethodologySourcesRating
             }} />}
+
           <Box sx={{
             display: 'flex',
             flexWrap: 'wrap',
@@ -243,6 +242,7 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
             alignItems: 'center',
             marginBottom: 2,
             marginTop: 1,
+            width: '100%',
           }}>
             <CreateReportButton
               onClick={toggleArticleInput(true)}
@@ -254,7 +254,6 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-
               {/* TODO: Decide if we want to use filter*/}
               {/* <Tooltip
                 title={isFilterShown ? 'Remove filter' : 'Filter by Category and Country'}>
@@ -268,7 +267,6 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
                   }
                 </Button>
               </Tooltip> */}
-
               <Tooltip title={searchIconTooltip}>
                 <Button onClick={toggleSearch}>
                   {(isSearchShown) ?
@@ -277,11 +275,33 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
                     }} />
                     :
                     <SearchIcon sx={{ color: theme.palette.text.secondary }} />
-
                   }
                 </Button>
               </Tooltip>
             </Box>
+            {
+              <Collapse in={isTopArticleInputShown} sx={STYLES.articleInputContainer}>
+                <Box sx={STYLES.articleInputContainer}>
+                  {isUrlProvidedAsInput && (
+                    <Typography
+                      sx={STYLES.articleTextExtracted}
+                    >
+                      {TEXTS.articleTextExtracted}
+                      &nbsp;
+                      <a href={WOLRD_NEWS_API_URL} target='_blank' rel='noreferrer'>
+                        {TEXTS.worldNewsApi}
+                      </a>
+                    </Typography>
+                  )}
+                  <AtricleInput
+                    article={article}
+                    onArticleChange={handleArticleChange}
+                    onGetReport={handleGetReport}
+                    isUrlProvidedAsInput={isUrlProvidedAsInput}
+                  />
+                </Box>
+              </Collapse>
+            }
           </Box>
           {
             <Collapse in={isSearchShown}>
@@ -330,32 +350,6 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
               </Box>
             </Collapse>
           }
-
-          {
-            <Collapse in={isTopArticleInputShown} sx={STYLES.articleInputContainer}>
-              <Box sx={STYLES.articleInputContainer}>
-                {isUrlProvidedAsInput && (
-                  <Typography
-                    sx={STYLES.articleTextExtracted}
-                  >
-                    {TEXTS.articleTextExtracted}
-                    &nbsp;
-                    <a href={WOLRD_NEWS_API_URL} target='_blank' rel='noreferrer'>
-                      {TEXTS.worldNewsApi}
-                    </a>
-                  </Typography>
-                )}
-
-                <AtricleInput
-                  article={article}
-                  onArticleChange={handleArticleChange}
-                  onGetReport={handleGetReport}
-                  isUrlProvidedAsInput={isUrlProvidedAsInput}
-                />
-              </Box>
-            </Collapse>
-          }
-
           {/*TODO: decide if we need the chips*/}
           {/* {
             <List sx={{
@@ -406,15 +400,17 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
               <Pagination {...{ page, isFirstPage, isLastPage }} isScrollUpIconShown />
             </Box>
           )}
-          {
+          {/* TODO: fix scroll position when article input is open */}
+          {/* {
+
             shouldShowBottomCTA &&
+            <>
             <Box sx={{ marginBottom: 2 }}>
               <CreateReportButton
                 onClick={toggleArticleInput(false)}
                 isArticleInputShown={isBottomArticleInputShown}
               />
             </Box>
-          }
           <Collapse in={isBottomArticleInputShown} sx={STYLES.articleInputContainer}>
             <Box sx={STYLES.articleInputContainer}>
               <AtricleInput
@@ -424,6 +420,8 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
               />
             </Box>
           </Collapse>
+          </>
+          } */}
           <Box sx={{ marginTop: theme.spacing(2) }}>
             <Share
               title={TEXTS.shareTitle}
@@ -439,7 +437,6 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
     </>
   );
 }
-
 
 function getHtmlHead(asPath) {
   const queryString = getQueryStringByAsPath(asPath);
@@ -489,38 +486,40 @@ function getNotFoundText(countryFromQuery, categoryFromQuery, searchFromQuery) {
 export async function getServerSideProps(context) {
   const { req } = context;
   const host = req?.headers?.host;
-  const { page = 1, searchTerm = '', country = '', category = '' } = context.query || {};
+  const { page = '1', searchTerm = '', country = '', category = '' } = context.query || {};
   const isFirstPage = page == 1;
   const categoryParam = category ? `&category=${category}` : EMPTY_STRING;
   const countryParam = country ? `&country=${country}` : EMPTY_STRING;
-  const searchTermParam = `&searchTerm=${searchTerm}`;
-  const url = `http://${host}/${API_URL.SAVED_REPORT}?page=${page}${searchTermParam}${categoryParam}${countryParam}`;
+  const searchTermParam = searchTerm ? `&searchTerm=${searchTerm}` : EMPTY_STRING;
+  const url = `http://${host}/api/saved_report?page=${page}${searchTermParam}${categoryParam}${countryParam}`;
 
   try {
-    const res = await fetch(url);
-    const { data } = await res.json();
-    const { reports, isLastPage } = data;
-    const rating = await getLastRating();
+    const res = await fetch(url) || {};
+    const { data } = await res.json()
+    const { reports = [], isLastPage } = data || {};
+    const rating = await getLastRating() || {};
     const { mostObjectiveSources, createdAt: createdAtDate } = rating || {};
     const createdAtISOString = createdAtDate.toISOString();
     const createdAt = convertUTCDateToUserTimeZone(createdAtISOString).split(',')[0].trim();
     const date = new Date().toLocaleString();
 
-    return {
-      props: {
-        reports,
-        page,
-        isFirstPage,
-        isLastPage,
-        date,
-        rating: {
-          mostObjectiveSources,
-          createdAt
-        }
+    const props = {
+      reports,
+      page,
+      isFirstPage,
+      isLastPage: false,
+      date,
+      rating: {
+        mostObjectiveSources,
+        createdAt
       }
+    }
+
+    return {
+      props
     };
   } catch (error) {
-    console.log({ error });
+    console.error({ error });
   }
 }
 
@@ -561,7 +560,7 @@ const STYLES = {
   },
   articleInputContainer: {
     width: '100%',
-    margin: '0 auto auto',
+    margin: `${theme.spacing(1)} auto auto`,
     padding: theme.spacing(0, 2, 2, 2),
   },
   articleTextExtracted: {

@@ -18,6 +18,10 @@ export const PAGE_URL_TO_INDEX_MAP = {
   '/report/[reportId]': -1,
   '/about': 2,
   '/terms': 3,
+  '/badge': -1,
+  '/badge/fair': -1,
+  '/badge/medium': -1,
+  '/badge/high': -1,
 };
 export const EMPTY_STRING = '';
 export const SPACE = ' ';
