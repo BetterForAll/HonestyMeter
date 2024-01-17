@@ -48,40 +48,27 @@ export default function ReportHeader({
 
   return (
     <Paper elevation={2} sx={STYLES.paper}>
-      <Box sx={STYLES.objectivityScore}>
-        <Box sx={{ width: { xs: '100%', sm: '300px' }, display: 'flex', gap: theme.spacing(1), justifyContent: 'space-between', alignItems: 'center' }}>
+      <Box sx={STYLES.topContainer}>
+        <Box sx={STYLES.scoreContainer}>
           <Typography sx={{
             fontWeight: theme.typography.fontWeightMedium,
           }}>{TEXTS.score}</Typography>
-          <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center', }}>
+          <Box sx={STYLES.scoreCircularProgressContainer}>
             <CircularProgressWithLabel value={score} color={color} />
           </Box>
-          <Typography sx={{ color, textAlign: 'right' }}>{content}</Typography>
+          <Typography sx={STYLES.scoreText(color)}>{content}</Typography>
         </Box>
-        <Box sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: { xs: 'flex-start', sm: 'center' },
-          flex: { xs: 1, sm: 0.82 },
-          paddingBottom: theme.spacing(1),
-          gap: theme.spacing(2),
-        }}>
-          <Box sx={{ transform: { xs: 'translateX(0)', md: 'translateX(-34px)' } }} onClick={(e) => e.stopPropagation()}>
+        <Box sx={STYLES.badgeAndShareContainer}>
+          <Box sx={STYLES.badgeContainer} onClick={(e) => e.stopPropagation()}>
             <Link href={badgeUrl} style={{ textDecoration: 'none' }}>
               <Badge biasLevel={biasLevel} showBadgeName showTitle showSubtitle isTooltipShownOnDesktop showFullTooltip height='100px' />
             </Link>
           </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingBottom: { xs: 0, sm: theme.spacing(1) } }} >
+          <Box sx={STYLES.shareContainer} >
             <Share {...shareProps} showCtaLine1={false} showCtaLine2={false} />
           </Box>
         </Box>
       </Box>
-      {/* <Typography variant="h2" sx={STYLES.score}>
-        {TEXTS.score}:&nbsp;&nbsp;{score}&nbsp;
-        <Typography component='span' variant='h2' sx={STYLES.score}>
-          {TEXTS.outOf100}
-        </Typography>
-      </Typography> */}
       {
         articleTitle &&
         <Box variant="subtitle1" sx={STYLES.articleDetails}>
@@ -90,7 +77,7 @@ export default function ReportHeader({
               {TEXTS.articleTitle}:
               &nbsp;
             </Typography>
-            <Typography component='h1' style={{ display: 'inline-block' }}>
+            <Typography component='h1' style={STYLES.articleTitleText}>
               {articleTitle}.
               &nbsp;
             </Typography>
@@ -147,15 +134,45 @@ const STYLES = {
     position: 'relative',
     marginBottom: theme.spacing(4)
   },
-  score: {
-    fontSize: theme.typography.fontSize * 1.5,
-    fontWeight: theme.typography.fontWeightMedium,
-    marginBottom: theme.spacing(2),
-    '& > span': {
-      color: theme.palette.text.secondary,
+  scoreContainer: { 
+    width: { xs: '100%', sm: '300px' },
+    display: 'flex', gap: theme.spacing(1),
+    justifyContent: 'space-between', 
+    alignItems: 'center' 
+  },
+  scoreCircularProgressContainer:{
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'center' 
+  },  
+  scoreText:(color)=> ({
+     color,
+      textAlign: 'right'
+  }),
+  badgeAndShareContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: { xs: 'flex-start', sm: 'center' },
+    flex: { xs: 1, sm: 0.82 },
+    paddingBottom: theme.spacing(1),
+    gap: theme.spacing(2),
+  },
+  badgeContainer: { 
+    transform: { 
+      xs: 'translateX(0)',
+      md: 'translateX(-34px)' 
+    } 
+  },
+  shareContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center', 
+    paddingBottom: { 
+      xs: 0,
+      sm: theme.spacing(1) 
     }
   },
-  objectivityScore: {
+  topContainer: {
     color: theme.palette.text.secondary,
     margin: 'auto',
     marginBottom: theme.spacing(1),
@@ -178,6 +195,9 @@ const STYLES = {
   articleTitle: {
     fontWeight: theme.typography.fontWeightMedium,
     marginBottom: theme.spacing(3),
+  },
+  articleTitleText: { 
+    display: 'inline-block'
   },
   articleDate: {
     fontSize: theme.typography.fontSize,

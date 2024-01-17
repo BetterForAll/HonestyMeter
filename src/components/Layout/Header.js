@@ -29,10 +29,6 @@ export default function Header() {
         <Typography variant='body2' sx={STYLES.subtitle}>Media Manipulation and Bias Detection</Typography>
         <Typography variant='body2' sx={STYLES.subtitle}>Auto-Improving with AI and User Feedback</Typography>
       </Box>
-      {/* <Box
-        style={{ margin: theme.spacing(1), width: '100%', display: 'flex', justifyContent: 'flex-end', marginRight: '32px', position: 'absolute', top: '48px' }}>
-        <Badge width='80px' height='80px' biasLevel={3} showTitle={false} showSubtitle={false} showComment={false} showBadgeName={true} />
-      </Box> */}
     </Box >
   );
 }

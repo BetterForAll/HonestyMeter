@@ -16,14 +16,14 @@ export default function BadgeIcon({
         setBadgeIconId(`badge-icon-${badgeIconIdCounter++}`);
     }, []);
 
-    const symbolId41 = `symbol-41-${badgeIconId}`;
-    const symbolId39 = `symbol-39-${badgeIconId}`;
-    const symbolId46 = `symbol-46-${badgeIconId}`;
+    const symbolId1 = `symbol-1-${badgeIconId}`;
+    const symbolId2 = `symbol-2-${badgeIconId}`;
+    const symbolId3 = `symbol-3-${badgeIconId}`;
 
     return (
         <svg width={width} height={height} viewBox="0 0 512 512">
             <defs>
-                <symbol height="200px" id={symbolId41} viewBox="0 0 512.00 512.00" width="200px">
+                <symbol height="200px" id={symbolId1} viewBox="0 0 512.00 512.00" width="200px">
                     <g strokeWidth="0" />
                     <g strokeLinecap="round" strokeLinejoin="round" />
                     <g>
@@ -42,7 +42,7 @@ export default function BadgeIcon({
                     </g>
                 </symbol>
                 {showBadgeName &&
-                    <symbol height="200px" id={symbolId39} width="200px">
+                    <symbol height="200px" id={symbolId2} width="200px">
                         <defs>
                             <path id={`path-${badgeIconId}`} d="m50,100a50,50 0 1 1 100,0a50,50 0 1 1 -100,0" fill="none" />
                         </defs>
@@ -52,15 +52,15 @@ export default function BadgeIcon({
                     </symbol>
                 }
 
-                <symbol height="512" id={symbolId46} width="512">
+                <symbol height="512" id={symbolId3} width="512">
                     <g className="layer">
-                        <use transform="matrix(1.79633 0 0 1.87783 -365.715 -407.233)" x="261.6" href={`#${symbolId41}`} y="259.49" />
-                        {showBadgeName && <use transform="matrix(4.05041 0 0 3.81059 -100.444 -66.947)" x="-5.32" href={`#${symbolId39}`} y="-19.5" />}
+                        <use transform="matrix(1.79633 0 0 1.87783 -365.715 -407.233)" x="261.6" href={`#${symbolId1}`} y="259.49" />
+                        {showBadgeName && <use transform="matrix(4.05041 0 0 3.81059 -100.444 -66.947)" x="-5.32" href={`#${symbolId2}`} y="-19.5" />}
                     </g>
                 </symbol>
             </defs>
             <g className="layer">
-                <use transform="matrix(1.02109 0 0 0.973579 -32.1356 9.94736)" x="1.02" href={`#${symbolId46}`} y="15.53" />
+                <use transform="matrix(1.02109 0 0 0.973579 -32.1356 9.94736)" x="1.02" href={`#${symbolId3}`} y="15.53" />
             </g>
         </svg>
     );

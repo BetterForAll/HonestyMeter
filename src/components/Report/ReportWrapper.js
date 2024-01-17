@@ -19,7 +19,6 @@ import Disclamer from '../Disclamer';
 import Badge from '../Badge/Badge';
 import Link from 'next/link';
 
-
 const TEXTS = {
   title: 'Bias report',
   subtitle: 'HonestyMeter - AI powered bias detection',
@@ -53,7 +52,7 @@ function ReportWrapper({ report = {}, shareLevel }) {
       <Box sx={STYLES.copyToClipboardContainer}>
         <CopyToClipboard copyText={shareUrl} />
       </Box>
-      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+      <Box sx={STYLES.botttomCloseButton}>
         <Button
           variant='outlined'
           size='large'
@@ -80,16 +79,13 @@ function ReportWrapperHeader({ onCloseReportClick = EMPTY_FUNCTION, biasLevel, s
   return (
     <Box>
       <Box sx={STYLES.header}>
-        <EmptyElement sx={{ width: theme.spacing(3) }} />
-        {/* <Link style={STYLES.badgeContainer} href='/badge'>
-          <Badge width='100px' height='50px' biasLevel={biasLevel} fadeTimeout={0} showTitle showFullTooltip />
-        </Link> */}
-        <Box sx={{ width: '100%' }}>
+        <EmptyElement sx={STYLES.emptyElement} />
+        <Box sx={STYLES.headerContent}>
           <Typography variant='h4' sx={STYLES.title}>
             {TEXTS.title}
           </Typography>
           <Typography sx={STYLES.subtitle}>{TEXTS.subtitle}</Typography>
-          <Typography sx={{ ...STYLES.subtitle, marginTop: theme.spacing(1), color: theme.palette.text.primary, fontSize: theme.typography.fontSize * 0.75, fontWeight: theme.typography.fontWeightMedium }}>
+          <Typography sx={[STYLES.subtitle, STYLES.feedbackCta]}>
             CLICK ANY SECTION TO GIVE FEEDBACK, IMPROVE THE REPORT, SHAPE A FAIRER WORLD!
           </Typography>
         </Box>
@@ -97,31 +93,6 @@ function ReportWrapperHeader({ onCloseReportClick = EMPTY_FUNCTION, biasLevel, s
           title={closeIconTooltipTitle}
           onClick={onCloseReportClick}
         />
-      </Box>
-      <Box sx={{
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: theme.spacing(2),
-        margin: theme.spacing(1, 0)
-      }}>
-        {/* <EmptyElement sx={{
-          width: {
-            xs: '0',
-            sm: '128px',
-          },
-          display: {
-            xs: 'none',
-            sm: 'block',
-          }
-        }} /> */}
-        {/* <Link style={STYLES.badgeContainer} href='/badge'>
-          <Badge biasLevel={biasLevel} fadeTimeout={0} height='80px' showBadgeName showTitle showFullTooltip />
-        </Link> */}
-        {/* <Box>
-          <Share {...shareProps} />
-        </Box> */}
       </Box>
     </Box>
   );
@@ -172,9 +143,12 @@ const STYLES = {
   },
   closeButton: {
     width: '200px',
-    // marginLeft: 'calc(100% - 200px)',
     marginBottom: theme.spacing(2),
-    // marginTop: theme.spacing(2),
+  },
+  botttomCloseButton: {
+    width: '100%', 
+    display: 'flex', 
+    justifyContent: 'center' 
   },
   title: {
     marginBottom: theme.spacing(1),
@@ -208,12 +182,24 @@ const STYLES = {
     width: '100%',
     position: 'relative'
   },
+  headerContent: {
+    width: '100%'
+  },
+  emptyElement: {
+    width: theme.spacing(3)
+  },
   copyToClipboardContainer: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     margin: theme.spacing(2, 0, 4, 0),
   },
+  feedbackCta: {
+    margin: theme.spacing(1,0),
+    color: theme.palette.text.primary,
+    fontSize: theme.typography.fontSize * 0.75,
+    fontWeight: theme.typography.fontWeightMedium
+  }
 };
 
 export default ReportWrapper;

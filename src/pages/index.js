@@ -220,21 +220,10 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
       {
         <Box sx={STYLES.container} key={reports}>
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: theme.spacing(3) }}>
-
-            {/* <Box></Box> */}
             <Typography variant='h2' sx={STYLES.title}>
               {TEXTS.title}
             </Typography>
-            {/* <Box sx={{ position: 'relative', bottom: '0' }}>
-              <Badge width='80px' height='80px' showBadgeName biasLevel={3} />
-            </Box> */}
           </Box>
-
-          {/* TODO: Decide if we want to show the subtitle */}
-
-          {/* <Typography variant='body1' sx={STYLES.subtitle}>
-            {TEXTS.subtitle}
-          </Typography> */}
           {
             isFirstPage &&
             <Rating {...{
@@ -265,7 +254,6 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-
               {/* TODO: Decide if we want to use filter*/}
               {/* <Tooltip
                 title={isFilterShown ? 'Remove filter' : 'Filter by Category and Country'}>
@@ -279,7 +267,6 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
                   }
                 </Button>
               </Tooltip> */}
-
               <Tooltip title={searchIconTooltip}>
                 <Button onClick={toggleSearch}>
                   {(isSearchShown) ?
@@ -363,9 +350,6 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
               </Box>
             </Collapse>
           }
-
-
-
           {/*TODO: decide if we need the chips*/}
           {/* {
             <List sx={{
@@ -454,7 +438,6 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
   );
 }
 
-
 function getHtmlHead(asPath) {
   const queryString = getQueryStringByAsPath(asPath);
   const canonicalUrl = `${BASE_URL}${queryString ? `/${queryString}` : EMPTY_STRING}`;
@@ -503,16 +486,12 @@ function getNotFoundText(countryFromQuery, categoryFromQuery, searchFromQuery) {
 export async function getServerSideProps(context) {
   const { req } = context;
   const host = req?.headers?.host;
-  console.error('HOST', host)
   const { page = '1', searchTerm = '', country = '', category = '' } = context.query || {};
   const isFirstPage = page == 1;
   const categoryParam = category ? `&category=${category}` : EMPTY_STRING;
   const countryParam = country ? `&country=${country}` : EMPTY_STRING;
   const searchTermParam = searchTerm ? `&searchTerm=${searchTerm}` : EMPTY_STRING;
   const url = `http://${host}/api/saved_report?page=${page}${searchTermParam}${categoryParam}${countryParam}`;
-
-  console.error('PARAMS***', { page, searchTerm, country, category, url })
-
 
   try {
     const res = await fetch(url) || {};
@@ -523,8 +502,6 @@ export async function getServerSideProps(context) {
     const createdAtISOString = createdAtDate.toISOString();
     const createdAt = convertUTCDateToUserTimeZone(createdAtISOString).split(',')[0].trim();
     const date = new Date().toLocaleString();
-
-    console.error('DATA$$$', { data, reports, isLastPage })
 
     const props = {
       reports,
@@ -537,8 +514,6 @@ export async function getServerSideProps(context) {
         createdAt
       }
     }
-
-    console.error('HOMEPAGE SERVER SIDE PROPS######', props)
 
     return {
       props

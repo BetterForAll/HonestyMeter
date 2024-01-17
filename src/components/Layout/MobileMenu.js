@@ -13,15 +13,15 @@ import InfoIcon from "@mui/icons-material/Info";
 import GavelIcon from "@mui/icons-material/Gavel";
 import MenuIcon from "@mui/icons-material/Menu";
 import GroupsIcon from "@mui/icons-material/Groups";
-import { EMPTY_STRING, GITHUB_URL, PAGE_LABELS } from "@/constants/constants";
-import theme from "@/theme";
-import { EMAIL_ADDRESS } from "@/constants/constants";
-import { useRouter } from "next/router";
-import { func, arrayOf, string } from "prop-types";
 import { Tooltip } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
+import theme from "@/theme";
+import { useRouter } from "next/router";
+import { func, arrayOf, string } from "prop-types";
 import Link from "next/link";
 import Badge from "../Badge/Badge";
+import { EMPTY_STRING, GITHUB_URL, PAGE_LABELS } from "@/constants/constants";
+import { EMAIL_ADDRESS } from "@/constants/constants";
 
 const MAIL_TO_PREFIX = "mailto:";
 const MAIL_TO = MAIL_TO_PREFIX + EMAIL_ADDRESS;
@@ -51,7 +51,6 @@ export default function MobileMenu({
   const [isOpen, setIsOpen] = useState(false);
   const [isBadgeActive, setIsBadgeActive] = useState(isBadgePage);
   const biasLevel = isBadgeActive ? 4 : 5; // indicates badge color
-
 
   useEffect(() => {
     setIsBadgeActive(isBadgePage);
@@ -116,19 +115,13 @@ export default function MobileMenu({
   return (
     <Box sx={STYLES.visibilityContainer}>
       <Box sx={{ ...STYLES.flexContainer, position: 'relative', alignItems: 'center' }}>
-        <Link sx={{
-          position: 'absolute',
-          bottom: '5px',
-          right: '68px',
-          width: '70px',
-          height: '70px',
-        }}
+        <Link sx={STYLES.badgeLink}
           href='/badge'
           onClick={goToBadgePage}
         >
           <Badge biasLevel={biasLevel} isMenu width="70px" height="70px" showBadgeName fadeTimeout={0} />
         </Link>
-        <IconButton onClick={toggleDrawer(true)} sx={{ height: '40px' }}>
+        <IconButton onClick={toggleDrawer(true)} sx={STYLES.iconButton}>
           <MenuIcon />
         </IconButton>
         <Drawer
@@ -158,8 +151,17 @@ const STYLES = {
     justifyContent: "flex-end",
     padding: theme.spacing(0, 2, 2, 0),
   },
+  badgeLink: {
+    position: 'absolute',
+    bottom: '5px',
+    right: '68px',
+    width: '70px',
+    height: '70px',
+  },
+  iconButton: {
+    height: '40px'
+  }
 };
-
 
 function getLinkData(index, pageRoutes) {
   const isContact = index === 4;
