@@ -41,7 +41,8 @@ export default function BadgeIcon({
                         </g>
                     </g>
                 </symbol>
-                {showBadgeName &&
+                {
+                    showBadgeName &&
                     <symbol height="200px" id={symbolId2} width="200px">
                         <defs>
                             <path id={`path-${badgeIconId}`} d="m50,100a50,50 0 1 1 100,0a50,50 0 1 1 -100,0" fill="none" />
@@ -51,7 +52,6 @@ export default function BadgeIcon({
                         </text>
                     </symbol>
                 }
-
                 <symbol height="512" id={symbolId3} width="512">
                     <g className="layer">
                         <use transform="matrix(1.79633 0 0 1.87783 -365.715 -407.233)" x="261.6" href={`#${symbolId1}`} y="259.49" />
