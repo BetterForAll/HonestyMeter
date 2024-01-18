@@ -314,7 +314,7 @@ export default function About() {
             style={STYLES.image}
           />
         </Box>
-        <div class="content">
+        <div>
           <h2>Technical Challenges and Solutions</h2>
           <p>The current version of HonestyMeter is an experimental demo.
             There is significant room for improvement in terms of the depth, accuracy, and consistency of the reports, for the following reasons:</p>
@@ -445,31 +445,33 @@ export default function About() {
             (Source: <a href='https://www.businessresearchinsights.com/market-reports/content-marketing-market-103375' target='_blank'>Business Research Insights</a>)
             <br /><br />
             <table style={STYLES.table}>
-              <tr>
-                <th style={STYLES.tableCell}>Market Share</th>
-                <th style={STYLES.tableCell}>2023 Revenue Projection</th>
-                <th style={STYLES.tableCellLast}>2031 Revenue Projection</th>
-              </tr>
-              <tr>
-                <td style={STYLES.tableCell}>1%</td>
-                <td style={STYLES.tableCell}>$4.5 billion</td>
-                <td style={STYLES.tableCellLast}>$13 billion</td>
-              </tr>
-              <tr>
-                <td style={STYLES.tableCell}>0.1%</td>
-                <td style={STYLES.tableCell}>$450 million</td>
-                <td style={STYLES.tableCellLast}>$1.3 billion</td>
-              </tr>
-              <tr>
-                <td style={STYLES.tableCell}>0.01%</td>
-                <td style={STYLES.tableCell}>$45 million</td>
-                <td style={STYLES.tableCellLast}>$130 million</td>
-              </tr>
-              <tr>
-                <td style={STYLES.tableCell}>0.001%</td>
-                <td style={STYLES.tableCell}>$4.5 million</td>
-                <td style={STYLES.tableCellLast}>$13 million</td>
-              </tr>
+              <tbody>
+                <tr>
+                  <th style={STYLES.tableCell}>Market Share</th>
+                  <th style={STYLES.tableCell}>2023 Revenue Projection</th>
+                  <th style={STYLES.tableCellLast}>2031 Revenue Projection</th>
+                </tr>
+                <tr>
+                  <td style={STYLES.tableCell}>1%</td>
+                  <td style={STYLES.tableCell}>$4.5 billion</td>
+                  <td style={STYLES.tableCellLast}>$13 billion</td>
+                </tr>
+                <tr>
+                  <td style={STYLES.tableCell}>0.1%</td>
+                  <td style={STYLES.tableCell}>$450 million</td>
+                  <td style={STYLES.tableCellLast}>$1.3 billion</td>
+                </tr>
+                <tr>
+                  <td style={STYLES.tableCell}>0.01%</td>
+                  <td style={STYLES.tableCell}>$45 million</td>
+                  <td style={STYLES.tableCellLast}>$130 million</td>
+                </tr>
+                <tr>
+                  <td style={STYLES.tableCell}>0.001%</td>
+                  <td style={STYLES.tableCell}>$4.5 million</td>
+                  <td style={STYLES.tableCellLast}>$13 million</td>
+                </tr>
+              </tbody>
             </table>
           </li>
           <br />
