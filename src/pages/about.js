@@ -8,7 +8,7 @@ import Share from '@/components/Share';
 import Head from 'next/head';
 import { PAGE_ABSOLUTE_URL } from '@/constants/constants';
 
-//TODO: replace html tags with Material UI components, optionally - divide to components
+//TODO: replace html tags with Material UI components, optionally - divide to components, move all texts to constants
 const LOGO_URL = 'https://honestymeter.com/favicon.ico';
 const ARTICLE_URL = 'https://martechseries.com/predictive-ai/ai-platforms-machine-learning/honestymeter-ai-powered-pioneer-for-unbiased-media-integrity-and-transparency';
 const VIDEO_URL = 'https://player.vimeo.com/video/820300228';
@@ -194,6 +194,25 @@ export default function About() {
         <p>
           {TEXTS.introduction.solution}
         </p>
+        <h3>What Sets HonestyMeter Apart in Media Analysis?</h3>
+        <ul style={STYLES.list}>
+          <li>
+            <h4>Specialized Focus on Manipulations in Factual Information Presentation</h4>
+            <p>Unlike basic fact-checking and bias/sentiment analysis tools, HonestyMeter focuses on sophisticated media manipulations.
+              It detects how <b> factual information is presented in misleading contexts</b>, including the use of omission, framing, misleading headlines,
+              and other similar techniques, <b>which can lead to significant distortions of reality.</b></p>
+          </li>
+          <li>
+            <h4>Free and Open Source</h4>
+            <p>It offers cost-free access and its source code is publicly available, promoting transparency, wider accessibility, and community-driven enhancements.</p>
+          </li>
+          <li>
+            <h4>Self-Improving System</h4>
+            <p>HonestyMeter harnesses both AI and user feedback, continually refining its capability to identify and analyze media manipulations.</p>
+          </li>
+        </ul>
+
+        <p>These features establish HonestyMeter as a unique entity in media analysis, addressing complexities beyond the scope of typical media analysis tools.</p>
         <h3>Features:</h3>
         <p>
           Our initial release focused on a singular feature, allowing users to copy text and receive a bias report.
@@ -203,7 +222,10 @@ export default function About() {
           <li><p><b>News Integrity Feed</b> (New Release): Offers analysis of the latest news from leading sources.
             Users can search by keyword or filter by category and country.</p></li>
           <li><p><b>Personal News Integrity Feed for Popular People</b> (New Release): Analyzes the latest news about famous people. Users can search by name</p></li>
-          <li><p><b>Ratings</b> (New Release): Features ratings for the most praised and criticized people, located on the &quot;People&quot; page, and ratings for the most objective sources, available on the homepage.</p></li>
+          <li><p><b>Ratings</b> (New Release): Features ratings for the most praised and criticized people, located on the &quot;People&quot; page,
+            and ratings for the most objective sources, available on the homepage.
+          </p>
+          </li>
           <li><p><b>Custom Content Analysis</b> (New Release - now with Link Support): Users can submit links or text to receive a comprehensive bias report.
             This feature enables analysis of content not featured on our website and allows authors to reduce bias in their original content.</p></li>
           <li><p><b>Honesty Badge</b> (New Release): Users who share our vision of transparent, unbiased media can display our badge
@@ -334,8 +356,8 @@ export default function About() {
           <p>Therefore, we are actively developing more sophisticated, multi-staged algorithms to significantly enhance the reliability and consistency of evaluations.</p>
           <p>Nevertheless, even in its current state, HonestyMeter frequently provides valuable insights that are challenging for humans to detect.</p>
 
-          <p><strong>To enhance the results, we are undertaking the following steps,
-            which are part of ongoing research and have not yet been implemented in production.</strong></p>
+          <p><strong>To enhance the results, we are undertaking the following steps.
+            which are part of ongoing research and have not yet been fully implemented in production.</strong></p>
           <ul style={STYLES.list}>
             <li>We conducted in-depth research on manipulation techniques, gaining a
               comprehensive understanding of manipulation categories. We revised the list
@@ -377,13 +399,40 @@ export default function About() {
             <li>
               We have added a user feedback feature. Unlike all the features listed above, this one is already released.
               User feedback is utilized to enhance our bias reports and to train our future models,
-              turning our system into a continuously self-improving entity, even in its current state, without any additional changes.
+              turning our system into a continuously self-improving entity.
+
+              <h3>Feedback-Based Optimization Loop:</h3>
+              <ul style={STYLES.list}>
+                <li>A user who views the bias report clicks on the section that, in their opinion, should be changed.</li>
+                <li>The user leaves feedback, explaining the suggested changes.</li>
+                <li>The feedback is reviewed by a Large Language Model (LLM), following strict rules.
+                  To make only justified changes that improve or fix inaccuracies.
+                </li>
+                <li>If the feedback is accepted:
+                  <ul>
+                    <li>The LLM updates the original report.</li>
+                    <li>The updated report is saved and used in the training dataset.</li>
+                    <li>The LLM is periodically retrained using the updated dataset.Resulting in constant improvement.</li>
+                  </ul>
+                </li>
+                <p>It&apos;s important to note that even with the current simplified experimental evaluation method, focused user feedback can lead to a more efficient revision of the report by AI.
+                  Presently, the task of creating the initial report is extremely challenging for LLMs, as it requires multi-step reasoning with large contexts.</p>
+                <p>
+                  However, if a user points out a very specific issue that should be reevaluated, it makes the task much easier, significantly increasing the evaluation&apos;s efficiency.
+                  If, as a result of user feedback, the report is amended by the LLM, it means that the specific part highlighted by the user is now more accurate than it initially was.
+                  Therefore, the revised report will be included in the training dataset.
+                </p>
+                <p>
+                  Adhering to this approach of user feedback, LLM reevaluation, and training dataset enrichment empowers the system to autonomously enhance its capabilities,
+                  even without adopting the other upgrades listed above.
+                </p>
+              </ul>
             </li>
           </ul>
           <p><span class="bold"><b>Accuracy, consistency, and deterministic outputs.</b></span></p>
           <p>
-            It&apos;s important to note that as long as the system correctly identifies the broad objective or biased nature of an article in most cases,
-            it can provide statistically valuable insights into bias levels, even if report accuracy and consistency are not perfect.
+            It&apos;s important to note that as long as the system correctly identifies the broad objective or manipulative nature of an article in most cases,
+            it can provide statistically valuable insights into bias and manipulation levels, even if report accuracy and consistency are not perfect.
             This can be achieved by analyzing large volumes of content and calculating average scores from multiple iterations over the same articles.          </p>
           <p>For instance, by analyzing multiple articles from several sources
             and repeating the analysis of each article multiple times, we can identify
