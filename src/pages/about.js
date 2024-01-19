@@ -213,7 +213,7 @@ export default function About() {
         </ul>
 
         <p>These features establish HonestyMeter as a unique entity in media analysis, addressing complexities beyond the scope of typical media analysis tools.</p>
-        <h3>Features:</h3>
+        <h3 id="features">Features:</h3>
         <p>
           Our initial release focused on a singular feature, allowing users to copy text and receive a bias report.
           Below are the newly added features we have released in the past few months:
@@ -267,7 +267,7 @@ export default function About() {
           </li>
         </ul>
 
-        <h3>Current State and Updates:</h3>
+        <h3 id="current-state">Current State and Updates:</h3>
         <ul style={STYLES.list}>
           <li><p>Over 18,000 reports generated.</p></li>
           <li><p>Hundreds of new reports added daily.</p></li>
@@ -337,7 +337,7 @@ export default function About() {
           />
         </Box>
         <div>
-          <h2>Technical Challenges and Solutions</h2>
+          <h2 id="challanges">Technical Challenges and Solutions</h2>
           <p>The current version of HonestyMeter is an experimental demo.
             There is significant room for improvement in terms of the depth, accuracy, and consistency of the reports, for the following reasons:</p>
           <ul style={STYLES.list}>
@@ -449,7 +449,7 @@ export default function About() {
           </p>
         </div>
         <Divider style={{ marginBottom: theme.spacing(2) }} />
-        <h2>Monetization in Harmony with Free and Transparent Media Integrity</h2>
+        <h2 id="monetezation">Monetization in Harmony with Free and Transparent Media Integrity</h2>
         <p>
           Our main goal is to provide free, objective analysis based on a publicly open and transparent methodology.
           Currently, we self-fund the project by investing our own time and money, while offering it completely free of charge.
