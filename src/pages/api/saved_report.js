@@ -7,8 +7,7 @@ import { STATUS_CODE } from "../../../server/constants/status_code";
 import REST_METHODS from "../../../server/constants/rest_methods";
 import { saveReport } from "../../../server/services/saved_report_service";
 import { EMPTY_STRING } from "@/constants/constants";
-
-//draft code, just to test the API
+import { sanitizeStrings } from "../../../server/utils/utils";
 
 const ITEMS_PER_PAGE = 12;
 
@@ -17,16 +16,13 @@ export default async function handler(req, res) {
   const db = client.db(dbName);
 
   switch (req.method) {
-    // case REST_METHODS.POST:
-    //   const report = { ...req.body, isNew: true };
-    //   const { insertedId } = await saveReport(db, collectionName, report);
-
-    //   res.json({ insertedId });
-    //   break;
     case REST_METHODS.GET:
       const { reports, isLastPage } = (await getReports(req, db)) || {};
 
       res.json({ status: STATUS_CODE.OK, data: { reports, isLastPage } });
+      break;
+    default:
+      res.status(405).json({ message: "Method Not Allowed" });
       break;
   }
 }
@@ -42,18 +38,6 @@ async function getReports(req, db) {
   return getReportsPage(req, db);
 }
 
-
-function sanitizeStrings(inputs = {}) {
-  return Object.keys(inputs).reduce((acc, key) => {
-    const input = inputs[key]
-    if (typeof input !== 'string') {
-      acc[key] = EMPTY_STRING;
-    }
-    acc[key] = input.replace(/\$/g, '').trim();
-
-    return acc;
-  }, {});
-}
 
 function sanitizePageNumber(input) {
   const pageNumber = parseInt(input, 10);
@@ -87,35 +71,6 @@ async function getReportsPage(req, db) {
 
   return { reports, isLastPage };
 }
-
-
-//TODO: remove this code after testing
-// async function getReportsPage(req, db) {
-//   const page = req.query.page || 1;
-//   const { searchTerm = EMPTY_STRING, category = EMPTY_STRING, country = EMPTY_STRING } = req.query || {};
-//   const skip = (page - 1) * ITEMS_PER_PAGE;
-//   const queryConditions = getQueryConditions({ category, country, searchTerm });
-
-//   const reports =
-//     (await db
-//       .collection(collectionName)
-//       .find(queryConditions, {
-//         projection: {
-//           articleTitle: 1,
-//           articleDate: 1,
-//           articleLink: 1,
-//           score: 1,
-//         },
-//       })
-//       .sort({ articleDate: -1 })
-//       .skip(skip)
-//       .limit(ITEMS_PER_PAGE)
-//       .toArray()) || [];
-//   const reportsCount = await db.collection(collectionName).countDocuments(queryConditions);
-//   const isLastPage = skip + ITEMS_PER_PAGE >= reportsCount;
-
-//   return { reports, isLastPage };
-// }
 
 function getQueryConditions({
   category = EMPTY_STRING,

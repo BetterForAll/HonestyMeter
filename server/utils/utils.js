@@ -12,3 +12,15 @@ export function formatUrl(url) {
 
     return url;
 }
+
+export function sanitizeStrings(inputs = {}) {
+    return Object.keys(inputs).reduce((acc, key) => {
+        const input = inputs[key]
+        if (typeof input !== 'string') {
+            acc[key] = EMPTY_STRING;
+        }
+        acc[key] = input.replace(/\$/g, '').trim();
+
+        return acc;
+    }, {});
+}
