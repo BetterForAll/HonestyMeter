@@ -1,5 +1,6 @@
 import theme from '@/theme'
 import { Box, Paper, Typography } from '@mui/material'
+import Link from 'next/link'
 import React from 'react'
 
 const TEXTS = {
@@ -9,10 +10,12 @@ const TEXTS = {
     In both scenarios, articles are subjected to critical evaluation for bias. 
     This report is the product of an AI model that is significantly less biased than human analyses and has been explicitly directed to strictly maintain 100% neutrality.
     `,
-    feedback: `
+    feedbackPart1: `
     Nevertheless, the HonestyMeter is continuously improving through user feedback.
-    Therefore, if a report seems inaccurate, your observations could be valid. We encourage you to submit feedback, helping us enhance the accuracy and quality of our reports.
-    `
+    If a report seems inaccurate, we encourage you to`,
+    feedbackPart2: `
+    to improve the report.`,
+    submitFeedback: 'submit feedback',
 }
 
 export default function Warning() {
@@ -22,7 +25,7 @@ export default function Warning() {
                 {TEXTS.title}! {TEXTS.body}
             </Typography>
             <Typography sx={{ padding: 1, fontSize: 'inherit' }}>
-                {TEXTS.feedback}
+                {TEXTS.feedbackPart1} <Link href="" style={{ textDecoration: 'none' }} >{TEXTS.submitFeedback}</Link> {TEXTS.feedbackPart2}
             </Typography>
         </Paper>
     )
