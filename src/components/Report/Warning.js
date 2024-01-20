@@ -17,11 +17,11 @@ const TEXTS = {
 
 export default function Warning() {
     return (
-        <Paper sx={{ width: '100%', padding: theme.spacing(1, 3) }}>
-            <Typography sx={{ color: theme.palette.warning.main, padding: 1, pointerEvents: 'none' }}>
-                {TEXTS.title}: {TEXTS.body}
+        <Paper sx={{ width: '100%', padding: theme.spacing(1, 3), color: theme.palette.warning.dark }} >
+            <Typography sx={{ padding: 1, }}>
+                {TEXTS.title}! {TEXTS.body}
             </Typography>
-            <Typography sx={{ color: theme.palette.warning.main, padding: 1, pointerEvents: 'none' }}>
+            <Typography sx={{ padding: 1 }}>
                 {TEXTS.feedback}
             </Typography>
         </Paper>
