@@ -15,7 +15,7 @@ const VIDEO_URL = 'https://player.vimeo.com/video/820300228';
 
 const TEXTS = {
   pageTitle: 'HonestyMeter (Honesty Meter)',
-  title: 'HonestyMeter - A Free Framework for Bias and Manipulation Detection in Media Content',
+  title: 'HonestyMeter - A Free Open Source Framework for Bias and Manipulation Detection in Media Content',
   article: {
     quote: `"By embracing HonestyMeter, you can join the vanguard of a movement that
     champions media objectivity and transparency. The more people who adopt this tool,
@@ -32,14 +32,14 @@ const TEXTS = {
      The next day, the headline in the newspapers reads: "The Pope's First Question Upon Arrival in Paris: Are There Bordellos in Paris?"...
     
     Although the facts presented are 100% true, the way they are reported is 100% misleading.
-    Even if the article provides full context, most readers read only headlines and will never know the truth.`,
+    Even if the article provides full context, most readers read only headlines and will never know the details.
+    `,
 
-    problem: `In today's world, media plays a crucial role in shaping public opinion and influencing decision-making es.
-     However, the proliferation of fake news and misinformation has significantly blurred the lines between fact and fiction, 
-     and between objective and biased reporting. This challenge is intensified by the use of sophisticated, yet subtle,
-      manipulative techniques. Techniques such as sensationalism, framing, and selective reporting, among multiple others,
-       are commonly employed by media outlets. These tactics can lead audiences to form distorted perceptions of reality, 
-       hindering their ability to make well-informed decisions.`,
+    problem: `In today's world, media plays a crucial role in shaping public opinion and influencing decision-making.
+     However, the proliferation of fake news and media manipulations has significantly blurred the lines between fact and fiction,
+     and between objective and misleading reporting. This challenge is intensified by sophisticated, yet subtle, manipulative techniques.
+    Tactics such as sensationalism, framing, and selective reporting, among others, are commonly employed by media outlets. 
+    These tactics can lead audiences to form distorted perceptions of reality, hindering their ability to make well-informed decisions.`,
 
     problemNote: `It's important to emphasize that manipulative reporting is a much more dangerous phenomenon than fake news.
      False facts can usually be easily detected, and authoritative sources conduct thorough fact-checking
@@ -48,10 +48,10 @@ const TEXTS = {
     Consuming news from credible sources can almost fully protect people from fake news. However,
      when content is published by an authoritative source and all the facts are real, but are presented 
      using sophisticated hidden manipulation techniques, it can dramatically distort the perception of these facts.
-      This distortion can often lead the audience to understand the absolute opposite of the truth,
-       and yet the source often faces zero accountability!    
-
-    This terrible phenomenon gravely jeopardizes the very basis of freedom and democracy.`,
+     As demonstrated in the earlier joke, this kind of distortion can often lead the audience 
+     to understand something completely opposite from the truth,
+     effectively equating it to fake news. Meanwhile, the source of this distortion typically faces zero accountability!
+     `,
 
     solution: `To address this issue, we have developed the HonestyMeter framework – a free,
      AI-powered tool designed to assess the objectivity and bias of media content. 
@@ -182,10 +182,22 @@ export default function About() {
         <p>
           {TEXTS.introduction.joke}
         </p>
+        <p>
+          This anecdote underscores the type of misleading factual representation that HonestyMeter is designed to address –
+          <b>true statements framed in a context that can completely distort their intended meaning</b>.
+          This distortion is often achieved through sophisticated manipulation techniques such as sensationalism, framing,
+          selective reporting, and many others, which can be applied either intentionally or unknowingly.
+          These tactics can lead audiences to form distorted perceptions of reality, hindering their ability to make well-informed decisions.
+          HonestyMeter aims to detect and clearly expose these tactics, assisting journalists in creating
+          more objective content and empowering audiences to make better-informed decisions.
+        </p>
+        {/* <p>
+          {TEXTS.introduction.jokeNote}
+        </p>
         <h3>The Challenge of Media Manipulation in Today&apos;s World</h3>
         <p>
           {TEXTS.introduction.problem}
-        </p>
+        </p> */}
         <h3>Why Manipulative Reporting is More Dangerous Than Fake News</h3>
         <p>
           {TEXTS.introduction.problemNote}
@@ -200,7 +212,7 @@ export default function About() {
             <h4>Specialized Focus on Manipulations in Factual Information Presentation</h4>
             <p>Unlike basic fact-checking and bias/sentiment analysis tools, HonestyMeter focuses on sophisticated media manipulations.
               It detects how <b> factual information is presented in misleading contexts</b>, including the use of omission, framing, misleading headlines,
-              and other similar techniques, <b>which can lead to significant distortions of reality.</b></p>
+              and other similar techniques, which can lead to significant distortions of reality.</p>
           </li>
           <li>
             <h4>Free and Open Source</h4>
