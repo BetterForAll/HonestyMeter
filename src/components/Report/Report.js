@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react';
-import { Alert, Box, Snackbar } from '@mui/material';
+import { Alert, Box, Snackbar, Typography } from '@mui/material';
 import ReportHeader from './ReportHeader';
 import Charts from './Charts/Charts';
 import ManipulationList from './ManipulationList/ManipulationList';
@@ -15,6 +15,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import PropTypes from 'prop-types';
 import { EMPTY_STRING } from '@/constants/constants';
+import theme from '@/theme';
+import Warning from './Warning';
 
 async function submitFeedback(feedback, report) {
   const result = await fetch('/api/feedback', {
@@ -70,7 +72,7 @@ function FormDialog({ isDialogOpen, onClose, report }) {
       <Dialog open={isDialogOpen} onClose={onClose}>
         <DialogContent>
           <DialogContentText>
-          Give Feedback, Improve the report, Shape a fairer world!
+            Give Feedback, Improve the report, Shape a fairer world!
           </DialogContentText>
           <TextField
             autoFocus
@@ -137,6 +139,9 @@ function Report({ report, biasLevel, shareProps }) {
             sidesScoreData={sidesScoreData}
             sidesBalanceChartData={sidesBalanceChartData}
             favoredSide={report.favoredSide} />
+          <Box sx={STYLES.warningContainer}>
+            <Warning />
+          </Box>
           <ManipulationList manipulations={report.manipulations} />
         </>
       }
@@ -150,12 +155,17 @@ Report.propTypes = {
   shareProps: object
 }
 
+
+
 const STYLES = {
   container: {
     margin: 'auto',
     maxWidth: '1000px',
     cursor: 'crosshair'
-  }
+  },
+  warningContainer: {
+    margin: theme.spacing(3, 0),
+  },
 }
 
 export default memo(Report);
