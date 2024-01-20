@@ -10,18 +10,18 @@ const TEXTS = {
     This report is the product of an AI model that is significantly less biased than human analyses and has been explicitly directed to strictly maintain 100% neutrality.
     `,
     feedback: `
-    Nevertheless, the HonestyMeter is currently in an experimental stage and is continuously improving through user feedback.
+    Nevertheless, the HonestyMeter is continuously improving through user feedback.
     Therefore, if a report seems inaccurate, your observations could be valid. We encourage you to submit feedback, helping us enhance the accuracy and quality of our reports.
     `
 }
 
 export default function Warning() {
     return (
-        <Paper sx={{ width: '100%', padding: theme.spacing(1, 3), color: theme.palette.warning.dark }} >
-            <Typography sx={{ padding: 1, }}>
+        <Paper sx={{ width: '100%', padding: theme.spacing(1, 3), color: theme.palette.primary.dark, fontSize: theme.typography.fontSize }} >
+            <Typography sx={{ padding: 1, fontSize: 'inherit' }}>
                 {TEXTS.title}! {TEXTS.body}
             </Typography>
-            <Typography sx={{ padding: 1 }}>
+            <Typography sx={{ padding: 1, fontSize: 'inherit' }}>
                 {TEXTS.feedback}
             </Typography>
         </Paper>
