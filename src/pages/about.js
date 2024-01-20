@@ -182,6 +182,7 @@ export default function About() {
         <p>
           {TEXTS.introduction.joke}
         </p>
+        <h3>Truth Distortion</h3>
         <p>
           This anecdote underscores the type of misleading factual representation that HonestyMeter is designed to address –
           <b>true statements framed in a context that can completely distort their intended meaning</b>.
@@ -556,12 +557,19 @@ export default function About() {
             It can be easily changed if we decide to use this monetization method.<br /><br />
             <u>Market Size:</u> Multimillion-dollar market with significant affiliate revenue.
           </li>
-          <br /><br />
           <li>
             <h2>API Services</h2>
             <p>
               Analysis and Data Services: Suitable for publishers, news API providers, and
-              researchers.<br /><br />
+              researchers.<br />
+              <p>
+                As part of running our website, we collect news, create, and save hundreds of bias reports every day.
+                These reports enhance the general news integrity feed on the homepage and contribute to a popular people integrity feed on the people page.
+                In addition, we generate periodic ratings for the most praised and criticized individuals, as well as for the most objective sources, using an openly explained methodology.
+              </p>
+              <p>
+                Recently, we realized that gathering large amounts of data, enabling complex aggregations, and data analysis opens up potential avenues for future monetization opportunities.
+              </p>
               API marketplace market size: was estimated at USD 13.74 billion in 2022 and is
               expected to grow at a compound annual growth (CAGR) of 17.8% from 2023 to 2030.
               (
@@ -572,35 +580,6 @@ export default function About() {
               )
             </p>
 
-            <h3>
-              Core Project and Data Service Details
-            </h3>
-
-            <p>
-              Currently, the system is divided into two main parts:
-            </p>
-            <p>
-              1. The Core Project: This is a free tool that enables anyone to evaluate content for bias.
-              It is self-funded, self-maintained, and open-source, designed to make unbiased content analysis accessible to everyone.
-            </p>
-            <p>
-              2. Data Collection Service (Separate Private Entity): This service includes tools that scan news, create,
-              and save reports to our databases using our core report creation mechanism.
-              These reports enhance the general news integrity feed on the homepage and contribute to
-              a popular people integrity feed on the people page. In addition, these services generate
-              periodic ratings for the most praised and criticized individuals, as well as for the most
-              objective sources, using openly explained methodology.
-            </p>
-
-            <p>
-              Initially, we populated the database by manually using our main app, just as anyone else could.
-              However, we later developed an automated service for this task that uses the same evaluation logic.
-              It required purely backend logic that didn&apos;t fit into the serverless environment on which our app is currently running.
-              Therefore we deployed it as a separate service.
-              Recently, we realized that having a separate service capable of gathering large amounts of data,
-              enabling complex aggregations and data analysis, is not only convenient for updating our website
-              but also opens up potential avenues for future monetization opportunities.
-            </p>
           </li>
           <br />
           <li>
