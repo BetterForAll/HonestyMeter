@@ -563,7 +563,7 @@ export default function About() {
               Analysis and Data Services: Suitable for publishers, news API providers, and
               researchers.<br />
               <p>
-                As part of running our website, we collect news, create, and save hundreds of bias reports every day.
+                As part of operating our website, we create and save hundreds of bias reports about the latest news articles every day.
                 These reports enhance the general news integrity feed on the homepage and contribute to a popular people integrity feed on the people page.
                 In addition, we generate periodic ratings for the most praised and criticized individuals, as well as for the most objective sources, using an openly explained methodology.
               </p>
