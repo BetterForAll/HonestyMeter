@@ -7,15 +7,16 @@ const TEXTS = {
     title: 'Caution',
     body: `Due to inherent human biases, it may seem that reports on articles aligning with our views are crafted by opponents. 
     Conversely, reports about articles that contradict our beliefs might seem to be authored by allies.
+    However, such perceptions are likely to be incorrect. 
     These impressions can be caused by the fact that in both scenarios, articles are subjected to critical evaluation. 
     This report is the product of an AI model that is significantly less biased than human analyses
     and has been explicitly instructed to strictly maintain 100% neutrality.
     `,
     feedbackPart1: `
     Nevertheless, the HonestyMeter is continuously improving through user feedback.
-    If a report seems inaccurate, we encourage you to`,
+    If the report seems inaccurate, we encourage you to`,
     feedbackPart2: `
-    to improve the report.`,
+    to improve it.`,
     submitFeedback: 'submit feedback',
 }
 
