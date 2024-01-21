@@ -27,7 +27,7 @@ export default function Warning() {
                 {TEXTS.title}! {TEXTS.body}
             </Typography>
             <Typography sx={STYLES.paragraph}>
-                {TEXTS.feedbackPart1} <Link href="" style={{ textDecoration: 'none' }} >{TEXTS.submitFeedback}</Link> {TEXTS.feedbackPart2}
+                {TEXTS.feedbackPart1} <Link href="" style={STYLES.link} >{TEXTS.submitFeedback}</Link> {TEXTS.feedbackPart2}
             </Typography>
         </Paper>
     )
@@ -43,5 +43,8 @@ const STYLES = {
     paragraph: {
         padding: 1,
         fontSize: 'inherit'
+    },
+    link: {
+        textDecoration: 'none'
     }
 }
