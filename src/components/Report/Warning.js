@@ -9,14 +9,16 @@ const TEXTS = {
     Conversely, reports about articles that contradict our beliefs might seem to be authored by allies.
     However, such perceptions are likely to be incorrect. 
     These impressions can be caused by the fact that in both scenarios, articles are subjected to critical evaluation. 
+    `,
+    mainMessage: `
     This report is the product of an AI model that is significantly less biased than human analyses
     and has been explicitly instructed to strictly maintain 100% neutrality.
     `,
     feedbackPart1: `
-    Nevertheless, the HonestyMeter is continuously improving through user feedback.
+    Nevertheless, HonestyMeter is in the experimental stage and is continuously improving through user feedback.  
     If the report seems inaccurate, we encourage you to`,
     feedbackPart2: `
-    to improve it.`,
+    , helping us enhance the accuracy and reliability of HonestyMeter and contributing to media transparency.`,
     submitFeedback: 'submit feedback',
 }
 
@@ -24,7 +26,7 @@ export default function Warning() {
     return (
         <Paper sx={STYLES.paper} >
             <Typography sx={STYLES.paragraph}>
-                {TEXTS.title}! {TEXTS.body}
+                {TEXTS.title}! {TEXTS.body} <Typography component='span' sx={STYLES.underLine}>{TEXTS.mainMessage}</Typography>
             </Typography>
             <Typography sx={STYLES.paragraph}>
                 {TEXTS.feedbackPart1} <Link href="" style={STYLES.link} >{TEXTS.submitFeedback}</Link> {TEXTS.feedbackPart2}
@@ -46,5 +48,9 @@ const STYLES = {
     },
     link: {
         textDecoration: 'none'
+    },
+    underLine: {
+        fontSize: 'inherit',
+        textDecoration: 'underline'
     }
 }
