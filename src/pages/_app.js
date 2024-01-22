@@ -111,8 +111,12 @@ const STYLES = {
     flexDirection: 'column',
     height: '100vh',
     // overflowX: 'hidden',
-  },
-};
+    '& *:active, *:focus': {
+      outline: 'none',
+      backgroundColor: 'transparent',
+    },
+  }
+}
 
 MyApp.propTypes = {
   Component: PropTypes.elementType.isRequired,
