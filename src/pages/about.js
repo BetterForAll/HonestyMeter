@@ -647,7 +647,7 @@ export default function About() {
         </p>
         <p>
           {TEXTS.thankYou.openAi}
-          <a href="https://openai.com">{TEXTS.thankYou.openAiLinkText}</a>
+          <a href="https://openai.com" target="_blank">{TEXTS.thankYou.openAiLinkText}</a>
           {TEXTS.thankYou.openAiPartTwo}
         </p>
         <h3 id="considerations">
