@@ -149,6 +149,19 @@ and use it to improve the objectivity of the content.`,
     },
     forTheInspiration: `for the great inspiring content that made us fall in love with AI-powered apps.
      It was this inspiration that led us to create HonestyMeter, and we're grateful for their contribution!`,
+    aiResearches: `
+    Our heartfelt gratitude extends to the entire community of AI researchers whose groundbreaking work has been instrumental for our project.
+    Without their dedication and creativity, HonestyMeter would have demanded an investment a thousand times larger and a team a hundred times bigger.
+    `,
+    openAi: 'We give special recognition to ',
+    openAiLinkText: 'OpenAI',
+    openAiPartTwo: `
+     for their exceptional advancements in generative AI,
+    which have been crucial in realizing our vision. Our personal thanks go to Sam Altman, Ilya Sutskever, Greg Brockman, Elon Musk,
+    and all the other talented individuals who contributed to the development of this transformative technology.
+    Their visionary leadership and commitment to innovation in AI have not only made our project achievable, 
+    but have also enabled thousands of other innovative projects, significantly advancing the frontiers of technological possibilities.
+    `
   },
 }
 
@@ -628,6 +641,14 @@ export default function About() {
             {TEXTS.thankYou.mattWolfe.name}&nbsp;
           </a>
           {TEXTS.thankYou.forTheInspiration}
+        </p>
+        <p>
+          {TEXTS.thankYou.aiResearches}
+        </p>
+        <p>
+          {TEXTS.thankYou.openAi}
+          <a href="https://openai.com">{TEXTS.thankYou.openAiLinkText}</a>
+          {TEXTS.thankYou.openAiPartTwo}
         </p>
         <h3 id="considerations">
           {TEXTS.importantConsidirations.title}
