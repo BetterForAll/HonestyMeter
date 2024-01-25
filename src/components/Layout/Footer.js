@@ -23,13 +23,29 @@ export default function Footer({ setCurrentPage = EMPTY_FUNCTION, closeReport })
           )
         })
       }
+      {/* <Box sx={STYLES.flexCenter}> //TODO: fix styles and unmute
+        <Link href={'/terms-of-service.pdf'} target='_blank' rel='noopener noreferrer' style={STYLES.textLink}>
+          terms of service
+        </Link>
+      </Box>
+      <Box sx={STYLES.flexCenter}>
+        <Link href={'/privacy-policy.pdf'} target='_blank' rel='noopener noreferrer' style={STYLES.textLink}>
+          privacy policy
+        </Link>
+      </Box>
+      <Box sx={STYLES.flexCenter}>
+        <Link href={'/disclamer.pdf'} target='_blank' rel='noopener noreferrer' style={STYLES.textLink}>
+          disclamer
+        </Link>
+      </Box> */}
       <Box sx={STYLES.flexCenter}>
         <ContactIcon />
-        <Link href={GITHUB_URL} target='_blank' rel='noopener noreferrer' style={STYLES.flexCenter}>
+        <Link href={GITHUB_URL} target='_blank' rel='noopener noreferrer' style={STYLES.textLink}>
           <GitHubIcon sx={STYLES.githubIcon} />
         </Link>
       </Box>
     </Box>
+
   )
 }
 
