@@ -455,7 +455,7 @@ export default function About() {
               </ul>
             </li>
           </ul>
-          <p><span class="bold"><b>Accuracy, consistency, and deterministic outputs.</b></span></p>
+          <h3>Accuracy, consistency, and deterministic outputs.</h3>
           <p>
             It&apos;s important to note that as long as the system correctly identifies the broad objective or manipulative nature of an article in most cases,
             it can provide statistically valuable insights into bias and manipulation levels, even if report accuracy and consistency are not perfect.
@@ -473,6 +473,27 @@ export default function About() {
             gradually approaching its maximum potential. Even now, in its experimental demo phase,
             HonestyMeter frequently provides insights that are difficult for humans to discern.
           </p>
+          <h3>Analysis Objectivity Verification: Overcoming LLM Biases</h3>
+          <p>We developed a method to diminish evaluator bias, effective
+            for both human and LLM evaluators, through content obfuscation.
+            In our experiment, we replaced all recognizable entities in
+            the content, including names, countries, political parties, and organizations.
+            For instance, in place of debates between Biden and Trump,
+            the obfuscated article discussed Rajish and Anil as candidates for
+            chairman of a student organization in an Indian university.</p>
+
+          <p>The obfuscated content is particularly challenging for LLMs to recognize.
+            To ensure the LLM could not identify the content, we
+            explicitly prompted the LLM, explaining the obfuscation mechanism and asking
+            the model to guess the real characters of the article.</p>
+
+          <p>After confirming the LLM&apos;s complete failure to recognize the actual
+            characters and entities, we generated two reports using HonestyMeter: one
+            about the original article and the other about the obfuscated article.</p>
+
+          <p>In all cases, the results were identical, proving that an
+            LLM, when explicitly instructed to conduct neutral analysis, is indeed
+            capable of a high level of neutrality, compared to humans.</p>
         </div>
         <Divider style={{ marginBottom: theme.spacing(2) }} />
         <h2 id="monetezation">Monetization in Harmony with Free and Transparent Media Integrity</h2>
