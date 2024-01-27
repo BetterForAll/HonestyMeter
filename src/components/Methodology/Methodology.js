@@ -67,9 +67,7 @@ const TEXT = {
     includedSourcesDescription: `We include only leading sources - those ranked within the top 1,000 websites worldwide.`,
 
     dynamicThresholdHeader: 'Dynamic Threshold for Inclusion',
-    dynamicThresholdDescriptionSources: `Sources are included in our analysis if we have analyzed at least 95 articles from each.
-                                    This specific threshold was determined based on our data at the time of rating creation:
-                                     all leading sources in our system had more than 100 articles, with the exception of one source, for which we had exactly 96 articles.
+    dynamicThresholdDescriptionSources: `Sources are included in our analysis if we have analyzed at least 100 articles from each.
                                      Importantly, as we accumulate more articles over time, we plan to increase this threshold. 
                                      This gradual increase will enhance the reliability of our analysis.`,
     dynamicThresholdDescription: `Entities are included in our analysis if they are mentioned 
