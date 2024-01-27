@@ -90,7 +90,7 @@ const FILTER_PARAMS = {
   category: 'category',
 }
 
-export default function Home({ homePageProps, reports, page, isFirstPage, isLastPage, date, rating }) { 
+export default function Home({ homePageProps, reports, page, isFirstPage, isLastPage, date, rating }) {
   const router = useRouter();
   const {
     [FILTER_PARAMS.searchTerm]: searchFromQuery = EMPTY_STRING,
@@ -246,7 +246,7 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
           }}>
             <CreateReportButton
               onClick={toggleArticleInput(true)}
-              isTopArticleInputShown={isTopArticleInputShown}
+              isArticleInputShown={isTopArticleInputShown}
             />
             <Box sx={{
               display: 'flex',
