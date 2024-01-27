@@ -54,7 +54,7 @@ const TEXTS = {
      `,
 
     solution: `To address this issue, we have developed the HonestyMeter framework – a free,
-    An AI-powered tool designed to assess the objectivity, bias, and manipulations in media content.
+     AI-powered tool designed to assess the objectivity, bias, and manipulations in media content.
      Utilizing neural networks and advanced language models, HonestyMeter meticulously analyzes various media elements 
      to identify potential manipulative tactics. It generates a comprehensive objectivity report, which includes an objectivity score,
       a list of detected manipulations, and recommendations for mitigating bias within the text.
