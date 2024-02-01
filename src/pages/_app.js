@@ -19,6 +19,7 @@ import MobileMenu from '@/components/Layout/MobileMenu';
 import { Analytics } from '@vercel/analytics/react';
 import { isServer, scrollToTop } from '@/utils/utils';
 import GoogleTranslate from '@/components/GoogleTranslate';
+import { ClerkProvider } from "@clerk/nextjs";
 import '../global.css'
 
 const clientSideEmotionCache = createEmotionCache();
@@ -80,25 +81,27 @@ export default function MyApp(props) {
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Box sx={STYLES.appContainer}>
-          {/* <GoogleTranslate /> */}
-          <Header />
-          <Menu
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            pageRoutes={PAGE_ROUTES}
-            closeReport={closeReport}
-          />
-          <MobileMenu
-            setCurrentPage={setCurrentPage}
-            pageRoutes={PAGE_ROUTES}
-            closeReport={closeReport}
-          />
-          <Divider />
-          <Component homePageProps={homePageProps} {...pageProps} />
-          <Divider />
-          <Footer setCurrentPage={setCurrentPage} closeReport={closeReport} />
-        </Box>
+        <ClerkProvider {...pageProps}>
+          <Box sx={STYLES.appContainer}>
+            {/* <GoogleTranslate /> */}
+            <Header />
+            <Menu
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              pageRoutes={PAGE_ROUTES}
+              closeReport={closeReport}
+            />
+            <MobileMenu
+              setCurrentPage={setCurrentPage}
+              pageRoutes={PAGE_ROUTES}
+              closeReport={closeReport}
+            />
+            <Divider />
+            <Component homePageProps={homePageProps} {...pageProps} />
+            <Divider />
+            <Footer setCurrentPage={setCurrentPage} closeReport={closeReport} />
+          </Box>
+        </ClerkProvider>
         <Analytics />
       </ThemeProvider>
     </CacheProvider>

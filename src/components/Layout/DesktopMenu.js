@@ -12,7 +12,7 @@ import { Link } from '@mui/material';
 import NextLink from 'next/link';
 import Badge from '../Badge/Badge';
 import BadgeIcon from '../Badge/BadgeIcon';
-
+import { UserButton, useUser } from '@clerk/nextjs';
 
 export default function Menu({ currentPage, setCurrentPage, pageRoutes }) {
   const router = useRouter();
@@ -20,6 +20,7 @@ export default function Menu({ currentPage, setCurrentPage, pageRoutes }) {
   const isBadgePage = pathname === '/badge';
   const [isBadgeActive, setIsBadgeActive] = useState(false);
   const biasLevel = isBadgeActive ? 4 : 5; // indicates badge color
+  const { isSignedIn } = useUser();
 
   useEffect(() => {
     setIsBadgeActive(isBadgePage);
@@ -71,6 +72,12 @@ export default function Menu({ currentPage, setCurrentPage, pageRoutes }) {
           >
             <GitHubIcon sx={STYLES.githubIcon} />
           </Link>
+          <Box sx={STYLES.userButton}>
+            {
+              isSignedIn &&
+              <UserButton afterSignOutUrl='/' />
+            }
+          </Box>
         </Box>
       </Box>
     </Box>
@@ -107,6 +114,10 @@ const STYLES = {
       color: theme.palette.primary.main,
     },
   },
+  userButton: {
+    width: '32px',
+    height: '32px',
+  }
 };
 
 Menu.propTypes = {
