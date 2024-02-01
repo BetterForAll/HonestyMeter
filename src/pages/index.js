@@ -281,25 +281,32 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
             </Box>
             {
               <Collapse in={isTopArticleInputShown} sx={STYLES.articleInputContainer}>
-                <Box sx={STYLES.articleInputContainer}>
-                  {isUrlProvidedAsInput && (
-                    <Typography
-                      sx={STYLES.articleTextExtracted}
-                    >
-                      {TEXTS.articleTextExtracted}
-                      &nbsp;
-                      <a href={WOLRD_NEWS_API_URL} target='_blank' rel='noreferrer'>
-                        {TEXTS.worldNewsApi}
-                      </a>
-                    </Typography>
-                  )}
-                  <AtricleInput
-                    article={article}
-                    onArticleChange={handleArticleChange}
-                    onGetReport={handleGetReport}
-                    isUrlProvidedAsInput={isUrlProvidedAsInput}
-                  />
-                </Box>
+                {
+                  !isSignedIn ? //TODO: revert the condition when google login is set
+                    <Box sx={STYLES.articleInputContainer}>
+                      {isUrlProvidedAsInput && (
+                        <Typography
+                          sx={STYLES.articleTextExtracted}
+                        >
+                          {TEXTS.articleTextExtracted}
+                          &nbsp;
+                          <a href={WOLRD_NEWS_API_URL} target='_blank' rel='noreferrer'>
+                            {TEXTS.worldNewsApi}
+                          </a>
+                        </Typography>
+                      )}
+                      <AtricleInput
+                        article={article}
+                        onArticleChange={handleArticleChange}
+                        onGetReport={handleGetReport}
+                        isUrlProvidedAsInput={isUrlProvidedAsInput}
+                      />
+                    </Box>
+                    :
+                    <Box sx={STYLES.signInContainer}>
+                      {/* <SignIn afterSignInUrl='/' afterSignUpUrl='/' routing='virtual' /> */}
+                    </Box>
+                }
               </Collapse>
             }
           </Box>
