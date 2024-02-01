@@ -22,6 +22,7 @@ import Link from "next/link";
 import Badge from "../Badge/Badge";
 import { EMPTY_STRING, GITHUB_URL, PAGE_LABELS } from "@/constants/constants";
 import { EMAIL_ADDRESS } from "@/constants/constants";
+import { UserButton, useUser } from "@clerk/nextjs";
 
 const MAIL_TO_PREFIX = "mailto:";
 const MAIL_TO = MAIL_TO_PREFIX + EMAIL_ADDRESS;
@@ -51,6 +52,7 @@ export default function MobileMenu({
   const [isOpen, setIsOpen] = useState(false);
   const [isBadgeActive, setIsBadgeActive] = useState(isBadgePage);
   const biasLevel = isBadgeActive ? 4 : 5; // indicates badge color
+  const { isSignedIn } = useUser();
 
   useEffect(() => {
     setIsBadgeActive(isBadgePage);
@@ -115,7 +117,11 @@ export default function MobileMenu({
   return (
     <Box sx={STYLES.visibilityContainer}>
       <Box sx={{ ...STYLES.flexContainer, position: 'relative', alignItems: 'center' }}>
-        <Link sx={STYLES.badgeLink}
+        {
+          isSignedIn &&
+          <UserButton afterSignOutUrl='/' />
+        }
+        <Link style={STYLES.badgeLink}
           href='/badge'
           onClick={goToBadgePage}
         >
@@ -152,11 +158,7 @@ const STYLES = {
     padding: theme.spacing(0, 2, 2, 0),
   },
   badgeLink: {
-    position: 'absolute',
-    bottom: '5px',
-    right: '68px',
-    width: '70px',
-    height: '70px',
+    marginLeft: theme.spacing(2),
   },
   iconButton: {
     height: '40px'

@@ -39,6 +39,7 @@ import { getLastRating } from './api/rating';
 import { Rating } from '@/components/RatingList/Rating';
 import { MethodologySourcesRating } from '@/components/Methodology/Methodology';
 import Badge from '../components/Badge/Badge';
+import { SignIn, useUser } from "@clerk/nextjs";
 
 const LOGO_URL = 'https://honestymeter.com/favicon.png';
 const OPEN_GRAPH_IMAGE_URL = 'https://honestymeter.com/opengraph-logo.png';
@@ -95,7 +96,7 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
   const {
     [FILTER_PARAMS.searchTerm]: searchFromQuery = EMPTY_STRING,
     [FILTER_PARAMS.category]: categoryFromQuery = EMPTY_STRING,
-    [FILTER_PARAMS.country]: countryFromQuery = EMPTY_STRING
+    [FILTER_PARAMS.country]: countryFromQuery = EMPTY_STRING,
   } = router.query || {};
   const isQueryParams = Boolean(searchFromQuery || countryFromQuery || categoryFromQuery);
   const isOnlyOnePage = isFirstPage && isLastPage;
@@ -126,6 +127,7 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
   const searchIconTooltip = getSearchIconTooltipText(isSearchShown, isQueryParams);
   const { createdAt: ratingCreatedAt, mostObjectiveSources } = rating || {};
   const mostObjectiveSourcesFormatted = mostObjectiveSources.join(', ').toUpperCase();
+  const { isSignedIn } = useUser();
 
   const onCardClick = (reportUrl) => () => {
     va.track(EVENT.reportCardClicked, { reportUrl });
@@ -304,7 +306,7 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
                     </Box>
                     :
                     <Box sx={STYLES.signInContainer}>
-                      {/* <SignIn afterSignInUrl='/' afterSignUpUrl='/' routing='virtual' /> */}
+                      <SignIn afterSignInUrl='/' afterSignUpUrl='/' routing='virtual' />
                     </Box>
                 }
               </Collapse>
@@ -568,7 +570,7 @@ const STYLES = {
   articleInputContainer: {
     width: '100%',
     margin: `${theme.spacing(1)} auto auto`,
-    padding: theme.spacing(0, 2, 2, 2),
+    padding: { sm: theme.spacing(0, 2, 2, 2) },
   },
   articleTextExtracted: {
     margin: 'auto',
@@ -587,4 +589,10 @@ const STYLES = {
   paginationContainerBottom: {
     marginBottom: 2
   },
+  signInContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 };
