@@ -214,7 +214,6 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
 
   useEffect(() => {
     va.track(EVENT.pageLoaded, { page });
-
   }, [page]);
 
   return (
