@@ -121,7 +121,7 @@ function Report({ report, biasLevel, shareProps }) {
   };
 
   return (
-    <Box sx={STYLES.container} onClick={handleOpenDialog} title='Give feedback, Improve the report'>
+    <Box sx={STYLES.container} onClick={handleOpenDialog}>
       <FormDialog isDialogOpen={isDialogOpen} onClose={handleClose} report={report} />
       <ReportHeader
         score={report.score}
