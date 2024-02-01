@@ -284,7 +284,7 @@ export default function Home({ homePageProps, reports, page, isFirstPage, isLast
             {
               <Collapse in={isTopArticleInputShown} sx={STYLES.articleInputContainer}>
                 {
-                  isSignedIn ? //TODO: revert the condition when google login is set
+                  !isSignedIn ? //TODO: revert the condition when google login is set
                     <Box sx={STYLES.articleInputContainer}>
                       {isUrlProvidedAsInput && (
                         <Typography
