@@ -345,32 +345,37 @@ export default function Home({
                 in={isTopArticleInputShown}
                 sx={STYLES.articleInputContainer}
               >
-                {/* !isSignedIn ? //TODO: revert the condition when google login is set */}
-                <Box sx={STYLES.articleInputContainer}>
-                  {isUrlProvidedAsInput && (
-                    <Typography sx={STYLES.articleTextExtracted}>
-                      {TEXTS.articleTextExtracted}
-                      &nbsp;
-                      <a
-                        href={WOLRD_NEWS_API_URL}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        {TEXTS.worldNewsApi}
-                      </a>
-                    </Typography>
-                  )}
-                  <AtricleInput
-                    article={article}
-                    onArticleChange={handleArticleChange}
-                    onGetReport={handleGetReport}
-                    isUrlProvidedAsInput={isUrlProvidedAsInput}
-                  />
-                </Box>
-                {/* :
-                    <Box sx={STYLES.signInContainer}>
-                      <SignIn afterSignInUrl='/' afterSignUpUrl='/' routing='virtual' />
-                    </Box> */}
+                {isSignedIn ? (
+                  <Box sx={STYLES.articleInputContainer}>
+                    {isUrlProvidedAsInput && (
+                      <Typography sx={STYLES.articleTextExtracted}>
+                        {TEXTS.articleTextExtracted}
+                        &nbsp;
+                        <a
+                          href={WOLRD_NEWS_API_URL}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {TEXTS.worldNewsApi}
+                        </a>
+                      </Typography>
+                    )}
+                    <AtricleInput
+                      article={article}
+                      onArticleChange={handleArticleChange}
+                      onGetReport={handleGetReport}
+                      isUrlProvidedAsInput={isUrlProvidedAsInput}
+                    />
+                  </Box>
+                ) : (
+                  <Box sx={STYLES.signInContainer}>
+                    <SignIn
+                      afterSignInUrl="/"
+                      afterSignUpUrl="/"
+                      routing="virtual"
+                    />
+                  </Box>
+                )}
               </Collapse>
             }
           </Box>
