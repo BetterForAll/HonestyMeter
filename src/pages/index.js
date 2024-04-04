@@ -404,13 +404,13 @@ export default function Home({
                     marginBottom: { xs: theme.spacing(0.5), sm: 0 },
                   }}
                 >
-                  <AutoComplete
+                  {/* <AutoComplete
                     label="Category"
                     list={CATEGORIES}
                     onChange={hanldeFilterChange(FILTER_PARAMS.category)}
                     value={category}
                     onClearClick={hanldeFilterChange(FILTER_PARAMS.category)}
-                  />
+                  /> */}
                   <AutoComplete
                     label="Country"
                     list={COUNTIRES_LIST}
