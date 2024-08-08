@@ -9,7 +9,9 @@ const PRESENCE_PENALTY = 0.0;
 // export const MODEL = 'gpt-4';
 // export const MODEL = 'gpt-3.5-turbo-16k';
 // export const MODEL = 'gpt-4-1106-preview'
-export const MODEL = "gpt-4o";
+// export const MODEL = "gpt-4o";
+export const MODEL = "gpt4o_2024_08_06";
+// export const MODEL = "gpt-4o-mini";
 
 export const OPEN_AI_REQUEST = {
   response_format: { type: "json_object" },
