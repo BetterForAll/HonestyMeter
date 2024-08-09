@@ -7,7 +7,7 @@ import { Box, Checkbox, FormControlLabel, Typography } from "@mui/material";
 import { string, func } from "prop-types";
 import { WOLRD_NEWS_API_URL } from "@/constants/constants";
 
-const Spacer = <Box sx={{ height: { xs: theme.spacing(2), sm: "58px" } }} />;
+const Spacer = <Box sx={{ height: { xs: theme.spacing(2), sm: "42px" } }} />;
 
 const TEXTS = {
   placeholder: "Paste link or text for bias analysis",
