@@ -131,6 +131,8 @@ export default function Home({
   const isLoading = usePageLoadingFull();
   const {
     article,
+    isReportForPublishing,
+    setIsReportForPublishing,
     handleArticleChange,
     clearArticleInput,
     handleGetReport,
@@ -365,6 +367,8 @@ export default function Home({
                       onArticleChange={handleArticleChange}
                       onGetReport={handleGetReport}
                       isUrlProvidedAsInput={isUrlProvidedAsInput}
+                      isPublished={isReportForPublishing}
+                      setIsPublished={setIsReportForPublishing}
                     />
                   </Box>
                 ) : (

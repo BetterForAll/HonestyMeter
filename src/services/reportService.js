@@ -9,21 +9,22 @@ const OPTIONS_TEMPLATE = {
     Accept: "application/json",
     "Content-Type": "application/json;charset=UTF-8",
   },
-  body: { text: '' },
+  body: { text: "" },
 };
 
-export async function fetchReport(text) {
+export async function fetchReport(text, isForPublishing = false) {
   const options = {
     ...OPTIONS_TEMPLATE,
-    body: JSON.stringify({ text }),
+    body: JSON.stringify({ text, isForPublishing }),
   };
   const reportRes = await fetch(GENERATE_REPORT_API_URL, options);
-  const { reportId } = await reportRes.json() || {};
+  const { reportId } = (await reportRes.json()) || {};
 
-  return reportId
+  return reportId;
 }
 
-export const mockFetchReport = async (delay = 1000) => { //for testing
+export const mockFetchReport = async (delay = 1000) => {
+  //for testing
   await wait(delay);
 
   return mockReport;

@@ -19,7 +19,10 @@ export default async function handler(req, res) {
     case REST_METHODS.GET:
       const { reports, isLastPage } = (await getReports(req, db)) || {};
 
-      res.json({ status: STATUS_CODE.OK, data: { reports, isLastPage } });
+      res.json({
+        status: STATUS_CODE.OK,
+        data: { reports, isLastPage },
+      });
       break;
     default:
       res.status(405).json({ message: "Method Not Allowed" });
@@ -37,7 +40,6 @@ async function getReports(req, db) {
 
   return getReportsPage(req, db);
 }
-
 
 function sanitizePageNumber(input) {
   const pageNumber = parseInt(input, 10);
@@ -66,7 +68,9 @@ async function getReportsPage(req, db) {
     .limit(ITEMS_PER_PAGE)
     .toArray();
 
-  const reportsCount = await db.collection(collectionName).countDocuments(queryConditions);
+  const reportsCount = await db
+    .collection(collectionName)
+    .countDocuments(queryConditions);
   const isLastPage = skip + ITEMS_PER_PAGE >= reportsCount;
 
   return { reports, isLastPage };
@@ -75,15 +79,20 @@ async function getReportsPage(req, db) {
 function getQueryConditions({
   category = EMPTY_STRING,
   country = EMPTY_STRING,
-  searchTerm = EMPTY_STRING
+  searchTerm = EMPTY_STRING,
 } = {}) {
-
   const alwaysTrueConditions = {
     $or: [
-      { isUserGenerated: { $exists: false } },
-      { isUserGenerated: null },
-      { isUserGenerated: false },
+      { isModerationFailed: { $exists: false } },
+      { isModerationFailed: null },
+      { isModerationFailed: false },
     ],
+    $or: [
+      { isHiddenFromFeed: { $exists: false } },
+      { isHiddenFromFeed: null },
+      { isHiddenFromFeed: false },
+    ],
+    $and: [{ articleLink: { $exists: true } }, { articleLink: { $ne: "" } }],
   };
   const queryConditions = { $and: [alwaysTrueConditions] };
   const filterConditions = { $and: [] };
@@ -94,8 +103,8 @@ function getQueryConditions({
       $or: [
         { category: { $regex: new RegExp(category, "i") } },
         { "sidesScore.sideName": { $regex: new RegExp(category, "i") } },
-        { "articleTitle": { $regex: new RegExp(category, "i") } },
-      ]
+        { articleTitle: { $regex: new RegExp(category, "i") } },
+      ],
     };
     filterConditions.$and.push(categoryQuery);
   }
@@ -105,8 +114,8 @@ function getQueryConditions({
       $or: [
         { country: { $regex: new RegExp(country, "i") } },
         { "sidesScore.sideName": { $regex: new RegExp(country, "i") } },
-        { "articleTitle": { $regex: new RegExp(country, "i") } },
-      ]
+        { articleTitle: { $regex: new RegExp(country, "i") } },
+      ],
     };
     filterConditions.$and.push(countryQuery);
   }
@@ -119,10 +128,10 @@ function getQueryConditions({
     searchConditions.$or = [
       ...searchConditions.$or,
       { "sidesScore.sideName": { $regex: new RegExp(searchTerm, "i") } },
-      { "articleTitle": { $regex: new RegExp(searchTerm, "i") } },
+      { articleTitle: { $regex: new RegExp(searchTerm, "i") } },
     ];
     queryConditions.$and.push(searchConditions);
-  };
+  }
 
   return queryConditions;
 }

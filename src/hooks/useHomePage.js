@@ -1,26 +1,26 @@
-import va from '@vercel/analytics';
-import { useState, useEffect, useMemo } from 'react';
+import va from "@vercel/analytics";
+import { useState, useEffect, useMemo } from "react";
 import {
   fetchReport,
   mockFetchReport, // for testing
-} from '../services/reportService';
-import { EMPTY_STRING, EVENT } from '@/constants/constants';
-import { checkIsUrl } from '@/utils/utils';
-import { useRouter } from 'next/router';
+} from "../services/reportService";
+import { EMPTY_STRING, EVENT } from "@/constants/constants";
+import { checkIsUrl } from "@/utils/utils";
+import { useRouter } from "next/router";
 
 const IS_TESTING_MODE = false;
-const ARTICLE_DEFAULT_VALUE = '';
+const ARTICLE_DEFAULT_VALUE = "";
 const TEXTS = {
-  honestyMeter: 'Honesty Meter',
-  error: 'Something went wrong. Please try again later.',
+  honestyMeter: "Honesty Meter",
+  error: "Something went wrong. Please try again later.",
   parseError:
-    'Error parsing report. Try to copy the article and paste it in the input field.',
-  enterArticle: 'Enter article',
+    "Error parsing report. Try to copy the article and paste it in the input field.",
+  enterArticle: "Enter article",
   desciptiion:
-    'Honesty Meter is a tool that helps you discover the truth behind the news.',
+    "Honesty Meter is a tool that helps you discover the truth behind the news.",
 };
-const REPORT_STATIC_PATH = '/report/?report=';
-const SAVED_REPORT_STATIC_PATH = '/report/';
+const REPORT_STATIC_PATH = "/report/?report=";
+const SAVED_REPORT_STATIC_PATH = "/report/";
 
 export default function useHomePage() {
   const router = useRouter();
@@ -37,7 +37,7 @@ export default function useHomePage() {
       return JSON.parse(reportFromQuery);
     } catch (e) {
       router.query = {};
-      router.push('/');
+      router.push("/");
       alert(TEXTS.error, e); //TODO: replace with error component
 
       return null;
@@ -45,15 +45,17 @@ export default function useHomePage() {
   }, [reportFromQuery, router]);
   const [report, setReport] = useState(null);
   const [reportJson, setReportJson] = useState(EMPTY_STRING);
+  const [isReportForPublishing, setIsReportForPublishing] = useState(true);
   const isArticleInputShown = !isLoading && !report && !reportFromQuery;
   const isReportShown = Boolean(
     !isLoading && (report || parsedReportFromQuery)
   );
   const { score, articleTitle, articleLink } = report || {};
   const isUrlProvidedAsInput = checkIsUrl(article);
+  const shouldPublishArticle = isReportForPublishing && isUrlProvidedAsInput;
 
   const goToHomePage = () => {
-    router.push('/');
+    router.push("/");
   };
 
   const closeReport = () => {
@@ -72,7 +74,7 @@ export default function useHomePage() {
   };
 
   const getMockReport = async () => {
-    router.push('/report');
+    router.push("/report");
     const responseText = await mockFetchReport();
     const reportJsonRes = JSON.stringify(responseText);
     setReportJson(reportJsonRes);
@@ -83,7 +85,7 @@ export default function useHomePage() {
   const getRealReport = async () => {
     //TODO: refactor and clean up this function
     router.push(SAVED_REPORT_STATIC_PATH);
-    const reportId = (await fetchReport(article)) || {};
+    const reportId = (await fetchReport(article, shouldPublishArticle)) || {};
 
     va.track(EVENT.reportReceived, { reportId });
 
@@ -141,8 +143,10 @@ export default function useHomePage() {
     article,
     isUrlProvidedAsInput,
     report,
+    isReportForPublishing,
     reportJson,
     shareLevel,
+    setIsReportForPublishing,
     clearArticleInput,
     closeReport,
     handleArticleChange,
