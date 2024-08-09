@@ -1,34 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import Head from 'next/head';
-import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import { CacheProvider } from '@emotion/react';
-import theme from '../theme';
-import createEmotionCache from '../createEmotionCache';
-import Header from '@/components/Layout/Header';
-import Menu from '@/components/Layout/DesktopMenu';
-import { useRouter } from 'next/router';
-import mixpanel from 'mixpanel-browser';
-import Divider from '@mui/material/Divider';
-import { Box } from '@mui/material';
-import Footer from '@/components/Layout/Footer';
-import { PAGE_ROUTES, PAGE_URL_TO_INDEX_MAP } from '@/constants/constants';
-import useHomePage from '@/hooks/useHomePage';
-import MobileMenu from '@/components/Layout/MobileMenu';
-import { Analytics } from '@vercel/analytics/react';
-import { isServer, scrollToTop } from '@/utils/utils';
-import GoogleTranslate from '@/components/GoogleTranslate';
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import Head from "next/head";
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import { CacheProvider } from "@emotion/react";
+import theme from "../theme";
+import createEmotionCache from "../createEmotionCache";
+import Header from "@/components/Layout/Header";
+import Menu from "@/components/Layout/DesktopMenu";
+import { useRouter } from "next/router";
+import mixpanel from "mixpanel-browser";
+import Divider from "@mui/material/Divider";
+import { Box } from "@mui/material";
+import Footer from "@/components/Layout/Footer";
+import { PAGE_ROUTES, PAGE_URL_TO_INDEX_MAP } from "@/constants/constants";
+import useHomePage from "@/hooks/useHomePage";
+import MobileMenu from "@/components/Layout/MobileMenu";
+import { Analytics } from "@vercel/analytics/react";
+import { isServer, scrollToTop } from "@/utils/utils";
+import GoogleTranslate from "@/components/GoogleTranslate";
 import { ClerkProvider } from "@clerk/nextjs";
-import '../global.css'
+import "../global.css";
+import Script from "next/script";
 
 const clientSideEmotionCache = createEmotionCache();
-const MIXPANEL_TOKEN = '8121618e088b8916064a9449a6d800e6'
+const MIXPANEL_TOKEN = "8121618e088b8916064a9449a6d800e6";
 
 export default function MyApp(props) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   const router = useRouter();
-  const { pathname = '/' } = router || {};
+  const { pathname = "/" } = router || {};
   const initialPageIndex = PAGE_URL_TO_INDEX_MAP[pathname] || 0;
   const [currentPage, setCurrentPage] = useState(initialPageIndex);
   const homePageProps = useHomePage();
@@ -53,11 +54,11 @@ export default function MyApp(props) {
 
     mixpanel.people.set_once({
       distinct_id: distinctId,
-      'First Seen': new Date().toISOString(),
+      "First Seen": new Date().toISOString(),
     });
 
     const handleRouteChange = (url) => {
-      mixpanel.track('Page View', {
+      mixpanel.track("Page View", {
         distinct_id: distinctId,
         page: url,
       });
@@ -65,19 +66,18 @@ export default function MyApp(props) {
 
     handleRouteChange(window.location.pathname);
 
-    router.events.on('routeChangeComplete', handleRouteChange);
+    router.events.on("routeChangeComplete", handleRouteChange);
 
     return () => {
-      router.events.off('routeChangeComplete', handleRouteChange);
+      router.events.off("routeChangeComplete", handleRouteChange);
     };
   }, [router.events]);
 
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        <meta name='viewport' content='initial-scale=1, width=device-width' />
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
         {/* <meta name="robots" content="noindex, nofollow" /> */}
-        <script src="/badge_script.js" defer></script>
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
@@ -103,6 +103,7 @@ export default function MyApp(props) {
           </Box>
         </ClerkProvider>
         <Analytics />
+        <Script src="/badge_script.js" strategy="afterInteractive" />
       </ThemeProvider>
     </CacheProvider>
   );
@@ -110,16 +111,16 @@ export default function MyApp(props) {
 
 const STYLES = {
   appContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100vh',
+    display: "flex",
+    flexDirection: "column",
+    height: "100vh",
     // overflowX: 'hidden',
-    '& *:active, *:focus': {
-      outline: 'none',
-      backgroundColor: 'transparent',
+    "& *:active, *:focus": {
+      outline: "none",
+      backgroundColor: "transparent",
     },
-  }
-}
+  },
+};
 
 MyApp.propTypes = {
   Component: PropTypes.elementType.isRequired,
