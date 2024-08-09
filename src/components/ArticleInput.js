@@ -61,7 +61,16 @@ export default function AtricleInput({
                 size="small"
               />
             }
-            label={TEXTS.postInNewsFeed}
+            label={
+              <Typography
+                sx={{
+                  fontSize: theme.typography.fontSize * 0.75,
+                  color: theme.palette.text.secondary,
+                }}
+              >
+                {TEXTS.postInNewsFeed}
+              </Typography>
+            }
             sx={STYLES.checkbox}
           />
         </Box>
