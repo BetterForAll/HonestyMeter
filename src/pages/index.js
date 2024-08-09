@@ -89,7 +89,6 @@ const TEXTS = {
     medium: "Medium",
     high: "High",
   },
-  articleTextExtracted: "text extraction by url powered by",
   worldNewsApi: "world news api",
   people: "People",
   searchAndFilter: "Search and Filter",
@@ -349,19 +348,6 @@ export default function Home({
               >
                 {isSignedIn ? (
                   <Box sx={STYLES.articleInputContainer}>
-                    {isUrlProvidedAsInput && (
-                      <Typography sx={STYLES.articleTextExtracted}>
-                        {TEXTS.articleTextExtracted}
-                        &nbsp;
-                        <a
-                          href={WOLRD_NEWS_API_URL}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          {TEXTS.worldNewsApi}
-                        </a>
-                      </Typography>
-                    )}
                     <AtricleInput
                       article={article}
                       onArticleChange={handleArticleChange}
@@ -369,6 +355,7 @@ export default function Home({
                       isUrlProvidedAsInput={isUrlProvidedAsInput}
                       isPublished={isReportForPublishing}
                       setIsPublished={setIsReportForPublishing}
+                      isPublishEnabled={isUrlProvidedAsInput}
                     />
                   </Box>
                 ) : (
@@ -674,17 +661,6 @@ const STYLES = {
     width: "100%",
     margin: `${theme.spacing(1)} auto auto`,
     padding: { sm: theme.spacing(0, 2, 2, 2) },
-  },
-  articleTextExtracted: {
-    margin: "auto",
-    textAlign: "center",
-    marginBottom: theme.spacing(2),
-    marginTop: theme.spacing(0),
-    fontSize: theme.typography.fontSize * 0.75,
-    color: theme.palette.text.secondary,
-    " & a": {
-      color: theme.palette.text.secondary,
-    },
   },
   noReportsContainer: {
     margin: theme.spacing(2, 0),

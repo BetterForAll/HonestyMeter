@@ -52,7 +52,7 @@ export default function useHomePage() {
   );
   const { score, articleTitle, articleLink } = report || {};
   const isUrlProvidedAsInput = checkIsUrl(article);
-  const shouldPublishArticle = isReportForPublishing && isUrlProvidedAsInput;
+  const shouldPublishReport = isReportForPublishing && isUrlProvidedAsInput;
 
   const goToHomePage = () => {
     router.push("/");
@@ -85,7 +85,7 @@ export default function useHomePage() {
   const getRealReport = async () => {
     //TODO: refactor and clean up this function
     router.push(SAVED_REPORT_STATIC_PATH);
-    const reportId = (await fetchReport(article, shouldPublishArticle)) || {};
+    const reportId = (await fetchReport(article, shouldPublishReport)) || {};
 
     va.track(EVENT.reportReceived, { reportId });
 
