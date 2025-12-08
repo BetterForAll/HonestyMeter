@@ -4,17 +4,22 @@ import clientPromise, { dbName } from "../../../../server/mongodb/mongodb";
 const PEOPLE_COLLECTION_NAME = "people";
 
 export async function getPeople() {
-  const client = await clientPromise;
-  const db = client.db(dbName);
-
-  return db
-    .collection(PEOPLE_COLLECTION_NAME)
-    .find(
-      { reportCount: { $gt: 0 } },
-      { projection: { name: 1, _id: 0 } }
-    )
-    .sort({ reportCount: -1 })
-    .toArray();
+  try {
+    const client = await clientPromise;
+    const db = client.db(dbName);
+  
+    return db
+      .collection(PEOPLE_COLLECTION_NAME)
+      .find(
+        { reportCount: { $gt: 0 } },
+        { projection: { name: 1, _id: 0 } }
+      )
+      .sort({ reportCount: -1 })
+      .toArray();
+  } catch (error) {
+    console.error("Database connection error in getPeople:", error);
+    return [];
+  }
 }
 
 export async function GET() {

@@ -31,7 +31,12 @@ async function getPeopleData() {
   try {
     const ENTRIES_TO_SHOW = 3;
     const people = await getPeople();
-    const peopleNames = people.map((person: { name: string }) => person.name);
+    
+    // Check if people is array before mapping (handle potential API/DB failure)
+    const peopleNames = Array.isArray(people) 
+      ? people.map((person: { name: string }) => person.name)
+      : [];
+      
     const rating = await getLastRating();
     const { mostPraised, mostCriticized } = rating || {};
     const mostPraisedPeople =
@@ -50,6 +55,7 @@ async function getPeopleData() {
     };
   } catch (error) {
     console.error("Error fetching people data:", error);
+    // Return empty data structure on error (prevents build failure)
     return {
       people: [],
       rating: { mostPraisedPeople: [], mostCriticizedPeople: [], createdAt: "" },

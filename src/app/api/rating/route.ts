@@ -4,16 +4,21 @@ import clientPromise, { dbName } from "../../../../server/mongodb/mongodb";
 const RATING_COLLECTION_NAME = "rating";
 
 export async function getLastRating() {
-  const client = await clientPromise;
-  const db = client.db(dbName);
-  const result = await db
-    .collection(RATING_COLLECTION_NAME)
-    .find({})
-    .sort({ createdAt: -1 })
-    .limit(1)
-    .toArray();
+  try {
+    const client = await clientPromise;
+    const db = client.db(dbName);
+    const result = await db
+      .collection(RATING_COLLECTION_NAME)
+      .find({})
+      .sort({ createdAt: -1 })
+      .limit(1)
+      .toArray();
 
-  return result?.[0];
+    return result?.[0];
+  } catch (error) {
+    console.error("Database connection error in getLastRating:", error);
+    return null;
+  }
 }
 
 export async function GET() {
