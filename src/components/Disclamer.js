@@ -1,52 +1,28 @@
 import React from "react";
-import { Typography, Box } from '@mui/material';
-import theme from "@/theme";
+import { bool } from 'prop-types';
 
 export default function Disclamer({ isShort }) {
-
   return (
-    <Box sx={STYLES.container}>
-      {/* <Title text={TEXTS.TITLE} /> */}
-      <Paragrpah text={TEXTS.experimentalVersion} />
-      {
-        !isShort &&
+    <div className="p-4 mx-auto max-w-[1000px] text-gray-500 text-sm">
+      <p className="mb-4">
+        {TEXTS.experimentalVersion}
+      </p>
+      {!isShort && (
         <>
-          <Paragrpah text={TEXTS.noOneIsPerfect} />
-          <Paragrpah text={TEXTS.somwContentIsHardToEvaluate} />
+          <p className="mb-4">
+            {TEXTS.noOneIsPerfect}
+          </p>
+          <p className="mb-4">
+            {TEXTS.somwContentIsHardToEvaluate}
+          </p>
         </>
-      }
-    </Box>
+      )}
+    </div>
   )
 }
 
-const STYLES = {
-  container: {
-    padding: theme.spacing(4),
-    margin: ' 0 auto',
-    maxWidth: '1000px',
-    color: theme.palette.text.secondary,
-  },
-  title: {
-    marginBottom: theme.spacing(2),
-    fontSize: theme.typography.fontSize * 0.875,
-    color: theme.palette.text.secondary,
-  },
-  paragraph: {
-    marginBottom: theme.spacing(2),
-  }
-}
-
-const Title = ({ text }) => {
-  return <Typography variant="h5" sx={STYLES.title}>
-    {text}
-  </Typography>
-
-}
-
-const Paragrpah = ({ text }) => {
-  return <Typography variant="body2" sx={STYLES.paragraph}>
-    {text}
-  </Typography>
+Disclamer.propTypes = {
+  isShort: bool,
 }
 
 const TEXTS = {
@@ -70,4 +46,3 @@ content are created unknowingly, with the best of intentions.`,
     to significantly enhance the reliability and consistency of evaluations. Nevertheless, even in its current state,
      HonestyMeter frequently offers valuable insights that are challenging for humans to detect.`,
 }
-

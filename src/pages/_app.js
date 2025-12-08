@@ -1,24 +1,17 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Head from "next/head";
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import { CacheProvider } from "@emotion/react";
-import theme from "../theme";
-import createEmotionCache from "../createEmotionCache";
 import Header from "@/components/Layout/Header";
 import Menu from "@/components/Layout/DesktopMenu";
 import { useRouter } from "next/router";
 import mixpanel from "mixpanel-browser";
-import Divider from "@mui/material/Divider";
-import { Box } from "@mui/material";
 import Footer from "@/components/Layout/Footer";
 import { PAGE_ROUTES, PAGE_URL_TO_INDEX_MAP } from "@/constants/constants";
 import useHomePage from "@/hooks/useHomePage";
 import MobileMenu from "@/components/Layout/MobileMenu";
 import { Analytics } from "@vercel/analytics/react";
 import { isServer, scrollToTop } from "@/utils/utils";
-import GoogleTranslate from "@/components/GoogleTranslate";
+// import GoogleTranslate from "@/components/GoogleTranslate";
 import { ClerkProvider } from "@clerk/nextjs";
 import "../globals.css"; // New Tailwind CSS
 import "../global.css";  // Keep legacy styles during migration
@@ -27,12 +20,10 @@ import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
-
-const clientSideEmotionCache = createEmotionCache();
 const MIXPANEL_TOKEN = "8121618e088b8916064a9449a6d800e6";
 
 export default function MyApp(props) {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const { Component, pageProps } = props;
   const router = useRouter();
   const { pathname = "/" } = router || {};
   const initialPageIndex = PAGE_URL_TO_INDEX_MAP[pathname] || 0;
@@ -79,56 +70,39 @@ export default function MyApp(props) {
   }, [router.events]);
 
   return (
-    <CacheProvider value={emotionCache}>
+    <>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
         {/* <meta name="robots" content="noindex, nofollow" /> */}
       </Head>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <ClerkProvider {...pageProps}>
-          <Box sx={STYLES.appContainer}>
-            {/* <GoogleTranslate /> */}
-            <Header />
-            <Menu
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              pageRoutes={PAGE_ROUTES}
-              closeReport={closeReport}
-            />
-            <MobileMenu
-              setCurrentPage={setCurrentPage}
-              pageRoutes={PAGE_ROUTES}
-              closeReport={closeReport}
-            />
-            <Divider />
-            <Component homePageProps={homePageProps} {...pageProps} />
-            <Divider />
-            <Footer setCurrentPage={setCurrentPage} closeReport={closeReport} />
-          </Box>
-        </ClerkProvider>
-        <Analytics />
-        <Script src="/badge_script.js" strategy="afterInteractive" />
-      </ThemeProvider>
-    </CacheProvider>
+      <ClerkProvider {...pageProps}>
+        <div className="flex flex-col min-h-screen *:active:outline-none *:focus:outline-none *:active:bg-transparent *:focus:bg-transparent">
+          {/* <GoogleTranslate /> */}
+          <Header />
+          <Menu
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            pageRoutes={PAGE_ROUTES}
+            closeReport={closeReport}
+          />
+          <MobileMenu
+            setCurrentPage={setCurrentPage}
+            pageRoutes={PAGE_ROUTES}
+            closeReport={closeReport}
+          />
+          <hr className="border-gray-200" />
+          <Component homePageProps={homePageProps} {...pageProps} />
+          <hr className="border-gray-200" />
+          <Footer setCurrentPage={setCurrentPage} closeReport={closeReport} />
+        </div>
+      </ClerkProvider>
+      <Analytics />
+      <Script src="/badge_script.js" strategy="afterInteractive" />
+    </>
   );
 }
 
-const STYLES = {
-  appContainer: {
-    display: "flex",
-    flexDirection: "column",
-    height: "100vh",
-    // overflowX: 'hidden',
-    "& *:active, *:focus": {
-      outline: "none",
-      backgroundColor: "transparent",
-    },
-  },
-};
-
 MyApp.propTypes = {
   Component: PropTypes.elementType.isRequired,
-  emotionCache: PropTypes.object,
   pageProps: PropTypes.object.isRequired,
 };

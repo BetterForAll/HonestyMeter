@@ -1,8 +1,7 @@
 import React from 'react';
-import { Typography, Box, Paper } from '@mui/material';
 import { Pie } from 'react-chartjs-2';
-import theme from '@/theme';
 import { object } from 'prop-types';
+import { Card, CardContent } from '../../ui/card';
 
 const TEXTS = {
   title: 'Sides Representation Balance'
@@ -10,45 +9,21 @@ const TEXTS = {
 
 export default function SidesBalanceChart({ sidesBalanceChartData }) {
   return (
-    <Box sx={STYLES.container}>
-      <Typography variant="h6" sx={STYLES.title}>
+    <div className="w-[300px]">
+      <h3 className="text-lg font-semibold text-center mb-4">
         {TEXTS.title}
-      </Typography>
-      <Paper elevation={2} sx={STYLES.paper}>
-        <Box style={STYLES.pieContainer}>
-          <Pie data={sidesBalanceChartData} />
-        </Box>
-      </Paper>
-    </Box>
+      </h3>
+      <Card className="mb-4">
+        <CardContent className="p-4">
+          <div className="w-full h-[287px] flex justify-center items-center">
+            <Pie data={sidesBalanceChartData} />
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   )
-}
-
-const STYLES = {
-  container: {
-    width: '300px'
-  },
-  title: {
-    textAlign: 'center',
-    marginBottom: theme.spacing(2)
-  },
-  paper: {
-    padding: theme.spacing(2),
-    marginBottom: theme.spacing(2)
-  },
-  pieContainer: {
-    width: '100%',
-    height: '287px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
 }
 
 SidesBalanceChart.propTypes = {
   sidesBalanceChartData: object.isRequired
 }
-
-
-
-
-

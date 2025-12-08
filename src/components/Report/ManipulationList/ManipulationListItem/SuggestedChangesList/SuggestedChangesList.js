@@ -1,8 +1,6 @@
-import { Box, Typography } from '@mui/material'
 import React from 'react'
 import SuggestedChangesListItem from './SuggestedChangesListItem'
-import theme from '@/theme'
-import { arrayOf, string, bool } from 'prop-types'
+import { bool } from 'prop-types'
 import { suggestedChangesPropType } from '@/components/Report/reportPropTypes'
 
 const TEXTS = {
@@ -11,28 +9,15 @@ const TEXTS = {
 
 export default function SuggestedChangesList({ suggestedChanges = [], showTitle }) {
     return (
-        <Box sx={STYLES.container}>
-            <Typography variant="body2" sx={STYLES.title}>
+        <div className="flex flex-col w-[300px]">
+            <p className="pl-6 pb-2 text-sm font-medium text-gray-700">
                 {showTitle && TEXTS.title}
-            </Typography>
+            </p>
             {suggestedChanges.map((suggestedChange) => (
                 <SuggestedChangesListItem suggestedChange={suggestedChange} key={suggestedChange} />
             ))}
-        </Box>
+        </div>
     )
-}
-
-const STYLES = {
-    container: {
-        display: 'flex',
-        flexDirection: 'column',
-        width: '300px'
-    },
-    title: {
-        padding: theme.spacing(0, 0, 2, 6),
-        fontSize: theme.typography.fontSize * 0.875,
-        fontWeight: 500
-    },
 }
 
 SuggestedChangesList.propTypes = {

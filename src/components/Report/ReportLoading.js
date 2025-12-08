@@ -1,7 +1,6 @@
-import { Box, CircularProgress, Typography } from '@mui/material'
 import React from 'react'
 import LinearBuffer from '../LinearBuffer'
-import theme from '@/theme'
+import { Loader2 } from 'lucide-react'
 
 const TEXTS = {
     messageLine1: 'Hold Tight, The Truth Is Loading...And It\'s Worth It!',
@@ -10,30 +9,15 @@ const TEXTS = {
 
 export default function ReportLoading() {
     return (
-        <Box sx={STYLES.container}>
-            <CircularProgress />
+        <div className="flex flex-col justify-center items-center min-h-[250px]">
+            <Loader2 className="w-10 h-10 text-indigo-600 animate-spin" />
             <LinearBuffer />
-            <Typography variant="body2" color="text.secondary" sx={STYLES.loadingMessageLine}>
+            <p className="text-sm text-gray-500 mb-4 text-center">
                 {TEXTS.messageLine1}
-            </Typography>
-            <Typography variant="body2" color="text.secondary" sx={STYLES.loadingMessageLine}>
+            </p>
+            <p className="text-sm text-gray-500 text-center">
                 {TEXTS.messageLine2}
-            </Typography>
-
-        </Box>
+            </p>
+        </div>
     )
-}
-
-const STYLES = {
-    container: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '250px',
-    },
-    loadingMessageLine: {
-        margin: theme.spacing(0, 0, 2, 2),
-        fontSize: theme.typography.fontSize * 0.875,
-    },
 }

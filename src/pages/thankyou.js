@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
-import Button from '@mui/material/Button';
 import { useRouter } from 'next/router'
-import theme from '@/theme';
-import { Box, Typography } from '@mui/material';
+import { Button } from '@/components/ui/button';
 
 const TESTS = {
   title: 'Thank you for your support! 🙏',
@@ -10,12 +8,11 @@ const TESTS = {
   home: 'Home',
 }
 
-
 export default function Thankyou() {
-  const routes = useRouter();
+  const router = useRouter();
 
   const redirectToHomePage = () => {
-    routes.push('/');
+    router.push('/');
   }
 
   useEffect(() => {
@@ -29,36 +26,21 @@ export default function Thankyou() {
   });
 
   return (
-    <Box style={STYLES.container}>
-      <Typography>
+    <div className="w-full h-[500px] flex gap-6 flex-col justify-center items-center">
+      <p className="text-base text-gray-900">
         {TESTS.title}
-      </Typography>
-      <Typography>
+      </p>
+      <p className="text-base text-gray-900">
         {TESTS.redirectMessage}
-      </Typography>
+      </p>
       <Button
-        variant="outlined"
-        size="large"
-        sx={STYLES.button}
+        variant="outline"
+        size="lg"
+        className="w-32"
         onClick={redirectToHomePage}
       >
         {TESTS.home}
       </Button>
-    </Box>
+    </div>
   )
-}
-
-const STYLES = {
-  container: {
-    width: '100%',
-    height: '500px',
-    display: 'flex',
-    gap: theme.spacing(3),
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  button: {
-    width: '128px',
-  }
 }

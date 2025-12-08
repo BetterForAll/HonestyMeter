@@ -1,8 +1,5 @@
 import React from 'react';
-import { Typography, Box } from '@mui/material';
-import theme from '@/theme';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-
+import { X } from 'lucide-react';
 
 const TEXT = {
     pageTitle: 'Methodology',
@@ -62,21 +59,11 @@ const TEXT = {
     methodologySourcesRatingHeader: 'Methodology for Source Rating',
     methodologySourcesRatingDescription: `Our application, currently in its demo phase, offers an exploratory analysis 
                                      focused on identifying the most objective (least biased) sources, relatively speaking.`,
-
     includedSourcesHeader: 'Included Sources',
     includedSourcesDescription: `We include only leading sources - those ranked within the top 1,000 websites worldwide.`,
-
-    dynamicThresholdHeader: 'Dynamic Threshold for Inclusion',
     dynamicThresholdDescriptionSources: `Sources are included in our analysis if we have analyzed at least 100 articles from each.
                                      Importantly, as we accumulate more articles over time, we plan to increase this threshold. 
                                      This gradual increase will enhance the reliability of our analysis.`,
-    dynamicThresholdDescription: `Entities are included in our analysis if they are mentioned 
-                                     in at least 30 articles. This threshold ensures we focus on 
-                                     entities with significant media presence. Importantly, as we 
-                                     accumulate more articles over time, we plan to increase this 
-                                     threshold. This gradual increase will enhance the reliability 
-                                     of our analysis, ensuring that our insights are based on 
-                                     entities with sustained and substantial media coverage.`,
     scoreRangeForInclusionHeader: 'Score Range for Inclusion',
     scoreRangeForInclusionDescription1: `We've observed that a maximum objectivity score of 100 often does not signify 
     high objectivity but rather the purely informative nature of the content. This category typically includes brief 
@@ -91,142 +78,103 @@ const TEXT = {
 
 export const MethodologyPeopleRating = ({ createdAt }) => {
     return (
-        <Box sx={STYLES.container}>
-            <CloseRoundedIcon sx={STYLES.closeIcon} />
-            <Typography variant="h1" gutterBottom>
+        <div className="w-full max-w-[90%] md:max-w-[60%] mx-auto p-4 bg-white max-h-[85%] overflow-x-auto relative">
+            <X className="absolute top-2 right-2 w-6 h-6 text-gray-500 cursor-pointer" />
+            <h1 className="text-2xl font-bold m-4">
                 {TEXT.methodologyPeopleHeader}
-            </Typography>
-            <Typography paragraph sx={{ color: theme.palette.text.secondary, fontSize: theme.typography.fontSize * 0.75 }}>
+            </h1>
+            <p className="text-xs text-gray-500 m-4">
                 {`Date range: 23/08/2023 - ${createdAt}`}
-            </Typography>
-            <Typography paragraph>
+            </p>
+            <p className="m-4">
                 {TEXT.methodologyDescription}
-            </Typography>
+            </p>
 
-            <Typography variant="h2" gutterBottom>
+            <h2 className="text-xl font-bold m-4">
                 {TEXT.criticizedEntitiesHeader}
-            </Typography>
-            <Typography paragraph>
+            </h2>
+            <p className="m-4">
                 {TEXT.criticizedEntitiesDescription}
-            </Typography>
+            </p>
 
-            <Typography variant="h2" gutterBottom>
+            <h2 className="text-xl font-bold m-4">
                 {TEXT.praisedEntitiesHeader}
-            </Typography>
-            <Typography paragraph>
+            </h2>
+            <p className="m-4">
                 {TEXT.praisedEntitiesDescription}
-            </Typography>
+            </p>
 
-            <Typography variant="h2" gutterBottom>
+            <h2 className="text-xl font-bold m-4">
                 {TEXT.dynamicThresholdHeader}
-            </Typography>
-            <Typography paragraph>
+            </h2>
+            <p className="m-4">
                 {TEXT.dynamicThresholdDescription}
-            </Typography>
+            </p>
 
-            <Typography variant="h2" gutterBottom>
+            <h2 className="text-xl font-bold m-4">
                 {TEXT.futureDevelopmentHeader}
-            </Typography>
-            <Typography paragraph>
+            </h2>
+            <p className="m-4">
                 {TEXT.futureDevelopmentDescription}
-            </Typography>
-            <Typography variant="h2" gutterBottom>
+            </p>
+            <h2 className="text-xl font-bold m-4">
                 {TEXT.experimentalNatureHeader}
-            </Typography>
-            <Typography paragraph>
+            </h2>
+            <p className="m-4">
                 {TEXT.experimentalNatureDescription}
-            </Typography>
-        </Box>
+            </p>
+        </div>
     );
 };
 
 export const MethodologySourcesRating = ({ createdAt }) => {
     return (
-        <Box sx={STYLES.container}>
-            <CloseRoundedIcon sx={STYLES.closeIcon} />
-            <Typography variant="h1" gutterBottom>
+        <div className="w-full max-w-[90%] md:max-w-[60%] mx-auto p-4 bg-white max-h-[85%] overflow-x-auto relative">
+            <X className="absolute top-2 right-2 w-6 h-6 text-gray-500 cursor-pointer" />
+            <h1 className="text-2xl font-bold m-4">
                 {TEXT.methodologyPeopleHeader}
-            </Typography>
-            <Typography paragraph sx={{ color: theme.palette.text.secondary, fontSize: theme.typography.fontSize * 0.75 }}>
+            </h1>
+            <p className="text-xs text-gray-500 m-4">
                 {`Date range: 23/08/2023 - ${createdAt}`}
-            </Typography>
-            <Typography paragraph>
+            </p>
+            <p className="m-4">
                 {TEXT.methodologySourcesRatingDescription}
-            </Typography>
+            </p>
 
-            <Typography variant="h2" gutterBottom>
+            <h2 className="text-xl font-bold m-4">
                 {TEXT.includedSourcesHeader}
-            </Typography>
-            <Typography paragraph>
+            </h2>
+            <p className="m-4">
                 {TEXT.includedSourcesDescription}
-            </Typography>
+            </p>
 
-            <Typography variant="h2" gutterBottom>
+            <h2 className="text-xl font-bold m-4">
                 {TEXT.dynamicThresholdHeader}
-            </Typography>
-            <Typography paragraph>
+            </h2>
+            <p className="m-4">
                 {TEXT.dynamicThresholdDescriptionSources}
-            </Typography>
-            <Typography variant="h2" gutterBottom>
+            </p>
+            <h2 className="text-xl font-bold m-4">
                 {TEXT.scoreRangeForInclusionHeader}
-            </Typography>
-            <Typography paragraph>
+            </h2>
+            <p className="m-4">
                 {TEXT.scoreRangeForInclusionDescription1}
-            </Typography>
-            <Typography paragraph>
+            </p>
+            <p className="m-4">
                 {TEXT.scoreRangeForInclusionDescription2}
-            </Typography>
-            <Typography variant="h2" gutterBottom>
+            </p>
+            <h2 className="text-xl font-bold m-4">
                 {TEXT.futureDevelopmentHeader}
-            </Typography>
-            <Typography paragraph>
+            </h2>
+            <p className="m-4">
                 {TEXT.futureDevelopmentDescriptionSources}
-            </Typography>
-            <Typography variant="h2" gutterBottom>
+            </p>
+            <h2 className="text-xl font-bold m-4">
                 {TEXT.experimentalNatureHeader}
-            </Typography>
-            <Typography paragraph>
+            </h2>
+            <p className="m-4">
                 {TEXT.experimentalNatureDescription}
-            </Typography>
-        </Box>
+            </p>
+        </div>
     );
 };
-
-const STYLES = {
-    container: {
-        width: '100%',
-        maxWidth: { xs: '90%', md: '60%' },
-        margin: '0 auto auto',
-        padding: theme.spacing(2),
-        backgroundColor: theme.palette.background.paper,
-        maxHeight: '85%',
-        overflowX: 'auto',
-        // borderRadius: '8px',
-        padding: theme.spacing(1),
-        '& h1': {
-            margin: theme.spacing(2),
-            fontSize: theme.typography.fontSize * 1.5,
-            fontWeight: theme.typography.fontWeightBold,
-        },
-        '&  h2': {
-            margin: theme.spacing(2),
-            fontSize: theme.typography.fontSize * 1.25,
-            fontWeight: theme.typography.fontWeightBold,
-        },
-        '& p': {
-            margin: theme.spacing(2),
-        },
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-    },
-    closeIcon: {
-        cursor: 'pointer',
-        fontSize: theme.spacing(3),
-        color: theme.palette.text.secondary,
-        position: 'absolute',
-        top: theme.spacing(1),
-        right: theme.spacing(1),
-    },
-}

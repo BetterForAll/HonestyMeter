@@ -1,8 +1,9 @@
 import React, { useState, memo } from 'react';
-import Button from '@mui/material/Button';
 import va from '@vercel/analytics';
 import { EVENT } from '@/constants/constants';
 import { copyTextToClipboard } from '@/utils/utils';
+import { Button } from '../ui/button';
+import { Copy, Check } from 'lucide-react';
 
 const TIMEOUT = 1500;
 
@@ -14,6 +15,7 @@ const TEXTS = {
 function CopyToClipboard({ copyText }) {
     const [isCopied, setIsCopied] = useState(false);
     const buttonText = isCopied ? TEXTS.copied : TEXTS.copy;
+    const Icon = isCopied ? Check : Copy;
 
     const handleCopyClick = () => {
         copyTextToClipboard(copyText)
@@ -32,16 +34,15 @@ function CopyToClipboard({ copyText }) {
     }
 
     return (
-        <Button variant='outlined' sx={STYLES.button} onClick={handleCopyClick} >
+        <Button 
+            variant='outline' 
+            onClick={handleCopyClick}
+            className="w-full max-w-xs gap-2"
+        >
+            <Icon className="w-4 h-4" />
             <span>{buttonText}</span>
-        </Button >
+        </Button>
     );
-}
-
-const STYLES = {
-    button: {
-        minWidth: '100%',
-    }
 }
 
 export default memo(CopyToClipboard);

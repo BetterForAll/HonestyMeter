@@ -4,22 +4,7 @@ import useIsMobileClient from "@/hooks/useIsMobileClient";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import va from "@vercel/analytics";
-import theme from "@/theme";
-import {
-  Box,
-  Button,
-  Chip,
-  Fade,
-  List,
-  ListItem,
-  Tooltip,
-  Typography,
-} from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import SearchOffIcon from "@mui/icons-material/SearchOff";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
-import InfoIcon from "@mui/icons-material/Info";
+import { SearchIcon, SearchX, Filter, FilterX, Info } from 'lucide-react';
 import {
   scrollToTop,
   scrollToBottom,
@@ -31,34 +16,34 @@ import Share from "@/components/Share";
 import AtricleInput from "@/components/ArticleInput";
 import Disclamer from "@/components/Disclamer";
 import {
-  API_URL,
   BASE_URL,
-  CATEGORIES,
   COUNTRIES,
   EMPTY_STRING,
   EVENT,
-  STEPS,
-  WOLRD_NEWS_API_URL,
 } from "@/constants/constants";
 import ReportList from "@/components/ReportList/ReportList";
 import usePageLoadingFull from "@/hooks/usePageLoadingFull";
 import Pagination from "@/components/Layout/Pagination";
 import Search from "@/components/Layout/Search";
 import CreateReportButton from "@/components/Layout/CreateReportButton";
-import BackButton from "@/components/Layout/BackButton";
 import AutoComplete from "@/components/Autocomplete/Autocomplete";
-import TravelExploreIcon from "@mui/icons-material/TravelExplore";
-import CloseIcon from "@mui/icons-material/Close";
-import Collapse from "@mui/material/Collapse";
+import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
 import { getLastRating } from "./api/rating";
 import { Rating } from "@/components/RatingList/Rating";
 import { MethodologySourcesRating } from "@/components/Methodology/Methodology";
-import Badge from "../components/Badge/Badge";
 import { SignIn, useUser } from "@clerk/nextjs";
+import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+
 
 const LOGO_URL = "https://honestymeter.com/favicon.png";
 const OPEN_GRAPH_IMAGE_URL = "https://honestymeter.com/opengraph-logo.png";
-const TWITTER_IMAGE_URL = "https://honestymeter.com/favicon.png";
 const SHARING_CONTEXT = "app";
 const SEARCH_FIELD_ID = "search-field-home";
 const MINIMUM_CARDS_COUNT_TO_SHOW_BOTTOM_CTA = 8;
@@ -105,8 +90,6 @@ const FILTER_PARAMS = {
   category: "category",
 };
 
-//
-
 export default function Home({
   homePageProps,
   reports,
@@ -138,8 +121,6 @@ export default function Home({
     isUrlProvidedAsInput,
   } = homePageProps;
   const [isTopArticleInputShown, setIsTopArticleInputShown] = useState(false);
-  const [isBottomArticleInputShown, setIsBottomArticleInputShown] =
-    useState(false);
   const [isSearchShown, setIsSearchShown] = useState(false);
   const [isFilterShown, setIsFilterShown] = useState(false);
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
@@ -152,17 +133,15 @@ export default function Home({
   };
   const isMobile = useIsMobileClient();
   const isReportListEmpty = reports.length === 0;
-  const shouldShowBottomCTA =
-    reports.length > MINIMUM_CARDS_COUNT_TO_SHOW_BOTTOM_CTA ||
-    (!isReportListEmpty && isMobile);
+  
   const searchIconTooltip = getSearchIconTooltipText(
     isSearchShown,
     isQueryParams
   );
   const { createdAt: ratingCreatedAt, mostObjectiveSources } = rating || {};
   const mostObjectiveSourcesFormatted = mostObjectiveSources
-    .join(", ")
-    .toUpperCase();
+    ? mostObjectiveSources.join(", ").toUpperCase()
+    : "";
   const { isSignedIn } = useUser();
 
   const onCardClick = (reportUrl) => () => {
@@ -177,15 +156,12 @@ export default function Home({
     va.track(event);
 
     clearArticleInput();
-    isTop
-      ? setIsTopArticleInputShown(!isTopArticleInputShown)
-      : setIsBottomArticleInputShown(!isBottomArticleInputShown);
+    setIsTopArticleInputShown(!isTopArticleInputShown);
     setIsSearchShown(false);
     setIsFilterShown(false);
 
     const scrollMethod = isTop ? scrollToTop : scrollToBottom;
     setTimeout(() => {
-      // wait for the animation to finish. TODO: find a better way to do this, see MUI docs
       scrollMethod();
     }, 0);
   };
@@ -232,16 +208,6 @@ export default function Home({
     setIsSearchShown(isSearchShownAfterChange);
   };
 
-  const toggleFilter = () => {
-    //TODO: Decide if we want to use filter. Activate if we do
-    if (!isFilterShown) {
-      setIsTopArticleInputShown(false);
-      setIsSearchShown(false);
-    }
-
-    setIsFilterShown(!isFilterShown);
-  };
-
   const hanldeFilterChange =
     (type) =>
     (_e, newValue = EMPTY_STRING) => {
@@ -264,249 +230,142 @@ export default function Home({
   return (
     <>
       {getHtmlHead(router.asPath)}
-      {
-        <Box sx={STYLES.container} key={reports}>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: theme.spacing(3),
-            }}
-          >
-            <Typography variant="h2" sx={STYLES.title}>
-              {TEXTS.title}
-            </Typography>
-          </Box>
-          {isFirstPage && (
-            <Rating
-              {...{
-                createdAt: ratingCreatedAt,
-                items: mostObjectiveSourcesFormatted,
-                title: TEXTS.mostObjectiveSources,
-                titleColor: theme.palette.primary.main,
-                Methodology: MethodologySourcesRating,
-              }}
-            />
-          )}
+      <div className="w-full max-w-[1400px] mx-auto flex flex-col justify-center items-center pb-4 px-4 text-center">
+        <div className="flex justify-center items-center gap-6 mt-6 mb-6">
+          <h2 className="text-3xl font-bold text-gray-900">
+            {TEXTS.title}
+          </h2>
+        </div>
+        
+        {isFirstPage && (
+          <Rating
+            createdAt={ratingCreatedAt}
+            items={mostObjectiveSourcesFormatted}
+            title={TEXTS.mostObjectiveSources}
+            titleColor="text-indigo-600"
+            Methodology={MethodologySourcesRating}
+          />
+        )}
 
-          <Box
-            sx={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: 1,
-              justifyContent: "center",
-              alignItems: "center",
-              marginBottom: 2,
-              marginTop: 1,
-              width: "100%",
-            }}
-          >
-            <CreateReportButton
-              onClick={toggleArticleInput(true)}
-              isArticleInputShown={isTopArticleInputShown}
-            />
-            <Box
-              sx={{
-                display: "flex",
-                gap: 1,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              {/* TODO: Decide if we want to use filter*/}
-              {/* <Tooltip
-                title={isFilterShown ? 'Remove filter' : 'Filter by Category and Country'}>
-                <Button
-                  onClick={toggleFilter}
-                >
-                  {isFilterShown ?
-                    <FilterAltOffIcon />
-                    :
-                    <FilterAltIcon />
-                  }
-                </Button>
-              </Tooltip> */}
-              <Tooltip title={searchIconTooltip}>
-                <Button onClick={toggleSearch}>
-                  {isSearchShown ? (
-                    <SearchOffIcon
-                      sx={{
-                        color: theme.palette.primary.main,
-                      }}
-                    />
-                  ) : (
-                    <SearchIcon sx={{ color: theme.palette.text.secondary }} />
-                  )}
-                </Button>
+        <div className="flex flex-wrap gap-2 justify-center items-center mb-4 mt-2 w-full">
+          <CreateReportButton
+            onClick={toggleArticleInput(true)}
+            isArticleInputShown={isTopArticleInputShown}
+          />
+          <div className="flex gap-2 justify-center items-center">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button onClick={toggleSearch} variant="secondary">
+                    {isSearchShown ? (
+                      <SearchX className="h-5 w-5 text-indigo-600" />
+                    ) : (
+                      <SearchIcon className="h-5 w-5 text-gray-500" />
+                    )}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{searchIconTooltip}</p>
+                </TooltipContent>
               </Tooltip>
-            </Box>
-            {
-              <Collapse
-                in={isTopArticleInputShown}
-                sx={STYLES.articleInputContainer}
-              >
-                {isSignedIn ? (
-                  <Box sx={STYLES.articleInputContainer}>
-                    <AtricleInput
-                      article={article}
-                      onArticleChange={handleArticleChange}
-                      onGetReport={handleGetReport}
-                      isUrlProvidedAsInput={isUrlProvidedAsInput}
-                      isPublished={isReportForPublishing}
-                      setIsPublished={setIsReportForPublishing}
-                      isPublishEnabled={isUrlProvidedAsInput}
-                    />
-                  </Box>
-                ) : (
-                  <Box sx={STYLES.signInContainer}>
-                    <SignIn
-                      afterSignInUrl="/"
-                      afterSignUpUrl="/"
-                      routing="virtual"
-                    />
-                  </Box>
-                )}
-              </Collapse>
-            }
-          </Box>
-          {
-            <Collapse in={isSearchShown}>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  width: "100%",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: { sx: theme.spacing(3), sm: theme.spacing(4) },
-                  margin: theme.spacing(0, 0, 2, 0),
-                  flexDirection: { xs: "column", sm: "row" },
-                }}
-              >
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: { sx: theme.spacing(3), sm: theme.spacing(4) },
-                    width: { xs: "100%", sm: "auto" },
-                    marginBottom: { xs: theme.spacing(0.5), sm: 0 },
-                  }}
-                >
-                  {/* <AutoComplete
-                    label="Category"
-                    list={CATEGORIES}
-                    onChange={hanldeFilterChange(FILTER_PARAMS.category)}
-                    value={category}
-                    onClearClick={hanldeFilterChange(FILTER_PARAMS.category)}
-                  /> */}
-                  <AutoComplete
-                    label="Country"
-                    list={COUNTIRES_LIST}
-                    onChange={hanldeFilterChange(FILTER_PARAMS.country)}
-                    value={country}
-                    onClearClick={hanldeFilterChange(FILTER_PARAMS.country)}
+            </TooltipProvider>
+          </div>
+          
+          <Collapsible
+            open={isTopArticleInputShown}
+            className="w-full mt-2 mx-auto sm:px-4"
+          >
+            <CollapsibleContent>
+              {isSignedIn ? (
+                <div className="w-full mt-2 mx-auto sm:px-4">
+                  <AtricleInput
+                    article={article}
+                    onArticleChange={handleArticleChange}
+                    onGetReport={handleGetReport}
+                    isUrlProvidedAsInput={isUrlProvidedAsInput}
+                    isPublished={isReportForPublishing}
+                    setIsPublished={setIsReportForPublishing}
+                    isPublishEnabled={isUrlProvidedAsInput}
                   />
-                </Box>
-                <Search
-                  id={SEARCH_FIELD_ID}
-                  onClick={handleSearchClick}
-                  onChange={handleSearchFieldChange}
-                  value={searchValue}
-                  variant="text"
-                  onClear={hanldeFilterChange(FILTER_PARAMS.searchTerm)}
+                </div>
+              ) : (
+                <div className="flex flex-col justify-center items-center">
+                  <SignIn
+                    afterSignInUrl="/"
+                    afterSignUpUrl="/"
+                    routing="virtual"
+                  />
+                </div>
+              )}
+            </CollapsibleContent>
+          </Collapsible>
+        </div>
+
+        <Collapsible open={isSearchShown}>
+          <CollapsibleContent>
+            <div className="flex flex-wrap w-full justify-center items-center gap-6 mb-4 flex-col sm:flex-row">
+              <div className="flex flex-wrap justify-center items-center gap-6 w-full sm:w-auto mb-1 sm:mb-0">
+                <AutoComplete
+                  label="Country"
+                  list={COUNTIRES_LIST}
+                  onChange={hanldeFilterChange(FILTER_PARAMS.country)}
+                  value={country}
+                  onClearClick={hanldeFilterChange(FILTER_PARAMS.country)}
                 />
-              </Box>
-            </Collapse>
-          }
-          {/*TODO: decide if we need the chips*/}
-          {/* {
-            <List sx={{
-              display: 'flex',
-              gap: 2,
-              justifyContent: 'center',
-              alignItems: 'center',
-              flexWrap: 'wrap',
-              minHeight: 40,
-              marginBottom: 2,
-            }}>
-              {
-                categoryFromQuery &&
-                <Chip onDelete={hanldeFilterChange(FILTER_PARAMS.category)} label={`Category: ${categoryFromQuery}`} />
-              }
-              {
-                countryFromQuery &&
-                <Chip onDelete={hanldeFilterChange(FILTER_PARAMS.country)} label={`Country: ${countryFromQuery}`} />
-              }
-              {
-                (searchFromQuery) &&
-                <Chip onDelete={hanldeFilterChange(FILTER_PARAMS.searchTerm)} label={`Search Term: ${searchFromQuery}`} />
-              }
-            </List>
-          } */}
-          <Typography variant="body1" sx={STYLES.poweredBy}>
-            {TEXTS.poweredBy}
-          </Typography>
+              </div>
+              <Search
+                id={SEARCH_FIELD_ID}
+                onClick={handleSearchClick}
+                onChange={handleSearchFieldChange}
+                value={searchValue}
+                variant="text"
+                onClear={hanldeFilterChange(FILTER_PARAMS.searchTerm)}
+              />
+            </div>
+          </CollapsibleContent>
+        </Collapsible>
 
-          {isPaginationEnabled && !isFirstPage && (
-            <Pagination {...{ page, isFirstPage, isLastPage }} />
-          )}
-          {isReportListEmpty ? (
-            <Box sx={STYLES.noReportsContainer}>
-              <Typography variant="body1" sx={STYLES.noReportsText}>
-                {getNotFoundText()}
-              </Typography>
-            </Box>
-          ) : (
-            <ReportList
-              reports={reports}
-              onCardClick={onCardClick}
-              isLoading={isLoading}
-            />
-          )}
-          {isPaginationEnabled && (
-            <Box sx={STYLES.paginationContainerBottom}>
-              <Pagination
-                {...{ page, isFirstPage, isLastPage }}
-                isScrollUpIconShown
-              />
-            </Box>
-          )}
-          {/* TODO: fix scroll position when article input is open */}
-          {/* {
+        <p className="text-xs text-gray-500 opacity-80 text-center mx-6 my-2">
+          {TEXTS.poweredBy}
+        </p>
 
-            shouldShowBottomCTA &&
-            <>
-            <Box sx={{ marginBottom: 2 }}>
-              <CreateReportButton
-                onClick={toggleArticleInput(false)}
-                isArticleInputShown={isBottomArticleInputShown}
-              />
-            </Box>
-          <Collapse in={isBottomArticleInputShown} sx={STYLES.articleInputContainer}>
-            <Box sx={STYLES.articleInputContainer}>
-              <AtricleInput
-                article={article}
-                onArticleChange={handleArticleChange}
-                onGetReport={handleGetReport}
-              />
-            </Box>
-          </Collapse>
-          </>
-          } */}
-          <Box sx={{ marginTop: theme.spacing(2) }}>
-            <Share
-              title={TEXTS.shareTitle}
-              url={BASE_URL}
-              description={TEXTS.shareDescription}
-              hashTags={TEXTS.shareHashTags}
-              context={SHARING_CONTEXT}
+        {isPaginationEnabled && !isFirstPage && (
+          <Pagination {...{ page, isFirstPage, isLastPage }} />
+        )}
+        
+        {isReportListEmpty ? (
+          <div className="my-4">
+            <p className="text-gray-900 text-base">
+              {getNotFoundText(countryFromQuery, categoryFromQuery, searchFromQuery)}
+            </p>
+          </div>
+        ) : (
+          <ReportList
+            reports={reports}
+            onCardClick={onCardClick}
+            isLoading={isLoading}
+          />
+        )}
+        
+        {isPaginationEnabled && (
+          <div className="mb-4">
+            <Pagination
+              {...{ page, isFirstPage, isLastPage }}
+              isScrollUpIconShown
             />
-          </Box>
-        </Box>
-      }
+          </div>
+        )}
+
+        <div className="mt-4">
+          <Share
+            title={TEXTS.shareTitle}
+            url={BASE_URL}
+            description={TEXTS.shareDescription}
+            hashTags={TEXTS.shareHashTags}
+            context={SHARING_CONTEXT}
+          />
+        </div>
+      </div>
       {isFirstPage && <Disclamer />}
     </>
   );
@@ -621,57 +480,3 @@ export async function getServerSideProps(context) {
     console.error({ error });
   }
 }
-
-const STYLES = {
-  container: {
-    width: "100%",
-    maxWidth: "1400px",
-    margin: "auto",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingBottom: theme.spacing(2),
-    padding: theme.spacing(0, 2),
-  },
-  date: {
-    color: theme.palette.text.secondary,
-    margin: theme.spacing(2, 0, 1, 0),
-    fontSize: theme.typography.fontSize * 0.875,
-  },
-  title: {
-    fontSize: theme.typography.fontSize * 2,
-    margin: theme.spacing(3, 0, 3),
-  },
-  subtitle: {
-    fontSize: theme.typography.fontSize * 0.875,
-    color: theme.palette.text.secondary,
-    margin: theme.spacing(0, 2, 0.5, 2),
-    textAlign: "center",
-  },
-  poweredBy: {
-    fontSize: theme.typography.fontSize * 0.75,
-    color: theme.palette.text.secondary,
-    opacity: 0.8,
-    textAlign: "center",
-    margin: theme.spacing(0, 3),
-    alignSelf: "center",
-  },
-  articleInputContainer: {
-    width: "100%",
-    margin: `${theme.spacing(1)} auto auto`,
-    padding: { sm: theme.spacing(0, 2, 2, 2) },
-  },
-  noReportsContainer: {
-    margin: theme.spacing(2, 0),
-  },
-  paginationContainerBottom: {
-    marginBottom: 2,
-  },
-  signInContainer: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-};

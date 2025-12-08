@@ -1,28 +1,14 @@
-import { Box, Typography } from '@mui/material'
 import React from 'react'
-import theme from '@/theme'
 import { string } from 'prop-types'
 
 export default function SuggestedChangesListItem({ suggestedChange }) {
     return (
-        <Box sx={STYLES.container}>
-            <Typography variant="body2" sx={STYLES.suggestedChange}>
+        <div className="px-4 mb-2 min-w-[33.3%]">
+            <p className="text-sm pl-2 border-l-[3px] border-indigo-600 dark:border-indigo-400">
                 {suggestedChange}
-            </Typography>
-        </Box>
+            </p>
+        </div>
     )
-}
-
-const STYLES = {
-    container: {
-        padding: theme.spacing(0, 4),
-        marginBottom: theme.spacing(2),
-        minWidth: '33.3%'
-    },
-    suggestedChange: {
-        paddingLeft: theme.spacing(2),
-        borderLeft: '3px solid #3f51b5'
-    }
 }
 
 SuggestedChangesListItem.propTypes = {

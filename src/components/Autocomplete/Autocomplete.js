@@ -1,75 +1,91 @@
-import React, { useRef } from 'react';
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
-import theme from '@/theme';
-import ClearIcon from '@mui/icons-material/Clear';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import React, { useRef, useState, useEffect } from 'react';
+import { X, ChevronDown, Check } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { Button } from "@/components/ui/button"
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 
 export default function AutoComplete({
-    list = [],
-    label = "Category",
-    onChange,
-    value,
-    variant = 'standard',
-    onClearClick,
+  list = [],
+  label = "Category",
+  onChange,
+  value,
+  variant = 'standard',
+  onClearClick,
 }) {
+  const [open, setOpen] = useState(false)
+  
+  const handleSelect = (currentValue) => {
+    // Find item in list that matches current value (which is lowercase from command)
+    const selectedItem = list.find(item => item.toLowerCase() === currentValue.toLowerCase());
+    onChange(null, selectedItem || currentValue);
+    setOpen(false)
+  }
 
-    const inputRef = useRef(null);
+  const handleClear = (e) => {
+      e.stopPropagation();
+      onClearClick && onClearClick();
+  }
 
-    const handleClearClick = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        onClearClick && onClearClick();
-        inputRef.current.blur();
-    }
-
-    const handleClose = (_e, reason) => {
-        if (reason === 'clear') {
-            if (inputRef.current) {
-                inputRef.current.blur();
-            }
-        }
-    };
-
-    const renderInputCb = getRenderInputCb(label, variant, inputRef);
-    const clearIconVisibility = Boolean(value) ? 'visible' : 'hidden !important'
-
-    return (
-        <Autocomplete
-            disablePortal
-            blurOnSelect
-            id={`autocomplete-${label}`}
-            options={list}
-            sx={STYLES.root(clearIconVisibility)}
-            onChange={onChange}
-            onClose={handleClose}
-            renderInput={renderInputCb}
-            value={value}
-            clearIcon={<ClearIcon fontSize="small" onClick={handleClearClick} />}
-        />
-    );
+  return (
+    <div className="w-full sm:w-56 mb-2 sm:mb-0 relative">
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            className="w-full justify-between"
+          >
+            {value || label}
+            <div className="flex items-center gap-1">
+                {value && (
+                    <X 
+                        className="ml-2 h-4 w-4 shrink-0 opacity-50 hover:opacity-100" 
+                        onClick={handleClear}
+                    />
+                )}
+                <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            </div>
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-[200px] p-0">
+          <Command>
+            <CommandInput placeholder={`Search ${label}...`} />
+            <CommandList>
+                <CommandEmpty>No {label.toLowerCase()} found.</CommandEmpty>
+                <CommandGroup>
+                {list.map((item) => (
+                    <CommandItem
+                    key={item}
+                    value={item}
+                    onSelect={handleSelect}
+                    >
+                    <Check
+                        className={cn(
+                        "mr-2 h-4 w-4",
+                        value === item ? "opacity-100" : "opacity-0"
+                        )}
+                    />
+                    {item}
+                    </CommandItem>
+                ))}
+                </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
+    </div>
+  )
 }
-
-function getRenderInputCb(label, variant, inputRef) {
-    const renderInputCb = (params) => <TextField  {...params} label={label} variant={variant} ref={inputRef} />;
-
-    return renderInputCb;
-}
-
-const STYLES = {
-    root: (visibility) => ({
-        marginBottom: { xs: theme.spacing(0.5), sm: 0 },
-        width: {
-            xs: '100%', sm: 224,
-            '& .MuiAutocomplete-clearIndicator': {
-                visibility
-            }
-        }
-    }),
-    marginBottom: { xs: theme.spacing(2), sm: 0 },
-    '&:first-child': {
-        marginTop: { xs: theme.spacing(1), sm: 0 },
-    }
-}
-
-

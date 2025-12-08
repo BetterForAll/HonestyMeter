@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import theme from '@/theme';
+
+const DEFAULT_SUCCESS_COLOR = '#2e7d32'; // MUI default success main
 
 let badgeIconIdCounter = 0;
 
 export default function BadgeIcon({
     width = '100px',
     height = '100px',
-    color = theme.palette.success.main,
+    color = DEFAULT_SUCCESS_COLOR,
     secondaryColor = '#CFF09E',
     showBadgeName = false,
 }) {

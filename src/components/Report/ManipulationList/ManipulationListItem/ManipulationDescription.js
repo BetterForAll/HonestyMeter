@@ -1,41 +1,21 @@
 import React from 'react';
-import { Typography, ListItemText } from '@mui/material';
 import { string } from 'prop-types';
-import theme from '@/theme';
 
 export default function ManipulationDescription({ name, description, context }) {
-
-  const suggestionNameJsx = (
-    <Typography component="p" variant="body2" color="text.primary" sx={STYLES.container}>
-      {name}
-    </Typography>
-  )
-  const descriptionJsx = (
-    <Typography component="p" variant="body2" color="text.primary" sx={STYLES.description}>
-      {description}
-    </Typography>
-  )
-
-  const contextJsx = (
-    <Typography component="p" variant="body2" color="text.secondary">
-      {context}
-    </Typography>
-  )
-
-  const secondaryJsx = (
-    <>
-      {descriptionJsx}
-      {contextJsx}
-    </>
-  )
-
   return (
-    <ListItemText
-      primary={suggestionNameJsx}
-      secondary={secondaryJsx}
-      sx={STYLES.listItemText}
-      disableTypography
-    />
+    <div className="flex flex-col mb-4 min-w-[60%] flex-[2]">
+      <p className="text-sm font-medium text-gray-900 mb-1">
+        {name}
+      </p>
+      <div className="flex flex-col text-sm text-gray-500">
+        <p className="text-gray-900 mb-1">
+          {description}
+        </p>
+        <p className="text-gray-500">
+          {context}
+        </p>
+      </div>
+    </div>
   )
 }
 
@@ -44,23 +24,3 @@ ManipulationDescription.propTypes = {
   description: string,
   context: string
 }
-
-const STYLES = {
-  container: {
-    fontWeight: 500,
-    marginBottom: theme.spacing(1)
-  },
-  description: {
-    marginBottom:
-      theme.spacing(1)
-  },
-  listItemText: {
-    marginBottom: theme.spacing(2),
-    flex: '2',
-    minWidth: '60%'
-  }
-}
-
-
-
-

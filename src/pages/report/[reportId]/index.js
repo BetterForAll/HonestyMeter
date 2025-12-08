@@ -1,6 +1,4 @@
-import { Box } from '@mui/material';
 import React, { memo } from 'react'
-import theme from '@/theme';
 import ReportWrapper from '@/components/Report/ReportWrapper';
 import ReportLoading from '@/components/Report/ReportLoading';
 import usePageLoading from '@/hooks/usePageLoading';
@@ -11,12 +9,9 @@ import { API_URL } from '@/constants/constants';
 import { getBaseUrlFromUrlString } from '@/utils/utils';
 
 const LOGO_URL = 'https://honestymeter.com/favicon.ico';
-const LOGO_PNG_URL = 'https://honestymeter.com/favicon.png';
 const OPEN_GRAPH_IMAGE_URL = 'https://honestymeter.com/opengraph-logo.png';
 const TEXTS = {
     objectivityReport: (articleTitle, source) => `'${articleTitle}' by ${source} - Bias Report by HonestyMeter - free AI powered bias detection framework`,
-    biasReport: 'Bias Report',
-    objectivityScore: 'Objectivity score',
 }
 
 function SavedReport({ homePageProps, report = {}, host }) {
@@ -26,7 +21,6 @@ function SavedReport({ homePageProps, report = {}, host }) {
     const title = getReportShareTitle(articleTitle, score);
     const url = getSavedReportUrl(host, reportId);
     const source = getBaseUrlFromUrlString(articleLink);
-
 
     const HtmlHead = (
         <Head>
@@ -47,7 +41,7 @@ function SavedReport({ homePageProps, report = {}, host }) {
     return (
         <>
             {HtmlHead}
-            <Box sx={STYLES.container}>
+            <div className="w-full mx-auto p-4">
                 {
                     isLoading ? <ReportLoading />
                         :
@@ -56,21 +50,13 @@ function SavedReport({ homePageProps, report = {}, host }) {
                             showArticleInput={closeReport}
                             shareLevel={shareLevel} />
                 }
-            </Box>
+            </div>
         </>
     )
 }
 
 SavedReport.propTypes = {
     report: reportPropType
-}
-
-const STYLES = {
-    container: {
-        width: '100%',
-        margin: '0 auto auto',
-        padding: theme.spacing(2),
-    },
 }
 
 export async function getServerSideProps(context) {

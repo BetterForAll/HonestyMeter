@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography } from '@mui/material';
-import Fade from '@mui/material/Fade';
-import theme from '@/theme';
-import Tooltip from '@mui/material/Tooltip';
-import BadgeIcon from './BadgeIcon';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import Image from 'next/image';
+import { ArrowUp, ArrowDown } from 'lucide-react';
 import useIsMobileClient from '@/hooks/useIsMobileClient';
+import BadgeIcon from './BadgeIcon';
+import { cn } from '@/lib/utils';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 export default function Badge({
     size = 1,
@@ -29,165 +31,98 @@ export default function Badge({
     const { title, subtitle, comment, tooltip } = texts;
     const isMobile = useIsMobileClient();
     const hideTooltip = !isTooltipShownOnDesktop || isMobile;
-    const toolTipContentProps = getToolTipContentProps(showFullTooltip, tooltip, isMobile, tooltipPlacement);
-    const tooltipTitle = isMobile ? null : < TooltipContent {...toolTipContentProps} isMobile={isMobile} tooltipPlacement={tooltipPlacement} />;
+
     const [isTooltipOpen, setTooltipOpen] = useState(showTooltipOnLoad);
-    const isTimeout = Boolean(fadeTimeout);
-
-    const openTooltip = () => {
-        if (hideTooltip) return;
-
-        setTooltipOpen(true);
-    }
-
-    const closeTooltip = () => {
-        setTooltipOpen(false);
-    }
+    const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
+        setIsVisible(true);
         const timerClose = setTimeout(() => {
             setTooltipOpen(false);
         }, 5000);
 
-        return () => {
-            clearTimeout(timerClose);
-        }
+        return () => clearTimeout(timerClose);
     }, []);
 
+    const handleMouseEnter = () => {
+        if (!hideTooltip) setTooltipOpen(true);
+    };
+
+    const handleMouseLeave = () => {
+        setTooltipOpen(false);
+    };
+
     const badgeContent = (
-        <Tooltip
-            title={tooltipTitle}
-            placement={tooltipPlacement}
-            open={isTooltipOpen}
-            onMouseEnter={openTooltip} onMouseLeave={closeTooltip}>
-            <Box sx={BADGE_STYLES.container(size, color)}>
+        <div 
+            className={cn(
+                "flex flex-col justify-center items-center cursor-pointer no-underline transition-opacity duration-1000",
+                isVisible ? "opacity-100" : "opacity-0"
+            )}
+            style={{ 
+                transform: `scale(${size})`,
+                color: typeof color === 'string' ? color : undefined
+            }}
+        >
+            {isMenu ? (
+                <BadgeIcon width={width} height={height} color={color} secondaryColor={secondaryColor} showBadgeName={showBadgeName} />
+            ) : (
+                <Image src={icon} alt="Balance Icon" className="" width={140} height={140} />
+            )}
 
-                {
-                    isMenu ?
-                        <BadgeIcon width={width} height={height} color={color} secondaryColor={secondaryColor} showBadgeName={showBadgeName} />
-                        :
-                        <Image src={icon} alt="Balance Icon" style={BADGE_STYLES.icon} width={140} height={140} />
-                }
-
-
-                {
-                    isMenu &&
-                    <>
-                        {
-                            showTitle &&
-                            <Typography sx={BADGE_STYLES.title}>
-                                {title}
-                            </Typography>
-                        }
-                        {
-                            showSubtitle &&
-                            <Typography sx={BADGE_STYLES.subtitle}>
-                                {subtitle}
-                            </Typography>
-                        }
-                        {
-                            showComment &&
-                            <Typography sx={BADGE_STYLES.comment}>
-                                *{comment}
-                            </Typography>
-                        }
-                    </>
-                }
-            </Box>
-        </Tooltip >
-    )
-
-    return (
-        isTimeout ?
-            <Fade in={true} timeout={fadeTimeout} sx={BADGE_STYLES.container(size, color)}>
-                {badgeContent}
-            </Fade >
-            :
-            badgeContent
-    )
-}
-
-const BADGE_STYLES = {
-    container: (size, color) => ({
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        transform: `scale(${size})`,
-        color,
-        cursor: 'pointer',
-        textDecoration: 'none',
-    }),
-    iconContainer: {
-        height: '110px',
-    },
-    icon: {
-
-    },
-    title: {
-        fontSize: theme.typography.fontSize * 0.875,
-        fontWeight: theme.typography.fontWeightBold
-    },
-    subtitle: {
-        fontSize: theme.typography.fontSize * 0.75
-    },
-    comment: {
-        fontSize: theme.typography.fontSize * 0.75,
-        fontStyle: 'italic'
-    }
-}
-
-const TooltipContent = ({ title, subtitle, subtitle2, subtitle3, arrow, isMobile, tooltipPlacement }) => {
-    if (isMobile) {
-        return null;
-    }
-
-    return (
-        <Box sx={TOOLTIP_CONTENT_STYLES.container}>
-            <Box sx={TOOLTIP_CONTENT_STYLES.titleContainer}>
-                {
-                    tooltipPlacement === 'bottom' &&
-                    <Typography >
-                        {arrow}
-                    </Typography>
-                }
-                <Typography >
-                    {title}
-                </Typography>
-            </Box>
-            {
-                subtitle &&
+            {isMenu && (
                 <>
-                    <Typography >
-                        {subtitle}
-                    </Typography>
-                    <Typography>
-                        {subtitle2}
-                    </Typography>
-                    <Typography >
-                        {subtitle3}
-                    </Typography>
-                    {
-                        tooltipPlacement === 'top' &&
-                        <Typography >
-                            {arrow}
-                        </Typography>
-                    }
+                    {showTitle && <span className="text-sm font-bold">{title}</span>}
+                    {showSubtitle && <span className="text-xs">{subtitle}</span>}
+                    {showComment && <span className="text-xs italic">*{comment}</span>}
                 </>
-            }
-        </Box >
-    )
+            )}
+        </div>
+    );
+    
+    // If tooltip is disabled
+    if (hideTooltip) return badgeContent;
+
+    return (
+        <TooltipProvider>
+            <Tooltip open={isTooltipOpen} onOpenChange={setTooltipOpen}>
+                <TooltipTrigger asChild onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                    {badgeContent}
+                </TooltipTrigger>
+                <TooltipContent side={tooltipPlacement} className="text-center p-2">
+                    <TooltipContentBody 
+                        tooltip={tooltip}
+                        showFullTooltip={showFullTooltip}
+                        tooltipPlacement={tooltipPlacement}
+                    />
+                </TooltipContent>
+            </Tooltip>
+        </TooltipProvider>
+    );
 }
 
-const TOOLTIP_CONTENT_STYLES = {
-    container: {
-        textAlign: 'center'
-    },
-    titleContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: theme.spacing(1)
-    },
+const TooltipContentBody = ({ tooltip, showFullTooltip, tooltipPlacement }) => {
+    const ArrowIcon = tooltipPlacement === 'bottom' ? ArrowUp : ArrowDown;
+    const arrow = <ArrowIcon className="w-4 h-4 mx-auto" />;
+
+    if (!showFullTooltip) {
+        return (
+            <div className="flex flex-col gap-1">
+                {tooltipPlacement === 'bottom' && arrow}
+                <span>{tooltip.title}</span>
+            </div>
+        );
+    }
+
+    return (
+        <div className="flex flex-col gap-1">
+            {tooltipPlacement === 'bottom' && arrow}
+            <span>{tooltip.title}</span>
+            <span>{tooltip.subtitle}</span>
+            <span>{tooltip.subtitle2}</span>
+            <span>{tooltip.subtitle3}</span>
+            {tooltipPlacement === 'top' && arrow}
+        </div>
+    );
 }
 
 const TEXTS = {
@@ -199,51 +134,43 @@ const TEXTS = {
             subtitle: '- gain trust',
             subtitle2: '- support truth',
             subtitle3: '- grow engagement',
-            arrowUp: <ArrowUpwardIcon />,
-            arrowDown: <ArrowDownwardIcon />,
         },
     },
     biasLevel: {
-        0: {
-            title: 'FAIR CONTENT',
-        },
-        1: {
-            title: 'MEDIUM BIAS',
-        },
-        2: {
-            title: 'HIGH BIAS',
-        },
+        0: { title: 'FAIR CONTENT' },
+        1: { title: 'MEDIUM BIAS' },
+        2: { title: 'HIGH BIAS' },
     }
 }
 
 const SETTINGS = {
     0: {
         texts: { ...TEXTS.common, ...TEXTS.biasLevel[0] },
-        color: theme.palette.success.main,
+        color: '#2e7d32', // success.main
         secondaryColor: '#CFF09E',
         icon: '/badge_fair.svg'
     },
     1: {
         texts: { ...TEXTS.common, ...TEXTS.biasLevel[1] },
-        color: theme.palette.warning.main,
+        color: '#ed6c02', // warning.main
         secondaryColor: '#fdd585',
         icon: '/badge_medium.svg',
     },
     2: {
         texts: { ...TEXTS.common, ...TEXTS.biasLevel[2] },
-        color: theme.palette.error.main,
+        color: '#d32f2f', // error.main
         secondaryColor: '#ffe5ea',
         icon: '/badge_high.svg',
     },
     3: {
         texts: { ...TEXTS.common, ...TEXTS.biasLevel[2] },
-        color: theme.palette.primary.main,
+        color: '#1976d2', // primary.main
         secondaryColor: '#8f9bd76b',
         icon: '/badge.svg'
     },
     4: {
         texts: { ...TEXTS.common, ...TEXTS.biasLevel[2] },
-        color: theme.palette.secondary.main,
+        color: '#9c27b0', // secondary.main
         secondaryColor: '#c0d9d7',
     },
     5: {
@@ -251,15 +178,4 @@ const SETTINGS = {
         color: '#888',
         secondaryColor: 'white',
     },
-}
-
-
-function getToolTipContentProps(showFullTooltip, tooltip, isMobile, tooltipPlacement) {
-    const arrow = tooltipPlacement === 'bottom' ? tooltip.arrowUp : tooltip.arrowDown;
-
-    if (isMobile) {
-        return null;
-    }
-
-    return showFullTooltip ? { ...tooltip, arrow } : { title: tooltip.title, arrow };
 }

@@ -1,16 +1,11 @@
 import React from 'react';
 import va from '@vercel/analytics';
-import theme from '@/theme';
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import EjectIcon from '@mui/icons-material/Eject';
-import { Box, Button } from '@mui/material';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { ChevronRight, ChevronLeft, ChevronsLeft, ArrowUpToLine } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { EMPTY_STRING, EVENT } from '@/constants/constants';
 import { scrollToTop } from '@/utils/utils';
-import { useRouter } from 'next/router';
-
 
 const TEXTS = {
   skipToFirstPage: 'Skip to First Page',
@@ -19,7 +14,6 @@ const TEXTS = {
 }
 
 const PAGE_QUERY_PARAM_KEY = 'page';
-
 
 export default function Pagination({
   page,
@@ -35,7 +29,6 @@ export default function Pagination({
   const onStartClick = (e) => {
     if (isFirstPage) {
       e.preventDefault();
-
       return;
     }
 
@@ -47,7 +40,6 @@ export default function Pagination({
     const shouldIgnore = (directionNumber === -1 && isFirstPage) || (directionNumber === 1 && isLastPage);
 
     if (shouldIgnore) {
-
       e.preventDefault();
       return;
     }
@@ -58,29 +50,51 @@ export default function Pagination({
   };
 
   return (
-    <Box sx={STYLES.pagination}>
-      <Link href={pageParams.first} aria-label={TEXTS.skipToFirstPage} rel="start" disabled={isFirstPage} onClick={onStartClick} style={STYLES.link(isFirstPage)}>
-        <Button disabled={isFirstPage}>
-          <SkipPreviousIcon fontSize='large' sx={STYLES.skipIcon} />
-        </Button>
-      </Link>
-      <Link href={pageParams.prev} aria-label={TEXTS.previousPage} rel="prev" disabled={isFirstPage} onClick={handlePageChange(TEXTS.previousPage, -1)} style={STYLES.link(isFirstPage)}>
-        <Button disabled={isFirstPage} >
-          <ArrowLeftIcon fontSize='large' />
-        </Button>
-      </Link>
-      <Link href={pageParams.next} aria-label={TEXTS.nextPage} rel="next" disabled={isLastPage} onClick={handlePageChange(TEXTS.nextPage, +1)} style={STYLES.link(isLastPage)}>
-        <Button disabled={isLastPage} >
-          <ArrowRightIcon fontSize='large' />
-        </Button>
-      </Link>
-      {
-        isScrollUpIconShown &&
-        <Button onClick={scrollToTop}>
-          <EjectIcon fontSize='large' sx={STYLES.ejectIcon} />
-        </Button>
-      }
-    </Box>
+    <div className="flex justify-between items-center gap-4">
+      <div className="flex gap-2">
+        <Link 
+          href={pageParams.first} 
+          aria-label={TEXTS.skipToFirstPage} 
+          rel="start" 
+          onClick={onStartClick}
+          className={isFirstPage ? 'pointer-events-none' : ''}
+        >
+          <Button variant="outline" size="icon" disabled={isFirstPage}>
+            <ChevronsLeft className="h-5 w-5" />
+          </Button>
+        </Link>
+        <Link 
+          href={pageParams.prev} 
+          aria-label={TEXTS.previousPage} 
+          rel="prev" 
+          onClick={handlePageChange(TEXTS.previousPage, -1)}
+          className={isFirstPage ? 'pointer-events-none' : ''}
+        >
+          <Button variant="outline" size="icon" disabled={isFirstPage}>
+            <ChevronLeft className="h-5 w-5" />
+          </Button>
+        </Link>
+      </div>
+
+      <div className="flex gap-2">
+        <Link 
+          href={pageParams.next} 
+          aria-label={TEXTS.nextPage} 
+          rel="next" 
+          onClick={handlePageChange(TEXTS.nextPage, +1)}
+          className={isLastPage ? 'pointer-events-none' : ''}
+        >
+          <Button variant="outline" size="icon" disabled={isLastPage}>
+            <ChevronRight className="h-5 w-5" />
+          </Button>
+        </Link>
+        {isScrollUpIconShown && (
+          <Button variant="outline" size="icon" onClick={scrollToTop}>
+            <ArrowUpToLine className="h-5 w-5" />
+          </Button>
+        )}
+      </div>
+    </div>
   );
 }
 
@@ -116,22 +130,4 @@ function getPageParams(page, router, isFirstPage, isLastPage) {
     next: nextPageLink,
     first: firstPageLink
   };
-};
-
-const STYLES = {
-  pagination: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: theme.spacing(2),
-  },
-  skipIcon: {
-    transform: 'scale(0.75)',
-  },
-  ejectIcon: {
-    transform: 'scale(0.60)'
-  },
-  link: (isEdgePage) => ({
-    cursor: isEdgePage && 'default'
-  })
 };

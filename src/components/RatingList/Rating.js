@@ -1,19 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from 'react';
-import theme from '@/theme';
+import { Info } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import {
-    Box,
-    Fade,
-    Modal,
-    Tooltip,
-    Typography,
-} from '@mui/material';
-import InfoIcon from '@mui/icons-material/Info';
+  Dialog,
+  DialogContent,
+} from '../ui/dialog';
 
 const TEXTS = {
     clickForMethodology: 'Click for methodology',
 }
-
 
 export function Rating({ createdAt, items, title, titleColor, Methodology }) {
     const [isMethodologyModalShown, setIsMethodologyModalShown] = useState(false);
@@ -24,67 +20,36 @@ export function Rating({ createdAt, items, title, titleColor, Methodology }) {
 
     return (
         <>
-            <Modal open={isMethodologyModalShown} onClose={handleRatingClick}>
-                <Fade in={isMethodologyModalShown} timeout={{ enter: 300, exit: 400 }}>
-                    <Box onClick={handleRatingClick}>
-                        <Methodology createdAt={createdAt} />
-                    </Box>
-                </Fade>
-            </Modal>
-            <Tooltip title={TEXTS.clickForMethodology}>
-                <Box sx={STYLES.ratingContainer}
-                    onClick={handleRatingClick}>
-                    <Typography variant='body1'
-                        sx={STYLES.title({ titleColor: titleColor })}>
-                        {title} <InfoIcon sx={STYLES.infoIcon} />
-                    </Typography>
-                    <Typography variant='body1' sx={STYLES.paragraph}>
-                        {items}
-                    </Typography>
-                </Box>
-            </Tooltip>
+            <Dialog open={isMethodologyModalShown} onOpenChange={setIsMethodologyModalShown}>
+                <DialogContent className="max-w-2xl max-h-[90vh] overflow-auto" onClick={handleRatingClick}>
+                    <Methodology createdAt={createdAt} />
+                </DialogContent>
+            </Dialog>
+            <div 
+                className="cursor-pointer text-xs text-center mb-4 select-none"
+                onClick={handleRatingClick}
+                title={TEXTS.clickForMethodology}
+            >
+                <p className={cn(
+                    "font-bold text-base flex justify-center items-center gap-1 mb-1",
+                    titleColor || "text-gray-900"
+                )}>
+                    {title} <Info className="w-4 h-4" />
+                </p>
+                <p className="text-sm text-gray-900 mb-2">
+                    {items}
+                </p>
+            </div>
         </>
     )
 }
 
 export function RatingList({ ratings }) {
     return (
-        <Box>
+        <div>
             {ratings.map((rating) => (
                 <Rating key={rating.title} {...rating} />
             ))}
-        </Box>
+        </div>
     )
 }
-
-
-const STYLES = {
-    ratingContainer: {
-        cursor: 'pointer',
-        fontSize: theme.typography.fontSize * 0.75,
-        textAlign: 'center',
-        marginBottom: 2,
-        WebkitTapHighlightColor: 'transparent',
-        WebkitTouchCallout: 'none',
-        WebkitUserSelect: 'none',
-        MozUserSelect: 'none',
-        msUserSelect: 'none',
-        userSelect: 'none',
-    },
-    title: ({ titleColor }) => ({
-        fontWeight: theme.typography.fontWeightBold,
-        fontSize: theme.typography.fontSize * 1,
-        display: 'flex',
-        color: titleColor || theme.palette.text.primary,
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: 1,
-        marginBottom: 0.5,
-    }),
-    infoIcon: { fontSize: theme.typography.fontSize * 1.25 },
-    paragraph: {
-        fontSize: 'inherit',
-        marginBottom: 1,
-        color: theme.palette.text.primary
-    },
-};

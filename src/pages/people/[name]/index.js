@@ -2,13 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import va from '@vercel/analytics';
-import theme from '@/theme';
-import { Box, Typography } from '@mui/material';
+import { Share2 } from 'lucide-react';
 import { scrollToTop, scrollToBottom, capitalizeFirstLetterOfEachWord, getQueryStringByAsPath } from '../../../utils/utils';
 import Share from '@/components/Share';
 import AtricleInput from '@/components/ArticleInput';
 import Disclamer from '@/components/Disclamer';
-import { API_URL, BASE_URL, EMPTY_STRING, EVENT, WOLRD_NEWS_API_URL } from '@/constants/constants';
+import { API_URL, BASE_URL, EVENT, WOLRD_NEWS_API_URL } from '@/constants/constants';
 import ReportList from '@/components/ReportList/ReportList';
 import usePageLoadingFull from '@/hooks/usePageLoadingFull';
 import Pagination from '@/components/Layout/Pagination';
@@ -16,6 +15,7 @@ import { array, bool, string, object } from 'prop-types';
 import CreateReportButton from '@/components/Layout/CreateReportButton';
 import BackButton from '@/components/Layout/BackButton';
 import { useRouter } from 'next/router';
+import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible';
 
 const LOGO_URL = './favicon.png';
 const OPEN_GRAPH_IMAGE_URL = './opengraph-logo.png';
@@ -87,51 +87,37 @@ export default function PersonPage({ homePageProps, reports, page, name, nameUrl
   return (
     <>
       {htmlHead}
-      {
-        <Box sx={STYLES.container}>
-          <Typography variant='h1' sx={STYLES.title}>
-            {nameCapitalized}
-          </Typography>
-          <Typography variant='h2' sx={STYLES.subtitle}>
-            {TEXTS.subtitle(nameCapitalized)}
-          </Typography>
-          {!isReportListEmpty && (
-            <Typography variant='body1' sx={STYLES.poweredBy}>
-              ({TEXTS.poweredBy})
-            </Typography>
-          )}
-          {
-            <BackButton text={TEXTS.backButton} goTo='/people' />
-          }
-          <Box sx={{ marginBottom: 2 }}>
-            <CreateReportButton
-              onClick={toggleArticleInput(true)}
-              isArticleInputShown={isArticleInputShown}
-            />
-          </Box>
+      <div className="w-full max-w-full sm:max-w-[1400px] mx-auto flex flex-col justify-center items-center pb-4">
+        <h1 className="text-3xl font-bold mt-4 mb-2">
+          {nameCapitalized}
+        </h1>
+        <h2 className="text-sm font-normal text-gray-500 text-center mx-4 mb-1">
+          {TEXTS.subtitle(nameCapitalized)}
+        </h2>
+        {!isReportListEmpty && (
+          <p className="text-xs text-gray-500 opacity-80 text-center mx-4 mb-4">
+            ({TEXTS.poweredBy})
+          </p>
+        )}
+        <BackButton text={TEXTS.backButton} goTo='/people' />
+        <div className="mb-4">
+          <CreateReportButton
+            onClick={toggleArticleInput(true)}
+            isArticleInputShown={isArticleInputShown}
+          />
+        </div>
 
-          {isArticleInputShown && (
-            <Box sx={STYLES.articleInputContainer}>
+        <Collapsible open={isArticleInputShown} className="w-full mx-auto px-4">
+          <CollapsibleContent>
+            <div className="w-full mx-auto px-4 pb-4">
               {isUrlProvidedAsInput && (
-                <Typography
-                  sx={{
-                    margin: 'auto',
-                    textAlign: 'center',
-                    marginBottom: theme.spacing(2),
-                    marginTop: theme.spacing(-2),
-                    fontSize: theme.typography.fontSize * 0.75,
-                    color: theme.palette.text.secondary,
-                    ' & a': {
-                      color: theme.palette.text.secondary,
-                    },
-                  }}
-                >
+                <p className="text-center mb-4 -mt-4 text-xs text-gray-500">
                   {TEXTS.articleTextExtracted}
                   &nbsp;
-                  <a href={WOLRD_NEWS_API_URL} target='_blank' rel='1400pxreferrer'>
+                  <a href={WOLRD_NEWS_API_URL} target='_blank' rel='noreferrer' className="text-gray-500">
                     {TEXTS.worldNewsApi}
                   </a>
-                </Typography>
+                </p>
               )}
               <AtricleInput
                 article={article}
@@ -139,72 +125,64 @@ export default function PersonPage({ homePageProps, reports, page, name, nameUrl
                 onGetReport={handleGetReport}
                 isUrlProvidedAsInput={isUrlProvidedAsInput}
               />
-            </Box>
-          )}
-          {isReportListEmpty ? (
-            <Box sx={STYLES.noReportsContainer}>
-              <Typography variant='body1' sx={STYLES.noReportsText}>
-                {TEXTS.noReportsYet}
-              </Typography>
-            </Box>
-          ) : (
-            <ReportList
-              reports={reports}
-              onCardClick={onCardClick}
-              isLoading={isLoading}
-            />
-          )}
-          {isPaginationEnabled && (
-            <Box sx={STYLES.paginationContainer}>
-              <Pagination {...{ page, isFirstPage, isLastPage }} isScrollUpIconShown />
-            </Box>
-          )}
+            </div>
+          </CollapsibleContent>
+        </Collapsible>
+        
+        {isReportListEmpty ? (
+          <div className="flex flex-col justify-center items-center p-4">
+            <p className="text-base text-gray-900">
+              {TEXTS.noReportsYet}
+            </p>
+          </div>
+        ) : (
+          <ReportList
+            reports={reports}
+            onCardClick={onCardClick}
+            isLoading={isLoading}
+          />
+        )}
+        
+        {isPaginationEnabled && (
+          <div className="mb-4">
+            <Pagination {...{ page, isFirstPage, isLastPage }} isScrollUpIconShown />
+          </div>
+        )}
 
-          {shouldShowBottomControls && (
+        {shouldShowBottomControls && (
+          <div className="flex flex-col items-center">
             <CreateReportButton
               onClick={toggleArticleInput(false)}
               isArticleInputShown={isArticleInputShown}
             />
-          )}
-          {isArticleInputShown && (
-            <Box sx={STYLES.articleInputContainer}>
-              {isUrlProvidedAsInput && (
-                <Typography
-                  sx={{
-                    margin: 'auto',
-                    textAlign: 'center',
-                    marginBottom: theme.spacing(2),
-                    marginTop: theme.spacing(-2),
-                    fontSize: theme.typography.fontSize * 0.75,
-                    color: theme.palette.text.secondary,
-                    ' & a': {
-                      color: theme.palette.text.secondary,
-                    },
-                  }}
-                >
-                  {TEXTS.articleTextExtracted}
-                  &nbsp;
-                  <a href={WOLRD_NEWS_API_URL} target='_blank' rel='noreferrer'>
-                    {TEXTS.worldNewsApi}
-                  </a>
-                </Typography>
-              )}
-              <AtricleInput
-                article={article}
-                onArticleChange={handleArticleChange}
-                onGetReport={handleGetReport}
-                isUrlProvidedAsInput={isUrlProvidedAsInput}
-              />
-            </Box>
-          )}
-          {
-            shouldShowBottomControls && (
-              <BackButton text={TEXTS.backButton} goTo='/people' />
-            )
-          }
-
-        </Box >
-      }
+             {isArticleInputShown && (
+              <Collapsible open={isArticleInputShown} className="w-full mx-auto px-4 mt-4">
+                <CollapsibleContent>
+                 <div className="w-full mx-auto px-4 pb-4">
+                  {isUrlProvidedAsInput && (
+                    <p className="text-center mb-4 -mt-4 text-xs text-gray-500">
+                      {TEXTS.articleTextExtracted}
+                       &nbsp;
+                      <a href={WOLRD_NEWS_API_URL} target='_blank' rel='noreferrer' className="text-gray-500">
+                        {TEXTS.worldNewsApi}
+                      </a>
+                    </p>
+                  )}
+                  <AtricleInput
+                    article={article}
+                    onArticleChange={handleArticleChange}
+                    onGetReport={handleGetReport}
+                    isUrlProvidedAsInput={isUrlProvidedAsInput}
+                  />
+                </div>
+                </CollapsibleContent>
+              </Collapsible>
+            )}
+            <BackButton text={TEXTS.backButton} goTo='/people' />
+          </div>
+        )}
+      </div >
+      
       <Share
         title={TEXTS.shareTitle}
         url={BASE_URL}
@@ -220,7 +198,6 @@ export default function PersonPage({ homePageProps, reports, page, name, nameUrl
 PersonPage.propTypes = {
   reports: array,
   isLastPage: bool,
-  date: string,
   homePageProps: object,
   name: string,
   nameUrl: string,
@@ -267,66 +244,3 @@ export async function getServerSideProps(context) {
     console.log({ error });
   }
 }
-
-const STYLES = {
-  container: {
-    width: '100%',
-    maxWidth: { xs: '100%', sm: '1400px' },
-    margin: 'auto',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingBottom: theme.spacing(2),
-  },
-  date: {
-    color: theme.palette.text.secondary,
-    margin: theme.spacing(2, 0, 1, 0),
-    fontSize: theme.typography.fontSize * 0.875,
-  },
-  title: {
-    fontSize: theme.typography.fontSize * 2,
-    margin: theme.spacing(2, 0, 1),
-  },
-  subtitle: {
-    fontSize: theme.typography.fontSize * 0.875,
-    fontWeight: theme.typography.fontWeightRegular,
-    color: theme.palette.text.secondary,
-    margin: theme.spacing(0, 2, 0.5, 2),
-    textAlign: 'center',
-  },
-  poweredBy: {
-    fontSize: theme.typography.fontSize * 0.75,
-    color: theme.palette.text.secondary,
-    opacity: 0.8,
-    textAlign: 'center',
-    margin: theme.spacing(0, 2, 2, 2),
-    alignSelf: 'center',
-  },
-  newReportButton: {
-    margin: 'auto',
-    marginBottom: theme.spacing(1),
-    textAlign: 'center',
-    minWidth: '266px',
-  },
-  articleInputContainer: {
-    width: '100%',
-    margin: '0 auto auto',
-    padding: theme.spacing(0, 2, 2, 2),
-  },
-  noReportsContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: theme.spacing(2),
-  },
-  backButton: {
-    margin: theme.spacing(1, 0, 3),
-    display: 'flex',
-    alignItems: 'center',
-  },
-  paginationContainer: {
-    marginBottom: 2
-  }
-};

@@ -1,4 +1,3 @@
-import { Box } from '@mui/material';
 import { useEffect } from 'react';
 
 const GoogleTranslate = () => {
@@ -20,19 +19,8 @@ const GoogleTranslate = () => {
     }, []);
 
     return (
-        <div id="google_translate_element" style={STYLES.widget} />
+        <div id="google_translate_element" className="absolute top-0 right-0 invisible" />
     );
 };
 
-const STYLES = {
-    widget: {
-        position: 'absolute',
-        top: 0,
-        right: 0,
-        visibility: 'hidden',
-    }
-}
-
 export default GoogleTranslate;
-
-
