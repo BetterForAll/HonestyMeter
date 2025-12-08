@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import {
   Dialog,
   DialogContent,
+  DialogTitle,
 } from '../ui/dialog';
 
 const TEXTS = {
@@ -22,6 +23,7 @@ export function Rating({ createdAt, items, title, titleColor, Methodology }) {
         <>
             <Dialog open={isMethodologyModalShown} onOpenChange={setIsMethodologyModalShown}>
                 <DialogContent className="max-w-2xl max-h-[90vh] overflow-auto" onClick={handleRatingClick}>
+                    <DialogTitle className="sr-only">{title}</DialogTitle>
                     <Methodology createdAt={createdAt} />
                 </DialogContent>
             </Dialog>
