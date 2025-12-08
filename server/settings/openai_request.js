@@ -6,12 +6,7 @@ const TEMPERATURE = 0;
 const TOP_P = 1;
 const FREQUENCY_PENALTY = 0.0;
 const PRESENCE_PENALTY = 0.0;
-// export const MODEL = 'gpt-4';
-// export const MODEL = 'gpt-3.5-turbo-16k';
-// export const MODEL = 'gpt-4-1106-preview'
-export const MODEL = "gpt-4o";
-// export const MODEL = "gpt-4o-2024-08-06";
-// export const MODEL = "gpt-4o-mini";
+export const MODEL = "gpt-5.1";
 
 export const OPEN_AI_REQUEST = {
   response_format: { type: "json_object" },
