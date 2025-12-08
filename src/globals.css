@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(136 136 136 / 0.5);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(85 85 85 / 0.7);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(136 136 136 / 0.5) transparent;
+}
+
+/* Custom body styles */
+body {
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}

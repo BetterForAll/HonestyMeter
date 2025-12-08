@@ -20,8 +20,13 @@ import { Analytics } from "@vercel/analytics/react";
 import { isServer, scrollToTop } from "@/utils/utils";
 import GoogleTranslate from "@/components/GoogleTranslate";
 import { ClerkProvider } from "@clerk/nextjs";
-import "../global.css";
+import "../globals.css"; // New Tailwind CSS
+import "../global.css";  // Keep legacy styles during migration
 import Script from "next/script";
+import { Inter } from "next/font/google";
+
+const inter = Inter({ subsets: ["latin"] });
+
 
 const clientSideEmotionCache = createEmotionCache();
 const MIXPANEL_TOKEN = "8121618e088b8916064a9449a6d800e6";

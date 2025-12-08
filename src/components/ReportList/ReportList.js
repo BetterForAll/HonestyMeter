@@ -1,16 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useRef } from 'react';
-import theme from '@/theme';
-import {
-  Box,
-  Button,
-  Card,
-  List,
-  ListItem,
-  Skeleton,
-  Typography,
-} from '@mui/material';
-import Tooltip from '@mui/material/Tooltip';
+import Link from 'next/link';
+import { cn } from '@/lib/utils';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import {
   getBaseUrl,
   getBaseUrlFromUrlString,
@@ -21,9 +14,6 @@ import { string, number, bool, arrayOf, func } from 'prop-types';
 import reportPropType from '../Report/reportPropTypes';
 import useIsTextLinesOverFlow from '@/hooks/useIsTextLinesOverflow';
 import { EMPTY_STRING } from '@/constants/constants';
-import Link from 'next/link';
-
-//TODO: consider moving components to separate files
 
 const baseUrl = getBaseUrl();
 const REPORT_URL = `${baseUrl}report`;
@@ -59,7 +49,7 @@ const TEXTS = {
 
 export default function ReportList({ reports, onCardClick, isLoading }) {
   return (
-    <List sx={REPORT_LIST_STYLES.list}>
+    <ul className="flex flex-wrap justify-center gap-4 mb-4 list-none p-0">
       {reports.map((report) => {
         const source = getBaseUrlFromUrlString(report.articleLink);
         const reportUrl = `${REPORT_URL}/${report._id}`;
@@ -83,7 +73,7 @@ export default function ReportList({ reports, onCardClick, isLoading }) {
           />
         );
       })}
-    </List>
+    </ul>
   );
 }
 
@@ -91,16 +81,6 @@ ReportList.propTypes = {
   reports: arrayOf(reportPropType),
   onCardClick: func.isRequired,
   isLoading: bool.isRequired,
-};
-
-const REPORT_LIST_STYLES = {
-  list: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    gap: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-  },
 };
 
 function ReportListItem({
@@ -114,14 +94,11 @@ function ReportListItem({
   articleDateInUserTimeZone,
 }) {
   return (
-    <ListItem
-      sx={REPORT_LIST_ITEM_STYLES.listItem}
-      key={report._id}
-    >
+    <li className="w-80 p-0">
       {isLoading ? (
         <ReportCardSkeleton />
       ) : (
-        <Link href={reportUrl} onClick={onCardClick(reportUrl)} style={{ textDecoration: 'none' }}>
+        <Link href={reportUrl} onClick={onCardClick(reportUrl)} className="no-underline">
           <ReportCard
             {...{
               articleTitle,
@@ -133,26 +110,18 @@ function ReportListItem({
           />
         </Link>
       )}
-    </ListItem>
+    </li>
   );
 }
 
 ReportListItem.propTypes = {
   onCardClick: func.isRequired,
   reportUrl: string.isRequired,
-  // report: shape(reportPropType), //TODO: add default to prevent warning
   isLoading: bool.isRequired,
   articleTitle: string.isRequired,
   randomImageUrl: string.isRequired,
   source: string.isRequired,
   articleDateInUserTimeZone: string.isRequired,
-};
-
-const REPORT_LIST_ITEM_STYLES = {
-  listItem: {
-    width: '320px',
-    padding: 0,
-  },
 };
 
 function ReportCard({
@@ -162,52 +131,43 @@ function ReportCard({
   randomImageUrl,
   objectivityScore,
 }) {
-  const { color, content } = getScoreStyle(objectivityScore);
+  const { colorClass, content } = getScoreStyle(objectivityScore);
   const articleTitleRef = useRef({ current: null });
   const isTitleTextOverflow = useIsTextLinesOverFlow(articleTitleRef);
-  const tooltipTitle = isTitleTextOverflow ? articleTitle : '';
 
   return (
-    <Card sx={REPORT_CARD_STYLES.card}>
-      <Tooltip title={tooltipTitle} placement='top'>
-        <Typography
-          sx={{
-            ...REPORT_CARD_STYLES.textLine,
-            ...REPORT_CARD_STYLES.articleTitle,
-          }}
-          ref={articleTitleRef}
-        >
-          {articleTitle}
-        </Typography>
-      </Tooltip>
-      <Typography
-        sx={REPORT_CARD_STYLES.textLine}
-        style={{
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
+    <Card className="flex flex-col justify-start items-start cursor-pointer transition-all duration-200 w-full p-4 hover:bg-gray-50 hover:shadow-lg hover:-translate-y-0.5">
+      <h3 
+        ref={articleTitleRef}
+        className="h-12 w-full mb-2 text-sm font-medium text-gray-600 line-clamp-2"
+        title={isTitleTextOverflow ? articleTitle : ''}
       >
-        <Box component='span' style={REPORT_CARD_STYLES.source}>
+        {articleTitle}
+      </h3>
+      <div className="w-full flex justify-between items-center mb-2 text-sm text-gray-500">
+        <span className="w-40 truncate">
           {source}
-        </Box>
-        <Box component='span' style={REPORT_CARD_STYLES.articleDate}>
+        </span>
+        <span className="text-xs">
           {articleDateInUserTimeZone}
-        </Box>
-      </Typography>
-      <Box sx={REPORT_CARD_STYLES.image}>
-        <img src={randomImageUrl} alt={TEXTS.imageAlt} loading='lazy' />
-      </Box>
-      <Box sx={REPORT_CARD_STYLES.objectivityScore}>
-        <Typography>{TEXTS.objectivityScore}</Typography>
-        <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
-          <CircularProgressWithLabel value={objectivityScore} color={color} />
-        </Box>
-
-        <Typography sx={{ color }}>{content}</Typography>
-      </Box>
-      <Button variant='outlined' sx={REPORT_CARD_STYLES.viewReportButton}>
+        </span>
+      </div>
+      <div className="h-[150px] w-72 bg-gray-200 rounded mb-2 overflow-hidden">
+        <img 
+          src={randomImageUrl} 
+          alt={TEXTS.imageAlt} 
+          loading='lazy' 
+          className="w-full h-full object-cover"
+        />
+      </div>
+      <div className="w-full flex justify-between items-center gap-2 mb-2 text-gray-500">
+        <span>{TEXTS.objectivityScore}</span>
+        <div className="flex-1 flex justify-center">
+          <CircularProgressWithLabel value={objectivityScore} colorClass={colorClass} />
+        </div>
+        <span className={cn("font-semibold", colorClass)}>{content}</span>
+      </div>
+      <Button variant="outline" className="w-full">
         {TEXTS.viewReport}
       </Button>
     </Card>
@@ -224,146 +184,42 @@ ReportCard.propTypes = {
 
 function ReportCardSkeleton() {
   return (
-    <Card sx={REPORT_CARD_STYLES.card}>
-      <Skeleton
-        sx={{
-          ...REPORT_CARD_STYLES.textLine,
-          ...REPORT_CARD_STYLES.articleTitle,
-          width: 288,
-        }}
-      />
-      <Typography
-        sx={{
-          ...REPORT_CARD_STYLES.textLine,
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <Skeleton
-          component='span'
-          sx={{ ...REPORT_CARD_STYLES.source, width: 80 }}
-        />
-        <Skeleton
-          component='span'
-          sx={{ ...REPORT_CARD_STYLES.articleDate, width: 56 }}
-        />
-      </Typography>
-      <Box sx={REPORT_CARD_STYLES.image} />
-      <Box sx={[REPORT_CARD_STYLES.objectivityScore]}>
-        <Typography>{TEXTS.objectivityScore}</Typography>
-        <Skeleton sx={{ width: 40, height: 40 }} />
-        <Skeleton sx={{ width: 58, height: 24 }} />
-      </Box>
-      <Button
-        variant='outlined'
-        disabled
-        sx={REPORT_CARD_STYLES.viewReportButton}
-      >
+    <Card className="flex flex-col justify-start items-start w-full p-4">
+      <div className="h-12 w-full mb-2 bg-gray-200 animate-pulse rounded" />
+      <div className="w-full flex justify-between items-center mb-2">
+        <div className="w-20 h-4 bg-gray-200 animate-pulse rounded" />
+        <div className="w-14 h-3 bg-gray-200 animate-pulse rounded" />
+      </div>
+      <div className="h-[150px] w-72 bg-gray-200 animate-pulse rounded mb-2" />
+      <div className="w-full flex justify-between items-center gap-2 mb-2">
+        <span className="text-gray-500">{TEXTS.objectivityScore}</span>
+        <div className="w-10 h-10 bg-gray-200 animate-pulse rounded-full" />
+        <div className="w-14 h-6 bg-gray-200 animate-pulse rounded" />
+      </div>
+      <Button variant="outline" className="w-full" disabled>
         {TEXTS.viewReport}
       </Button>
     </Card>
   );
 }
 
-const REPORT_CARD_STYLES = {
-  card: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    cursor: 'pointer',
-    transition: 'all 0.2s ease-in-out',
-    width: '100%',
-    padding: theme.spacing(2),
-    '&:hover': {
-      backgroundColor: theme.palette.action.hover,
-      boxShadow:
-        '0px 5px 5px -1px rgba(0,0,0,0.2), 0px 5px 5px 0px rgba(0,0,0,0.14), 0px 5px 5px 0px rgba(0,0,0,0.12)',
-      transform: 'translate(0, -2px)',
-    },
-  },
-  image: {
-    height: '150px',
-    width: '288px',
-    backgroundColor: theme.palette.grey[300],
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    borderRadius: '4px',
-    marginBottom: theme.spacing(1),
-    animation: 'skeleton 1s ease-in-out infinite alternate',
-    '@keyframes skeleton': {
-      '0%': {
-        backgroundColor: theme.palette.grey[200],
-      },
-      '100%': {
-        backgroundColor: theme.palette.grey[100],
-      },
-    },
-  },
-  textLine: {
-    marginBottom: theme.spacing(1),
-    color: theme.palette.text.secondary,
-  },
-  articleTitle: {
-    height: '48px',
-    width: '100%',
-    display: '-webkit-box',
-    WebkitLineClamp: 2,
-    WebkitBoxOrient: 'vertical',
-    overflow: 'hidden',
-    fontWeight: theme.typography.fontWeightMedium,
-  },
-  source: {
-    fontSize: theme.typography.fontSize * 1,
-    width: '160px',
-    whiteSpace: 'nowrap',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
-  },
-  articleDate: {
-    fontSize: theme.typography.fontSize * 0.75,
-  },
-  objectivityScore: {
-    color: theme.palette.text.secondary,
-    margin: 'auto',
-    marginBottom: theme.spacing(1),
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: theme.spacing(1),
-    width: '100%',
-  },
-  scoreDigit: (score) => getScoreStyle(score),
-  viewReportButton: {
-    width: '100%',
-    color: theme.palette.text.secondary,
-    borderColor: theme.palette.divider,
-    '&:hover': {
-      borderColor: theme.palette.divider,
-      outline: `2px solid theme.palette.divider`,
-    },
-  },
-};
-
 export const getScoreStyle = (score) => {
-  let color;
+  let colorClass;
   let content;
 
   if (score < 70) {
-    color = theme.palette.error.main;
+    colorClass = 'text-red-500';
     content = ` ${TEXTS.objectivityLevel.low}`;
   } else if (score < 80) {
-    color = theme.palette.warning.main;
+    colorClass = 'text-yellow-500';
     content = ` ${TEXTS.objectivityLevel.medium}`;
   } else {
-    color = theme.palette.success.main;
+    colorClass = 'text-green-500';
     content = ` ${TEXTS.objectivityLevel.high}`;
   }
 
   return {
-    color,
+    colorClass,
     content,
   };
 };

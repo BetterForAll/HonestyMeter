@@ -1,8 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
 import logo from '../../../public/logo2.png';
-import theme from '@/theme';
-import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
 import Badge from '../Badge/Badge';
 
@@ -12,73 +10,25 @@ const TEXTS = {
 
 export default function Header() {
   return (
-    <Box
-      components="header"
-      sx={STYLES.container}
-    >
-      <Box sx={STYLES.imageContainer}>
+    <header className="w-full flex flex-col justify-center items-center px-6 py-8 md:px-12 md:py-10">
+      <div className="w-full max-w-[536px] flex justify-around items-center mb-4 md:mb-6">
         <Link href="/">
           <Image
             src={logo}
             alt={TEXTS.imageAlt}
-            style={STYLES.image}
+            className="w-full h-auto"
+            priority
           />
         </Link>
-      </Box>
-      <Box sx={STYLES.subtitleContainer} >
-        <Typography variant='body2' sx={STYLES.subtitle}>Media Manipulation and Bias Detection</Typography>
-        <Typography variant='body2' sx={STYLES.subtitle}>Auto-Improving with AI and User Feedback</Typography>
-      </Box>
-    </Box >
+      </div>
+      <div className="flex flex-col justify-start mb-4 sm:mb-0 mt-0 sm:mt-2">
+        <p className="text-sm text-muted-foreground text-center italic">
+          Media Manipulation and Bias Detection
+        </p>
+        <p className="text-sm text-muted-foreground text-center italic">
+          Auto-Improving with AI and User Feedback
+        </p>
+      </div>
+    </header>
   );
-}
-
-const STYLES = {
-  container: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: {
-      xs: `4vw ${theme.spacing(3)}`,
-      md: theme.spacing(4, 6, 5),
-    },
-  },
-  imageContainer: {
-    width: '100%',
-    maxWidth: '536px',
-    height: {
-      xs: '91px',
-      md: '107px',
-    },
-    display: 'flex',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    marginBottom: { xs: theme.spacing(1), sm: theme.spacing(2) },
-  },
-  image: {
-    width: '100%',
-    height: 'auto'
-  },
-  subtitleContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    marginBottom: {
-      xs: theme.spacing(2),
-      sm: 0,
-    },
-    marginTop: {
-      xs: 0,
-      sm: 1
-    }
-  },
-  subtitle: {
-    fontSize: theme.typography.fontSize * 0.875,
-    color: theme.palette.text.secondary,
-    textAlign: 'center',
-    fontStyle: 'italic',
-  },
-
 }

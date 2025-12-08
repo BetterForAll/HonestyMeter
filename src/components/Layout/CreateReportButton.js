@@ -1,13 +1,7 @@
 import React from 'react';
-import theme from '@/theme';
-import { Button } from "@mui/material";
+import { Button } from '@/components/ui/button';
+import { Plus, X } from 'lucide-react';
 import { bool, func } from 'prop-types';
-// import NoteAddIcon from '@mui/icons-material/NoteAdd';
-// import QueryStatsIcon from '@mui/icons-material/QueryStats';
-// import EditCalendarIcon from '@mui/icons-material/EditCalendar';
-// import CancelIcon from '@mui/icons-material/Cancel';
-// import Tooltip from '@mui/material/Tooltip';
-//TODO: decide if we want to use icons. If so,use imports above and wrap with tooltip that shows the title
 
 const TEXTS = {
     newReport: 'Create Bias Report',
@@ -16,13 +10,15 @@ const TEXTS = {
 
 export default function CreateReportButton({ onClick, isArticleInputShown }) {
     const title = isArticleInputShown ? TEXTS.cancelNewReport : TEXTS.newReport;
+    const Icon = isArticleInputShown ? X : Plus;
 
     return (
         <Button
-            variant='outlined'
+            variant={isArticleInputShown ? "destructive" : "default"}
             onClick={onClick}
-            sx={STYLES.newReportButton}
+            className="gap-2"
         >
+            <Icon className="h-4 w-4" />
             {title}
         </Button>
     )
@@ -31,13 +27,4 @@ export default function CreateReportButton({ onClick, isArticleInputShown }) {
 CreateReportButton.propTypes = {
     onClick: func,
     isArticleInputShown: bool,
-}
-
-const STYLES = {
-    newReportButton: {
-        textAlign: 'center',
-    },
-    icon: {
-        color: theme.palette.text.secondary,
-    }
 }
