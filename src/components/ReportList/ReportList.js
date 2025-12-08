@@ -138,16 +138,16 @@ function ReportCard({
     <Card className="flex flex-col justify-start items-start cursor-pointer transition-all duration-200 w-full p-4 hover:bg-gray-50 hover:shadow-lg hover:-translate-y-0.5">
       <h3 
         ref={articleTitleRef}
-        className="min-h-[48px] w-full mb-2 text-sm font-medium text-gray-600 line-clamp-3"
+        className="h-10 w-full mb-2 text-sm font-medium text-gray-600 line-clamp-2 overflow-hidden text-left"
         title={isTitleTextOverflow ? articleTitle : ''}
       >
         {articleTitle}
       </h3>
-      <div className="w-full flex justify-between items-center mb-2 text-sm text-gray-500">
-        <span className="w-40 truncate">
+      <div className="w-full flex justify-between items-center mb-2 text-sm text-gray-500 gap-2">
+        <span className="flex-1 min-w-0 truncate text-left">
           {source}
         </span>
-        <span className="text-xs">
+        <span className="text-xs whitespace-nowrap flex-shrink-0">
           {articleDateInUserTimeZone}
         </span>
       </div>

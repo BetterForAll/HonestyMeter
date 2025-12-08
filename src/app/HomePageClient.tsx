@@ -315,7 +315,9 @@ export default function HomePageClient({
         </p>
 
         {isPaginationEnabled && !isFirstPage && (
-          <Pagination page={page} isFirstPage={isFirstPage} isLastPage={isLastPage} />
+          <div className="mb-4">
+            <Pagination page={page} isFirstPage={isFirstPage} isLastPage={isLastPage} />
+          </div>
         )}
 
         {isReportListEmpty ? (

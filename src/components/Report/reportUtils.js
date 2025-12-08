@@ -109,14 +109,23 @@ export function getSavedReportShareProps({ sidesScore, articleTitle, score, expl
   }
 }
 
-export const createShareUrl = (shareLevel) => {
+export const createShareUrl = (shareLevel, reportId) => {
   const isServerSide = isServer();
 
-  if (isServerSide) return EMPTY_STRING;
+  if (isServerSide) return '';
 
   const SHARE_LEVEL_PARAM_KEY = 'shareLevel';
   const updatedShareLevel = parseInt(shareLevel) + 1;
-  const baseUrl = new URL(window.location.href);
+  
+  // Build URL with report ID
+  let baseUrl;
+  if (reportId) {
+    // Use the proper report URL with the ID
+    baseUrl = new URL(`${window.location.origin}/report/${reportId}`);
+  } else {
+    baseUrl = new URL(window.location.href);
+  }
+  
   baseUrl.searchParams.set(SHARE_LEVEL_PARAM_KEY, updatedShareLevel);
 
   return baseUrl.href;

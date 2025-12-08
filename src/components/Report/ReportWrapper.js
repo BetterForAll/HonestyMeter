@@ -21,7 +21,7 @@ const TEXTS = {
 };
 
 function ReportWrapper({ report = {}, shareLevel }) {
-  const shareUrl = createShareUrl(shareLevel);
+  const shareUrl = createShareUrl(shareLevel, report._id);
   const shareProps = getShareProps({ report, shareUrl });
   const { articleTitle, articleLink, score } = report;
   const router = useRouter();

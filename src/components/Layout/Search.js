@@ -60,7 +60,7 @@ export default function Search({
             className="relative w-full sm:w-auto"
             style={{ width: typeof window !== 'undefined' && window.innerWidth < 640 ? mobileWidth : width }}
         >
-            <label htmlFor={id} className="absolute -top-5 left-0 text-sm text-gray-500">
+            <label htmlFor={id} className="sr-only">
                 {inputLabel}
             </label>
             <div className="relative flex items-center">

@@ -1,10 +1,12 @@
+"use client";
+
 import React, { useState } from 'react';
 import Badge from '@/components/Badge/Badge';
 import { ArrowDown, X } from 'lucide-react';
 import Link from 'next/link';
 import Details from './Details';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTrigger, DialogTitle } from '@/components/ui/dialog';
 
 const TEXTS = {
     biasLevel: {
@@ -190,12 +192,8 @@ function CTA({ isSharingDetailsShown, setSharingDetailsShown, biasLevel }) {
                     </Button>
                 </DialogTrigger>
                 <DialogContent className="max-w-[800px] w-[95%] max-h-[95vh] overflow-y-auto p-0 bg-transparent border-none shadow-none">
+                    <DialogTitle className="sr-only">Share Honesty Badge</DialogTitle>
                      <div className="relative w-full bg-white rounded-lg shadow-xl overflow-hidden">
-                        <div className="absolute top-2 right-2 z-10">
-                            <Button variant="ghost" size="icon" onClick={() => setSharingDetailsShown(false)}>
-                                <X className="h-6 w-6 text-gray-500" />
-                            </Button>
-                        </div>
                         <Details biasLevel={biasLevel} />
                     </div>
                 </DialogContent>
