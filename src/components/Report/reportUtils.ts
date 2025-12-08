@@ -1,6 +1,7 @@
 import { convertStringToPascalCase, generateRandomRgbaColor, getHttpProtocol, isServer } from "@/utils/utils";
 import { SIDES_BALANCE_CHART_TEMLATE, SIDES_SCORE_CHART_LABELS } from "./reportConstants";
 import { BASE_URL } from "@/constants/constants";
+import { Report, SideScore } from "@/types/report";
 
 const TEXTS = {
   shareTitle: 'HonestyMeter - A New Free AI powered tool for Evaluating the Objectivity and Bias of Media Content.',
@@ -14,8 +15,8 @@ const SHARING_CONTEXT = {
 }
 const DEFAULT_HASH_TAGS = ['HonestyMeter', 'MediaBias', 'FakeNews'];
 
-function getSideBalanceData(sidesBalance = {}) {
-  return Object.keys(sidesBalance).reduce((acc, sideName) => {
+function getSideBalanceData(sidesBalance: Record<string, number> = {}) {
+  return Object.keys(sidesBalance).reduce((acc: { labels: string[], values: number[] }, sideName) => {
     const sideBalance = sidesBalance[sideName];
     acc.labels.push(`${sideName} (${sideBalance}%)`);
     acc.values.push(sideBalance);
@@ -24,7 +25,7 @@ function getSideBalanceData(sidesBalance = {}) {
   }, { labels: [], values: [] });
 }
 
-function generateSidesScoreChartData(sidesScore = []) {
+function generateSidesScoreChartData(sidesScore: SideScore[] = []) {
   const sidesScoreDataSets = sidesScore.map((side) => ({
     label: `${side.sideName} (${side.score})`,
     data: [side.score],
@@ -39,7 +40,7 @@ function generateSidesScoreChartData(sidesScore = []) {
   return sidesScoreData;
 }
 
-export function getFormattedReportData(data) {
+export function getFormattedReportData(data: Report) {
   const { labels: sideBalanceChartLabels, values: sideBalanceChartValues } = getSideBalanceData(data.sidesBalance);
   const sidesBalanceColors = sideBalanceChartValues.map((_) => generateRandomRgbaColor());
   const sidesBalanceChartData = {
@@ -58,7 +59,16 @@ export function getFormattedReportData(data) {
   return { sidesScoreData, sidesBalanceChartData };
 }
 
-export function getShareHashTags(sidesScore) {
+export function getShareHashTags(sidesScore: Record<string, any> | SideScore[]) {
+  // Handle both array and object formats if necessary, but Report type says SideScore[]
+  // If sidesScore is array:
+  if (Array.isArray(sidesScore)) {
+      const sideNames = sidesScore.map(s => s.sideName);
+      const sideNamesHashTags = sideNames.map(sideName => convertStringToPascalCase(sideName));
+      return [...sideNamesHashTags, ...DEFAULT_HASH_TAGS];
+  }
+  
+  // Fallback if it's object (legacy)
   const sideNames = Object.keys(sidesScore).map(key => sidesScore[key].sideName);
   const sideNamesHashTags = sideNames.map(sideName => convertStringToPascalCase(sideName));
   const shareHashTags = [...sideNamesHashTags, ...DEFAULT_HASH_TAGS];
@@ -66,8 +76,13 @@ export function getShareHashTags(sidesScore) {
   return shareHashTags;
 }
 
-export function getShareProps({ report, shareUrl }) {
-  const { articleTitle, sidesScore = {}, score, explanation = '', _id: reportId } = report;
+export interface ShareProps {
+    report: Report;
+    shareUrl?: string;
+}
+
+export function getShareProps({ report, shareUrl }: ShareProps) {
+  const { articleTitle, sidesScore = [], score, explanation = '', _id: reportId } = report;
 
   const isReportSaved = Boolean(reportId);
   const shareProps = isReportSaved ?
@@ -89,7 +104,7 @@ export function getCustomReportShareProps() {
   }
 }
 
-export function getReportShareTitle(articleTitle, objectivityScore) {
+export function getReportShareTitle(articleTitle: string, objectivityScore: number) {
   const BIAS_REPORT = 'Bias Report';
   const OBJECTIVITY_SCORE = 'Objectivity score';
   const longTitle = `${articleTitle} - ${BIAS_REPORT} - ${OBJECTIVITY_SCORE}: ${objectivityScore}`;
@@ -99,9 +114,17 @@ export function getReportShareTitle(articleTitle, objectivityScore) {
   return title;
 }
 
-export function getSavedReportShareProps({ sidesScore, articleTitle, score, explanation, shareUrl }) {
+interface SavedReportShareProps {
+    sidesScore: SideScore[];
+    articleTitle: string;
+    score: number;
+    explanation: string;
+    shareUrl?: string;
+}
+
+export function getSavedReportShareProps({ sidesScore, articleTitle, score, explanation, shareUrl }: SavedReportShareProps) {
   return {
-    url: shareUrl,
+    url: shareUrl || BASE_URL,
     title: getReportShareTitle(articleTitle, score),
     hasTags: getShareHashTags(sidesScore),
     description: explanation,
@@ -109,13 +132,13 @@ export function getSavedReportShareProps({ sidesScore, articleTitle, score, expl
   }
 }
 
-export const createShareUrl = (shareLevel, reportId) => {
+export const createShareUrl = (shareLevel: string | number, reportId?: string) => {
   const isServerSide = isServer();
 
   if (isServerSide) return '';
 
   const SHARE_LEVEL_PARAM_KEY = 'shareLevel';
-  const updatedShareLevel = parseInt(shareLevel) + 1;
+  const updatedShareLevel = Number(shareLevel) + 1;
   
   // Build URL with report ID
   let baseUrl;
@@ -126,12 +149,12 @@ export const createShareUrl = (shareLevel, reportId) => {
     baseUrl = new URL(window.location.href);
   }
   
-  baseUrl.searchParams.set(SHARE_LEVEL_PARAM_KEY, updatedShareLevel);
+  baseUrl.searchParams.set(SHARE_LEVEL_PARAM_KEY, updatedShareLevel.toString());
 
   return baseUrl.href;
 }
 
-export const getSavedReportUrl = (host, reportId) => {
+export const getSavedReportUrl = (host: string, reportId: string) => {
   const httpProtocol = getHttpProtocol(host)
 
   return `${httpProtocol}://${host}/report/${reportId}`

@@ -1,6 +1,15 @@
 export const SIDES_SCORE_CHART_LABELS = ['Scores for every side (MAXIMUM = 100)'];
 
-export const SIDES_BALANCE_CHART_TEMLATE = {
+export const SIDES_BALANCE_CHART_TEMLATE: {
+  labels: string[];
+  datasets: {
+    label: string;
+    data: number[];
+    backgroundColor: string[];
+    borderColor: string[];
+    borderWidth: number;
+  }[];
+} = {
   labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
   datasets: [
     {

@@ -1,5 +1,5 @@
 import va from "@vercel/analytics";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, ChangeEvent } from "react";
 import {
   fetchReport,
   mockFetchReport, // for testing
@@ -34,16 +34,16 @@ export default function useHomePage() {
     }
 
     try {
-      return JSON.parse(reportFromQuery);
+      return JSON.parse(reportFromQuery as string);
     } catch (e) {
       router.query = {};
       router.push("/");
-      alert(TEXTS.error, e); //TODO: replace with error component
+      alert(TEXTS.error); //TODO: replace with error component
 
       return null;
     }
   }, [reportFromQuery, router]);
-  const [report, setReport] = useState(null);
+  const [report, setReport] = useState<any | null>(null);
   const [reportJson, setReportJson] = useState(EMPTY_STRING);
   const [isReportForPublishing, setIsReportForPublishing] = useState(true);
   const isArticleInputShown = !isLoading && !report && !reportFromQuery;
@@ -69,7 +69,7 @@ export default function useHomePage() {
     setArtilce(EMPTY_STRING);
   };
 
-  const handleArticleChange = (e) => {
+  const handleArticleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setArtilce(e.target.value);
   };
 
@@ -85,7 +85,7 @@ export default function useHomePage() {
   const getRealReport = async () => {
     //TODO: refactor and clean up this function
     router.push(SAVED_REPORT_STATIC_PATH);
-    const reportId = (await fetchReport(article, shouldPublishReport)) || {};
+    const reportId = (await fetchReport(article, shouldPublishReport)) || "";
 
     va.track(EVENT.reportReceived, { reportId });
 
@@ -127,12 +127,12 @@ export default function useHomePage() {
     }
 
     setReport(parsedReportFromQuery);
-    setReportJson(reportFromQuery);
+    setReportJson(reportFromQuery as string);
 
-    const isShared = shareLevel > 0;
+    const isShared = Number(shareLevel) > 0;
 
     if (isShared) {
-      va.track(EVENT.sharedReportViewed, { shareLevel: parseInt(shareLevel) });
+      va.track(EVENT.sharedReportViewed, { shareLevel: Number(shareLevel) });
     }
   }, [parsedReportFromQuery, reportFromQuery, shareLevel]);
 
@@ -145,7 +145,7 @@ export default function useHomePage() {
     report,
     isReportForPublishing,
     reportJson,
-    shareLevel,
+    shareLevel: Number(shareLevel),
     setIsReportForPublishing,
     clearArticleInput,
     closeReport,

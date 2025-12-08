@@ -1,11 +1,11 @@
 import { EMPTY_STRING, SPACE } from '@/constants/constants';
-
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 export function isServer() {
   return typeof window === 'undefined';
 }
 
-export const getRandom = (min, max) => {
+export const getRandom = (min: number, max: number | null | undefined) => {
   if (max === null || max === undefined) {
     max = min;
     min = 0;
@@ -14,7 +14,7 @@ export const getRandom = (min, max) => {
   return Math.random() * (max - min) + min;
 };
 
-export const openEmail = (mailTo) => {
+export const openEmail = (mailTo: string) => {
   window.location.href = mailTo;
 };
 
@@ -25,10 +25,10 @@ export const generateRandomRgbaColor = () => {
   return `rgba(${o(r() * s)}, ${o(r() * s)}, ${o(r() * s)}, 0.5)`;
 };
 
-export const generateMatchingColor = (bgColorRgba) => {
+export const generateMatchingColor = (bgColorRgba: string) => {
   //TODO: use for showing color matching background in favoredSide chip
   const rgbValues = bgColorRgba
-    .substring(bgColor.indexOf('(') + 1, bgColorRgba.lastIndexOf(')'))
+    .substring(bgColorRgba.indexOf('(') + 1, bgColorRgba.lastIndexOf(')'))
     .split(',')
     .map((x) => parseInt(x));
   const luminance =
@@ -37,7 +37,7 @@ export const generateMatchingColor = (bgColorRgba) => {
   return luminance > 128 ? '#000000' : '#ffffff';
 };
 
-export const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+export const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export function scrollToTop({ isSmooth = true } = {}) {
   if (typeof window === 'undefined') return;
@@ -55,7 +55,7 @@ export function scrollToBottom({ isSmooth = true } = {}) {
   window.scrollTo({ top: document.body.scrollHeight, behavior });
 }
 
-export const EMPTY_FUNCTION = (..._args) => { };
+export const EMPTY_FUNCTION = (..._args: any[]) => { };
 
 export function getBaseUrl() {
   const isServer = typeof window === 'undefined';
@@ -80,15 +80,16 @@ export function getBaseUrlFromUrlString(urlString = EMPTY_STRING) {
     .split('/')[0];
 }
 
-export async function copyTextToClipboard(text) {
+export async function copyTextToClipboard(text: string) {
   if ('clipboard' in navigator) {
     return await navigator.clipboard.writeText(text);
   } else {
+    // @ts-ignore
     return document.execCommand('copy', true, text); //for IE
   }
 }
 
-export function getHttpProtocol(host) {
+export function getHttpProtocol(host: string) {
   const LOCALHOST = 'localhost';
   const HTTP = 'http';
   const HTTPS = 'https';
@@ -96,7 +97,7 @@ export function getHttpProtocol(host) {
   return host.includes(LOCALHOST) ? HTTP : HTTPS;
 }
 
-export function convertStringToPascalCase(str) {
+export function convertStringToPascalCase(str: string) {
   return str
     .split(SPACE)
     .map((word) => word.trim())
@@ -104,11 +105,12 @@ export function convertStringToPascalCase(str) {
     .join(EMPTY_STRING);
 }
 
-export function checkIsTextOverflowByElementSize(el) {
-  return el?.clientWidth < el?.scrollWidth;
+export function checkIsTextOverflowByElementSize(el: HTMLElement | null) {
+  if (!el) return false;
+  return el.clientWidth < el.scrollWidth;
 }
 
-export function cutTextIfExeedsMaxCharsCount(text, maxCharacterCount) {
+export function cutTextIfExeedsMaxCharsCount(text: string, maxCharacterCount: number) {
   if (!text) return EMPTY_STRING;
 
   const threeDots = '...';
@@ -118,7 +120,7 @@ export function cutTextIfExeedsMaxCharsCount(text, maxCharacterCount) {
   return text.substring(0, maxCharacterCount) + threeDots;
 }
 
-export function convertUTCDateToUserTimeZone(dateString) {
+export function convertUTCDateToUserTimeZone(dateString: string) {
   if (!dateString) return EMPTY_STRING;
 
   let date;
@@ -143,17 +145,18 @@ export function convertUTCDateToUserTimeZone(dateString) {
   return `${day}/${month}/${year} ${hours}:${minutes}`;
 }
 
-export function checkIsUrl(text) {
+export function checkIsUrl(text: string) {
   const pattern =
     /^(https?:\/\/)?([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+([\/?#].*)?$/;
   return pattern.test(text);
 }
 
-export function isTextLinesOverFlow(el) {
-  return el?.clientHeight < el?.scrollHeight;
+export function isTextLinesOverFlow(el: HTMLElement | null) {
+  if (!el) return false;
+  return el.clientHeight < el.scrollHeight;
 }
 
-export const goBack = (router) => {
+export const goBack = (router: AppRouterInstance) => {
   if (isServer()) return;
 
   const isFirstVisitedPage = window.history.length <= 2;
@@ -164,24 +167,19 @@ export const goBack = (router) => {
     return;
   }
 
-  if (router.query.custom) {
-    window.history.go(-2);
-
-    return;
-  }
-
-  window.history.back();
+  // router.back() is the correct way in App Router
+  router.back();
 };
 
-export const capitalizeFirstLetter = (string) => {
+export const capitalizeFirstLetter = (string: string) => {
   return string?.charAt(0)?.toUpperCase() + string?.slice(1);
 }
 
-export const capitalizeFirstLetterOfEachWord = (string) => {
+export const capitalizeFirstLetterOfEachWord = (string: string) => {
   return string.split(SPACE).map(capitalizeFirstLetter).join(SPACE);
 }
 
-export function getQueryStringByAsPath(asPath) {
+export function getQueryStringByAsPath(asPath: string) {
   const queryString = asPath.split('?')[1];
 
   if (queryString) {

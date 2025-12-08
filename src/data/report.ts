@@ -1,4 +1,6 @@
-const report = {
+import { Report } from "@/types/report";
+
+const report: Report = {
     "articleLink": "https://www.nytimes.com/2021/09/14/us/politics/california-recall-election.html",
     "articleTitle": "California Recall Election: Live Updates",
     "articleDate": "2023-08-21 11:08:50",

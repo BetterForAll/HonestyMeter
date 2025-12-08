@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 const DEFAULT_BREAK_POINT = 768;
 
-const useIsMobileClient = (breakpoint = DEFAULT_BREAK_POINT) => {
+const useIsMobileClient = (breakpoint: number = DEFAULT_BREAK_POINT) => {
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {

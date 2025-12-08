@@ -4,14 +4,14 @@ export const PAGE_ABSOLUTE_URL = {
   TERMS: `${BASE_URL}/terms`,
 };
 export const EMAIL_ADDRESS = 'info@honestymeter.com';
-export const PAGE_LABELS_MAP = {
+export const PAGE_LABELS_MAP: Record<string, string> = {
   home: 'Home',
   about: 'About',
   terms: 'Terms and conditions',
 };
 export const PAGE_LABELS = ['Home', 'People', 'About', 'Terms'];
 export const PAGE_ROUTES = ['/', 'people', 'about', 'terms'];
-export const PAGE_URL_TO_INDEX_MAP = {
+export const PAGE_URL_TO_INDEX_MAP: Record<string, number> = {
   '/': 0,
   '/people': 1,
   '/people/[name]': 1,
@@ -22,6 +22,7 @@ export const PAGE_URL_TO_INDEX_MAP = {
   '/badge/fair': -1,
   '/badge/medium': -1,
   '/badge/high': -1,
+  '/rating': -1, // Added missing route to avoid index invalidation
 };
 export const EMPTY_STRING = '';
 export const SPACE = ' ';
@@ -37,12 +38,12 @@ export const EVENT = {
   reportError: 'Report error',
   reportCopied: 'Report copied',
   reportCopyError: 'Report copy error',
-  shareApp: (platform) => `Share app on ${platform}`,
-  shareReport: (platform) => `Share report on ${platform}`,
+  shareApp: (platform: string) => `Share app on ${platform}`,
+  shareReport: (platform: string) => `Share report on ${platform}`,
   sharedReportViewed: 'Shared report viewed',
   pageLoaded: 'Page loaded',
   peoplePageLoaded: 'People page loaded',
-  personPageLoaded: (name) => 'Person page loaded',
+  personPageLoaded: (name: string) => 'Person page loaded',
   generateNewReportClicked: 'Generate New Report Clicked',
   cancelNewReportClicked: 'Cancel New Report Clicked',
   reportCardClicked: 'Report Card Clicked',
@@ -50,7 +51,7 @@ export const EVENT = {
   closeReportClicked: 'Close Report Clicked',
   nextPageClicked: 'Next Page Clicked',
   previousPageClicked: 'Previous Page Clicked',
-  pageChanged: (direction) => `${direction} Clicked}`,
+  pageChanged: (direction: string) => `${direction} Clicked}`,
   skipToFirstPageClicked: 'Skip To First Page Clicked',
   articleLinkClicked: 'Article Link Clicked',
   reportViewed: 'Report Viewed',

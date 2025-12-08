@@ -1,4 +1,4 @@
-const exampleArticle = `
+const exampleArticle: string = `
 Fiery Debates Define Elections in Imaginaria: A Showdown Between Alaric Durand and Lysandra Vargas.
 
 In the heart of the fictional nation of Imaginaria, two formidable candidates,

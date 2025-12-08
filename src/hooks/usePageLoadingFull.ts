@@ -5,9 +5,9 @@ import { usePathname, useSearchParams } from "next/navigation";
 
 // Migrated to App Router - uses pathname/searchParams instead of router.events
 
-function usePageLoadingFull() {
+function usePageLoadingFull(): boolean {
   const [isLoading, setLoading] = useState(false);
-  const timeoutRef = useRef(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isFirstRender = useRef(true);
 
   const pathname = usePathname();

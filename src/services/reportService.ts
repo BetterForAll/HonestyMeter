@@ -1,6 +1,6 @@
 import { wait } from "@/utils/utils";
 import mockReport from "../data/report";
-import { API_URL } from "@/constants/constants";
+import { Report } from "@/types/report";
 
 const GENERATE_REPORT_API_URL = "./api/report";
 const OPTIONS_TEMPLATE = {
@@ -12,7 +12,7 @@ const OPTIONS_TEMPLATE = {
   body: { text: "" },
 };
 
-export async function fetchReport(text, isForPublishing = false) {
+export async function fetchReport(text: string, isForPublishing: boolean = false): Promise<string> {
   const options = {
     ...OPTIONS_TEMPLATE,
     body: JSON.stringify({ text, isForPublishing }),
@@ -23,7 +23,7 @@ export async function fetchReport(text, isForPublishing = false) {
   return reportId;
 }
 
-export const mockFetchReport = async (delay = 1000) => {
+export const mockFetchReport = async (delay: number = 1000): Promise<Report> => {
   //for testing
   await wait(delay);
 
