@@ -3,14 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import va from '@vercel/analytics';
-import theme from '@/theme';
-import {
-  Box,
-  Chip,
-  List,
-  ListItem,
-  Typography,
-} from '@mui/material';
 import { EMPTY_FUNCTION, convertUTCDateToUserTimeZone } from '../../utils/utils';
 import { API_URL, BASE_URL, EMPTY_STRING, EVENT } from '@/constants/constants';
 import Search from '@/components/Layout/Search';
@@ -19,6 +11,8 @@ import { getPeople } from '../api/people';
 import { getLastRating } from '../api/rating';
 import { MethodologyPeopleRating } from '@/components/Methodology/Methodology';
 import { RatingList } from '@/components/RatingList/Rating';
+import { cn } from '@/lib/utils';
+import { X } from 'lucide-react';
 
 const LOGO_URL = './favicon.png';
 const OPEN_GRAPH_IMAGE_URL = './opengraph-logo.png';
@@ -75,7 +69,7 @@ export default function PeoplePage({ people: peopleFromDb, rating }) {
   const mostCritisizedRatingTitle = TEXTS.mostCriticized
   const mostPraisedRatingTitle = TEXTS.mostPraised
   const ratings = [
-    { createdAt, items: mostCriticizedPeople, title: mostCritisizedRatingTitle, titleColor: theme.palette.warning.dark, Methodology: MethodologyPeopleRating },
+    { createdAt, items: mostCriticizedPeople, title: mostCritisizedRatingTitle, titleColor: 'text-orange-600', Methodology: MethodologyPeopleRating },
     { createdAt, items: mostPraisedPeople, title: mostPraisedRatingTitle, Methodology: MethodologyPeopleRating },
   ]
 
@@ -114,35 +108,33 @@ export default function PeoplePage({ people: peopleFromDb, rating }) {
   return (
     <>
       {HtmlHead}
-      {
-        <Box sx={STYLES.container}>
-          <Typography variant='h1' sx={STYLES.title}>
-            {TEXTS.title}
-          </Typography>
-          <RatingList ratings={ratings} />
-          <Search
-            value={searchValue}
-            onChange={handleLocalSearch}
-            onClick={handleSearchClick}
-            label={TEXTS.name}
-            inputLabel={TEXTS.searchName}
-            id={SEARCH_FIELD_ID}
-            variant='text'
-            onClear={clearSearch}
-            mobileWidth='auto'
-          />
-          {
-            !isPeopleListEmpty &&
-            <Typography variant='body1' sx={STYLES.subtitle}>
-              {TEXTS.subtitle}
-            </Typography>
-          }
-          <People
-            people={peopleLocal}
-            selectedPerson={personFromQuery}
-          />
-        </Box >
-      }
+      <div className="w-full max-w-[1400px] mx-auto flex flex-col justify-start items-center px-2 pb-4 flex-1">
+        <h1 className="text-2xl my-4">
+          {TEXTS.title}
+        </h1>
+        <RatingList ratings={ratings} />
+        <Search
+          value={searchValue}
+          onChange={handleLocalSearch}
+          onClick={handleSearchClick}
+          label={TEXTS.name}
+          inputLabel={TEXTS.searchName}
+          id={SEARCH_FIELD_ID}
+          variant='text'
+          onClear={clearSearch}
+          mobileWidth='auto'
+        />
+        {
+          !isPeopleListEmpty &&
+          <p className="text-sm text-gray-500 mx-4 mt-2 text-center">
+            {TEXTS.subtitle}
+          </p>
+        }
+        <People
+          people={peopleLocal}
+          selectedPerson={personFromQuery}
+        />
+      </div>
     </>
   );
 }
@@ -152,44 +144,31 @@ const People = ({ people, selectedPerson }) => {
     va.track(EVENT.personClicked, { person });
   };
 
-  const peopleList = people.map((person) => {
-    const isSelected = person === selectedPerson;
-    const handleDelete = isSelected ? handleClick(person) : EMPTY_FUNCTION;
-    const onDeleteProp = isSelected ? { onDelete: handleDelete } : {};
-    const formattedPerson = person.split(' ').join('-').toLowerCase();
-
-    return (
-      <ListItem
-        key={person}
-        sx={STYLES.personListItem}
-      >
-        <Link href={`/people/${formattedPerson}`} onClick={handleClick(person)}>
-          <Chip
-            clickable={!isSelected}
-            label={person}
-            size='small'
-            sx={STYLES.personChip}
-            color='info'
-            {...onDeleteProp}
-          />
-        </Link>
-      </ListItem>
-    );
-  });
-
   return (
-    <Box
-      sx={{
-        flex: 1,
-        marginBottom: 2,
-        display: 'flex',
-        alignItems: 'felx-start',
-      }}
-    >
-      <Box>
-        <List sx={STYLES.people}>{peopleList}</List>
-      </Box>
-    </Box>
+    <div className="flex-1 mb-4 flex items-start">
+      <ul className="flex flex-row flex-wrap p-2 sm:p-4 justify-center items-start list-none">
+        {people.map((person) => {
+          const isSelected = person === selectedPerson;
+          const formattedPerson = person.split(' ').join('-').toLowerCase();
+
+          return (
+            <li key={person} className="w-fit p-1">
+              <Link href={`/people/${formattedPerson}`} onClick={handleClick(person)} className="no-underline">
+                <span className={cn(
+                  "inline-flex items-center gap-1 px-3 py-1 text-sm rounded-full cursor-pointer transition-colors",
+                  isSelected 
+                    ? "bg-indigo-600 text-white" 
+                    : "bg-sky-100 text-sky-700 hover:bg-sky-200"
+                )}>
+                  {person}
+                  {isSelected && <X className="w-3 h-3" />}
+                </span>
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 };
 
@@ -226,122 +205,3 @@ export async function getStaticProps() {
     revalidate: 4 * 60 * 60
   };
 }
-
-const STYLES = {
-  container: {
-    width: '100%',
-    maxWidth: '1400px',
-    margin: '0 auto',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'start',
-    alignItems: 'center',
-    padding: theme.spacing(0, 1, 2, 1),
-    flex: 1,
-  },
-  date: {
-    color: theme.palette.text.secondary,
-    margin: theme.spacing(2, 0, 1, 0),
-    fontSize: theme.typography.fontSize * 0.875,
-  },
-  title: {
-    fontSize: theme.typography.fontSize * 2,
-    margin: theme.spacing(2, 0, 2),
-  },
-  subtitle: {
-    fontSize: theme.typography.fontSize * 0.875,
-    color: theme.palette.text.secondary,
-    margin: theme.spacing(1, 2, 0, 2),
-    textAlign: 'center',
-  },
-  ratingContainer: {
-    cursor: 'pointer',
-    fontSize: theme.typography.fontSize * 0.75,
-    textAlign: 'center',
-    marginBottom: 2,
-    WebkitTapHighlightColor: 'transparent',
-    WebkitTouchCallout: 'none',
-    WebkitUserSelect: 'none',
-    MozUserSelect: 'none',
-    msUserSelect: 'none',
-    userSelect: 'none',
-  },
-  mostCritisizedTitle: ({ titleColor }) => ({
-    fontWeight: theme.typography.fontWeightBold,
-    fontSize: theme.typography.fontSize * 1,
-    display: 'flex',
-    color: titleColor || theme.palette.text.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 1,
-    marginBottom: 0.5,
-  }),
-  infoIcon: { fontSize: theme.typography.fontSize * 1.25 },
-  mostPraisedTitle: {
-    fontWeight: theme.typography.fontWeightBold,
-    fontSize: theme.typography.fontSize * 1,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 1,
-    color: theme.palette.text.primary,
-    marginBottom: 0.5,
-  },
-  ratingParagraph: {
-    fontSize: 'inherit',
-    marginBottom: 1,
-    color: theme.palette.text.primary
-  },
-  poweredBy: {
-    fontSize: theme.typography.fontSize * 0.75,
-    color: theme.palette.text.secondary,
-    opacity: 0.8,
-    textAlign: 'center',
-    margin: theme.spacing(0, 2, 2, 2),
-  },
-  newReportButton: {
-    margin: 'auto',
-    marginBottom: theme.spacing(1),
-    textAlign: 'center',
-    minWidth: '266px',
-  },
-  articleInputContainer: {
-    width: '100%',
-    margin: '0 auto auto',
-    padding: theme.spacing(0, 2, 2, 2),
-  },
-  pagination: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-  },
-  skipIcon: {
-    transform: 'scale(0.75)',
-  },
-  people: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    padding: { xs: theme.spacing(1), sm: theme.spacing(2) },
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-  },
-  personListItem: {
-    width: 'fit-content',
-    padding: theme.spacing(0.5),
-  },
-  personChip: {
-    '& hover': {
-      backgroundColor: 'auto',
-    },
-  },
-  noReportsContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: theme.spacing(2),
-  },
-};

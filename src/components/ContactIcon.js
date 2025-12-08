@@ -1,39 +1,15 @@
 import React from 'react';
-import MailOutlineIcon from '@mui/icons-material/MailOutline';
-import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
-import theme from "@/theme";
+import { Mail } from 'lucide-react';
 import { EMAIL_ADDRESS } from '@/constants/constants'
 
 export default function ContactIcon() {
     return (
-        <Tooltip
-            title={TooltipTitleJsx}
-            placement="top-start">
-            <Link href={`mailto:${EMAIL_ADDRESS}`} sx={STYLES.root}>
-                <MailOutlineIcon color="inherit" />
-            </Link>
-        </Tooltip>
+        <a 
+            href={`mailto:${EMAIL_ADDRESS}`}
+            title={EMAIL_ADDRESS}
+            className="flex justify-center items-center text-gray-500 no-underline hover:text-indigo-600 transition-colors"
+        >
+            <Mail className="w-5 h-5" />
+        </a>
     )
 }
-
-const STYLES = {
-    root: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: theme.typography.fontSize,
-        textDecoration: 'none',
-        color: theme.palette.text.secondary,
-        '&:hover': {
-            color: theme.palette.primary.main
-        }
-    }
-}
-
-const TooltipTitleJsx = (
-    <Typography variant="body2">
-        {EMAIL_ADDRESS}
-    </Typography>
-)

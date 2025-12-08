@@ -139,7 +139,7 @@ function ReportCard({
     <Card className="flex flex-col justify-start items-start cursor-pointer transition-all duration-200 w-full p-4 hover:bg-gray-50 hover:shadow-lg hover:-translate-y-0.5">
       <h3 
         ref={articleTitleRef}
-        className="h-12 w-full mb-2 text-sm font-medium text-gray-600 line-clamp-2"
+        className="min-h-[48px] w-full mb-2 text-sm font-medium text-gray-600 line-clamp-3"
         title={isTitleTextOverflow ? articleTitle : ''}
       >
         {articleTitle}

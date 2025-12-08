@@ -1,51 +1,36 @@
 import React from "react";
-import { Box, Typography } from '@mui/material';
-import Link from 'next/link';;
+import Link from 'next/link';
+import { Github } from 'lucide-react';
 import ContactIcon from "../ContactIcon";
-import GitHubIcon from '@mui/icons-material/GitHub';
 import { GITHUB_URL, PAGE_LABELS, PAGE_ROUTES } from "@/constants/constants";
-import theme from "@/theme";
 import { EMPTY_FUNCTION } from "@/utils/utils";
 import { func, number } from 'prop-types';
 
 export default function Footer({ setCurrentPage = EMPTY_FUNCTION, closeReport }) {
   return (
-    <Box sx={STYLES.container}>
-      {
-        PAGE_LABELS.map((pageLabel, pageIndex) => {
-          return (
-            <BottomNavTextLink
-              pageIndex={pageIndex}
-              setCurrentPage={setCurrentPage}
-              closeReport={closeReport}
-              key={pageLabel}
-            />
-          )
-        })
-      }
-      {/* <Box sx={STYLES.flexCenter}> //TODO: fix styles and unmute
-        <Link href={'/terms-of-service.pdf'} target='_blank' rel='noopener noreferrer' style={STYLES.textLink}>
-          terms of service
-        </Link>
-      </Box>
-      <Box sx={STYLES.flexCenter}>
-        <Link href={'/privacy-policy.pdf'} target='_blank' rel='noopener noreferrer' style={STYLES.textLink}>
-          privacy policy
-        </Link>
-      </Box>
-      <Box sx={STYLES.flexCenter}>
-        <Link href={'/disclamer.pdf'} target='_blank' rel='noopener noreferrer' style={STYLES.textLink}>
-          disclamer
-        </Link>
-      </Box> */}
-      <Box sx={STYLES.flexCenter}>
+    <footer className="w-full max-w-[1000px] h-32 mx-auto px-4 py-7 flex gap-8 justify-center items-center">
+      {PAGE_LABELS.map((pageLabel, pageIndex) => {
+        return (
+          <BottomNavTextLink
+            pageIndex={pageIndex}
+            setCurrentPage={setCurrentPage}
+            closeReport={closeReport}
+            key={pageLabel}
+          />
+        )
+      })}
+      <div className="flex justify-center items-center gap-4">
         <ContactIcon />
-        <Link href={GITHUB_URL} target='_blank' rel='noopener noreferrer' style={STYLES.textLink}>
-          <GitHubIcon sx={STYLES.githubIcon} />
+        <Link 
+          href={GITHUB_URL} 
+          target='_blank' 
+          rel='noopener noreferrer' 
+          className="text-gray-500 hover:text-indigo-600 transition-colors"
+        >
+          <Github className="w-5 h-5" />
         </Link>
-      </Box>
-    </Box>
-
+      </div>
+    </footer>
   )
 }
 
@@ -55,24 +40,21 @@ Footer.propTypes = {
 }
 
 function BottomNavTextLink({ pageIndex, setCurrentPage, closeReport }) {
-
   const handleClick = () => {
     if (pageIndex === 0) {
       closeReport();
     }
-
     setCurrentPage(pageIndex)
   }
 
   return (
     <Link
       href={PAGE_ROUTES[pageIndex]}
-      style={STYLES.textLink}
-      onClick={handleClick} >{
-        <Typography sx={STYLES.textLink}>
-          {PAGE_LABELS[pageIndex]}
-        </Typography>
-      }</Link>
+      onClick={handleClick}
+      className="text-sm text-gray-500 no-underline hover:text-indigo-600 transition-colors"
+    >
+      {PAGE_LABELS[pageIndex]}
+    </Link>
   )
 }
 
@@ -80,39 +62,4 @@ BottomNavTextLink.propTypes = {
   pageIndex: number,
   setCurrentPage: func,
   closeReport: func
-}
-
-const STYLES = {
-  container: {
-    width: '100%',
-    maxWidth: '1000px',
-    height: '128px',
-    margin: theme.spacing(0, 1),
-    padding: theme.spacing(7, 2),
-    display: 'flex',
-    gap: theme.spacing(4),
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: '0 auto'
-  },
-  textLink: {
-    fontSize: theme.typography.fontSize,
-    textDecoration: 'none',
-    color: theme.palette.text.secondary,
-    '&:hover': {
-      color: theme.palette.primary.main
-    },
-  },
-  githubIcon: {
-    color: theme.palette.text.secondary,
-    '&:hover': {
-      color: theme.palette.primary.main
-    },
-  },
-  flexCenter: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: theme.spacing(2)
-  }
 }

@@ -1,7 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react';
-import Box from '@mui/material/Box';
-import LinearProgress from '@mui/material/LinearProgress';
-import theme from '@/theme';
 import { getRandom } from '@/utils/utils';
 
 const INTERVAL_DELAY = 500;
@@ -23,7 +20,7 @@ export default function LinearBuffer() {
         }
     };
 
-      useEffect(() => {
+    useEffect(() => {
         progressRef.current = moveProgressBar;
     });
 
@@ -38,15 +35,19 @@ export default function LinearBuffer() {
     }, []);
 
     return (
-        <Box sx={STYLES.container}>
-            <LinearProgress variant="buffer" value={progress} valueBuffer={buffer} />
-        </Box>
+        <div className="w-full p-4">
+            <div className="relative h-1 w-full bg-gray-200 rounded-full overflow-hidden">
+                {/* Buffer */}
+                <div 
+                    className="absolute h-full bg-indigo-200 transition-all duration-300"
+                    style={{ width: `${Math.min(buffer, 100)}%` }}
+                />
+                {/* Progress */}
+                <div 
+                    className="absolute h-full bg-indigo-600 transition-all duration-300"
+                    style={{ width: `${Math.min(progress, 100)}%` }}
+                />
+            </div>
+        </div>
     );
-}
-
-const STYLES = {
-    container: {
-        width: '100%',
-        padding: theme.spacing(4),
-    }
 }

@@ -1,7 +1,7 @@
-import theme from '@/theme'
-import { Box, Paper, Typography } from '@mui/material'
 import Link from 'next/link'
 import React from 'react'
+import { Card, CardContent } from '../ui/card'
+import { AlertTriangle } from 'lucide-react'
 
 const TEXTS = {
     title: 'Caution',
@@ -24,33 +24,23 @@ const TEXTS = {
 
 export default function Warning() {
     return (
-        <Paper sx={STYLES.paper} >
-            <Typography sx={STYLES.paragraph}>
-                {TEXTS.title}! {TEXTS.body} <Typography component='span' sx={STYLES.underLine}>{TEXTS.mainMessage}</Typography>
-            </Typography>
-            <Typography sx={STYLES.paragraph}>
-                {TEXTS.feedbackPart1} <Link href="" style={STYLES.link} >{TEXTS.submitFeedback}</Link> {TEXTS.feedbackPart2}
-            </Typography>
-        </Paper>
+        <Card className="w-full border-amber-200 bg-amber-50">
+            <CardContent className="p-4 text-amber-800">
+                <div className="flex items-start gap-2 mb-2">
+                    <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                    <p className="text-sm">
+                        <span className="font-semibold">{TEXTS.title}!</span> {TEXTS.body}
+                        <span className="underline">{TEXTS.mainMessage}</span>
+                    </p>
+                </div>
+                <p className="text-sm ml-7">
+                    {TEXTS.feedbackPart1}{' '}
+                    <Link href="" className="text-indigo-600 hover:underline font-medium">
+                        {TEXTS.submitFeedback}
+                    </Link>{' '}
+                    {TEXTS.feedbackPart2}
+                </p>
+            </CardContent>
+        </Card>
     )
-}
-
-const STYLES = {
-    paper: {
-        width: '100%',
-        padding: theme.spacing(1, 3),
-        color: theme.palette.primary.dark,
-        fontSize: theme.typography.fontSize,
-    },
-    paragraph: {
-        padding: 1,
-        fontSize: 'inherit'
-    },
-    link: {
-        textDecoration: 'none'
-    },
-    underLine: {
-        fontSize: 'inherit',
-        textDecoration: 'underline'
-    }
 }

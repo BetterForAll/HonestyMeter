@@ -1,7 +1,5 @@
 import React from 'react';
-import { Typography, List } from '@mui/material';
 import ManipulationListItem from './ManipulationListItem/ManipulationListItem';
-import theme from '@/theme';
 import { manipulationsPropType } from '../reportPropTypes';
 
 const TEXTS = {
@@ -10,11 +8,11 @@ const TEXTS = {
 
 export default function ManipulationList({ manipulations = [] }) {
   return (
-    <>
-      <Typography variant="h6" sx={STYLES.title}>
+    <div className="mt-4">
+      <h2 className="text-lg font-semibold px-4 mb-4">
         {TEXTS.title}
-      </Typography>
-      <List sx={STYLES.list}>
+      </h2>
+      <ul className="list-none p-0 pb-0">
         {manipulations.map((manipulation, index) => {
           return (
             <ManipulationListItem
@@ -23,22 +21,11 @@ export default function ManipulationList({ manipulations = [] }) {
           )
         }
         )}
-      </List>
-    </>
+      </ul>
+    </div>
   )
 }
 
 ManipulationList.propTypes = {
   manipulations: manipulationsPropType
 }
-
-const STYLES = {
-  title: {
-    padding: theme.spacing(0, 2),
-  },
-  list: {
-    paddingBottom: 0
-  }
-}
-
-

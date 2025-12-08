@@ -1,11 +1,9 @@
 import React, { useRef } from 'react'
 import { oneOf, string, func, bool, node } from 'prop-types';
-import theme from '@/theme';
-import { FormControl, IconButton, Input, InputAdornment, InputLabel, OutlinedInput } from '@mui/material'
-import SearchIcon from '@mui/icons-material/Search';
+import { Search as SearchIcon, X } from 'lucide-react';
 import { EMPTY_FUNCTION } from '@/utils/utils';
 import { EMPTY_STRING } from '@/constants/constants';
-import CloseIcon from '@mui/icons-material/Close';
+import { cn } from '@/lib/utils';
 
 const TEXTS = {
     search: 'Search Term',
@@ -36,13 +34,9 @@ export default function Search({
     iconVisibilityToggle = false,
     width = '25ch',
     mobileWidth = '100%',
-
 }) {
     const inputRef = useRef(null);
-
-
-    const ShownInput = variant === 'text' ? Input : OutlinedInput;
-    const toggleVisibility = Boolean(value) ? 'visible' : 'hidden';
+    const showClear = Boolean(value);
 
     const handleKeyDown = (event) => {
         if (event.key === KEYS.enter) {
@@ -52,46 +46,62 @@ export default function Search({
 
     const handleSearchClick = () => {
         onClick();
-        inputRef.current.blur();
+        inputRef.current?.blur();
     }
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        inputRef.current.blur();
+        inputRef.current?.blur();
     }
 
     return (
-        <FormControl
-            sx={STYLES.formControl(width, mobileWidth)}
-            onSubmit={handleSubmit}>
-            <InputLabel htmlFor={id}>
+        <form 
+            onSubmit={handleSubmit}
+            className="relative w-full sm:w-auto"
+            style={{ width: typeof window !== 'undefined' && window.innerWidth < 640 ? mobileWidth : width }}
+        >
+            <label htmlFor={id} className="absolute -top-5 left-0 text-sm text-gray-500">
                 {inputLabel}
-            </InputLabel>
-            <ShownInput
-                id={id}
-                type={type}
-                label={label}
-                onChange={onChange}
-                sx={STYLES.input}
-                onKeyDown={handleKeyDown}
-                variant={variant}
-                ref={inputRef}
-                endAdornment={
-                    <InputAdornment position={position} sx={{ marginRight: -1.25 }} >
-                        <IconButton onClick={onClear} sx={STYLES.closeIcon(toggleVisibility)}>
-                            <CloseIcon />
-                        </IconButton>
-                        <IconButton onClick={handleSearchClick} sx={STYLES.mainIcon(iconVisibilityToggle, toggleVisibility)}>
-                            <Icon />
-                        </IconButton>
-                    </InputAdornment >
-                }
-                value={value}
-                InputLabelProps={{
-                    sx: STYLES.inputLabel
-                }}
-            />
-        </FormControl >
+            </label>
+            <div className="relative flex items-center">
+                <input
+                    id={id}
+                    type={type}
+                    ref={inputRef}
+                    value={value}
+                    onChange={onChange}
+                    onKeyDown={handleKeyDown}
+                    placeholder={label}
+                    className={cn(
+                        "w-full h-10 px-3 pr-20 text-sm border-b border-gray-300 bg-transparent",
+                        "outline-none focus:border-indigo-500 transition-colors",
+                        "placeholder:text-gray-400"
+                    )}
+                />
+                <div className="absolute right-0 flex items-center gap-1">
+                    <button
+                        type="button"
+                        onClick={onClear}
+                        className={cn(
+                            "p-1 text-gray-400 hover:text-gray-600 transition-colors cursor-pointer",
+                            showClear ? "visible" : "invisible"
+                        )}
+                    >
+                        <X className="w-4 h-4" />
+                    </button>
+                    <button
+                        type="button"
+                        onClick={handleSearchClick}
+                        className={cn(
+                            "p-1 text-gray-400 hover:text-indigo-600 transition-colors cursor-pointer",
+                            iconVisibilityToggle && !showClear ? "invisible" : "visible"
+                        )}
+                    >
+                        <Icon className="w-5 h-5" />
+                    </button>
+                </div>
+            </div>
+        </form>
     )
 }
 
@@ -106,39 +116,9 @@ Search.propTypes = {
     value: string,
     setValue: func,
     variant: string,
-    Icon: node,
+    Icon: func,
     iconVisibilityToggle: bool,
     onClear: func,
     width: string,
     mobileWidth: string,
-}
-
-const STYLES = {
-    formControl: (width, mobileWidth) => ({
-        width: { xs: mobileWidth, sm: width },
-        marginTop: 0,
-        '& label': {
-            paddingLeft: 0,
-            top: '3px',
-            left: '-15px'
-        },
-        '& svg': {
-            color: theme.palette.text.secondary,
-        }
-    }),
-    inputLabel: {
-        paddingTop: '3px',
-        color: 'red'
-    },
-    mainIcon: (iconVisibilityToggle, toggleVisibility) => ({
-        visibility: iconVisibilityToggle ? toggleVisibility : 'visible',
-        marginBottom: theme.spacing(0),
-        marginLeft: theme.spacing(-1.25),
-        transform: 'scale(0.75)',
-    }),
-    closeIcon: (toggleVisibility) => ({
-        visibility: toggleVisibility,
-        marginBottom: theme.spacing(0),
-        transform: 'scale(0.8)',
-    })
 }

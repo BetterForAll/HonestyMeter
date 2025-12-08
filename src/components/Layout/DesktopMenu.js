@@ -1,124 +1,77 @@
 import React, { useEffect, useState } from 'react';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
 import { useRouter } from 'next/router';
+import { Github } from 'lucide-react';
+import NextLink from 'next/link';
 import ContactIcon from '@/components/ContactIcon';
-import theme from '@/theme';
 import { GITHUB_URL, PAGE_LABELS } from '@/constants/constants';
 import { number, func, arrayOf, string } from 'prop-types';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import { Link } from '@mui/material';
-import NextLink from 'next/link';
 import Badge from '../Badge/Badge';
-import BadgeIcon from '../Badge/BadgeIcon';
 import { UserButton, useUser } from '@clerk/nextjs';
+import { cn } from '@/lib/utils';
 
 export default function Menu({ currentPage, setCurrentPage, pageRoutes }) {
   const router = useRouter();
   const { pathname = '/' } = router || {};
   const isBadgePage = pathname === '/badge';
   const [isBadgeActive, setIsBadgeActive] = useState(false);
-  const biasLevel = isBadgeActive ? 4 : 5; // indicates badge color
+  const biasLevel = isBadgeActive ? 4 : 5;
   const { isSignedIn } = useUser();
 
   useEffect(() => {
     setIsBadgeActive(isBadgePage);
   }, [isBadgePage])
 
-
-  const handleChange = (_, pageIndex) => {
+  const handleChange = (pageIndex) => {
     setCurrentPage(pageIndex);
     setIsBadgeActive(false);
   };
-
-  const onTabClick = (index) => (e) => handleChange(e, index)
 
   const goToBadgePage = () => {
     setCurrentPage(null);
     setIsBadgeActive(true);
   }
 
-
   return (
-    <Box sx={STYLES.visibilityBlockContainer}>
-      <Box style={{ ...STYLES.flexContainer, ...STYLES.flexCenter }}>
-        <Box sx={STYLES.tabsContainer}>
-          <Tabs
-            value={currentPage}
-            variant='scrollable'
-            scrollButtons
-            allowScrollButtonsMobile
-            aria-label='page tabs'
-          >
-            {PAGE_LABELS.map((pageLabel, index) => (
-              <NextLink href={`/${pageRoutes[index]}`} key={pageLabel} style={{ color: 'inherit' }}>
-                <Tab label={pageLabel} key={pageLabel} onClick={onTabClick(index)} />
-              </NextLink>
-            ))}
-
-          </Tabs>
-        </Box>
+    <div className="hidden md:block">
+      <div className="flex justify-center items-center gap-2 mb-0">
+        <nav className="flex items-center bg-white max-w-lg">
+          {PAGE_LABELS.map((pageLabel, index) => (
+            <NextLink 
+              href={`/${pageRoutes[index]}`} 
+              key={pageLabel}
+              onClick={() => handleChange(index)}
+              className={cn(
+                "px-4 py-2 text-sm text-gray-600 no-underline transition-colors hover:text-indigo-600",
+                currentPage === index && "text-indigo-600 border-b-2 border-indigo-600"
+              )}
+            >
+              {pageLabel}
+            </NextLink>
+          ))}
+        </nav>
         <NextLink href='/badge' onClick={goToBadgePage}>
           <Badge biasLevel={biasLevel} isMenu isTooltipShownOnDesktop width='85px' showBadgeName fadeTimeout={0} showFullTooltip />
         </NextLink>
-        <Box sx={{ ...STYLES.iconsContainer, ...STYLES.flexCenter }}>
+        <div className="flex justify-center items-center gap-4 ml-10">
           <ContactIcon />
-          <Link
+          <a
             href={GITHUB_URL}
             target='_blank'
             rel='noopener noreferrer'
-            sx={STYLES.flexCenter}
+            className="text-gray-500 hover:text-indigo-600 transition-colors"
           >
-            <GitHubIcon sx={STYLES.githubIcon} />
-          </Link>
-          <Box sx={STYLES.userButton}>
-            {
-              isSignedIn &&
+            <Github className="w-5 h-5" />
+          </a>
+          {isSignedIn && (
+            <div className="w-8 h-8">
               <UserButton afterSignOutUrl='/' />
-            }
-          </Box>
-        </Box>
-      </Box>
-    </Box>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
-
-const STYLES = {
-  visibilityBlockContainer: {
-    display: {
-      xs: 'none',
-      md: 'block',
-    },
-  },
-  flexContainer: {
-    marginBottom: theme.spacing(0),
-    gap: theme.spacing(1),
-  },
-  tabsContainer: {
-    maxWidth: { xs: 320, sm: 480 },
-    bgcolor: 'background.paper',
-  },
-  iconsContainer: {
-    gap: theme.spacing(2),
-    marginLeft: theme.spacing(5),
-  },
-  flexCenter: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  githubIcon: {
-    color: theme.palette.text.secondary,
-    '&:hover': {
-      color: theme.palette.primary.main,
-    },
-  },
-  userButton: {
-    width: '32px',
-    height: '32px',
-  }
-};
 
 Menu.propTypes = {
   currentPage: number,

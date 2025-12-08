@@ -1,22 +1,24 @@
 import React, { memo, useState } from 'react';
-import { Alert, Box, Snackbar, Typography } from '@mui/material';
 import ReportHeader from './ReportHeader';
 import Charts from './Charts/Charts';
 import ManipulationList from './ManipulationList/ManipulationList';
 import { getFormattedReportData } from './reportUtils';
 import reportPropType from './reportPropTypes';
 import { number, object } from 'prop-types';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import PropTypes from 'prop-types';
 import { EMPTY_STRING } from '@/constants/constants';
-import theme from '@/theme';
 import Warning from './Warning';
+import { Button } from '../ui/button';
+import { Textarea } from '../ui/textarea';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '../ui/dialog';
+import { CheckCircle, X } from 'lucide-react';
 
 async function submitFeedback(feedback, report) {
   const result = await fetch('/api/feedback', {
@@ -29,8 +31,7 @@ async function submitFeedback(feedback, report) {
 
 function FormDialog({ isDialogOpen, onClose, report }) {
   const [feedback, setFeedback] = useState(EMPTY_STRING);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleFeedbackChange = (event) => {
     setFeedback(event.target.value);
@@ -40,58 +41,53 @@ function FormDialog({ isDialogOpen, onClose, report }) {
     onClose(e);
     try {
       await submitFeedback(feedback, report);
-      setSnackbarOpen(true);
+      setShowSuccess(true);
       setFeedback(EMPTY_STRING);
+      setTimeout(() => setShowSuccess(false), 6000);
     } catch (err) {
       console.log(err);
       alert('Something went wrong, please try again later');
     }
   };
 
-  const handleCloseSnackbar = (event, reason) => {
-    event?.stopPropagation();
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setSnackbarOpen(false);
-  };
-
   return (
     <>
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      >
-        <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%', textAlign: 'center' }}>
-          Feedback submitted successfully! If your feedback is accepted, the report will be updated.
-        </Alert>
-      </Snackbar>
-      <Dialog open={isDialogOpen} onClose={onClose}>
-        <DialogContent>
-          <DialogContentText>
-            Give Feedback, Improve the report, Shape a fairer world!
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
+      {/* Success Toast */}
+      {showSuccess && (
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 bg-green-100 border border-green-300 text-green-800 px-4 py-3 rounded-lg shadow-lg flex items-center gap-2">
+          <CheckCircle className="w-5 h-5" />
+          <span>Feedback submitted successfully! If your feedback is accepted, the report will be updated.</span>
+          <button onClick={() => setShowSuccess(false)} className="ml-2">
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
+
+      <Dialog open={isDialogOpen} onOpenChange={onClose}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Give Feedback</DialogTitle>
+            <DialogDescription>
+              Improve the report, Shape a fairer world!
+            </DialogDescription>
+          </DialogHeader>
+          <Textarea
             id="feedback"
-            label="Type Your Feedback"
-            type="text"
-            fullWidth
-            variant="standard"
-            multiline
-            rows={8}
+            placeholder="Type Your Feedback"
             value={feedback}
             onChange={handleFeedbackChange}
+            rows={8}
+            className="min-h-[200px]"
           />
+          <DialogFooter>
+            <Button variant="outline" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button onClick={handleSubmit}>
+              Submit Feedback
+            </Button>
+          </DialogFooter>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={onClose}>Cancel</Button>
-          <Button onClick={handleSubmit}>Submit Feedback</Button>
-        </DialogActions>
       </Dialog>
     </>
   );
@@ -100,7 +96,6 @@ function FormDialog({ isDialogOpen, onClose, report }) {
 FormDialog.propTypes = {
   isDialogOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  submitFeedback: PropTypes.func.isRequired,
   report: reportPropType
 };
 
@@ -109,19 +104,17 @@ function Report({ report, biasLevel, shareProps }) {
   const isManipulationsFound = report?.score !== 100;
   const [isDialogOpen, setDialogOpen] = useState(false);
 
-
-
   const handleOpenDialog = () => {
     setDialogOpen(true);
   };
 
   const handleClose = (e) => {
-    e?.stopPropagation();
+    e?.stopPropagation?.();
     setDialogOpen(false);
   };
 
   return (
-    <Box sx={STYLES.container} onClick={handleOpenDialog}>
+    <div className="mx-auto max-w-[1000px] cursor-crosshair" onClick={handleOpenDialog}>
       <FormDialog isDialogOpen={isDialogOpen} onClose={handleClose} report={report} />
       <ReportHeader
         score={report.score}
@@ -132,22 +125,22 @@ function Report({ report, biasLevel, shareProps }) {
         biasLevel={biasLevel}
         shareProps={shareProps}
       />
-      {
-        isManipulationsFound &&
+      {isManipulationsFound && (
         <>
           <Charts
             sidesScoreData={sidesScoreData}
             sidesBalanceChartData={sidesBalanceChartData}
-            favoredSide={report.favoredSide} />
-          <Box sx={STYLES.warningContainer}>
+            favoredSide={report.favoredSide}
+          />
+          <div className="my-6">
             <Warning />
-          </Box>
+          </div>
           <ManipulationList manipulations={report.manipulations} />
         </>
-      }
-    </Box >
+      )}
+    </div>
   );
-};
+}
 
 Report.propTypes = {
   report: reportPropType,
@@ -155,20 +148,4 @@ Report.propTypes = {
   shareProps: object
 }
 
-
-
-const STYLES = {
-  container: {
-    margin: 'auto',
-    maxWidth: '1000px',
-    cursor: 'crosshair'
-  },
-  warningContainer: {
-    margin: theme.spacing(3, 0),
-  },
-}
-
 export default memo(Report);
-
-
-

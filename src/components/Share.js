@@ -1,7 +1,5 @@
 import React from 'react'
 import va from '@vercel/analytics';
-import { Box, Typography } from '@mui/material'
-import theme from '@/theme';
 import {
     FacebookIcon,
     FacebookShareButton,
@@ -10,7 +8,7 @@ import {
     TwitterIcon,
     TwitterShareButton
 } from 'react-share';
-import { string, number, node, arrayOf, oneOf } from 'prop-types';
+import { string, number, node, arrayOf, oneOf, bool } from 'prop-types';
 import { EVENT } from '@/constants/constants';
 
 const SHARE_PLATFORM_NAMES = {
@@ -41,15 +39,14 @@ export default function Share({
     showCtaLine1 = true,
     showCtaLine2 = true
 }) {
-
     const handleClick = (e) => {
         e.stopPropagation();
     }
 
     return (
-        <Box sx={STYLES.shareCtaContainer}>
+        <div className="w-full flex flex-col justify-center items-center text-center">
             <CTA context={context} showCtaLine1={showCtaLine1} showCtaLine2={showCtaLine2} />
-            <Box sx={STYLES.socialIconsContainer} onClick={handleClick}>
+            <div className="flex justify-center items-center gap-4" onClick={handleClick}>
                 <TwitterShareButton
                     url={url}
                     title={title}
@@ -72,8 +69,8 @@ export default function Share({
                     beforeOnClick={fireAnalyticsEvent(SHARE_PLATFORM_NAMES.facebook)}>
                     <FacebookIcon size={32} round />
                 </FacebookShareButton>
-            </Box>
-        </Box>
+            </div>
+        </div>
     )
 }
 
@@ -85,8 +82,9 @@ Share.propTypes = {
     sideNames: arrayOf(string),
     explanation: string,
     hashTags: arrayOf(string),
-    context: oneOf([CONTEXT_OPTIONS.app.name, CONTEXT_OPTIONS.report.name])
-
+    context: oneOf([CONTEXT_OPTIONS.app.name, CONTEXT_OPTIONS.report.name]),
+    showCtaLine1: bool,
+    showCtaLine2: bool,
 }
 
 const fireAnalyticsEvent = (platform) => () => {
@@ -94,50 +92,19 @@ const fireAnalyticsEvent = (platform) => () => {
     va.track(eventName)
 }
 
-const STYLES = {
-    shareCtaContainer: {
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        textAlign: 'center'
-    },
-    socialIconsContainer: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: theme.spacing(2)
-    },
-}
-
 function CTA({ context, showCtaLine1, showCtaLine2 }) {
     return (
-        <Box style={DEFAULT_CTA_STYLES.cta}>
-            {
-                showCtaLine1 &&
-                <Typography component='h3' sx={DEFAULT_CTA_STYLES.lineOne}>
+        <div className="text-gray-500 text-lg mb-4">
+            {showCtaLine1 && (
+                <h3 className="mb-2 text-xl font-normal">
                     {TEXTS.ctaLineOne}
-                </Typography>
-            }
-            {
-                showCtaLine2 &&
-                <Typography component='h3'>
+                </h3>
+            )}
+            {showCtaLine2 && (
+                <h3 className="font-normal">
                     {TEXTS.getCtaLineTwo(context)}
-                </Typography>
-            }
-        </Box>
+                </h3>
+            )}
+        </div>
     )
-}
-
-const DEFAULT_CTA_STYLES = {
-    cta: {
-        fontWeight: theme.typography.fontWeightRegular,
-        fontSize: theme.typography.fontSize * 1.25,
-        color: theme.palette.text.secondary,
-        marginBottom: theme.spacing(2)
-    },
-    lineOne: {
-        marginBottom: theme.spacing(1)
-    }
 }

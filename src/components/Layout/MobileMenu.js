@@ -1,80 +1,44 @@
 import React, { useEffect, useState } from "react";
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import MailIcon from "@mui/icons-material/Mail";
-import IconButton from "@mui/material/IconButton";
-import HomeIcon from "@mui/icons-material/Home";
-import InfoIcon from "@mui/icons-material/Info";
-import GavelIcon from "@mui/icons-material/Gavel";
-import MenuIcon from "@mui/icons-material/Menu";
-import GroupsIcon from "@mui/icons-material/Groups";
-import { Tooltip } from "@mui/material";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import theme from "@/theme";
 import { useRouter } from "next/router";
-import { func, arrayOf, string } from "prop-types";
 import Link from "next/link";
+import { Menu as MenuIcon, Home, Info, Gavel, Users, Mail, Github, X } from "lucide-react";
+import { func, arrayOf, string } from "prop-types";
 import Badge from "../Badge/Badge";
-import { EMPTY_STRING, GITHUB_URL, PAGE_LABELS } from "@/constants/constants";
-import { EMAIL_ADDRESS } from "@/constants/constants";
+import { EMPTY_STRING, GITHUB_URL, PAGE_LABELS, EMAIL_ADDRESS } from "@/constants/constants";
 import { UserButton, useUser } from "@clerk/nextjs";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 const MAIL_TO_PREFIX = "mailto:";
 const MAIL_TO = MAIL_TO_PREFIX + EMAIL_ADDRESS;
-const DRAWER_TYPE = "bottom";
 const TEXTS = {
   contact: "Contact",
   github: "GitHub",
 };
 const MENU_ITEMS = [...PAGE_LABELS, TEXTS.contact, TEXTS.github];
-const MENU_ICONS = [
-  HomeIcon,
-  GroupsIcon,
-  InfoIcon,
-  GavelIcon,
-  MailIcon,
-  GitHubIcon,
-];
+const MENU_ICONS = [Home, Users, Info, Gavel, Mail, Github];
 
-export default function MobileMenu({
-  setCurrentPage,
-  closeReport,
-  pageRoutes,
-}) {
+export default function MobileMenu({ setCurrentPage, closeReport, pageRoutes }) {
   const router = useRouter();
   const { pathname = '/' } = router || {};
   const isBadgePage = pathname === '/badge';
   const [isOpen, setIsOpen] = useState(false);
   const [isBadgeActive, setIsBadgeActive] = useState(isBadgePage);
-  const biasLevel = isBadgeActive ? 4 : 5; // indicates badge color
+  const biasLevel = isBadgeActive ? 4 : 5;
   const { isSignedIn } = useUser();
 
   useEffect(() => {
     setIsBadgeActive(isBadgePage);
   }, [isBadgePage])
 
-
-  const toggleDrawer = (open) => (event) => {
-    if (
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
-
-    setIsOpen(open);
-  };
+  const toggleDrawer = () => setIsOpen(!isOpen);
+  const closeDrawer = () => setIsOpen(false);
 
   const onMenuItemClick = (index) => () => {
     if (index === 0) closeReport();
-
     setCurrentPage(5);
     setIsBadgeActive(false);
+    closeDrawer();
   };
 
   const goToBadgePage = () => {
@@ -82,63 +46,57 @@ export default function MobileMenu({
     setIsBadgeActive(true);
   }
 
-  const menuItemsList = (anchor) => (
-    <Box
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
-      <List>
-        {MENU_ITEMS.map((text, index) => {
-          const Icon = MENU_ICONS[index];
-          const isContactIcon = index === 3;
-          const tooltipTitle = isContactIcon ? EMAIL_ADDRESS : EMPTY_STRING;
-          const { link, target } = getLinkData(index, pageRoutes);
-
-          return (
-            <ListItem disablePadding key={text}>
-              <Tooltip title={tooltipTitle} placement="top-start">
-                <Link href={link} target={target} style={{ color: 'inherit', textDecoration: 'none', width: '100%' }}>
-                  <ListItemButton onClick={onMenuItemClick(index)}>
-                    <ListItemIcon>
-                      <Icon />
-                    </ListItemIcon>
-                    <ListItemText primary={text} />
-                  </ListItemButton>
-                </Link>
-              </Tooltip>
-            </ListItem>
-          );
-        })}
-      </List>
-    </Box>
-  );
-
   return (
-    <Box sx={STYLES.visibilityContainer}>
-      <Box sx={{ ...STYLES.flexContainer, position: 'relative', alignItems: 'center' }}>
-        {
-          isSignedIn &&
-          <UserButton afterSignOutUrl='/' />
-        }
-        <Link style={STYLES.badgeLink}
-          href='/badge'
-          onClick={goToBadgePage}
-        >
+    <div className="block md:hidden">
+      <div className="flex justify-end items-center relative px-4 pb-4">
+        {isSignedIn && <UserButton afterSignOutUrl='/' />}
+        <Link href='/badge' onClick={goToBadgePage} className="ml-4">
           <Badge biasLevel={biasLevel} isMenu width="70px" height="70px" showBadgeName fadeTimeout={0} />
         </Link>
-        <IconButton onClick={toggleDrawer(true)} sx={STYLES.iconButton}>
-          <MenuIcon />
-        </IconButton>
-        <Drawer
-          anchor={DRAWER_TYPE}
-          open={isOpen}
-          onClose={toggleDrawer(false)}
-        >
-          {menuItemsList()}
-        </Drawer>
-      </Box>
-    </Box>
+        <Button variant="ghost" size="icon" onClick={toggleDrawer} className="h-10">
+          <MenuIcon className="w-6 h-6" />
+        </Button>
+      </div>
+
+      {/* Drawer Overlay */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40"
+          onClick={closeDrawer}
+        />
+      )}
+
+      {/* Bottom Drawer */}
+      <div className={cn(
+        "fixed bottom-0 left-0 right-0 bg-white z-50 rounded-t-xl shadow-lg transition-transform duration-300",
+        isOpen ? "translate-y-0" : "translate-y-full"
+      )}>
+        <div className="flex justify-end p-2">
+          <Button variant="ghost" size="icon" onClick={closeDrawer}>
+            <X className="w-5 h-5" />
+          </Button>
+        </div>
+        <nav className="pb-6">
+          {MENU_ITEMS.map((text, index) => {
+            const Icon = MENU_ICONS[index];
+            const { link, target } = getLinkData(index, pageRoutes);
+
+            return (
+              <Link 
+                href={link} 
+                target={target}
+                key={text}
+                onClick={onMenuItemClick(index)}
+                className="flex items-center gap-4 px-6 py-3 text-gray-700 no-underline hover:bg-gray-100 transition-colors"
+              >
+                <Icon className="w-5 h-5 text-gray-500" />
+                <span>{text}</span>
+              </Link>
+            );
+          })}
+        </nav>
+      </div>
+    </div>
   );
 }
 
@@ -146,23 +104,6 @@ MobileMenu.propTypes = {
   setCurrentPage: func,
   pageRoutes: arrayOf(string),
   closeReport: func,
-};
-
-const STYLES = {
-  visibilityContainer: {
-    display: { xs: "block", md: "none" },
-  },
-  flexContainer: {
-    display: "flex",
-    justifyContent: "flex-end",
-    padding: theme.spacing(0, 2, 2, 0),
-  },
-  badgeLink: {
-    marginLeft: theme.spacing(2),
-  },
-  iconButton: {
-    height: '40px'
-  }
 };
 
 function getLinkData(index, pageRoutes) {
@@ -182,4 +123,3 @@ function getLinkData(index, pageRoutes) {
 
   return { link, target };
 }
-

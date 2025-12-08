@@ -1,13 +1,8 @@
 import React from "react";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import theme from "@/theme";
-import { Box, Checkbox, FormControlLabel, Typography } from "@mui/material";
-
-import { string, func } from "prop-types";
+import { string, func, bool } from "prop-types";
 import { WOLRD_NEWS_API_URL } from "@/constants/constants";
-
-const Spacer = <Box sx={{ height: { xs: theme.spacing(2), sm: "38px" } }} />;
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 
 const TEXTS = {
   placeholder: "Paste link or text for bias analysis",
@@ -31,61 +26,52 @@ export default function AtricleInput({
   };
 
   return (
-    <Box style={STYLES.container}>
-      <TextField
-        id="outlined-multiline-static"
-        label={TEXTS.placeholder}
-        multiline
-        rows={8}
+    <div className="max-w-[1000px] flex flex-col items-center mx-auto w-full">
+      <Textarea
+        id="article-input"
+        placeholder={TEXTS.placeholder}
         value={article}
         onChange={onArticleChange}
-        sx={STYLES.input}
-        InputProps={{ sx: { height: "217px" } }}
+        className="w-full mb-2 h-52 resize-none"
+        rows={8}
       />
 
       {isPublishEnabled ? (
-        <Box sx={STYLES.checkBoxContainer}>
-          <Typography sx={STYLES.articleTextExtracted}>
+        <div className="w-full flex items-center justify-between gap-2 flex-wrap mb-2">
+          <p className="text-xs text-gray-500 text-center w-full sm:w-auto">
             {TEXTS.articleTextExtracted}
             &nbsp;
-            <a href={WOLRD_NEWS_API_URL} target="_blank" rel="noreferrer">
+            <a 
+              href={WOLRD_NEWS_API_URL} 
+              target="_blank" 
+              rel="noreferrer"
+              className="text-gray-500 hover:text-indigo-600"
+            >
               {TEXTS.worldNewsApi}
             </a>
-          </Typography>
-          <FormControlLabel
-            control={
-              <Checkbox
-                defaultChecked
-                checked={isPublished}
-                onChange={handlePublishedChange}
-                size="small"
-              />
-            }
-            label={
-              <Typography
-                sx={{
-                  fontSize: theme.typography.fontSize * 0.75,
-                  color: theme.palette.text.secondary,
-                }}
-              >
-                {TEXTS.postInNewsFeed}
-              </Typography>
-            }
-            sx={STYLES.checkbox}
-          />
-        </Box>
+          </p>
+          <label className="flex items-center gap-2 text-xs text-gray-500 w-full sm:w-auto justify-center sm:justify-end cursor-pointer">
+            <input
+              type="checkbox"
+              checked={isPublished}
+              onChange={handlePublishedChange}
+              className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+            />
+            {TEXTS.postInNewsFeed}
+          </label>
+        </div>
       ) : (
-        Spacer
+        <div className="h-4 sm:h-10" />
       )}
+      
       <Button
         onClick={onGetReport}
-        variant="contained"
-        size="large"
-        sx={STYLES.button}
+        size="lg"
+        className="w-full h-16 text-lg font-semibold"
       >
         {TEXTS.cta}
       </Button>
-    </Box>
+    </div>
   );
 }
 
@@ -93,56 +79,7 @@ AtricleInput.propTypes = {
   article: string,
   onArticleChange: func.isRequired,
   onGetReport: func.isRequired,
-  isPublished: func.isRequired,
-  setIsPublished: func.isRequired,
-};
-
-const STYLES = {
-  container: {
-    maxWidth: "1000px",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    margin: "auto",
-  },
-  title: {
-    color: theme.palette.primary.main,
-    fontSize: theme.typography.fontSize * 1.5,
-    fontWeight: theme.typography.fontWeightBold,
-    marginBottom: theme.spacing(5),
-  },
-  input: {
-    width: "100%",
-    marginBottom: theme.spacing(0.5),
-    height: "217px",
-  },
-  button: {
-    width: "100%",
-    height: "72px",
-  },
-  checkBoxContainer: {
-    width: "100%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: theme.spacing(0.5),
-    flexWrap: "wrap",
-  },
-  checkbox: {
-    width: { xs: "100%", sm: "auto" },
-    alignSelf: "flex-end",
-    marginRight: 0,
-    display: "flex",
-    justifyContent: "center",
-  },
-  articleTextExtracted: {
-    textAlign: "center",
-    marginTop: theme.spacing(0),
-    fontSize: theme.typography.fontSize * 0.75,
-    color: theme.palette.text.secondary,
-    " & a": {
-      color: theme.palette.text.secondary,
-    },
-    width: { xs: "100%", sm: "auto" },
-  },
+  isPublished: bool,
+  setIsPublished: func,
+  isPublishEnabled: bool,
 };
