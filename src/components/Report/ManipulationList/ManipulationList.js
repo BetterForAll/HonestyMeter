@@ -16,13 +16,10 @@ export default function ManipulationList({ manipulations = [] }) {
       </Typography>
       <List sx={STYLES.list}>
         {manipulations.map((manipulation, index) => {
-          const isFirstItem = index === 0;
-
           return (
             <ManipulationListItem
               manipulation={manipulation}
-              key={index}
-              showSuggestedChangesTitle={isFirstItem} />
+              key={index} />
           )
         }
         )}
