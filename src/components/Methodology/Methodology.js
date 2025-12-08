@@ -76,7 +76,7 @@ const TEXT = {
     exhibit potential bias and are thus more pertinent for an objectivity evaluation.`
 };
 
-export const MethodologyPeopleRating = ({ createdAt }) => {
+export const MethodologyPeopleRating = ({ createdAt = '' }) => {
     return (
         <div className="w-full max-w-[90%] md:max-w-[60%] mx-auto p-4 bg-white max-h-[85%] overflow-x-auto relative">
             <X className="absolute top-2 right-2 w-6 h-6 text-gray-500 cursor-pointer" />
@@ -127,7 +127,7 @@ export const MethodologyPeopleRating = ({ createdAt }) => {
     );
 };
 
-export const MethodologySourcesRating = ({ createdAt }) => {
+export const MethodologySourcesRating = ({ createdAt = '' }) => {
     return (
         <div className="w-full max-w-[90%] md:max-w-[60%] mx-auto p-4 bg-white max-h-[85%] overflow-x-auto relative">
             <X className="absolute top-2 right-2 w-6 h-6 text-gray-500 cursor-pointer" />

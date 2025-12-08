@@ -1,6 +1,8 @@
+"use client";
+
 import React from 'react';
 import { func, string } from 'prop-types';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EMPTY_FUNCTION } from '@/utils/utils';
@@ -16,7 +18,6 @@ export default function BackButton({ text = TEXTS.back, onClick = EMPTY_FUNCTION
     const handleGoBack = () => {
         if (goTo) {
             router.push(goTo);
-
         } else {
             router.back();
         }

@@ -1,7 +1,7 @@
 import React from "react";
 import { bool } from 'prop-types';
 
-export default function Disclamer({ isShort }) {
+export default function Disclamer({ isShort = false }) {
   return (
     <div className="p-4 mx-auto max-w-[1000px] text-gray-500 text-sm">
       <p className="mb-4">

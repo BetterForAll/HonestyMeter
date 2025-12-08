@@ -1,14 +1,15 @@
+"use client";
+
 import React, { useEffect } from 'react';
 import { string, func, object, number } from 'prop-types';
 import va from '@vercel/analytics';
+import { useRouter } from 'next/navigation';
 import Report from './Report';
-import { goBack } from '@/utils/utils';
 import reportPropType from './reportPropTypes';
 import CopyToClipboard from './CopyToClipboard';
 import Share from '../Share';
 import { createShareUrl, getShareProps } from './reportUtils';
 import { EVENT } from '@/constants/constants';
-import { useRouter } from 'next/router';
 import Disclamer from '../Disclamer';
 import { Button } from '../ui/button';
 import { X } from 'lucide-react';
@@ -27,7 +28,7 @@ function ReportWrapper({ report = {}, shareLevel }) {
   const biasLevel = getBiasLevel(report.score);
 
   const handleGoBack = () => {
-    goBack(router);
+    router.back();
   }
 
   useEffect(() => {

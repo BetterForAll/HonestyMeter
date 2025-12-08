@@ -5,7 +5,6 @@ import { cn } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import {
-  getBaseUrl,
   getBaseUrlFromUrlString,
   convertUTCDateToUserTimeZone,
 } from '@/utils/utils';
@@ -15,8 +14,8 @@ import reportPropType from '../Report/reportPropTypes';
 import useIsTextLinesOverFlow from '@/hooks/useIsTextLinesOverflow';
 import { EMPTY_STRING } from '@/constants/constants';
 
-const baseUrl = getBaseUrl();
-const REPORT_URL = `${baseUrl}report`;
+// Use relative URL to avoid hydration mismatch (server vs client base URL)
+const REPORT_URL = '/report';
 const IMAGE_URL = 'https://picsum.photos/288/150?random=';
 const TEXTS = {
   title: 'News Integrity Feed',

@@ -1,7 +1,9 @@
+"use client";
+
 import React from 'react';
 import va from '@vercel/analytics';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { ChevronRight, ChevronLeft, ChevronsLeft, ArrowUpToLine } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EMPTY_STRING, EVENT } from '@/constants/constants';
@@ -23,8 +25,9 @@ export default function Pagination({
   onChange,
   isScrollUpIconShown,
 }) {
-  const router = useRouter();
-  const pageParams = getPageParams(page, router, isFirstPage, isLastPage);
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const pageParams = getPageParams(page, pathname, searchParams, isFirstPage, isLastPage);
 
   const onStartClick = (e) => {
     if (isFirstPage) {
@@ -98,8 +101,8 @@ export default function Pagination({
   );
 }
 
-function GenerateLinkWithUpdatedQueryParam(key, value, router) {
-  const newQuery = new URLSearchParams(router.query);
+function GenerateLinkWithUpdatedQueryParam(key, value, searchParams) {
+  const newQuery = new URLSearchParams(searchParams.toString());
   const isGoToFirstPage = key === 'page' && (value === 1 || value === '1');
 
   if (isGoToFirstPage) {
@@ -115,15 +118,15 @@ function GenerateLinkWithUpdatedQueryParam(key, value, router) {
 };
 
 
-function getPageParams(page, router, isFirstPage, isLastPage) {
+function getPageParams(page, pathname, searchParams, isFirstPage, isLastPage) {
   const nextPage = parseInt(page) + 1;
   const prevPage = parseInt(page) - 1;
-  const nextPageParamsString = GenerateLinkWithUpdatedQueryParam(PAGE_QUERY_PARAM_KEY, nextPage, router);
-  const prevPageParamsString = GenerateLinkWithUpdatedQueryParam(PAGE_QUERY_PARAM_KEY, prevPage, router);
-  const firstPageParamsString = GenerateLinkWithUpdatedQueryParam(PAGE_QUERY_PARAM_KEY, 1, router);
-  const nextPageLink = isLastPage ? EMPTY_STRING : `${router.pathname}${nextPageParamsString}`;
-  const prevPageLink = isFirstPage ? EMPTY_STRING : `${router.pathname}${prevPageParamsString}`;
-  const firstPageLink = isFirstPage ? EMPTY_STRING : `${router.pathname}${firstPageParamsString}`;
+  const nextPageParamsString = GenerateLinkWithUpdatedQueryParam(PAGE_QUERY_PARAM_KEY, nextPage, searchParams);
+  const prevPageParamsString = GenerateLinkWithUpdatedQueryParam(PAGE_QUERY_PARAM_KEY, prevPage, searchParams);
+  const firstPageParamsString = GenerateLinkWithUpdatedQueryParam(PAGE_QUERY_PARAM_KEY, 1, searchParams);
+  const nextPageLink = isLastPage ? EMPTY_STRING : `${pathname}${nextPageParamsString}`;
+  const prevPageLink = isFirstPage ? EMPTY_STRING : `${pathname}${prevPageParamsString}`;
+  const firstPageLink = isFirstPage ? EMPTY_STRING : `${pathname}${firstPageParamsString}`;
 
   return {
     prev: prevPageLink,

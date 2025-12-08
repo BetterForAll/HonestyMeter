@@ -1,34 +1,44 @@
-import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/router";
+"use client";
 
-//TODO: Improve page loading logic - optionally: migrate to "app" folder [new Next.js feature]
+import { useState, useEffect, useRef } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+
+// Migrated to App Router - uses pathname/searchParams instead of router.events
 
 function usePageLoadingFull() {
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false);
   const timeoutRef = useRef(null);
+  const isFirstRender = useRef(true);
 
-  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
-    const handleStart = () => {
-      timeoutRef.current = setTimeout(() => setLoading(true), 400);
-    };
+    // Skip loading state on first render (page is already loaded)
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
 
-    const handleComplete = () => setLoading(false);
+    // When pathname or searchParams change, briefly show loading
+    setLoading(true);
+    
+    // Clear any existing timeout
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
 
-    setLoading(!router.isReady);
-
-    router.events.on("routeChangeStart", handleStart);
-    router.events.on("routeChangeComplete", handleComplete);
-    router.events.on("routeChangeError", handleComplete);
+    // Hide loading after a short delay (navigation in App Router is fast)
+    timeoutRef.current = setTimeout(() => {
+      setLoading(false);
+    }, 100);
 
     return () => {
-      router.events.off("routeChangeStart", handleStart);
-      router.events.off("routeChangeComplete", handleComplete);
-      router.events.off("routeChangeError", handleComplete);
-      timeoutRef.current && clearTimeout(timeoutRef.current);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
     };
-  }, [router]);
+  }, [pathname, searchParams]);
 
   return isLoading;
 }

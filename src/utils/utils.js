@@ -55,7 +55,7 @@ export function scrollToBottom({ isSmooth = true } = {}) {
   window.scrollTo({ top: document.body.scrollHeight, behavior });
 }
 
-export const EMPTY_FUNCTION = () => { };
+export const EMPTY_FUNCTION = (..._args) => { };
 
 export function getBaseUrl() {
   const isServer = typeof window === 'undefined';

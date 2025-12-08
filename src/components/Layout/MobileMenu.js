@@ -1,5 +1,7 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Menu as MenuIcon, Home, Info, Gavel, Users, Mail, Github, X } from "lucide-react";
 import { func, arrayOf, string } from "prop-types";
@@ -19,8 +21,7 @@ const MENU_ITEMS = [...PAGE_LABELS, TEXTS.contact, TEXTS.github];
 const MENU_ICONS = [Home, Users, Info, Gavel, Mail, Github];
 
 export default function MobileMenu({ setCurrentPage, closeReport, pageRoutes }) {
-  const router = useRouter();
-  const { pathname = '/' } = router || {};
+  const pathname = usePathname();
   const isBadgePage = pathname === '/badge';
   const [isOpen, setIsOpen] = useState(false);
   const [isBadgeActive, setIsBadgeActive] = useState(isBadgePage);
