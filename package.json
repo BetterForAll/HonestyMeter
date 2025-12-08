@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@clerk/nextjs": "^4.29.5",
+    "@clerk/nextjs": "^6.36.0",
     "@emotion/cache": "^11.10.7",
     "@radix-ui/react-collapsible": "^1.1.12",
     "@radix-ui/react-dialog": "^1.1.15",
@@ -26,7 +26,7 @@
     "cmdk": "^1.1.1",
     "dotenv": "^16.0.3",
     "eslint": "8.38.0",
-    "eslint-config-next": "13.3.0",
+    "eslint-config-next": "^16.0.7",
     "lucide-react": "^0.556.0",
     "mixpanel-browser": "^2.48.1",
     "mongodb": "^5.6.0",
