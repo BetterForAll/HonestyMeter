@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { BASE_URL, EMPTY_STRING } from "@/constants/constants";
 import { getPeople } from "@/app/api/people/route";
 import { getLastRating } from "@/app/api/rating/route";
@@ -69,5 +70,9 @@ export const revalidate = 14400;
 export default async function PeoplePage() {
   const { people, rating } = await getPeopleData();
 
-  return <PeoplePageClient people={people} rating={rating} />;
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PeoplePageClient people={people} rating={rating} />
+    </Suspense>
+  );
 }

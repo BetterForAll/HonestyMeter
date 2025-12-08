@@ -10,15 +10,19 @@ import "../global.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
+export const viewport = {
+  themeColor: "#1976d2",
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata = {
   title: "Honesty Meter",
   description: "AI powered tool for bias detection",
-  viewport: "initial-scale=1, width=device-width",
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
   },
-  themeColor: "#1976d2",
 };
 
 export default function RootLayout({
