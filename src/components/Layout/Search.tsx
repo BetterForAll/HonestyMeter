@@ -78,8 +78,11 @@ export default function Search({
     return (
         <form 
             onSubmit={handleSubmit}
-            className="relative w-full sm:w-auto"
-            style={{ width: typeof window !== 'undefined' && window.innerWidth < 640 ? mobileWidth : width }}
+            className="relative w-[var(--mobile-width)] sm:w-[var(--width)]"
+            style={{ 
+                '--width': width, 
+                '--mobile-width': mobileWidth 
+            } as React.CSSProperties}
         >
             <label htmlFor={id} className="sr-only">
                 {inputLabel}
