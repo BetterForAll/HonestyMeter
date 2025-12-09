@@ -266,7 +266,7 @@ export default function DetailsBias({ biasLevel = 1 }: DetailsBiasProps) {
 
 function FloatingBadge() {
     return (
-        <div className="relative cursor-pointer bg-white/60 pt-2 px-2 rounded-xl mb-4">
+        <div className="relative cursor-pointer bg-white/60 pt-2 px-2 pb-2 rounded-xl mb-4">
             <Link href="" className="no-underline text-black">
                 <Image src="/badge.svg" width={140} height={140} alt="Honesty Badge" />
             </Link>

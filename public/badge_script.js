@@ -26,7 +26,7 @@ function _0x2c77() {
     "getElementById",
     "2804652LRoYLp",
     "location",
-    "<div\x20id=\x22honestymeterBadgeIcon\x22\x20style=\x22position:\x20fixed;\x20bottom:\x2010px;\x20right:\x2010px;\x20cursor:\x20pointer;\x20background-color:#ffffffc4;\x20border:\x20solid\x201px\x20#19857b6b;\x20\x20padding:\x2016px\x208px\x200;\x20border-radius:\x204px;\x22>",
+    "<div\x20id=\x22honestymeterBadgeIcon\x22\x20style=\x22position:\x20fixed;\x20bottom:\x2010px;\x20right:\x2010px;\x20cursor:\x20pointer;\x20background-color:#ffffffc4;\x20border:\x20solid\x201px\x20#19857b6b;\x20\x20padding:\x2016px\x208px\x208px;\x20border-radius:\x204px;\x22>",
     "honestymeterBadgeIcon",
     "<img\x20src=\x22https://honestymeter.com/badge.svg\x22\x20width=",
     "userAgent",
@@ -100,7 +100,7 @@ function _0x1ad9(_0x5b8bf4, _0x1a98a7) {
             _0x3857cc +
             _0xa35056(0x78)) +
           _0xa35056(0x88) +
-          "<button\x20id=\x22honestymeterCloseButton\x22\x20style=\x22position:\x20absolute;\x20top:\x208px;\x20right:\x208px;\x20cursor:\x20pointer;\x20background-color:\x20#19857B;\x20color:\x20white;\x20width:\x2020px;\x20height:\x2016px;\x20text-align:\x20center;\x20border:\x20none;\x22\x20onclick=\x22window.honestymeterCloseBadge()\x22>X</button>" +
+          "<button\x20id=\x22honestymeterCloseButton\x22\x20style=\x22position:\x20absolute;\x20top:\x208px;\x20right:\x208px;\x20cursor:\x20pointer;\x20background-color:\x20#19857B;\x20color:\x20white;\x20width:\x2020px;\x20height:\x2020px;\x20line-height:\x2018px;\x20text-align:\x20center;\x20border:\x20none;\x22\x20onclick=\x22window.honestymeterCloseBadge()\x22>X</button>" +
           _0xa35056(0x72);
       document[_0xa35056(0x7f)]["insertAdjacentHTML"](
         _0xa35056(0x81),
