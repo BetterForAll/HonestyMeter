@@ -23,3 +23,21 @@ export interface Report {
   favoredSide: string;
   manipulations: Manipulation[];
 }
+
+export interface ChartDataset {
+  label?: string;
+  data: number[];
+  backgroundColor?: string | string[];
+  borderColor?: string | string[];
+  borderWidth?: number;
+}
+
+export interface SidesBalanceChartData {
+  labels: string[];
+  datasets: ChartDataset[];
+}
+
+export interface SidesScoreChartData {
+  labels: string[];
+  datasets: ChartDataset[];
+}

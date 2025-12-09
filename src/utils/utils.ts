@@ -5,7 +5,7 @@ export function isServer() {
   return typeof window === 'undefined';
 }
 
-export const getRandom = (min: number, max: number | null | undefined) => {
+export const getRandom = (min: number, max?: number | null) => {
   if (max === null || max === undefined) {
     max = min;
     min = 0;
