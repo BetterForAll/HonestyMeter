@@ -15,10 +15,18 @@ const SHARING_CONTEXT = {
 }
 const DEFAULT_HASH_TAGS = ['HonestyMeter', 'MediaBias', 'FakeNews'];
 
+const MAX_SIDE_NAME_LENGTH = 18;
+
+function truncateName(name: string, maxLength: number = MAX_SIDE_NAME_LENGTH): string {
+  if (name.length <= maxLength) return name;
+  return `${name.slice(0, maxLength - 3)}...`;
+}
+
 function getSideBalanceData(sidesBalance: Record<string, number> = {}) {
   return Object.keys(sidesBalance).reduce((acc: { labels: string[], values: number[] }, sideName) => {
     const sideBalance = sidesBalance[sideName];
-    acc.labels.push(`${sideName} (${sideBalance}%)`);
+    const truncatedName = truncateName(sideName);
+    acc.labels.push(`${truncatedName} (${sideBalance}%)`);
     acc.values.push(sideBalance);
 
     return acc;
