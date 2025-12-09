@@ -30,7 +30,7 @@ export function Rating({ createdAt, items, title, titleColor, Methodology }: Rat
     return (
         <>
             <Dialog open={isMethodologyModalShown} onOpenChange={setIsMethodologyModalShown}>
-                <DialogContent className="max-w-2xl max-h-[90vh] overflow-auto" onClick={handleRatingClick}>
+                <DialogContent className="max-w-2xl max-h-[90vh] overflow-auto">
                     <DialogTitle className="sr-only">{title}</DialogTitle>
                     {Methodology && <Methodology createdAt={createdAt} />}
                 </DialogContent>

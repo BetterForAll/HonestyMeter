@@ -12,6 +12,7 @@ import {
 import Share from "@/components/Share";
 import AtricleInput from "@/components/ArticleInput";
 import Disclamer from "@/components/Disclamer";
+import ReportLoading from "@/components/Report/ReportLoading";
 import {
   BASE_URL,
   COUNTRIES,
@@ -104,7 +105,7 @@ export default function HomePageClient({
   const isPaginationEnabled = !isOnlyOnePage;
   const isLoading = usePageLoadingFull();
 
-  const {
+    const {
     article,
     isReportForPublishing,
     setIsReportForPublishing,
@@ -113,6 +114,7 @@ export default function HomePageClient({
     handleGetReport,
     isUrlProvidedAsInput,
     closeReport,
+    isLoading: isGeneratingReport, // Rename to avoid conflict with page loading
   } = useHomePageContext();
 
   const [isTopArticleInputShown, setIsTopArticleInputShown] = useState(false);
@@ -237,35 +239,41 @@ export default function HomePageClient({
         )}
 
         <div className="flex flex-wrap gap-2 justify-center items-center mb-4 mt-2 w-full">
-          <CreateReportButton
-            onClick={toggleArticleInput(true)}
-            isArticleInputShown={isTopArticleInputShown}
-          />
-          <div className="flex gap-2 justify-center items-center">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button onClick={toggleSearch} variant="secondary">
-                    {isSearchShown ? (
-                      <SearchX className="h-5 w-5 text-indigo-600" />
-                    ) : (
-                      <SearchIcon className="h-5 w-5 text-gray-500" />
-                    )}
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>{searchIconTooltip}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
+          {!isGeneratingReport && (
+            <>
+              <CreateReportButton
+                onClick={toggleArticleInput(true)}
+                isArticleInputShown={isTopArticleInputShown}
+              />
+              <div className="flex gap-2 justify-center items-center">
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button onClick={toggleSearch} variant="secondary">
+                        {isSearchShown ? (
+                          <SearchX className="h-5 w-5 text-indigo-600" />
+                        ) : (
+                          <SearchIcon className="h-5 w-5 text-gray-500" />
+                        )}
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{searchIconTooltip}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
+            </>
+          )}
 
           <Collapsible
             open={isTopArticleInputShown}
             className="w-full mt-2 mx-auto sm:px-4"
           >
             <CollapsibleContent>
-              {isSignedIn ? (
+              {isGeneratingReport ? (
+                <ReportLoading />
+              ) : isSignedIn ? (
                 <div className="w-full mt-2 mx-auto sm:px-4">
                   <AtricleInput
                     article={article}

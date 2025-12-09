@@ -56,22 +56,7 @@ declare module '@/components/Layout/Pagination' {
   export default Pagination;
 }
 
-declare module '@/components/ArticleInput' {
-  import { FC, ChangeEvent } from 'react';
-  
-  interface AtricleInputProps {
-    article?: string;
-    onArticleChange: (event: ChangeEvent<HTMLTextAreaElement>) => void;
-    onGetReport: () => void;
-    isUrlProvidedAsInput?: boolean;
-    isPublished?: boolean;
-    setIsPublished?: (value: boolean) => void;
-    isPublishEnabled?: boolean;
-  }
-  
-  const AtricleInput: FC<AtricleInputProps>;
-  export default AtricleInput;
-}
+
 
 declare module '@/components/Disclamer' {
   import { FC } from 'react';

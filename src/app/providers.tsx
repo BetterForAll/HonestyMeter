@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useCallback, useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import mixpanel from "mixpanel-browser";
 
 const MIXPANEL_TOKEN = "8121618e088b8916064a9449a6d800e6";
@@ -17,6 +17,7 @@ interface HomePageContextType {
   handleGetReport: () => Promise<void>;
   closeReport: () => void;
   isUrlProvidedAsInput: boolean;
+  isLoading: boolean;
 }
 
 const HomePageContext = createContext<HomePageContextType | null>(null);
@@ -32,10 +33,13 @@ export function useHomePageContext() {
 const URL_REGEX = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
 
 export function HomePageProvider({ children }: { children: React.ReactNode }) {
+  const router = useRouter(); // Use App Router
+  const pathname = usePathname();
   const [article, setArticle] = useState("");
   const [report, setReport] = useState<any>(null);
   const [shareLevel, setShareLevel] = useState(0);
   const [isReportForPublishing, setIsReportForPublishing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const isUrlProvidedAsInput = URL_REGEX.test(article.trim());
 
@@ -46,10 +50,13 @@ export function HomePageProvider({ children }: { children: React.ReactNode }) {
   const clearArticleInput = useCallback(() => {
     setArticle("");
     setReport(null);
+    setIsLoading(false);
   }, []);
 
   const handleGetReport = useCallback(async () => {
     if (!article.trim()) return;
+    
+    setIsLoading(true);
 
     try {
       const response = await fetch("/api/report", {
@@ -61,12 +68,16 @@ export function HomePageProvider({ children }: { children: React.ReactNode }) {
       const data = await response.json();
 
       if (data.reportId) {
-        window.location.href = `/report/${data.reportId}`;
+        // Use proper navigation
+        router.push(`/report/${data.reportId}`);
+      } else {
+        setIsLoading(false); // Only stop loading if we didn't navigate
       }
     } catch (error) {
       console.error("Error getting report:", error);
+      setIsLoading(false);
     }
-  }, [article, isReportForPublishing]);
+  }, [article, isReportForPublishing, router]);
 
   const closeReport = useCallback(() => {
     setReport(null);
@@ -85,6 +96,7 @@ export function HomePageProvider({ children }: { children: React.ReactNode }) {
         handleGetReport,
         closeReport,
         isUrlProvidedAsInput,
+        isLoading, 
       }}
     >
       {children}

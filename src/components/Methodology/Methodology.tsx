@@ -1,5 +1,4 @@
 import React from 'react';
-import { X } from 'lucide-react';
 
 const TEXT = {
     pageTitle: 'Methodology',
@@ -82,8 +81,7 @@ export interface MethodologyProps {
 
 export const MethodologyPeopleRating = ({ createdAt = '' }: MethodologyProps) => {
     return (
-        <div className="w-full max-w-[90%] md:max-w-[60%] mx-auto p-4 bg-white max-h-[85%] overflow-x-auto relative">
-            <X className="absolute top-2 right-2 w-6 h-6 text-gray-500 cursor-pointer" />
+        <div className="w-full mx-auto p-4 bg-white overflow-x-auto">
             <h1 className="text-2xl font-bold m-4">
                 {TEXT.methodologyPeopleHeader}
             </h1>
@@ -133,8 +131,7 @@ export const MethodologyPeopleRating = ({ createdAt = '' }: MethodologyProps) =>
 
 export const MethodologySourcesRating = ({ createdAt = '' }: MethodologyProps) => {
     return (
-        <div className="w-full max-w-[90%] md:max-w-[60%] mx-auto p-4 bg-white max-h-[85%] overflow-x-auto relative">
-            <X className="absolute top-2 right-2 w-6 h-6 text-gray-500 cursor-pointer" />
+        <div className="w-full mx-auto p-4 bg-white overflow-x-auto">
             <h1 className="text-2xl font-bold m-4">
                 {TEXT.methodologyPeopleHeader}
             </h1>

@@ -205,13 +205,16 @@ export const getScoreStyle = (score: number) => {
   let content;
 
   if (score < 70) {
-    colorClass = 'text-red-500';
+    // Rose - sophisticated, not harsh
+    colorClass = 'text-rose-600';
     content = ` ${TEXTS.objectivityLevel.low}`;
   } else if (score < 80) {
-    colorClass = 'text-yellow-500';
+    // Amber - warm, professional
+    colorClass = 'text-amber-600';
     content = ` ${TEXTS.objectivityLevel.medium}`;
   } else {
-    colorClass = 'text-green-500';
+    // Emerald - premium, trustworthy
+    colorClass = 'text-emerald-600';
     content = ` ${TEXTS.objectivityLevel.high}`;
   }
 
