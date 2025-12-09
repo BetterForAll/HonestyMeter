@@ -67,8 +67,8 @@ function FormDialog({ isDialogOpen, onClose, report }: FormDialogProps) {
         </div>
       )}
 
-      <Dialog open={isDialogOpen} onOpenChange={onClose}>
-        <DialogContent className="sm:max-w-[425px]">
+      <Dialog open={isDialogOpen} onOpenChange={(open) => !open && onClose()}>
+        <DialogContent className="sm:max-w-[425px]" onClick={(e) => e.stopPropagation()}>
           <DialogHeader>
             <DialogTitle>Give Feedback</DialogTitle>
             <DialogDescription>
