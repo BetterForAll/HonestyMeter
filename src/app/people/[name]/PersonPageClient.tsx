@@ -60,6 +60,8 @@ export default function PersonPageClient({
     clearArticleInput,
     handleGetReport,
     isUrlProvidedAsInput,
+    isReportForPublishing,
+    setIsReportForPublishing,
   } = useHomePageContext();
   const [isArticleInputShown, setIsArticleInputShown] = useState(false);
   const isReportListEmpty = reports.length === 0;
@@ -130,6 +132,8 @@ export default function PersonPageClient({
                 onArticleChange={handleArticleChange}
                 onGetReport={handleGetReport}
                 isUrlProvidedAsInput={isUrlProvidedAsInput}
+                isPublished={isReportForPublishing}
+                setIsPublished={setIsReportForPublishing}
               />
             </div>
           </CollapsibleContent>
@@ -190,6 +194,8 @@ export default function PersonPageClient({
                       onArticleChange={handleArticleChange}
                       onGetReport={handleGetReport}
                       isUrlProvidedAsInput={isUrlProvidedAsInput}
+                      isPublished={isReportForPublishing}
+                      setIsPublished={setIsReportForPublishing}
                     />
                   </div>
                 </CollapsibleContent>
