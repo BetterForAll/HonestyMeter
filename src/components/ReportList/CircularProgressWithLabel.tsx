@@ -7,7 +7,9 @@ interface CircularProgressWithLabelProps {
 
 export default function CircularProgressWithLabel({ value = 50, colorClass = 'text-emerald-600' }: CircularProgressWithLabelProps) {
   const circumference = 2 * Math.PI * 18; // radius = 18
-  const progress = ((100 - value) / 100) * circumference;
+  // Cap at 93% to ensure visible gap for values < 100 (round strokeLinecap adds visual length)
+  const visualValue = value >= 100 ? 100 : Math.min(value, 93);
+  const progress = ((100 - visualValue) / 100) * circumference;
 
   return (
     <div className="relative inline-flex items-center justify-center drop-shadow-sm">
