@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
@@ -139,6 +139,7 @@ function ReportCard({
   const { colorClass, content } = getScoreStyle(objectivityScore);
   const articleTitleRef = useRef<HTMLHeadingElement>(null);
   const isTitleTextOverflow = useIsTextLinesOverFlow(articleTitleRef);
+  const [isImageLoading, setIsImageLoading] = useState(true);
 
   return (
     <Card className="flex flex-col justify-start items-start cursor-pointer transition-all duration-200 w-full p-4 hover:bg-gray-50 hover:shadow-lg hover:-translate-y-0.5">
@@ -157,12 +158,19 @@ function ReportCard({
           {articleDateInUserTimeZone}
         </span>
       </div>
-      <div className="h-[150px] w-72 bg-gray-200 rounded mb-2 overflow-hidden">
+      <div className="h-[150px] w-72 rounded mb-2 overflow-hidden relative">
+        {isImageLoading && (
+          <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+        )}
         <img 
           src={randomImageUrl} 
           alt={TEXTS.imageAlt} 
           loading='lazy' 
-          className="w-full h-full object-cover"
+          className={cn(
+            "w-full h-full object-cover transition-opacity duration-300",
+            isImageLoading ? "opacity-0" : "opacity-100"
+          )}
+          onLoad={() => setIsImageLoading(false)}
         />
       </div>
       <div className="w-full flex justify-between items-center gap-2 mb-2 text-gray-500">
