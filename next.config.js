@@ -1,6 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  experimental: {
+    staleTimes: {
+      dynamic: 30, // Cache dynamic pages for 30 seconds on client
+      static: 180, // Cache static pages for 3 minutes on client
+    },
+  },
   env: {
     customKey: 'my-value',
   },
