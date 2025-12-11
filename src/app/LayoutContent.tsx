@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import Header from "@/components/Layout/Header";
 import Menu from "@/components/Layout/DesktopMenu";
 import MobileMenu from "@/components/Layout/MobileMenu";
 import Footer from "@/components/Layout/Footer";
+import NavigationProgress from "@/components/NavigationProgress";
 import { PAGE_ROUTES } from "@/constants/constants";
 import { useHomePageContext } from "./providers";
 
@@ -13,6 +14,9 @@ export default function LayoutContent({ children }: { children: React.ReactNode 
 
   return (
     <div className="flex flex-col min-h-screen *:active:outline-none *:focus:outline-none *:active:bg-transparent *:focus:bg-transparent">
+      <Suspense fallback={null}>
+        <NavigationProgress />
+      </Suspense>
       <Header />
       <Menu
         currentPage={0}

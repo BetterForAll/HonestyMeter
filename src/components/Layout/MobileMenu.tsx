@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Menu as MenuIcon, Home, Info, Gavel, Users, Mail, Github, X } from "lucide-react";
+import NProgress from 'nprogress';
 import Badge from "../Badge/Badge";
 import { EMPTY_STRING, GITHUB_URL, PAGE_LABELS, EMAIL_ADDRESS } from "@/constants/constants";
 import { UserButton, useUser } from "@clerk/nextjs";
@@ -41,6 +42,8 @@ export default function MobileMenu({ setCurrentPage, closeReport, pageRoutes }: 
   const closeDrawer = () => setIsOpen(false);
 
   const onMenuItemClick = (index: number) => () => {
+    const isExternalLink = index >= 4; // Contact and GitHub are external
+    if (!isExternalLink) NProgress.start();
     if (index === 0) closeReport();
     setCurrentPage(5);
     setIsBadgeActive(false);
@@ -48,6 +51,7 @@ export default function MobileMenu({ setCurrentPage, closeReport, pageRoutes }: 
   };
 
   const goToBadgePage = () => {
+    NProgress.start();
     setCurrentPage(null);
     setIsBadgeActive(true);
   }

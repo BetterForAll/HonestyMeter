@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import NProgress from 'nprogress';
 import logo from '../../../public/logo2.png';
 import Link from 'next/link';
 
@@ -10,10 +11,14 @@ const TEXTS = {
 }
 
 export default function Header() {
+  const handleLogoClick = () => {
+    NProgress.start();
+  };
+
   return (
     <header className="w-full flex flex-col justify-center items-center px-6 py-8 md:px-12 md:py-10">
       <div className="w-full max-w-[536px] flex justify-around items-center mb-4 md:mb-6">
-        <Link href="/">
+        <Link href="/" onClick={handleLogoClick}>
           <Image
             src={logo}
             alt={TEXTS.imageAlt}

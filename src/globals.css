@@ -49,3 +49,29 @@ body {
     animation: var(--animate-pulse);
   }
 }
+
+/* NProgress loading bar styles */
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  background: #4f46e5; /* Indigo to match theme */
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+}
+
+#nprogress .peg {
+  display: block;
+  position: absolute;
+  right: 0px;
+  width: 100px;
+  height: 100%;
+  box-shadow: 0 0 10px #4f46e5, 0 0 5px #4f46e5;
+  opacity: 1;
+  transform: rotate(3deg) translate(0px, -4px);
+}

@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { Github } from 'lucide-react';
 import NextLink from 'next/link';
+import NProgress from 'nprogress';
 import ContactIcon from '@/components/ContactIcon';
 import { GITHUB_URL, PAGE_LABELS, PAGE_URL_TO_INDEX_MAP, PAGE_ROUTES } from '@/constants/constants';
 import Badge from '../Badge/Badge';
@@ -75,11 +76,13 @@ export default function Menu({ currentPage, setCurrentPage, pageRoutes, closeRep
   }, [isBadgePage])
 
   const handleChange = (pageIndex: number) => {
+    NProgress.start();
     setCurrentPage(pageIndex);
     setIsBadgeActive(false);
   };
 
   const goToBadgePage = () => {
+    NProgress.start();
     setCurrentPage(null);
     setIsBadgeActive(true);
   }
