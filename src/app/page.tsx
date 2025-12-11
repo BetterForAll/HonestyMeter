@@ -42,7 +42,7 @@ async function getReports(searchParams: { [key: string]: string | string[] | und
   const url = `http://${host}/api/saved_report?page=${page}${searchTermParam}${categoryParam}${countryParam}`;
 
   try {
-    const res = await fetch(url, { cache: "no-store" });
+    const res = await fetch(url, { next: { revalidate: 60 } }); // Cache for 60 seconds
     const { data } = await res.json();
     const { reports = [], isLastPage } = data || {};
 
