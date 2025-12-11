@@ -8,6 +8,7 @@ import CopyToClipboard from './CopyToClipboard';
 import Share from '../Share';
 import { createShareUrl, getShareProps } from './reportUtils';
 import { EVENT } from '@/constants/constants';
+import { scrollToTop } from '@/utils/utils';
 import Disclamer from '../Disclamer';
 import { Button } from '../ui/button';
 import { X } from 'lucide-react';
@@ -37,6 +38,8 @@ function ReportWrapper({ report = {} as Report, shareLevel = '' }: ReportWrapper
   }
 
   useEffect(() => {
+    scrollToTop({ isSmooth: false });
+    
     const isReportEmpty = !report.score;
     if (isReportEmpty) return;
     // @ts-ignore - analytics types
