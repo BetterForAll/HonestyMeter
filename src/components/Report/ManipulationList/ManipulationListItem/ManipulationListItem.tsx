@@ -12,7 +12,7 @@ interface ManipulationListItemProps {
 }
 
 export default function ManipulationListItem({ manipulation }: ManipulationListItemProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
   const suggestionsCount = manipulation.suggestedChanges?.length || 0;
 
   const handleToggle = (e: React.MouseEvent) => {
